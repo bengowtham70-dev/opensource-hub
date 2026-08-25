@@ -1,0 +1,65 @@
+{
+  "consoleErrors": [],
+  "checks": [
+    {
+      "name": "trending renders cards",
+      "ok": true,
+      "detail": "85 card nodes"
+    },
+    {
+      "name": "filter rail visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "platform filter applies via URL",
+      "ok": true,
+      "detail": "http://127.0.0.1:3001/?platform=self-host"
+    },
+    {
+      "name": "active chip state set",
+      "ok": true,
+      "detail": "1 pressed chips"
+    },
+    {
+      "name": "AND combination in URL",
+      "ok": true,
+      "detail": "http://127.0.0.1:3001/?platform=self-host&license=permissive"
+    },
+    {
+      "name": "Cmd+K palette opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "palette has Filters group",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "repo link present",
+      "ok": true,
+      "detail": "/repo/GNOME/gimp"
+    },
+    {
+      "name": "detail page shows Trust section (or honest cached degrade)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "learn lists articles",
+      "ok": true,
+      "detail": "4 article links"
+    },
+    {
+      "name": "favorites page renders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no console/page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

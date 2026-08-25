@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Web Speech API Demo</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --accent: #38bdf8;
+      --success: #4ade80;
+      --error: #fb7185;
+    }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      background: #334155;
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+    }
+    .status-badge.active { background: #064e3b; color: var(--success); }
+    .status-badge.error { background: #451a03; color: var(--error); }
+    
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
+    .active .dot { background: var(--success); box-shadow: 0 0 10px var(--success); }
+    
+    .transcript-box {
+      min-height: 100px;
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      line-height: 1.5;
+      color: #94a3b8;
+      text-align: left;
+    }
+    .transcript-box b { color: var(--text); font-style: normal; }
+
+    .controls { display: flex; gap: 1rem; justify-content: center; }
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    button.stop { background: var(--error); }
+
+    .help {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="status" class="status-badge">
+      <div class="dot"></div>
+      <span id="status-text">Ready</span>
+    </div>
+
+    <h1>Voice Interface</h1>
+    
+    <div class="transcript-box" id="transcript">
+      Waiting for speech...
+    </div>
+
+    <div class="controls">
+      <button id="start-btn">Start Listening</button>
+      <button id="stop-btn" class="stop" disabled>Stop</button>
+    </div>
+
+    <div class="help">
+      Try saying: <b>"background blue"</b>, <b>"alert hello"</b>, or <b>"reset"</b>.
+    </div>
+  </div>
+
+  <script>
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const transcriptEl = document.getElementById('transcript');
+    const statusEl = document.getElementById('status');
+    const statusText = document.getElementById('status-text');
+    const startBtn = document.getElementById('start-btn');
+    const stopBtn = document.getElementById('stop-btn');
+
+    if (!SR) {
+      statusText.textContent = "Not Supported";
+      statusEl.classList.add('error');
+      startBtn.disabled = true;
+    }
+
+    const recognition = SR ? new SR() : null;
+    if (recognition) {
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+
+      // Contextual biasing
+      if ('phrases' in recognition) {
+        recognition.phrases = ['background blue', 'background red', 'alert hello', 'reset'];
+      }
+
+      recognition.onstart = () => {
+        statusText.textContent = "Listening...";
+        statusEl.classList.add('active');
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+      };
+
+      recognition.onresult = (event) => {
+        let interim = '';
+        let final = '';
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          const t = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            final += t;
+            handleCommand(t.toLowerCase().trim());
+          } else {
+            interim += t;
+          }
+        }
+
+        transcriptEl.innerHTML = `<span>${interim}</span> <b>${final}</b>`;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech Error:", event.error);
+        statusText.textContent = `Error: ${event.error}`;
+        statusEl.classList.remove('active');
+        statusEl.classList.add('error');
+        
+        if (event.error === 'not-allowed') {
+          alert("Microphone access denied. Please check your browser settings and ensure you are on HTTPS.");
+        }
+      };
+
+      recognition.onend = () => {
+        statusText.textContent = "Stopped";
+        statusEl.classList.remove('active');
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+      };
+
+      startBtn.onclick = () => recognition.start();
+      stopBtn.onclick = () => recognition.stop();
+    }
+
+    function handleCommand(cmd) {
+      console.log("Processing command:", cmd);
+      if (cmd.includes("background blue")) {
+        document.body.style.background = "#1e3a8a";
+      } else if (cmd.includes("background red")) {
+        document.body.style.background = "#7f1d1d";
+      } else if (cmd.includes("reset")) {
+        document.body.style.background = "";
+      } else if (cmd.includes("alert")) {
+        alert("Voice says: " + cmd.replace("alert", ""));
+      }
+    }
+  </script>
+</body>
+</html>

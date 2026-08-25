@@ -1,0 +1,60 @@
+[
+  {
+    "slug": "self-hosted-starter-pack",
+    "title": "Self-Hosted Starter Pack",
+    "description": "Five battle-tested services that cover the basics — files, meetings, passwords, music, tasks — on one cheap VPS.",
+    "criteria": "Projects included here must be genuinely self-hostable with official Docker images or single-binary releases, active maintenance within the last 90 days, a first-run experience achievable in under an hour, and documented backup/export paths so you are never locked in.",
+    "repoSlugs": [
+      "nextcloud/server",
+      "jitsi/jitsi-meet",
+      "bitwarden/clients",
+      "navidrome/navidrome",
+      "go-vikunja/vikunja"
+    ]
+  },
+  {
+    "slug": "creative-suite-swap",
+    "title": "Creative Suite Swap",
+    "description": "Replace the Adobe subscription stack: raster, vector, video and RAW photography — zero subscriptions.",
+    "criteria": "Every tool in this list must open or import its paid counterpart's primary file formats (PSD, AI/SVG, EDL/XML, XMP/DNG), run natively on Windows/macOS/Linux without emulation, and receive at least one stable release per year. Tools with destructive-only workflows were excluded.",
+    "repoSlugs": [
+      "GNOME/gimp",
+      "Inkscape/inkscape",
+      "KDE/kdenlive",
+      "darktable-org/darktable"
+    ]
+  },
+  {
+    "slug": "team-productivity-stack",
+    "title": "Team Productivity Stack",
+    "description": "Docs, chat, projects and whiteboards for teams that want ownership of their data.",
+    "criteria": "Included projects must support realtime multi-user collaboration, offer import tooling from the corresponding paid tool, provide role-based access control suitable for a 5–50 person team, and be deployable either self-hosted or via an official hosted free tier.",
+    "repoSlugs": [
+      "toeverything/AFFiNE",
+      "zulip/zulip",
+      "makeplane/plane",
+      "excalidraw/excalidraw",
+      "opf/openproject"
+    ]
+  },
+  {
+    "slug": "developer-platform-swap",
+    "title": "Developer Platform Swap",
+    "description": "Backend-as-a-service, identity, deployment and containers — the PaaS bill killer.",
+    "criteria": "Projects qualify by having a production-grade OSS core (no crippled open-core runtime), an API compatible-enough to migrate onto from the named paid tool with documented steps, and licensing that permits commercial self-hosting without per-seat fees.",
+    "repoSlugs": [
+      "supabase/supabase",
+      "goauthentik/authentik",
+      "coollabsio/coolify",
+      "nocodb/nocodb",
+      "containers/podman-desktop"
+    ]
+  },
+  {
+    "slug": "password-security-basics",
+    "title": "Password & Security Basics",
+    "description": "Two honest paths: cloud-synced convenience or offline-only paranoia — both free forever.",
+    "criteria": "Password managers listed must use publicly audited cryptography (published security audits or widely reviewed implementations), never store secrets in plaintext telemetry, and export the full vault to an open format so switching away stays trivial.",
+    "repoSlugs": ["bitwarden/clients", "keepassxreboot/keepassxc"]
+  }
+]

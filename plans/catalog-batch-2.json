@@ -1,0 +1,1760 @@
+{
+  "batch": "catalog-batch-2",
+  "targetCatalogSize": 60,
+  "note": "AI-drafted pairings pending human verification (PRD section 19). Every entry carries claims the merge script MUST verify against the live GitHub API before appending. Prices flagged check-price need human confirmation.",
+  "entries": [
+    {
+      "paidTool": {
+        "name": "Google Photos",
+        "slug": "google-photos",
+        "category": "Photos",
+        "pricePerYearUsd": 99,
+        "planName": "Google One 2TB"
+      },
+      "alternative": {
+        "name": "Immich",
+        "repo": "immich-app/immich",
+        "language": "TypeScript",
+        "tags": [
+          "photos",
+          "self-hosted",
+          "backup",
+          "mobile"
+        ],
+        "description": "High-performance self-hosted photo and video backup solution with mobile apps, facial grouping and live photos.",
+        "parity": [
+          "Auto phone backup",
+          "Web + mobile apps",
+          "Albums & sharing",
+          "Machine-learning search"
+        ],
+        "gaps": [
+          "No print-ordering ecosystem"
+        ],
+        "migrationNotes": "Use Google Takeout for originals, then import the folder tree via Immich's bulk upload CLI.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-google-photos"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 60000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/immich-app/immich"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Plex Pass",
+        "slug": "plex",
+        "category": "Media",
+        "pricePerYearUsd": 84,
+        "planName": "Plex Pass monthly"
+      },
+      "alternative": {
+        "name": "Jellyfin",
+        "repo": "jellyfin/jellyfin",
+        "language": "C#",
+        "tags": [
+          "media",
+          "streaming",
+          "self-hosted"
+        ],
+        "description": "Free media server that streams your own collection to every device with no premium paywalls.",
+        "parity": [
+          "Multi-device streaming",
+          "Transcoding",
+          "Watch-state sync",
+          "Live TV (plugin)"
+        ],
+        "gaps": [
+          "Smaller official app catalog than Plex"
+        ],
+        "migrationNotes": "Point Jellyfin at your existing Plex folder structure; watch states can be imported from Plex DB dumps.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "win",
+          "mac",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "jellyfin/jellyfin"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-plex"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 38000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/jellyfin/jellyfin"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Calendly",
+        "slug": "calendly",
+        "category": "Scheduling",
+        "pricePerYearUsd": 144,
+        "planName": "Professional"
+      },
+      "alternative": {
+        "name": "Cal.com",
+        "repo": "calcom/cal.com",
+        "language": "TypeScript",
+        "tags": [
+          "scheduling",
+          "calendar",
+          "self-hosted"
+        ],
+        "description": "Open-source scheduling infrastructure — event types, availability rules and team round-robin booking.",
+        "parity": [
+          "Booking links",
+          "Team scheduling",
+          "Video integrations",
+          "Workflows"
+        ],
+        "gaps": [
+          "Some marketplace apps are cloud-only"
+        ],
+        "migrationNotes": "Re-create event types in the self-hosted admin, then swap your booking links.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "calcom/cal.com"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-calendly"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 33000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/calcom/cal.com"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Acrobat Pro",
+        "slug": "adobe-acrobat",
+        "category": "Documents",
+        "pricePerYearUsd": 288,
+        "planName": "Pro monthly"
+      },
+      "alternative": {
+        "name": "Stirling PDF",
+        "repo": "Stirling-Tools/Stirling-PDF",
+        "language": "Java",
+        "tags": [
+          "pdf",
+          "tools",
+          "self-hosted"
+        ],
+        "description": "Self-hosted web PDF toolbox: merge, split, OCR, convert, sign and compress files locally.",
+        "parity": [
+          "Merge/split/compress",
+          "OCR",
+          "Format conversion",
+          "Redaction"
+        ],
+        "gaps": [
+          "No e-signature workflow builder"
+        ],
+        "migrationNotes": "None needed — point it at your existing document folders.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "win"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 4
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-adobe-acrobat"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 45000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/Stirling-Tools/Stirling-PDF"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Zapier",
+        "slug": "zapier",
+        "category": "Automation",
+        "pricePerYearUsd": 588,
+        "planName": "Professional"
+      },
+      "alternative": {
+        "name": "Activepieces",
+        "repo": "activepieces/activepieces",
+        "language": "TypeScript",
+        "tags": [
+          "automation",
+          "integrations",
+          "no-code"
+        ],
+        "description": "No-code automation builder with 200+ piece integrations and an AI-assisted flow editor.",
+        "parity": [
+          "Visual flow builder",
+          "Wide app connectors",
+          "Webhooks & schedules"
+        ],
+        "gaps": [
+          "Connector catalog smaller than Zapier's 7000+"
+        ],
+        "migrationNotes": "Rebuild critical zaps first; most map 1:1 to Activepieces pieces.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "activepieces/activepieces"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-zapier"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 12000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/activepieces/activepieces"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Salesforce Sales Cloud",
+        "slug": "salesforce",
+        "category": "CRM",
+        "pricePerYearUsd": 1200,
+        "planName": "Professional (per user)"
+      },
+      "alternative": {
+        "name": "Twenty",
+        "repo": "twentyhq/twenty",
+        "language": "TypeScript",
+        "tags": [
+          "crm",
+          "sales",
+          "self-hosted"
+        ],
+        "description": "Modern open-source CRM built on a strongly-typed GraphQL API with a Notion-like UX.",
+        "parity": [
+          "Contacts & pipelines",
+          "Custom objects",
+          "API-first"
+        ],
+        "gaps": [
+          "No enterprise forecasting suite"
+        ],
+        "migrationNotes": "Export Salesforce objects to CSV and import via Twenty's CSV loader.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "twentyorg/twenty"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-salesforce"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 25000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/twentyhq/twenty"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Google Analytics 360",
+        "slug": "google-analytics-360",
+        "category": "Analytics",
+        "pricePerYearUsd": 12000,
+        "planName": "360 Standard"
+      },
+      "alternative": {
+        "name": "Matomo",
+        "repo": "matomo-org/matomo",
+        "language": "PHP",
+        "tags": [
+          "analytics",
+          "privacy",
+          "self-hosted"
+        ],
+        "description": "GDPR-friendly web analytics you host yourself — full data ownership, no sampling.",
+        "parity": [
+          "Traffic & goals",
+          "E-commerce tracking",
+          "Heatmaps (paid plugin)",
+          "Tag manager"
+        ],
+        "gaps": [
+          "BigQuery export absent"
+        ],
+        "migrationNotes": "Run Matomo alongside GA for a month and reconcile numbers before switching tags.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "matomo"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-google-analytics-360",
+        "replace-google-analytics"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 19000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/matomo-org/matomo"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Google Drive",
+        "slug": "google-drive",
+        "category": "Storage",
+        "pricePerYearUsd": 240,
+        "planName": "Google One 2TB"
+      },
+      "alternative": {
+        "name": "Seafile",
+        "repo": "haiwen/seafile",
+        "language": "C",
+        "tags": [
+          "storage",
+          "sync",
+          "file-sharing"
+        ],
+        "description": "High-performance file syncing and sharing with file encryption and team libraries.",
+        "parity": [
+          "Multi-device sync",
+          "File sharing links",
+          "Team libraries",
+          "Drive client"
+        ],
+        "gaps": [
+          "No document-editing suite like Google Docs"
+        ],
+        "migrationNotes": "Use seafile-cli or the desktop client to upload your Google Takeout drive export.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "win",
+          "mac",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-2.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-google-drive"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-2.0",
+        "starsApprox": 12000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/haiwen/seafile"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Okta Workforce",
+        "slug": "okta",
+        "category": "Identity",
+        "pricePerYearUsd": 1800,
+        "planName": "Workforce (25 users)"
+      },
+      "alternative": {
+        "name": "Keycloak",
+        "repo": "keycloak/keycloak",
+        "language": "Java",
+        "tags": [
+          "identity",
+          "sso",
+          "oauth"
+        ],
+        "description": "Battle-tested identity provider with SSO, SAML/OIDC, user federation and fine-grained authorization.",
+        "parity": [
+          "SSO (SAML/OIDC)",
+          "MFA",
+          "User federation",
+          "Admin console"
+        ],
+        "gaps": [
+          "No turnkey HR-driven provisioning UI"
+        ],
+        "migrationNotes": "Mirror your Okta groups as Keycloak realm roles, then switch relying parties one by one.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-okta"
+      ],
+      "claims": {
+        "licenseSpdx": "Apache-2.0",
+        "starsApprox": 24000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/keycloak/keycloak"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "AWS S3 Standard",
+        "slug": "aws-s3",
+        "category": "Storage",
+        "pricePerYearUsd": 276,
+        "planName": "1 TB standard storage"
+      },
+      "alternative": {
+        "name": "MinIO",
+        "repo": "minio/minio",
+        "language": "Go",
+        "tags": [
+          "storage",
+          "s3",
+          "self-hosted"
+        ],
+        "description": "High-performance S3-compatible object store with erasure coding and full S3 API coverage.",
+        "parity": [
+          "S3 API",
+          "Versioning",
+          "Encryption at rest",
+          "Replication"
+        ],
+        "gaps": [
+          "No global edge CDN"
+        ],
+        "migrationNotes": "Use MinIO's mc mirror command against your existing buckets.",
+        "platforms": [
+          "self-host",
+          "linux"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "minio/minio"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-aws-s3",
+        "replace-s3"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 48000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/minio/minio"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Vercel Pro",
+        "slug": "vercel",
+        "category": "Deployment",
+        "pricePerYearUsd": 240,
+        "planName": "Pro (per user)"
+      },
+      "alternative": {
+        "name": "Dokku",
+        "repo": "dokku/dokku",
+        "language": "Shell",
+        "tags": [
+          "paas",
+          "deployment",
+          "git-push"
+        ],
+        "description": "Mini-Heroku powered by git push — builds, domains, TLS and plugins on any VPS.",
+        "parity": [
+          "Git-push deploys",
+          "TLS certificates",
+          "Environment config"
+        ],
+        "gaps": [
+          "No global edge network"
+        ],
+        "migrationNotes": "Create a Dokku app per service and git remote add deploy.",
+        "platforms": [
+          "self-host",
+          "linux"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "dokku/dokku"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-vercel"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 30000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/dokku/dokku"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Pingdom",
+        "slug": "pingdom",
+        "category": "Monitoring",
+        "pricePerYearUsd": 180,
+        "planName": "Standard monthly"
+      },
+      "alternative": {
+        "name": "Uptime Kuma",
+        "repo": "louislam/uptime-kuma",
+        "language": "JavaScript",
+        "tags": [
+          "monitoring",
+          "uptime",
+          "status-page"
+        ],
+        "description": "Self-hosted uptime monitor with a polished status page, 90+ notification channels and multi-probes.",
+        "parity": [
+          "HTTP/TCP/DNS checks",
+          "Status pages",
+          "Alerting integrations"
+        ],
+        "gaps": [
+          "No synthetic browser transactions"
+        ],
+        "migrationNotes": "Recreate checks manually or import via the API; typical setups take under an hour.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "louislam/uptime-kuma"
+        },
+        "screenshots": [],
+        "demoUrl": "https://demo.uptime.kuma.pet",
+        "tco": {
+          "hostingMonthlyEstimateUsd": 4
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-pingdom"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 60000,
+        "confidence": "high",
+        "sources": [
+          "https://github.com/louislam/uptime-kuma"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Discord Nitro",
+        "slug": "discord",
+        "category": "Communication",
+        "pricePerYearUsd": 99,
+        "planName": "Nitro"
+      },
+      "alternative": {
+        "name": "Revolt",
+        "repo": "revoltchat/backend",
+        "language": "Rust",
+        "tags": [
+          "chat",
+          "voice",
+          "communities"
+        ],
+        "description": "Open-source Discord-style chat with voice, communities and bots on your own infrastructure.",
+        "parity": [
+          "Servers & channels",
+          "Voice chat",
+          "Bots/API"
+        ],
+        "gaps": [
+          "Smaller bot ecosystem"
+        ],
+        "migrationNotes": "Stand up the backend, then recreate community structure; member migration is manual by design (anti-spam).",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-discord"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 1500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/revoltchat/backend"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Microsoft Teams",
+        "slug": "microsoft-teams",
+        "category": "Team Chat",
+        "pricePerYearUsd": 150,
+        "planName": "M365 Business Std (per user)"
+      },
+      "alternative": {
+        "name": "Element",
+        "repo": "element-hq/element-web",
+        "language": "TypeScript",
+        "tags": [
+          "chat",
+          "matrix",
+          "encryption",
+          "federation"
+        ],
+        "description": "Matrix federation client with end-to-end encryption; pairs with the Synapse homeserver.",
+        "parity": [
+          "Group chat",
+          "E2EE rooms",
+          "Federation",
+          "Calls (VoIP)"
+        ],
+        "gaps": [
+          "Teams-specific meeting extras absent"
+        ],
+        "migrationNotes": "Deploy Synapse, create rooms mirroring Teams channels, invite users via mass-join tooling.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "win",
+          "mac",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "npm": "element-web"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-microsoft-teams",
+        "replace-teams"
+      ],
+      "claims": {
+        "licenseSpdx": "Apache-2.0",
+        "starsApprox": 11000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/element-hq/element-web"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Mailchimp",
+        "slug": "mailchimp",
+        "category": "Marketing",
+        "pricePerYearUsd": 348,
+        "planName": "Essential (1,500 contacts)"
+      },
+      "alternative": {
+        "name": "Mautic",
+        "repo": "mautic/mautic",
+        "language": "PHP",
+        "tags": [
+          "marketing",
+          "email",
+          "automation"
+        ],
+        "description": "Open-source marketing automation: campaigns, email sequences, lead scoring and landing pages.",
+        "parity": [
+          "Campaign builder",
+          "Contact segmentation",
+          "Email sequences",
+          "Forms"
+        ],
+        "gaps": [
+          "Deliverability depends on your SMTP reputation"
+        ],
+        "migrationNotes": "Export contacts to CSV, connect an SMTP relay (e.g. your transactional provider), rebuild campaigns.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "mautic/mautic"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-mailchimp"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 7500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/mautic/mautic"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Medium membership",
+        "slug": "medium",
+        "category": "Publishing",
+        "pricePerYearUsd": 60,
+        "planName": "Member monthly"
+      },
+      "alternative": {
+        "name": "WriteFreely",
+        "repo": "writefreely/writefreely",
+        "language": "Go",
+        "tags": [
+          "blogging",
+          "writing",
+          "federation"
+        ],
+        "description": "Clean, federated writing platform — distraction-free posts on your own domain.",
+        "parity": [
+          "Minimal editor",
+          "Fediverse publishing",
+          "Multi-blog instances"
+        ],
+        "gaps": [
+          "No built-in monetization network"
+        ],
+        "migrationNotes": "Import Markdown exports; map Medium URLs with redirects if SEO matters.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "writeas/writefreely"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-medium"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 3500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/writefreely/writefreely"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Typeform",
+        "slug": "typeform",
+        "category": "Forms",
+        "pricePerYearUsd": 348,
+        "planName": "Basic monthly"
+      },
+      "alternative": {
+        "name": "Formbricks",
+        "repo": "formbricks/formbricks",
+        "language": "TypeScript",
+        "tags": [
+          "forms",
+          "surveys",
+          "experience-management"
+        ],
+        "description": "Privacy-first survey and experience-management forms you can embed anywhere.",
+        "parity": [
+          "Survey builder",
+          "Embeds & links",
+          "Response analytics"
+        ],
+        "gaps": [
+          "Template gallery smaller"
+        ],
+        "migrationNotes": "Recreate active surveys; responses export as CSV from both sides.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-typeform"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 10000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/formbricks/formbricks"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "SurveyMonkey Advantage",
+        "slug": "surveymonkey",
+        "category": "Forms",
+        "pricePerYearUsd": 444,
+        "planName": "Advantage annual"
+      },
+      "alternative": {
+        "name": "LimeSurvey",
+        "repo": "LimeSurvey/LimeSurvey",
+        "language": "PHP",
+        "tags": [
+          "surveys",
+          "research",
+          "self-hosted"
+        ],
+        "description": "Mature survey platform with branching logic, quotas and multilingual question banks.",
+        "parity": [
+          "Question types",
+          "Branching logic",
+          "Export formats"
+        ],
+        "gaps": [
+          "UI less modern than Typeform-class tools"
+        ],
+        "migrationNotes": "Re-import question groups via LimeSurvey's XML import format.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 6
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-surveymonkey"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 3000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/LimeSurvey/LimeSurvey"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "YouTube Premium",
+        "slug": "youtube",
+        "category": "Video",
+        "pricePerYearUsd": 168,
+        "planName": "Premium individual"
+      },
+      "alternative": {
+        "name": "PeerTube",
+        "repo": "Chocobozzz/PeerTube",
+        "language": "TypeScript",
+        "tags": [
+          "video",
+          "federation",
+          "self-hosted"
+        ],
+        "description": "Decentralized video platform using ActivityPub and peer-to-peer bandwidth via WebTorrent.",
+        "parity": [
+          "Uploads & channels",
+          "Comments",
+          "Federated discovery"
+        ],
+        "gaps": [
+          "No recommendation-algorithm reach"
+        ],
+        "migrationNotes": "Archive channel videos, then bulk-upload via PeerTube's import CLI.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "chocobozzz/peertube"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 15
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-youtube",
+        "replace-youtube-hosting"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 6500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/Chocobozzz/PeerTube"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Adobe After Effects",
+        "slug": "after-effects",
+        "category": "Creative",
+        "pricePerYearUsd": 276,
+        "planName": "Single app monthly"
+      },
+      "alternative": {
+        "name": "Natron",
+        "repo": "NatronGitHub/Natron",
+        "language": "C++",
+        "tags": [
+          "compositing",
+          "vfx",
+          "node-based"
+        ],
+        "description": "Node-based compositing application in the Nuke tradition — keying, tracking and rotoscoping.",
+        "parity": [
+          "Node compositing",
+          "Keying & tracking",
+          "2D particles"
+        ],
+        "gaps": [
+          "No motion-graphics template ecosystem like AE's"
+        ],
+        "migrationNotes": "Expect a node-graph mindset shift; AE project files do not import.",
+        "platforms": [
+          "linux",
+          "win",
+          "mac"
+        ],
+        "license": {
+          "spdx": "GPL-2.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-after-effects"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 4200,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/NatronGitHub/Natron"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "AutoCAD LT",
+        "slug": "autocad",
+        "category": "CAD",
+        "pricePerYearUsd": 460,
+        "planName": "LT annual"
+      },
+      "alternative": {
+        "name": "FreeCAD",
+        "repo": "FreeCAD/freecad",
+        "language": "C++",
+        "tags": [
+          "cad",
+          "parametric",
+          "3d"
+        ],
+        "description": "Parametric 3D CAD modeler with DWG import via converters and a huge workbench ecosystem.",
+        "parity": [
+          "Parametric modeling",
+          "2D drafting (TechDraw)",
+          "DWG import"
+        ],
+        "gaps": [
+          "Native DWG editing requires external converter"
+        ],
+        "migrationNotes": "Import DXF/DWG directly; complex ACIS solids may need STEP intermediates.",
+        "platforms": [
+          "linux",
+          "win",
+          "mac"
+        ],
+        "license": {
+          "spdx": "LGPL-2.1-or-later",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-autocad"
+      ],
+      "claims": {
+        "licenseSpdx": "LGPL-2.1-or-later",
+        "starsApprox": 21000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/FreeCAD/freecad"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "MATLAB",
+        "slug": "matlab",
+        "category": "Engineering",
+        "pricePerYearUsd": 1140,
+        "planName": "Individual annual"
+      },
+      "alternative": {
+        "name": "GNU Octave",
+        "repo": "gnu-octave/octave",
+        "language": "C++",
+        "tags": [
+          "math",
+          "numerical",
+          "matlab-compatible"
+        ],
+        "description": "High-level numerical language largely MATLAB-compatible, including many .m scripts unmodified.",
+        "parity": [
+          "MATLAB syntax subset",
+          "Plotting",
+          "Toolbox-equivalent packages (Octave Forge)"
+        ],
+        "gaps": [
+          "Simulink has no equivalent"
+        ],
+        "migrationNotes": "Most pure .m numeric scripts run unchanged; replace Simulink workflows separately.",
+        "platforms": [
+          "linux",
+          "win",
+          "mac"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-matlab"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 3500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/gnu-octave/octave"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Intercom Essential",
+        "slug": "intercom",
+        "category": "Support",
+        "pricePerYearUsd": 468,
+        "planName": "Essential (1 seat)"
+      },
+      "alternative": {
+        "name": "Chatwoot",
+        "repo": "chatwoot/chatwoot",
+        "language": "Ruby",
+        "tags": [
+          "support",
+          "live-chat",
+          "omnichannel"
+        ],
+        "description": "Omnichannel customer-support inbox — website chat, email, WhatsApp and socials in one place.",
+        "parity": [
+          "Live chat widget",
+          "Canned replies",
+          "Omnichannel inbox",
+          "Agent roles"
+        ],
+        "gaps": [
+          "No AI copilot suite"
+        ],
+        "migrationNotes": "Install the Chatwoot widget snippet alongside Intercom until parity is confirmed, then remove Intercom.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "chatwoot/chatwoot"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-intercom"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 21000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/chatwoot/chatwoot"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Zendesk Support Team",
+        "slug": "zendesk",
+        "category": "Support",
+        "pricePerYearUsd": 228,
+        "planName": "Support Team (per agent)"
+      },
+      "alternative": {
+        "name": "Zammad",
+        "repo": "zammad/zammad",
+        "language": "Ruby",
+        "tags": [
+          "helpdesk",
+          "ticketing",
+          "omnichannel"
+        ],
+        "description": "Web-based helpdesk with ticketing, knowledge base, SLA rules and multi-channel intake.",
+        "parity": [
+          "Ticketing",
+          "SLA policies",
+          "Knowledge base",
+          "Email/Twitter/Telegram intake"
+        ],
+        "gaps": [
+          "Fewer turnkey marketplace apps"
+        ],
+        "migrationNotes": "Zendesk JSON export maps onto Zammad's import tooling.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "zammad/zammad"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-zendesk"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 4300,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/zammad/zammad"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "QuickBooks Simple Start",
+        "slug": "quickbooks",
+        "category": "Finance",
+        "pricePerYearUsd": 456,
+        "planName": "Simple Start monthly"
+      },
+      "alternative": {
+        "name": "Akaunting",
+        "repo": "akaunting/akaunting",
+        "language": "PHP",
+        "tags": [
+          "accounting",
+          "invoicing",
+          "finance"
+        ],
+        "description": "Self-hosted accounting suite — invoices, expenses, banking, reporting and apps.",
+        "parity": [
+          "Invoicing",
+          "Expense tracking",
+          "Basic reports"
+        ],
+        "gaps": [
+          "No payroll module core"
+        ],
+        "migrationNotes": "Chart of accounts + opening balances via CSV; reconcile after one close cycle.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "akaunting/akaunting"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 6
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-quickbooks"
+      ],
+      "claims": {
+        "licenseSpdx": "GPL-3.0",
+        "starsApprox": 8500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/akaunting/akaunting"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Shopify Basic",
+        "slug": "shopify",
+        "category": "Commerce",
+        "pricePerYearUsd": 468,
+        "planName": "Basic monthly"
+      },
+      "alternative": {
+        "name": "Medusa",
+        "repo": "medusajs/medusa",
+        "language": "TypeScript",
+        "tags": [
+          "ecommerce",
+          "headless",
+          "storefront"
+        ],
+        "description": "Headless commerce engine with orders, products, carts, promotions and plugin ecosystem.",
+        "parity": [
+          "Product/catalog management",
+          "Cart & checkout API",
+          "Plugin system"
+        ],
+        "gaps": [
+          "You bring/host the storefront theme"
+        ],
+        "migrationNotes": "Export Shopify products CSV into Medusa's seed pipeline; rebuild storefront on Next.js starter.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "npm": "@medusajs/medusa"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 15
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-shopify"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 28000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/medusajs/medusa"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Obsidian Sync",
+        "slug": "obsidian-sync",
+        "category": "Notes",
+        "pricePerYearUsd": 48,
+        "planName": "Sync standard"
+      },
+      "alternative": {
+        "name": "Logseq",
+        "repo": "logseq/logseq",
+        "language": "Clojure",
+        "tags": [
+          "notes",
+          "outliner",
+          "local-first"
+        ],
+        "description": "Local-first outliner/knowledge base storing plain Markdown — sync via your own Git/S3.",
+        "parity": [
+          "Outliner notes",
+          "Backlinks & graph",
+          "Plain-file storage"
+        ],
+        "gaps": [
+          "Long-form page layout differs from Obsidian's canvas approach"
+        ],
+        "migrationNotes": "Obsidian vault folders are already Markdown — Logseq opens them directly (journal layout differs).",
+        "platforms": [
+          "linux",
+          "win",
+          "mac"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-obsidian-sync"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 33000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/logseq/logseq"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Stripe Billing",
+        "slug": "stripe-billing",
+        "category": "Finance",
+        "pricePerYearUsd": 840,
+        "planName": "0.7% of invoiced volume (~$10k/mo)"
+      },
+      "alternative": {
+        "name": "Lago",
+        "repo": "getlago/lago",
+        "language": "Ruby",
+        "tags": [
+          "billing",
+          "usage-based",
+          "metering"
+        ],
+        "description": "Open-source metering and usage-based billing engine with plans, coupons and invoicing.",
+        "parity": [
+          "Usage metering",
+          "Plans & add-ons",
+          "Invoices & payments via PSPs"
+        ],
+        "gaps": [
+          "Smaller payment-processor coverage than Stripe Billing"
+        ],
+        "migrationNotes": "Mirror your plan hierarchy in Lago, then backfill events; keep Stripe as the PSP for cards.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-stripe-billing"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 7000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/getlago/lago"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "X Premium",
+        "slug": "x-premium",
+        "category": "Social",
+        "pricePerYearUsd": 96,
+        "planName": "Premium monthly"
+      },
+      "alternative": {
+        "name": "Mastodon",
+        "repo": "mastodon/mastodon",
+        "language": "Ruby",
+        "tags": [
+          "social",
+          "fediverse",
+          "decentralized"
+        ],
+        "description": "Decentralized microblogging on ActivityPub — join any server or run your own.",
+        "parity": [
+          "Toots/posts",
+          "Follows & lists",
+          "Federation"
+        ],
+        "gaps": [
+          "No algorithmic For-You reach"
+        ],
+        "migrationNotes": "Use the #MoveSocially importer against your archived following list.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "tootsuite/mastodon"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 15
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-x-premium",
+        "replace-x-twitter"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 47000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/mastodon/mastodon"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Google Cloud Translation",
+        "slug": "google-translate-api",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 240,
+        "planName": "1M chars/month"
+      },
+      "alternative": {
+        "name": "LibreTranslate",
+        "repo": "LibreTranslate/LibreTranslate",
+        "language": "Python",
+        "tags": [
+          "translation",
+          "api",
+          "privacy"
+        ],
+        "description": "Self-hostable machine-translation API with OpenAPI spec and offline argos models.",
+        "parity": [
+          "REST translate endpoint",
+          "Language auto-detect",
+          "Batch requests"
+        ],
+        "gaps": [
+          "Quality below Google for rare language pairs"
+        ],
+        "migrationNotes": "Swap the base URL and API key in your translation client wrapper.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "libretranslate/libretranslate"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 6
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-google-translate-api",
+        "replace-translate-api"
+      ],
+      "claims": {
+        "licenseSpdx": "AGPL-3.0",
+        "starsApprox": 9000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/LibreTranslate/LibreTranslate"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Google Nest Aware",
+        "slug": "google-nest",
+        "category": "Smart Home",
+        "pricePerYearUsd": 120,
+        "planName": "Nest Aware annual"
+      },
+      "alternative": {
+        "name": "Home Assistant",
+        "repo": "home-assistant/core",
+        "language": "Python",
+        "tags": [
+          "smart-home",
+          "automation",
+          "local-first"
+        ],
+        "description": "Local-first smart home platform integrating 2500+ devices with powerful automations.",
+        "parity": [
+          "Device integrations",
+          "Automations",
+          "Camera clips (via Frigate)"
+        ],
+        "gaps": [
+          "Initial configuration effort is real"
+        ],
+        "migrationNotes": "Start with Home Assistant OS on dedicated hardware, then migrate cameras via Frigate integration.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "home-assistant/home-assistant"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 6
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-google-nest",
+        "replace-nest-aware"
+      ],
+      "claims": {
+        "licenseSpdx": "Apache-2.0",
+        "starsApprox": 72000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/home-assistant/core"
+        ]
+      }
+    }
+  ]
+}

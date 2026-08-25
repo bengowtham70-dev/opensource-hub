@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenSource Hub — free alternatives to paid software, one command away</title>
+    <meta name="description" content="Find free open-source alternatives to the paid software you already use. Trust signals on every repo. One terminal command, local dashboard, no accounts. npm install -g opensource-hub" />
+    <meta property="og:title" content="OpenSource Hub — own your software free" />
+    <meta property="og:description" content="Stop renting software. One command installs a local dashboard of free open-source alternatives to Notion, Postman, Figma and 25+ more paid tools." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#9CA3AF" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14161A" media="(prefers-color-scheme: dark)" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "OpenSource Hub",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "description": "Find free open-source alternatives to paid software. Local dashboard, trust signals, one-command install.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "license": "https://opensource.org/licenses/MIT"
+      }
+    </script>
+    <script>
+      try {
+        var t = localStorage.getItem("osh-theme");
+        var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light;
+        --base: #9ca3af;
+        --surface: #ffffff;
+        --elevated: #ffffff;
+        --primary: #9ca3af;
+        --trust: #059669;
+        --caution: #d97706;
+        --tech: #4b5563;
+        --ink: #4b5563;
+        --dim: #6b7280;
+        --faint: #9ca3af;
+        --strong: #121212;
+        --accent: #ff5722;
+        --line: #f3f4f6;
+        --line-strong: #d1d5db;
+        --dot: rgb(229 231 235);
+        --sh-card: 0 15px 35px -5px rgb(0 0 0 / 0.1);
+        --sh-raised: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        --sh-float: 0 20px 60px -15px rgb(0 0 0 / 0.05);
+      }
+      html.dark {
+        color-scheme: dark;
+        --base: #14161a;
+        --surface: #1c1f26;
+        --elevated: #242830;
+        --primary: #9ca3af;
+        --trust: #34d399;
+        --caution: #fbbf24;
+        --tech: #9ca3af;
+        --ink: #e5e7eb;
+        --dim: #9ca3af;
+        --faint: #6b7280;
+        --strong: #f5f5f5;
+        --accent: #ff5722;
+        --line: rgb(255 255 255 / 0.08);
+        --line-strong: rgb(255 255 255 / 0.16);
+        --dot: rgb(255 255 255 / 0.14);
+        --sh-card: 0 15px 35px -5px rgb(0 0 0 / 0.35);
+        --sh-raised: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+        --sh-float: 0 20px 60px -15px rgb(0 0 0 / 0.3);
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body {
+        background: var(--base);
+        color: var(--ink);
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        font-weight: 500;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.6;
+      }
+      .display {
+        font-family: "Newsreader", Georgia, serif;
+        font-weight: 400;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+      }
+      .tnum { font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+      .wash { background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0)); }
+      html.dark .wash { background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0)); }
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+      header {
+        position: sticky; top: 0; z-index: 10;
+        background: var(--surface);
+        border-bottom: 0.8px solid var(--line);
+      }
+      .nav { height: 64px; display: flex; align-items: center; gap: 24px; }
+      .logo { display: flex; align-items: center; gap: 10px; font-family: "Newsreader", Georgia, serif; font-weight: 400; font-size: 18px; letter-spacing: -0.01em; }
+      .logo-mark {
+        width: 30px; height: 30px; display: grid; place-items: center;
+        border-radius: 4px; background: var(--strong); color: var(--surface);
+      }
+      html.dark .logo-mark { color: #14161a; background: #f5f5f5; }
+      .nav a { color: var(--dim); text-decoration: none; font-size: 14px; transition: color 150ms ease; }
+      .nav a:hover { color: var(--ink); }
+      .nav .gh { margin-left: auto; }
+      .theme-btn {
+        display: grid; place-items: center; width: 34px; height: 34px;
+        border-radius: 999px; border: 0.8px solid var(--line); background: var(--surface);
+        color: var(--dim); cursor: pointer; transition: color 150ms ease, border-color 150ms ease;
+      }
+      .theme-btn:hover { color: var(--ink); border-color: var(--line-strong); }
+
+      /* Hero */
+      .hero { padding: 88px 0 64px; text-align: center; }
+      .hero h1 { font-size: clamp(40px, 5.6vw, 68px); max-width: 23ch; margin: 0 auto; }
+      .hero h1 em { color: var(--accent); font-style: normal; }
+      .hero p { color: var(--dim); font-size: 18px; max-width: 52ch; margin: 20px auto 0; }
+
+      /* Command install box — white elevated card */
+      .install-box {
+        margin: 36px auto 0; max-width: 560px;
+        background: var(--surface);
+        border: 0.8px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--sh-card);
+        display: flex; align-items: center; gap: 12px;
+        padding: 18px 20px;
+        position: relative; overflow: hidden;
+      }
+      .prompt { color: var(--trust); font-weight: 600; }
+      .cmd { color: var(--ink); font-size: 15px; flex: 1; text-align: left; overflow-x: auto; white-space: nowrap; }
+      .cmd .pkg { color: var(--accent); }
+      .copy-btn {
+        position: relative; overflow: hidden;
+        display: grid; place-items: center;
+        width: 38px; height: 38px; border-radius: 4px;
+        background: var(--strong); color: #ffffff;
+        border: none; cursor: pointer;
+        transition: opacity 150ms ease, background 150ms ease;
+      }
+      html.dark .copy-btn { color: #14161a; background: #f5f5f5; }
+      .copy-btn:hover { opacity: 0.88; }
+      .copy-btn.copied { background: var(--trust); color: #ffffff; }
+      .copy-btn .ripple {
+        position: absolute; inset: 0; border-radius: inherit;
+        background: radial-gradient(circle, rgb(5 150 105 / 0.45), transparent 70%);
+        animation: ripple 0.4s ease forwards; pointer-events: none;
+      }
+      @keyframes ripple { from { transform: scale(0.2); opacity: 1; } to { transform: scale(1.8); opacity: 0; } }
+      .cursor-blink {
+        display: inline-block; width: 8px; height: 17px; margin-left: 2px;
+        background: var(--accent); vertical-align: text-bottom;
+        animation: blink 1.1s steps(1) infinite;
+      }
+      @keyframes blink { 50% { opacity: 0; } }
+      .node-note { margin-top: 14px; font-size: 13.5px; color: var(--faint); }
+      .node-note a { color: var(--dim); text-decoration: none; }
+      .node-note a:hover { color: var(--ink); text-decoration: underline; }
+      .alt-installs {
+        margin: 18px auto 0; max-width: 640px;
+        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      }
+      .alt-installs button {
+        display: flex; flex-direction: column; gap: 5px; align-items: flex-start;
+        background: var(--surface);
+        border: 0.8px solid var(--line); border-radius: 12px;
+        padding: 12px 14px; cursor: pointer; text-align: left;
+        box-shadow: var(--sh-raised);
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+        color: var(--dim);
+      }
+      .alt-installs button:hover { border-color: var(--line-strong); box-shadow: var(--sh-card); }
+      .ai-label { font-size: 12px; color: var(--faint); }
+      .alt-installs code {
+        font-size: 11.5px; color: var(--ink); word-break: break-all;
+      }
+
+      /* Screenshot */
+      .shot {
+        margin: 56px auto 0; max-width: 980px;
+        border-radius: 16px; border: 0.8px solid var(--line);
+        box-shadow: var(--sh-float);
+        overflow: hidden;
+      }
+      .shot img { display: block; width: 100%; }
+
+      /* Sections */
+      section { padding: 72px 0; }
+      .kicker { color: var(--trust); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+      h2 { font-size: clamp(30px, 4vw, 42px); margin-top: 10px; }
+      .sub { color: var(--dim); max-width: 60ch; margin-top: 12px; }
+
+      .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+      .card {
+        background: var(--surface);
+        border: 0.8px solid var(--line);
+        border-radius: 16px;
+        padding: 26px;
+        box-shadow: var(--sh-card);
+        transition: border-color 150ms ease, box-shadow 150ms ease;
+      }
+      .card:hover {
+        border-color: var(--line-strong);
+        box-shadow: var(--sh-float);
+      }
+      .card .ico { font-size: 26px; }
+      .card h3 { font-family: "Newsreader", Georgia, serif; font-weight: 500; font-size: 19px; margin: 12px 0 6px; letter-spacing: -0.01em; }
+      .card p { color: var(--dim); font-size: 14.5px; }
+
+      /* Troubleshooting */
+      details {
+        background: var(--surface);
+        border: 0.8px solid var(--line);
+        border-radius: 12px; padding: 16px 20px; margin-top: 12px;
+        box-shadow: var(--sh-raised);
+      }
+      details summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+      details p, details li { color: var(--dim); font-size: 14px; margin-top: 10px; }
+      details code { color: var(--ink); background: var(--base); padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+      .warn { color: var(--caution); }
+
+      footer { border-top: 0.8px solid var(--line); padding: 32px 0 48px; color: var(--faint); font-size: 13px; background: var(--surface); }
+      footer .wrap { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+      footer a { color: var(--dim); text-decoration: none; }
+      footer a:hover { color: var(--ink); }
+
+      @media (max-width: 800px) {
+        .grid3 { grid-template-columns: 1fr; }
+        .hero { padding: 64px 0 40px; }
+        .install-box { flex-wrap: wrap; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap nav">
+        <span class="logo"><span class="logo-mark">◆</span> OpenSource Hub</span>
+        <a href="#how">How it works</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+        <!-- TODO: replace both URLs with the real repository after `git init` + GitHub publish -->
+        <a class="gh" href="https://github.com/opensource-hub/opensource-hub" rel="noopener">GitHub ↗</a>
+        <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode" title="Toggle theme">
+          <svg id="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+          <svg id="ic-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero: headline + subtext + install box + node note. Nothing else. -->
+      <div class="wash">
+        <div class="wrap hero">
+          <h1 class="display">Stop renting software. <em>Own it free.</em></h1>
+          <p>
+            One command installs a local dashboard of free, open-source alternatives to the paid
+            tools you already use — with trust signals on every repo.
+          </p>
+
+          <div class="install-box tnum" role="group" aria-label="Install command">
+            <span class="prompt">$</span>
+            <code class="cmd" id="install-cmd">npm install -g <span class="pkg">opensource-hub</span><span class="cursor-blink" aria-hidden="true"></span></code>
+            <button class="copy-btn" id="copy-btn" aria-label="Copy install command">
+              <svg id="ic-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <svg id="ic-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M20 6 9 17l-5-5"/></svg>
+            </button>
+          </div>
+
+          <p class="node-note">
+            Requires <a href="https://nodejs.org" rel="noopener">Node.js 18+</a> — you probably have it.
+            To remove later: <code class="tnum" style="color:var(--faint)">npm uninstall -g opensource-hub</code>
+          </p>
+
+          <!-- PRD Phase-2 item: three install paths (plans/PLAN_PHASE2.md P9) -->
+          <div class="alt-installs tnum" role="group" aria-label="Alternative install methods">
+            <button type="button" data-cmd="brew install opensource-hub/tap/opensource-hub" title="Homebrew (macOS/Linux) — available after first release">
+              <span class="ai-label">🍺 brew</span>
+              <code>brew install opensource-hub/tap/opensource-hub</code>
+            </button>
+            <button type="button" data-cmd="scoop bucket add opensource-hub && scoop install opensource-hub" title="Scoop (Windows) — available after first release">
+              <span class="ai-label">🪣 scoop</span>
+              <code>scoop bucket add opensource-hub &amp;&amp; scoop install opensource-hub</code>
+            </button>
+            <button type="button" data-cmd="npm install -g opensource-hub" title="npm — works everywhere with Node.js">
+              <span class="ai-label">⬇ npm</span>
+              <code>npm install -g opensource-hub</code>
+            </button>
+          </div>
+          <p class="node-note" style="font-size:12px">Standalone binaries (.exe / .dmg / AppImage) ship on each GitHub Release — no Node required.</p>
+
+          <div class="shot">
+            <img src="dashboard-screenshot.png" alt="OpenSource Hub dashboard showing free alternatives with savings and 30-day star momentum" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <section id="how">
+        <div class="wrap">
+          <span class="kicker">What you get</span>
+          <h2 class="display">Everything runs on your machine.</h2>
+          <p class="sub">
+            No account, no API key, no cloud. The app reads public GitHub data and serves a private
+            dashboard in your browser.
+          </p>
+          <div class="grid3">
+            <div class="card">
+              <div class="ico">💸</div>
+              <h3>Find what you can stop paying for</h3>
+              <p>Search the paid tool you use — Notion, Postman, Figma — and get a vetted free alternative with honest annual savings and a feature-parity checklist.</p>
+            </div>
+            <div class="card">
+              <div class="ico">🛡️</div>
+              <h3>Trust what you download</h3>
+              <p>Maintenance status, license clarity and red-flag warnings on every listing — because star counts alone don't tell you if a project is safe or alive.</p>
+            </div>
+            <div class="card">
+              <div class="ico">⚡</div>
+              <h3>One-click downloads</h3>
+              <p>Projects that ship installers get a Run App button that lands the real .exe/.dmg/.AppImage in your Downloads. Source-only projects say so honestly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="troubleshoot">
+        <div class="wrap">
+          <span class="kicker" style="color: var(--caution)">Stuck?</span>
+          <h2 class="display">Common install issues</h2>
+          <details>
+            <summary><span class="warn">macOS / Linux:</span> "EACCES permission denied" during install</summary>
+            <p>Global npm installs may need elevated permissions. Preferred fix — make npm own its folder:</p>
+            <p><code>mkdir -p ~/.npm-global && npm config set prefix ~/.npm-global</code></p>
+            <p>Then add <code>~/.npm-global/bin</code> to your PATH. Avoid <code>sudo</code> unless you must.</p>
+          </details>
+          <details>
+            <summary><span class="warn">Windows:</span> "opensource-hub is not recognized"</summary>
+            <p>Your npm global bin folder isn't on PATH. Run <code>npm config get prefix</code>, add the printed path's <code>bin</code> (or the folder itself on Windows) to your PATH, then reopen the terminal.</p>
+          </details>
+          <details>
+            <summary>Port 3000 is already in use</summary>
+            <p>Nothing to do — the app detects it and starts on the next free port automatically, printing the address it used.</p>
+          </details>
+          <details>
+            <summary>Don't have Node.js at all?</summary>
+            <p>Install it from <a href="https://nodejs.org" rel="noopener" style="color:var(--dim)">nodejs.org</a> (LTS version), then come back and run the command above.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>© 2026 OpenSource Hub · MIT License · Runs locally, phones home never.</span>
+        <span><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/opensource-hub/opensource-hub/issues">Support</a></span>
+      </div>
+    </footer>
+
+    <script>
+      const rootEl = document.documentElement;
+      const themeBtn = document.getElementById("theme-btn");
+      const icSun = document.getElementById("ic-sun");
+      const icMoon = document.getElementById("ic-moon");
+      function syncThemeIcon() {
+        const dark = rootEl.classList.contains("dark");
+        icSun.style.display = dark ? "block" : "none";
+        icMoon.style.display = dark ? "none" : "block";
+      }
+      syncThemeIcon();
+      themeBtn.addEventListener("click", () => {
+        const dark = rootEl.classList.toggle("dark");
+        try { localStorage.setItem("osh-theme", dark ? "dark" : "light"); } catch {}
+        syncThemeIcon();
+      });
+
+      const btn = document.getElementById("copy-btn");
+      btn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText("npm install -g opensource-hub");
+          const ripple = document.createElement("span");
+          ripple.className = "ripple";
+          btn.appendChild(ripple);
+          setTimeout(() => ripple.remove(), 450);
+          btn.classList.add("copied");
+          document.getElementById("ic-copy").style.display = "none";
+          document.getElementById("ic-check").style.display = "block";
+          setTimeout(() => {
+            btn.classList.remove("copied");
+            document.getElementById("ic-copy").style.display = "block";
+            document.getElementById("ic-check").style.display = "none";
+          }, 1600);
+        } catch {}
+      });
+
+      // Alternative install paths — click to copy (PRD Phase-2 P9).
+      document.querySelectorAll(".alt-installs button").forEach((b) => {
+        b.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(b.dataset.cmd);
+            const prev = b.querySelector("code").textContent;
+            b.querySelector("code").textContent = "copied ✓";
+            setTimeout(() => { b.querySelector("code").textContent = prev; }, 1200);
+          } catch {}
+        });
+      });
+    </script>
+  </body>
+</html>

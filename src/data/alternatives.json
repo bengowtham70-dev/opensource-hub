@@ -1,0 +1,1548 @@
+{
+  "$comment": "Seed tool-to-alternative pairings per PRD section 19. Schema v2 adds platforms/license/relationship/goalTags/screenshots/ecosystems/demoUrl (plans/PLAN_PHASE2.md Phase 1). pricePerYearUsd = typical list price, annual billing, per user where applicable — estimates, labeled in UI. SPDX ids verified against GitHub API / LICENSE files 2026-08-24.",
+  "version": 2,
+  "pairings": [
+    {
+      "paidTool": {
+        "name": "Notion",
+        "slug": "notion",
+        "category": "Notes & Docs",
+        "pricePerYearUsd": 96,
+        "planName": "Plus"
+      },
+      "alternative": {
+        "name": "AFFiNE",
+        "repo": "toeverything/AFFiNE",
+        "language": "TypeScript",
+        "tags": [
+          "docs",
+          "kanban",
+          "whiteboard",
+          "local-first"
+        ],
+        "description": "All-in-one workspace blending docs, kanban boards and an infinite whiteboard — with local-first storage.",
+        "parity": [
+          "Rich docs",
+          "Databases & kanban",
+          "Whiteboard canvas",
+          "Realtime collaboration"
+        ],
+        "gaps": [
+          "Smaller template ecosystem",
+          "No native mobile app parity yet"
+        ],
+        "migrationNotes": "Export Notion pages as Markdown & CSV, then import via AFFiNE's built-in Notion importer.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "demoUrl": "https://app.affine.pro",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://cdn.affine.pro/Github_hero_image2.png",
+            "alt": "affine logo"
+          },
+          {
+            "src": "https://user-images.githubusercontent.com/79301703/230891830-0110681e-8c7e-483b-b6d9-9e42b291b9ef.gif",
+            "alt": "AFFiNE screenshot 2"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-notion"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Postman",
+        "slug": "postman",
+        "category": "API Client",
+        "pricePerYearUsd": 108,
+        "planName": "Basic"
+      },
+      "alternative": {
+        "name": "Bruno",
+        "repo": "usebruno/bruno",
+        "language": "JavaScript",
+        "tags": [
+          "api",
+          "rest",
+          "graphql",
+          "offline-first"
+        ],
+        "description": "Fast, offline-first API client that stores collections as plain-text files you can keep in git.",
+        "parity": [
+          "REST & GraphQL requests",
+          "Environments",
+          "Scripting & assertions",
+          "Collections"
+        ],
+        "gaps": [
+          "No cloud team workspace (by design — git is the collaboration layer)"
+        ],
+        "migrationNotes": "Postman collections v2.1 import directly via File > Open Collection.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/usebruno/bruno/HEAD/assets/images/run-anywhere.png",
+            "alt": "bruno"
+          },
+          {
+            "src": "https://raw.githubusercontent.com/usebruno/bruno/HEAD/assets/images/version-control.png",
+            "alt": "bruno"
+          },
+          {
+            "src": "https://raw.githubusercontent.com/usebruno/bruno/HEAD/assets/images/logo-transparent.png",
+            "alt": "Bruno screenshot 3"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-postman"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Figma",
+        "slug": "figma",
+        "category": "Design",
+        "pricePerYearUsd": 144,
+        "planName": "Professional"
+      },
+      "alternative": {
+        "name": "Penpot",
+        "repo": "penpot/penpot",
+        "language": "Clojure",
+        "tags": [
+          "design",
+          "prototyping",
+          "svg",
+          "self-hosted"
+        ],
+        "description": "Open-source design & prototyping platform built on open web standards (SVG), self-hostable.",
+        "parity": [
+          "Vector editing",
+          "Components & libraries",
+          "Prototyping flows",
+          "Team libraries"
+        ],
+        "gaps": [
+          "No plugin marketplace at Figma's scale",
+          "Figma .fig import is partial"
+        ],
+        "migrationNotes": "Recreate shared libraries first; export frames to SVG. Penpot's Figma migration guide covers the rest.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MPL-2.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://design.penpot.app",
+        "ecosystems": {
+          "docker": "penpot/app"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-figma"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Slack",
+        "slug": "slack",
+        "category": "Communication",
+        "pricePerYearUsd": 105,
+        "planName": "Pro"
+      },
+      "alternative": {
+        "name": "Zulip",
+        "repo": "zulip/zulip",
+        "language": "Python",
+        "tags": [
+          "chat",
+          "threads",
+          "self-hosted",
+          "cloud-free-tier"
+        ],
+        "description": "Threaded team chat where every message lands in a topic — famously readable async communication.",
+        "parity": [
+          "Channels (streams)",
+          "Threads (topics)",
+          "DMs & integrations",
+          "Mobile + desktop apps"
+        ],
+        "gaps": [
+          "Fewer third-party integrations than Slack's directory"
+        ],
+        "migrationNotes": "Zulip offers Slack importer tooling for users and channel history.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "demoUrl": "https://chat.zulip.org",
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-slack"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Microsoft 365",
+        "slug": "microsoft-365",
+        "category": "Office Suite",
+        "pricePerYearUsd": 99,
+        "planName": "Personal"
+      },
+      "alternative": {
+        "name": "LibreOffice",
+        "repo": "LibreOffice/core",
+        "language": "C++",
+        "tags": [
+          "office",
+          "documents",
+          "spreadsheets",
+          "desktop"
+        ],
+        "description": "The full desktop office suite — Writer, Calc, Impress — reading and writing Word/Excel/PowerPoint formats.",
+        "parity": [
+          "Documents, sheets, slides",
+          "DOCX/XLSX/PPTX support",
+          "Offline-first"
+        ],
+        "gaps": [
+          "Complex macro-heavy files may reflow",
+          "No equivalent cloud co-editing out of the box"
+        ],
+        "migrationNotes": "Keep files in open formats (.odt/.ods) when possible; DOCX round-trips well for typical documents.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "MPL-2.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-microsoft-office"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Photoshop",
+        "slug": "photoshop",
+        "category": "Creative",
+        "pricePerYearUsd": 263,
+        "planName": "Photography plan"
+      },
+      "alternative": {
+        "name": "GIMP",
+        "repo": "GNOME/gimp",
+        "language": "C",
+        "tags": [
+          "image-editing",
+          "raster",
+          "desktop"
+        ],
+        "description": "The veteran open-source raster editor — layers, masks, filters, scriptable, endlessly extendable.",
+        "parity": [
+          "Layers & masks",
+          "Retouching tools",
+          "Plugin ecosystem",
+          "PSD import"
+        ],
+        "gaps": [
+          "Non-destructive editing weaker than Photoshop",
+          "CMYK workflow needs plugins"
+        ],
+        "migrationNotes": "GIMP opens layered PSDs directly; check text layers after import.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-or-later",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-photoshop"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Illustrator",
+        "slug": "illustrator",
+        "category": "Creative",
+        "pricePerYearUsd": 263,
+        "planName": "Single app"
+      },
+      "alternative": {
+        "name": "Inkscape",
+        "repo": "Inkscape/inkscape",
+        "language": "C++",
+        "tags": [
+          "vector",
+          "illustration",
+          "svg",
+          "desktop"
+        ],
+        "description": "Professional vector graphics editor built around SVG — logos, icons, illustrations, print layouts.",
+        "parity": [
+          "Bezier tools",
+          "Node editing",
+          "SVG-native output",
+          "Extensions"
+        ],
+        "gaps": [
+          "AI-file import limited to older versions/exported EPS/PDF"
+        ],
+        "migrationNotes": "Ask designers to export AI files as SVG or PDF — both open cleanly.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-or-later",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/Inkscape/inkscape/HEAD/Freedom_Machine_by_Rizky_Djati_Munggaran_CC-By-SA.png",
+            "alt": "Inkscape screenshot 1"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-illustrator"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Dropbox",
+        "slug": "dropbox",
+        "category": "Files & Sync",
+        "pricePerYearUsd": 119,
+        "planName": "Plus"
+      },
+      "alternative": {
+        "name": "Nextcloud",
+        "repo": "nextcloud/server",
+        "language": "PHP",
+        "tags": [
+          "cloud",
+          "sync",
+          "self-hosted",
+          "files"
+        ],
+        "description": "Self-hosted file sync and share platform with calendar, contacts and a whole app ecosystem.",
+        "parity": [
+          "Desktop & mobile sync clients",
+          "Sharing links",
+          "Versioning",
+          "Web UI"
+        ],
+        "gaps": [
+          "You run the server (or pay for hosted Nextcloud) — see TCO honesty"
+        ],
+        "migrationNotes": "Use the Nextcloud desktop client's folder sync; migrate shares by re-inviting collaborators.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "demoUrl": "https://try.nextcloud.com",
+        "ecosystems": {
+          "docker": "nextcloud"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/nextcloud/screenshots/master/nextcloud-hub-25-files.png",
+            "alt": "Nextcloud screenshot 1"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-dropbox"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "1Password",
+        "slug": "1password",
+        "category": "Security",
+        "pricePerYearUsd": 49,
+        "planName": "Individual"
+      },
+      "alternative": {
+        "name": "Bitwarden",
+        "repo": "bitwarden/clients",
+        "language": "TypeScript",
+        "tags": [
+          "passwords",
+          "security",
+          "sync",
+          "self-hosted"
+        ],
+        "description": "Zero-knowledge password manager with free cross-device sync, browser extensions and optional self-hosting.",
+        "parity": [
+          "Unlimited passwords",
+          "Cross-device sync",
+          "Browser extensions",
+          "Secure sharing (paid-ish tiers free options)"
+        ],
+        "gaps": [
+          "Polish slightly behind 1Password's UX"
+        ],
+        "migrationNotes": "Export from 1Password as .csv/.json and import directly into Bitwarden vault.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://vault.bitwarden.com",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/bitwarden/brand/main/screenshots/apps-combo-logo.png",
+            "alt": "Bitwarden"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-password-manager"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "LastPass",
+        "slug": "lastpass",
+        "category": "Security",
+        "pricePerYearUsd": 42,
+        "planName": "Premium"
+      },
+      "alternative": {
+        "name": "KeePassXC",
+        "repo": "keepassxreboot/keepassxc",
+        "language": "C++",
+        "tags": [
+          "passwords",
+          "offline",
+          "security",
+          "desktop"
+        ],
+        "description": "Offline password safe — your vault lives in one encrypted local file, no cloud required, ever.",
+        "parity": [
+          "Strong encryption",
+          "Browser integration",
+          "TOTP support",
+          "Password generator"
+        ],
+        "gaps": [
+          "Sync between devices is DIY (Syncthing/cloud file)",
+          "No official mobile app (KeePassDX/Strongbox read the format)"
+        ],
+        "migrationNotes": "LastPass export to CSV, import via Database > Import in KeePassXC.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-or-later",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-password-manager"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Zoom",
+        "slug": "zoom",
+        "category": "Video Conferencing",
+        "pricePerYearUsd": 186,
+        "planName": "Pro"
+      },
+      "alternative": {
+        "name": "Jitsi Meet",
+        "repo": "jitsi/jitsi-meet",
+        "language": "JavaScript",
+        "tags": [
+          "video",
+          "meetings",
+          "self-hosted",
+          "web"
+        ],
+        "description": "Encrypted video meetings straight in the browser — free public servers or full self-hosting.",
+        "parity": [
+          "HD video calls",
+          "Screen sharing",
+          "Chat",
+          "No account needed"
+        ],
+        "gaps": [
+          "Recording & cloud features need your own infrastructure"
+        ],
+        "migrationNotes": "Just share meet.jit.si room links; nothing to migrate.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "demoUrl": "https://meet.jit.si",
+        "ecosystems": {
+          "docker": "jitsi/web"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/jitsi/jitsi-meet/master/readme-img1.png",
+            "alt": "Jitsi Meet screenshot 1"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-zoom"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Trello",
+        "slug": "trello",
+        "category": "Project Management",
+        "pricePerYearUsd": 60,
+        "planName": "Standard"
+      },
+      "alternative": {
+        "name": "Focalboard",
+        "repo": "mattermost/focalboard",
+        "language": "TypeScript",
+        "tags": [
+          "kanban",
+          "tasks",
+          "self-hosted",
+          "desktop"
+        ],
+        "description": "Kanban-first project board — standalone personal edition or embedded in Mattermost.",
+        "parity": [
+          "Kanban boards",
+          "Card checklists",
+          "Filters",
+          "Board templates"
+        ],
+        "gaps": [
+          "Trello power-up ecosystem has no equivalent"
+        ],
+        "migrationNotes": "Trello board export (JSON) imports via community converters.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "docker": "mattermost/focalboard"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/mattermost/focalboard/HEAD/website/site/static/img/hero.jpg",
+            "alt": "Focalboard"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-trello"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Asana",
+        "slug": "asana",
+        "category": "Project Management",
+        "pricePerYearUsd": 158,
+        "planName": "Starter"
+      },
+      "alternative": {
+        "name": "Plane",
+        "repo": "makeplane/plane",
+        "language": "TypeScript",
+        "tags": [
+          "issues",
+          "cycles",
+          "self-hosted",
+          "teams"
+        ],
+        "description": "Modern project tracker mixing issue lists, cycles and modules — Jira/Asana territory, self-hosted.",
+        "parity": [
+          "Issues & projects",
+          "Sprints/cycles",
+          "Roadmap views",
+          "API"
+        ],
+        "gaps": [
+          "Younger ecosystem, fewer integrations"
+        ],
+        "migrationNotes": "CSV export/import supported; map custom fields before migrating.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "demoUrl": "https://app.plane.so",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://media.docs.plane.so/GitHub-readme/github-top.webp",
+            "alt": "Plane Screens"
+          },
+          {
+            "src": "https://media.docs.plane.so/GitHub-readme/github-work-items.webp",
+            "alt": "Plane Views"
+          },
+          {
+            "src": "https://media.docs.plane.so/GitHub-readme/github-cycles.webp",
+            "alt": "Plane screenshot 3"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-asana"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Monday.com",
+        "slug": "monday",
+        "category": "Project Management",
+        "pricePerYearUsd": 108,
+        "planName": "Basic"
+      },
+      "alternative": {
+        "name": "Wekan",
+        "repo": "wekan/wekan",
+        "language": "JavaScript",
+        "tags": [
+          "kanban",
+          "boards",
+          "self-hosted"
+        ],
+        "description": "Fully open-source kanban board with swimlanes, rules and card customization — closest visual cousin to Trello/Monday boards.",
+        "parity": [
+          "Boards & swimlanes",
+          "Custom fields",
+          "Rules/automation",
+          "Import from Trello"
+        ],
+        "gaps": [
+          "UI feels utilitarian next to Monday's polish"
+        ],
+        "migrationNotes": "Built-in Trello/JSON importers cover most board migrations.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "wekanteam/wekan"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-monday",
+        "replace-trello"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Airtable",
+        "slug": "airtable",
+        "category": "Databases",
+        "pricePerYearUsd": 240,
+        "planName": "Team"
+      },
+      "alternative": {
+        "name": "NocoDB",
+        "repo": "nocodb/nocodb",
+        "language": "Vue",
+        "tags": [
+          "database",
+          "spreadsheet",
+          "self-hosted",
+          "api"
+        ],
+        "description": "Turns any database into a smart spreadsheet with forms, views and APIs — Airtable's grid without the row limits.",
+        "parity": [
+          "Grid/gallery/kanban views",
+          "Forms",
+          "API access",
+          "Collaboration"
+        ],
+        "gaps": [
+          "Automations simpler than Airtable's scripting"
+        ],
+        "migrationNotes": "Airtable CSV export maps cleanly; connect NocoDB to Postgres/MySQL for the real thing.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "demoUrl": "https://app.nocodb.com",
+        "ecosystems": {
+          "docker": "nocodb/nocodb"
+        },
+        "screenshots": [
+          {
+            "src": "https://user-images.githubusercontent.com/35857179/194844886-a17006e0-979d-493f-83c4-0e72f5a9b716.png",
+            "alt": "5"
+          },
+          {
+            "src": "https://user-images.githubusercontent.com/35857179/194844893-82d5e21b-ae61-41bd-9990-31ad659bf490.png",
+            "alt": "8"
+          },
+          {
+            "src": "https://user-images.githubusercontent.com/35857179/194844897-cfd79946-e413-4c97-b16d-eb4d7678bb79.png",
+            "alt": "9"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-airtable"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Miro",
+        "slug": "miro",
+        "category": "Whiteboard",
+        "pricePerYearUsd": 120,
+        "planName": "Starter"
+      },
+      "alternative": {
+        "name": "Excalidraw",
+        "repo": "excalidraw/excalidraw",
+        "language": "TypeScript",
+        "tags": [
+          "whiteboard",
+          "diagrams",
+          "sketch",
+          "web"
+        ],
+        "description": "Hand-drawn style virtual whiteboard with realtime collaboration and end-to-end encryption.",
+        "parity": [
+          "Infinite canvas",
+          "Realtime collab",
+          "Shapes & arrows",
+          "Embedding"
+        ],
+        "gaps": [
+          "Not a shape-heavy workshop tool — deliberately sketchy aesthetic"
+        ],
+        "migrationNotes": "Scenes export as .excalidraw JSON; images paste right in.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "demoUrl": "https://excalidraw.com",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github/excalidraw_github_cover_2.png",
+            "alt": "Excalidraw"
+          },
+          {
+            "src": "https://excalidraw.nyc3.cdn.digitaloceanspaces.com/github%2Fproduct_showcase.png",
+            "alt": "Product showcase"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-miro"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Grammarly",
+        "slug": "grammarly",
+        "category": "Writing",
+        "pricePerYearUsd": 144,
+        "planName": "Premium"
+      },
+      "alternative": {
+        "name": "LanguageTool",
+        "repo": "languagetool-org/languagetool",
+        "language": "Java",
+        "tags": [
+          "grammar",
+          "writing",
+          "self-hosted",
+          "browser-extension"
+        ],
+        "description": "Grammar and style checker for 30+ languages — browser extension everywhere, self-hostable server included.",
+        "parity": [
+          "Grammar checking",
+          "Style suggestions",
+          "Browser extensions",
+          "Multi-language"
+        ],
+        "gaps": [
+          "Premium-level rephrasing suggestions weaker than Grammarly's AI mode"
+        ],
+        "migrationNotes": "Nothing to migrate — install the extension and go.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "LGPL-2.1",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://languagetool.org",
+        "ecosystems": {},
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-grammarly"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Premiere Pro",
+        "slug": "premiere-pro",
+        "category": "Creative",
+        "pricePerYearUsd": 263,
+        "planName": "Single app"
+      },
+      "alternative": {
+        "name": "Kdenlive",
+        "repo": "KDE/kdenlive",
+        "language": "C++",
+        "tags": [
+          "video-editing",
+          "timeline",
+          "desktop"
+        ],
+        "description": "Full multi-track video editor with proxies, effects and titling — serious NLE, zero subscription.",
+        "parity": [
+          "Multitrack timeline",
+          "Effects & transitions",
+          "Proxy editing",
+          "Title designer"
+        ],
+        "gaps": [
+          "No direct project-file import from Premiere"
+        ],
+        "migrationNotes": "Relink media manually; EDL/XML intermediate exports help move timelines.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/KDE/kdenlive/HEAD/data/pics/kdenlive-logo.png",
+            "alt": "Kdenlive screenshot 1"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-video-editor"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Tableau",
+        "slug": "tableau",
+        "category": "Analytics",
+        "pricePerYearUsd": 900,
+        "planName": "Creator"
+      },
+      "alternative": {
+        "name": "Metabase",
+        "repo": "metabase/metabase",
+        "language": "Clojure",
+        "tags": [
+          "bi",
+          "dashboards",
+          "sql",
+          "self-hosted"
+        ],
+        "description": "Question-your-data dashboards for everyone — visual query builder plus full SQL editor, self-hosted in one jar/docker image.",
+        "parity": [
+          "Dashboards",
+          "Visual query builder",
+          "SQL editor",
+          "Alerts & scheduled reports"
+        ],
+        "gaps": [
+          "Advanced geospatial/story features lighter than Tableau"
+        ],
+        "migrationNotes": "Connect to your warehouse directly; rebuild key dashboards (usually faster than expected).",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "demoUrl": "https://demo.metabase.com",
+        "ecosystems": {
+          "docker": "metabase/metabase"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/metabase/metabase/HEAD/docs/images/metabase-product-screenshot-updated.png",
+            "alt": "Metabase Product Screenshot"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-tableau"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Firebase",
+        "slug": "firebase",
+        "category": "Backend",
+        "pricePerYearUsd": 300,
+        "planName": "Blaze (est.)"
+      },
+      "alternative": {
+        "name": "Supabase",
+        "repo": "supabase/supabase",
+        "language": "TypeScript",
+        "tags": [
+          "baas",
+          "postgres",
+          "auth",
+          "realtime"
+        ],
+        "description": "Postgres-backed backend-as-a-service — auth, realtime subscriptions, storage, edge functions, generous free tier.",
+        "parity": [
+          "Auth",
+          "Database",
+          "Storage",
+          "Realtime",
+          "Functions"
+        ],
+        "gaps": [
+          "Firestore-specific offline SDK semantics differ"
+        ],
+        "migrationNotes": "Export Firestore JSON and transform to SQL tables; auth users migrate via admin API.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/supabase/supabase/master/apps/www/public/images/github/supabase-dashboard.png",
+            "alt": "Supabase Dashboard"
+          },
+          {
+            "src": "https://raw.githubusercontent.com/supabase/supabase/d5f7f413ab356dc1a92075cb3cee4e40a957d5b1/web/static/watch-repo.gif",
+            "alt": "Watch this repo"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-firebase"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Auth0",
+        "slug": "auth0",
+        "category": "Identity",
+        "pricePerYearUsd": 1440,
+        "planName": "B2C Essentials (est.)"
+      },
+      "alternative": {
+        "name": "Authentik",
+        "repo": "goauthentik/authentik",
+        "language": "Python",
+        "tags": [
+          "identity",
+          "sso",
+          "oidc",
+          "self-hosted"
+        ],
+        "description": "Identity provider with OIDC/SAML/LDAP — SSO, MFA and user management you fully control.",
+        "parity": [
+          "OIDC/SAML",
+          "MFA",
+          "Social logins",
+          "Admin UI"
+        ],
+        "gaps": [
+          "You operate the uptime SLA yourself"
+        ],
+        "migrationNotes": "Recreate applications & flows; bulk-import users via CSV/API.",
+        "platforms": [
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "goauthentik/server"
+        },
+        "screenshots": [
+          {
+            "src": "https://docs.goauthentik.io/img/screen_apps_light.jpg",
+            "alt": "Authentik screenshot 1"
+          },
+          {
+            "src": "https://docs.goauthentik.io/img/screen_apps_dark.jpg",
+            "alt": "Authentik screenshot 2"
+          },
+          {
+            "src": "https://docs.goauthentik.io/img/screen_admin_light.jpg",
+            "alt": "Authentik screenshot 3"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-auth-provider"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Heroku",
+        "slug": "heroku",
+        "category": "Deployment",
+        "pricePerYearUsd": 84,
+        "planName": "Basic dyno (per app)"
+      },
+      "alternative": {
+        "name": "Coolify",
+        "repo": "coollabsio/coolify",
+        "language": "PHP",
+        "tags": [
+          "paas",
+          "docker",
+          "deploy",
+          "self-hosted"
+        ],
+        "description": "Self-hosted Heroku/Vercel alternative — git-push deploys, databases, SSL, on any VPS you rent.",
+        "parity": [
+          "Git-based deploys",
+          "Managed databases",
+          "SSL certs",
+          "Preview environments"
+        ],
+        "gaps": [
+          "You own a VPS (~$5/mo) — factor into TCO honestly"
+        ],
+        "migrationNotes": "Point Coolify at your existing git repos; add env vars; deploy.",
+        "platforms": [
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "coollabsio/coolify"
+        },
+        "screenshots": [
+          {
+            "src": "https://github.com/LaunchFast-Boilerplates.png",
+            "alt": "LaunchFast Boilerplates"
+          },
+          {
+            "src": "https://github.com/Vanaways.png",
+            "alt": "Vanaways"
+          },
+          {
+            "src": "https://github.com/netroutingcom.png",
+            "alt": "Netrouting"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-heroku"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Todoist",
+        "slug": "todoist",
+        "category": "Productivity",
+        "pricePerYearUsd": 58,
+        "planName": "Pro"
+      },
+      "alternative": {
+        "name": "Vikunja",
+        "repo": "go-vikunja/vikunja",
+        "language": "Go",
+        "tags": [
+          "tasks",
+          "todo",
+          "lists",
+          "self-hosted"
+        ],
+        "description": "To-do and task management with lists, kanban, gantt and labels — single binary or docker deploy.",
+        "parity": [
+          "Tasks & subtasks",
+          "Labels & filters",
+          "Kanban/Gantt views",
+          "Reminders"
+        ],
+        "gaps": [
+          "Natural-language input less refined than Todoist's"
+        ],
+        "migrationNotes": "Todoist backup (JSON/CSV) imports through Vikunja's migrators.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "network-copyleft"
+        },
+        "demoUrl": "https://try.vikunja.io",
+        "ecosystems": {
+          "docker": "vikunja/vikunja"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-todoist"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Spotify",
+        "slug": "spotify",
+        "category": "Music",
+        "pricePerYearUsd": 132,
+        "planName": "Premium"
+      },
+      "alternative": {
+        "name": "Navidrome",
+        "repo": "navidrome/navidrome",
+        "language": "Go",
+        "tags": [
+          "music",
+          "streaming",
+          "self-hosted",
+          "subsonic"
+        ],
+        "description": "Your own music streaming server for files you own — Subsonic-compatible apps everywhere, tiny resource footprint.",
+        "parity": [
+          "Library streaming",
+          "Playlists",
+          "Mobile apps (Subsonic clients)",
+          "Multi-user"
+        ],
+        "gaps": [
+          "No label's catalog — it streams YOUR collection"
+        ],
+        "migrationNotes": "Drop your audio files into a folder; point Navidrome at it.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "deluan/navidrome"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/navidrome/navidrome/master/.github/screenshots/ss-mobile-login.png",
+            "alt": "Navidrome screenshot 1"
+          },
+          {
+            "src": "https://raw.githubusercontent.com/navidrome/navidrome/master/.github/screenshots/ss-mobile-player.png",
+            "alt": "Navidrome screenshot 2"
+          },
+          {
+            "src": "https://raw.githubusercontent.com/navidrome/navidrome/master/.github/screenshots/ss-mobile-album-view.png",
+            "alt": "Navidrome screenshot 3"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-spotify"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Jira",
+        "slug": "jira",
+        "category": "Project Management",
+        "pricePerYearUsd": 87,
+        "planName": "Standard"
+      },
+      "alternative": {
+        "name": "OpenProject",
+        "repo": "opf/openproject",
+        "language": "Ruby",
+        "tags": [
+          "agile",
+          "gantt",
+          "scrum",
+          "self-hosted"
+        ],
+        "description": "Mature work-management suite — scrum boards, gantt charts, wiki, and enterprise-grade permissions.",
+        "parity": [
+          "Backlogs & sprints",
+          "Gantt",
+          "Issue tracking",
+          "Wiki & forums"
+        ],
+        "gaps": [
+          "Jira marketplace integrations absent"
+        ],
+        "migrationNotes": "CSV export from Jira imports with field mapping.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {
+          "docker": "openproject/openproject"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/opf/openproject/HEAD/GitHub-tab-new.png",
+            "alt": "Screenshot of OpenProject, showing the GitHub tab on a work package"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-jira"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Evernote",
+        "slug": "evernote",
+        "category": "Notes & Docs",
+        "pricePerYearUsd": 130,
+        "planName": "Personal"
+      },
+      "alternative": {
+        "name": "Joplin",
+        "repo": "laurent22/joplin",
+        "language": "TypeScript",
+        "tags": [
+          "notes",
+          "markdown",
+          "sync",
+          "encryption"
+        ],
+        "description": "Markdown notebook with end-to-end encrypted sync across Dropbox/OneDrive/WebDAV/Joplin Cloud — your notes stay yours.",
+        "parity": [
+          "Notebooks & tags",
+          "Web clipper",
+          "Sync",
+          "E2E encryption"
+        ],
+        "gaps": [
+          "Collaboration on shared notebooks limited"
+        ],
+        "migrationNotes": "Evernote .enex files import natively including attachments.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0-or-later",
+          "type": "network-copyleft"
+        },
+        "ecosystems": {
+          "npm": "joplin"
+        },
+        "screenshots": [
+          {
+            "src": "https://raw.githubusercontent.com/laurent22/joplin/dev/Assets/WebsiteAssets/images/home-top-img.png",
+            "alt": "Joplin screenshot 1"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-evernote"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Lightroom",
+        "slug": "lightroom",
+        "category": "Creative",
+        "pricePerYearUsd": 120,
+        "planName": "Photography plan"
+      },
+      "alternative": {
+        "name": "Darktable",
+        "repo": "darktable-org/darktable",
+        "language": "C",
+        "tags": [
+          "photography",
+          "raw",
+          "editing",
+          "desktop"
+        ],
+        "description": "Non-destructive RAW photo workflow — lighttable organization plus darkroom editing that rivals paid tools.",
+        "parity": [
+          "RAW processing",
+          "Non-destructive edits",
+          "Presets/modules",
+          "Catalog & tagging"
+        ],
+        "gaps": [
+          "Lightroom mobile/cloud ecosystem has no equivalent"
+        ],
+        "migrationNotes": "Keep originals; XMP sidecars from Lightroom partially carry over, expect to re-edit hero shots.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://user-images.githubusercontent.com/45535283/148689197-e53dd75f-32f1-4297-9a0f-a9547fd4e7c7.jpg",
+            "alt": "screenshot_lighttable"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-lightroom"
+      ]
+    },
+    {
+      "paidTool": {
+        "name": "Docker Desktop",
+        "slug": "docker-desktop",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 180,
+        "planName": "Pro (large orgs)"
+      },
+      "alternative": {
+        "name": "Podman Desktop",
+        "repo": "containers/podman-desktop",
+        "language": "TypeScript",
+        "tags": [
+          "containers",
+          "kubernetes",
+          "developer-tools",
+          "desktop"
+        ],
+        "description": "Daemonless container desktop — pods, Kubernetes support and Docker-compatible CLI, free for organizations of any size.",
+        "parity": [
+          "Container management GUI",
+          "Compose compatibility",
+          "Kubernetes workflows",
+          "Extensions"
+        ],
+        "gaps": [
+          "Some niche Docker Desktop extensions unavailable"
+        ],
+        "migrationNotes": "podman aliases to docker CLI; compose files largely work unchanged.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "ecosystems": {},
+        "screenshots": []
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-docker-desktop"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "claude-code-structure",
+  "version": "1.0.0",
+  "description": "A ready-to-use Claude Code project scaffold — rules, commands, skills, agents, and hooks in one command.",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "scaffold",
+    "project-structure",
+    "llm",
+    "anthropic"
+  ],
+  "author": "TechSphereX TA <support@techspherex.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KhaiTrang1995/claude-code-structure.git",
+    "directory": "packages/npm"
+  },
+  "homepage": "https://github.com/KhaiTrang1995/claude-code-structure#readme",
+  "bugs": {
+    "url": "https://github.com/KhaiTrang1995/claude-code-structure/issues"
+  },
+  "main": "src/index.js",
+  "bin": {
+    "claude-init": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "template/",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "lint": "eslint src/ bin/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

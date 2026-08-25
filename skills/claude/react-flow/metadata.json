@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "organization": "React Flow (@xyflow)",
+  "date": "January 2026",
+  "abstract": "Comprehensive React Flow usage guide for building node-based UIs, designed for AI agents and LLMs. Covers essential setup patterns, node/edge customization, hooks usage, performance optimization, and TypeScript integration. Organized into 9 categories with clear examples and best practices extracted from official documentation.",
+  "references": [
+    "https://reactflow.dev",
+    "https://reactflow.dev/learn",
+    "https://reactflow.dev/api-reference",
+    "https://reactflow.dev/examples",
+    "https://github.com/xyflow/xyflow",
+    "https://github.com/xyflow/react-flow-example-apps"
+  ],
+  "package": "@xyflow/react",
+  "packageVersion": "12.0.0+"
+}

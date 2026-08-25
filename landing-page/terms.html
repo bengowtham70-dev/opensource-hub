@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — OpenSource Hub</title>
+  <meta name="description" content="Terms of Service for OpenSource Hub — the local-first open-source alternative finder." />
+    <script>
+      try {
+        var t = localStorage.getItem("osh-theme");
+        var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --base:#9ca3af; --surface:#ffffff; --elevated:#f9fafb;
+        --trust:#059669; --caution:#d97706; --ink:#4b5563; --dim:#6b7280; --faint:#9ca3af;
+        --strong:#121212;
+        --line:#f3f4f6; --line-strong:#d1d5db;
+      }
+      html.dark {
+        color-scheme: dark;
+        --base:#14161a; --surface:#1c1f26; --elevated:#242830;
+        --trust:#34d399; --caution:#fbbf24; --ink:#e5e7eb; --dim:#9ca3af; --faint:#6b7280;
+        --strong:#f5f5f5;
+        --line:rgb(255 255 255 / .08); --line-strong:rgb(255 255 255 / .16);
+      }
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { background:var(--surface); color:var(--ink); font-family:"Inter",system-ui,sans-serif; font-weight:500; line-height:1.7; -webkit-font-smoothing:antialiased; }
+      .wrap { max-width:820px; margin:0 auto; padding:48px 24px 96px; }
+      h1 { font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:42px; letter-spacing:-.02em; }
+      .meta { color:var(--faint); font-size:14px; margin:10px 0 36px; }
+      h2 { font-family:"Newsreader",Georgia,serif; font-weight:500; font-size:23px; margin:36px 0 10px; color:var(--ink); letter-spacing:-.01em; }
+      p, li { color:var(--dim); font-size:15px; margin-top:8px; }
+      ul { padding-left:22px; }
+      .ph { color:var(--caution); background:color-mix(in srgb, var(--caution) 8%, transparent); border:.8px solid color-mix(in srgb, var(--caution) 25%, transparent); border-radius:4px; padding:1px 7px; font-size:13px; }
+      a { color:var(--dim); text-decoration:none; }
+      a:hover { color:var(--ink); text-decoration:underline; }
+      .back { display:inline-flex; gap:6px; color:var(--faint); font-size:14px; margin-bottom:28px; }
+      .notice { margin-top:44px; padding:16px 20px; border:.8px solid color-mix(in srgb, var(--caution) 30%, transparent); background:color-mix(in srgb, var(--caution) 6%, transparent); border-radius:12px; color:var(--dim); font-size:14px; }
+    </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← OpenSource Hub</a>
+    <h1>Terms of Service</h1>
+    <p class="meta">Draft for launch — fill bracketed placeholders before publishing (PRD §13).</p>
+
+    <h2>1. What this is</h2>
+    <p>OpenSource Hub is a developer tool distributed via npm. After install, it runs a local server on your machine and serves a browser dashboard. A static landing page is published on GitHub Pages. There is no centrally hosted application server operated by us.</p>
+
+    <h2>2. No warranty on third-party software</h2>
+    <p>Listings, comparisons, savings estimates and feature-parity checklists are <strong>community-reported and automated, not guaranteed</strong>. Open-source software listed here is developed by third parties under their own licenses. You are solely responsible for evaluating, installing and using any software you download through the app.</p>
+
+    <h2>3. Acceptable use</h2>
+    <ul>
+      <li>Do not abuse GitHub's API through the app.</li>
+      <li>Do not attempt to manipulate trending data or trust signals.</li>
+      <li>Do not post spam or unlawful content in Discussions (governed by GitHub's own terms).</li>
+      <li>Do not redistribute the app in violation of its MIT license.</li>
+    </ul>
+
+    <h2>4. Comments and public content</h2>
+    <p>Comments run on GitHub Discussions via giscus and are subject to GitHub's Terms and Community Guidelines. Moderation (delete/lock/report) is performed within GitHub's tooling. Comment history depends on GitHub's platform availability; we do not operate a backup.</p>
+
+    <h2>5. Data</h2>
+    <p>The app stores favorites and caches locally on your machine. See the <a href="privacy.html">Privacy Policy</a>. We do not operate user accounts.</p>
+
+    <h2>6. Liability</h2>
+    <p>To the maximum extent permitted by law, OpenSource Hub contributors are not liable for damages arising from use of the app or of third-party software discovered through it.</p>
+
+    <h2>7. Changes</h2>
+    <p>Terms may be updated; material changes will be noted in the repository changelog.</p>
+
+    <p class="meta" style="margin-top:36px">Effective date: <span class="ph">[DATE]</span> · Contact: <span class="ph">[SUPPORT EMAIL]</span> · Payments (future tiers): <span class="ph">[PROCESSOR]</span></p>
+
+    <div class="notice">Placeholder values in amber brackets must be completed before public launch.</div>
+  </div>
+<section style="padding:24px 0;border-top:.8px solid var(--line)">
+<h2 style="font-size:16px">Ads &amp; affiliate disclosure</h2>
+<p style="font-size:13px;max-width:70ch">Some outbound hosting and deployment links may be affiliate or revenue-share links. Sponsored placements are always labeled &ldquo;Sponsored&rdquo; and never influence rankings, Trust Scores, or which tools appear in the catalog. Listings are ranked by data, not by money.</p>
+</section>
+</body>
+</html>

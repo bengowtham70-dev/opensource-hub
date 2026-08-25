@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>OpenSource Hub â€” blog</title>
+<link>/blog</link>
+<description>Guides on switching from paid software to open source.</description>
+<lastBuildDate>Tue, 25 Aug 2026 07:43:32 GMT</lastBuildDate>
+<generator>opensource-hub</generator>
+<item>
+<title>Best open source Notion alternatives in 2026</title>
+<link>/blog/best-notion-alternatives-2026</link>
+<guid isPermaLink="true">/blog/best-notion-alternatives-2026</guid>
+<description>AFFiNE leads our catalog of free replacements for Notion — here is what it covers, what it lacks, and how to switch without losing your notes.</description>
+<pubDate>Thu, 20 Aug 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+<title>How we compute Trust Scores (and how to dispute one)</title>
+<link>/blog/how-we-compute-trust-scores</link>
+<guid isPermaLink="true">/blog/how-we-compute-trust-scores</guid>
+<description>The exact heuristic inputs behind our maintenance and trust signals — commit recency, archived status, license clarity, contributor bus factor, backing and OpenSSF Scorecard.</description>
+<pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+<title>A self-hosting starter stack you can actually run</title>
+<link>/blog/self-hosting-starter-stack</link>
+<guid isPermaLink="true">/blog/self-hosting-starter-stack</guid>
+<description>Five open-source tools — Nextcloud, Jitsi Meet, Navidrome, Bitwarden and Coolify — that replace a stack of paid subscriptions on one home server.</description>
+<pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

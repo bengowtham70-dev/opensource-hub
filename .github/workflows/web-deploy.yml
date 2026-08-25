@@ -1,0 +1,50 @@
+# plans/web-directory/PLAN.md W0 — deploy rail for the public web directory.
+# Builds the static site (SSG + existing landing page at root) and publishes to
+# GitHub Pages. Also runnable manually via workflow_dispatch for previews.
+name: web-deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/data/**"
+      - "scripts/build-web-directory.mjs"
+      - "site.config.json"
+      - "landing-page/**"
+      - ".github/workflows/web-deploy.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Fresh snapshots may not be committed yet on data-only pushes; the daily
+      # snapshot.yml run is the authoritative rebuild cadence (PLAN W0).
+      - name: Build static web directory
+        run: node scripts/build-web-directory.mjs
+      - name: Generate OG social cards (W7)
+        run: node scripts/generate-og-images.mjs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web-dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

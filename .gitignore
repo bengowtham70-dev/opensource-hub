@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.vite/
+*.log
+.DS_Store
+
+# Bun single-file binary payload (release CI only - plans/PLAN_PHASE2.md P9)
+src/server/payload.generated.js
+
+# OG font cache (fetched at build time, OFL-licensed Inter)
+.og-fonts/
+
+# catalog merge progress state
+scripts/.merge-state.json

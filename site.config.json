@@ -1,0 +1,20 @@
+{
+  "baseUrl": "",
+  "siteName": "OpenSource Hub",
+  "tagline": "Free open-source alternatives to the paid software you already use.",
+  "contactEmail": "",
+  "repoSlug": "opensource-hub/opensource-hub",
+  "stripe": { "submitUrl": "" },
+  "newsletter": { "provider": "", "embedUrl": "" },
+  "socials": {},
+  "activateMonetization": false,
+  "nav": [
+    { "label": "Alternatives", "href": "/alternatives" },
+    { "label": "Collections", "href": "/collections" },
+    { "label": "Tags", "href": "/tags" },
+    { "label": "Categories", "href": "/categories" },
+    { "label": "Licenses", "href": "/licenses" },
+    { "label": "Blog", "href": "/blog" },
+    { "label": "Local Dashboard", "href": "/#install" }
+  ]
+}

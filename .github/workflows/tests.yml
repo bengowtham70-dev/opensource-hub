@@ -1,0 +1,28 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          NODE_OPTIONS: --max-old-space-size=2048
+      # PRD §14: the CLI must work on all three platforms — every push proves it.
+      - run: npm test
+      - run: npm run test:client
+        env:
+          NODE_OPTIONS: --max-old-space-size=1536

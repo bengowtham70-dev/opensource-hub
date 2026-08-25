@@ -1,0 +1,49 @@
+name: daily-snapshots
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build star snapshots (GraphQL batch, ~1 call per 80 repos)
+        run: node scripts/build-snapshots.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit updated snapshots
+        run: |
+          git config user.name "snapshot-bot"
+          git config user.email "actions@github.com"
+          git add src/data/snapshots-seed.json
+          git diff --cached --quiet || git commit -m "chore: daily star snapshots $(date -u +%F)"
+          git push
+      # plans/web-directory/PLAN.md W0 — the daily public-site rebuild rides this
+      # cron (PRD §35): fresh stars/history/meta flow into the static directory.
+      - name: Rebuild public web directory from fresh snapshots
+        run: node scripts/build-web-directory.mjs
+      - name: Generate OG social cards (W7)
+        run: node scripts/generate-og-images.mjs
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: web-dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

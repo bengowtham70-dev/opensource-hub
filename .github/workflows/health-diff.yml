@@ -1,0 +1,29 @@
+name: monthly-health-diff
+
+on:
+  schedule:
+    - cron: "0 7 1 * *" # 1st of every month — PRD section 38 public health diff
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # Runs AFTER checkout so it diffs the freshly committed daily snapshots.
+      # Needs no token-scoped network calls: everything comes from snapshots-seed.json.
+      - name: Build monthly health diff (stars/downloads deltas + freshness flags)
+        run: node scripts/build-health-diff.mjs
+      - name: Commit public health diff
+        run: |
+          git config user.name "snapshot-bot"
+          git config user.email "actions@github.com"
+          git add src/data/health-diff.json
+          git diff --cached --quiet || git commit -m "chore: monthly health diff $(date -u +%F)"
+          git push

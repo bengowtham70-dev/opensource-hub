@@ -1,0 +1,19 @@
+{
+  "name": "claude-code-structure-monorepo",
+  "private": true,
+  "description": "Monorepo for claude-code-structure npm and pip packages.",
+  "workspaces": [
+    "packages/npm"
+  ],
+  "scripts": {
+    "test": "npm run test --workspace=packages/npm",
+    "test:npm": "npm run test --workspace=packages/npm",
+    "test:python": "cd packages/python && python -m pytest",
+    "lint": "npm run lint --workspace=packages/npm",
+    "sync-template": "node scripts/sync-template.js",
+    "prepublish": "npm run sync-template"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

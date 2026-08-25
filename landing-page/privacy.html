@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — OpenSource Hub</title>
+  <meta name="description" content="Privacy Policy for OpenSource Hub — the app runs on your machine; your data stays on your machine." />
+    <script>
+      try {
+        var t = localStorage.getItem("osh-theme");
+        var dark = t ? t === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --base:#9ca3af; --surface:#ffffff; --elevated:#f9fafb;
+        --trust:#059669; --caution:#d97706; --ink:#4b5563; --dim:#6b7280; --faint:#9ca3af;
+        --strong:#121212;
+        --line:#f3f4f6; --line-strong:#d1d5db;
+      }
+      html.dark {
+        color-scheme: dark;
+        --base:#14161a; --surface:#1c1f26; --elevated:#242830;
+        --trust:#34d399; --caution:#fbbf24; --ink:#e5e7eb; --dim:#9ca3af; --faint:#6b7280;
+        --strong:#f5f5f5;
+        --line:rgb(255 255 255 / .08); --line-strong:rgb(255 255 255 / .16);
+      }
+      * { box-sizing:border-box; margin:0; padding:0; }
+      body { background:var(--surface); color:var(--ink); font-family:"Inter",system-ui,sans-serif; font-weight:500; line-height:1.7; -webkit-font-smoothing:antialiased; }
+      .wrap { max-width:820px; margin:0 auto; padding:48px 24px 96px; }
+      h1 { font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:42px; letter-spacing:-.02em; }
+      .meta { color:var(--faint); font-size:14px; margin:10px 0 36px; }
+      h2 { font-family:"Newsreader",Georgia,serif; font-weight:500; font-size:23px; margin:36px 0 10px; color:var(--ink); letter-spacing:-.01em; }
+      p, li { color:var(--dim); font-size:15px; margin-top:8px; }
+      ul { padding-left:22px; }
+      code { font-family:"Inter",monospace; font-variant-numeric:tabular-nums; font-size:13px; color:var(--ink); background:var(--elevated); border:.8px solid var(--line); padding:2px 6px; border-radius:4px; }
+      .ph { color:var(--caution); background:color-mix(in srgb, var(--caution) 8%, transparent); border:.8px solid color-mix(in srgb, var(--caution) 25%, transparent); border-radius:4px; padding:1px 7px; font-size:13px; }
+      a { color:var(--dim); text-decoration:none; }
+      a:hover { color:var(--ink); text-decoration:underline; }
+      .back { display:inline-flex; gap:6px; color:var(--faint); font-size:14px; margin-bottom:28px; }
+      .short { margin-top:20px; padding:18px 22px; border:.8px solid color-mix(in srgb, var(--trust) 30%, transparent); background:color-mix(in srgb, var(--trust) 6%, transparent); border-radius:12px; color:var(--dim); font-size:15px; }
+      .short strong { color:var(--trust); }
+      .notice { margin-top:44px; padding:16px 20px; border:.8px solid color-mix(in srgb, var(--caution) 30%, transparent); background:color-mix(in srgb, var(--caution) 6%, transparent); border-radius:12px; color:var(--dim); font-size:14px; }
+    </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← OpenSource Hub</a>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Draft for launch — fill bracketed placeholders before publishing (PRD §13).</p>
+
+    <div class="short"><strong>The short version:</strong> the app runs on your machine. Your favorites and caches stay on your machine. We operate no accounts and no central database of users.</div>
+
+    <h2>What is stored locally</h2>
+    <ul>
+      <li><strong>Favorites</strong> — a JSON file in your OS user-data directory. Never transmitted to us.</li>
+      <li><strong>API cache</strong> — temporary GitHub API responses (ETag-cached) to respect rate limits.</li>
+    </ul>
+
+    <h2>What leaves your machine</h2>
+    <ul>
+      <li><strong>Requests to GitHub's public API and codeload/archive endpoints</strong> — made directly from your machine when you open repo details or download releases. GitHub's own privacy policy applies.</li>
+      <li><strong>Static snapshot data</strong> — fetched from GitHub Pages/jsDelivr (public, non-personal).</li>
+      <li><strong>Comments</strong> — if you use the discussion feature, you interact directly with GitHub under your GitHub identity.</li>
+    </ul>
+
+    <h2>Analytics</h2>
+    <p><strong>Local counters only.</strong> The app counts how many times it has been run and stores that number in your local user-data folder. It never leaves your machine — there is no telemetry endpoint and no network call. If remote, aggregate analytics are ever considered, they will be strictly opt-in and disclosed here first (PRD §16).</p>
+
+    <h2>Payments</h2>
+    <p>If paid tiers launch (Trust Score Pro, AI Tool Finder), payment processing will be handled by <span class="ph">[PROCESSOR]</span> under their privacy policy; we store only what is operationally required and disclosed at that time.</p>
+
+    <h2>Your control</h2>
+    <p>Delete the app's local folder at any time to remove all local data: <code>%LOCALAPPDATA%\opensource-hub</code> (Windows) · <code>~/Library/Application Support/opensource-hub</code> (macOS) · <code>~/.config/opensource-hub</code> (Linux). Uninstall with <code>npm uninstall -g opensource-hub</code>.</p>
+
+    <p class="meta" style="margin-top:36px">Effective date: <span class="ph">[DATE]</span> · Contact: <span class="ph">[SUPPORT EMAIL]</span></p>
+
+    <div class="notice">Placeholder values in amber brackets must be completed before public launch.</div>
+  </div>
+<section style="padding:24px 0;border-top:1px solid var(--line)">
+<h2 style="font-size:16px">Ads &amp; affiliate disclosure</h2>
+<p style="font-size:13px;max-width:70ch">Some outbound hosting and deployment links may be affiliate or revenue-share links. Sponsored placements are always labeled &ldquo;Sponsored&rdquo; and never influence rankings, Trust Scores, or which tools appear in the catalog. Listings are ranked by data, not by money.</p>
+</section>
+</body>
+</html>

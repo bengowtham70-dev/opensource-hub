@@ -1,0 +1,11 @@
+# Exclude from NPM package (keep npm bundle lean)
+.claude/
+.mcp.json
+.gitignore
+.github/
+CLAUDE.md
+CLAUDE.local.md
+*.jfif
+*.jpg
+*.png
+node_modules/
