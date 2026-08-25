@@ -102,6 +102,12 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .sort-bar select:hover{border-color:rgba(99,102,241,.5)}
 .sort-bar select:focus{outline:none;border-color:rgba(99,102,241,.6)}
 .sort-bar select option{color:#121212;background:#ffffff}
+.crumbs{font-family:var(--font-m);font-size:11.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs b{color:var(--ink);font-weight:600}
+.trend-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
+.cmeta{font-size:11.5px;color:var(--faint);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 @media(max-width:680px){.cmp-head{grid-template-columns:1fr}.cmp-row{grid-template-columns:1fr;gap:8px}.cmp-row .cmp-dim{text-align:left}.cmp-row .side:last-child{justify-content:flex-start;text-align:left}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -112,7 +118,7 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 <a href="/#install">Local Dashboard</a><span class="spacer"></span>
 <a class="btn primary" href="/#install">Run locally</a>
 </div></header>
-<main><div class="wrap"><h1>C++</h1>
+<main><div class="wrap"><nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> <span class="sep">/</span> <a href="/stacks.html">Stacks</a> <span class="sep">/</span> <b>C++</b></nav><h1>C++</h1>
 <p class="repo-line">Stack Â· 6 tools</p>
 
 <div class="hub-grid" style="margin-top:18px"><a class="hub-card" href="/core"><strong>LibreOffice</strong><span class="cat">Microsoft 365</span></a><a class="hub-card" href="/gimp"><strong>GIMP</strong><span class="cat">Adobe Photoshop</span></a><a class="hub-card" href="/inkscape"><strong>Inkscape</strong><span class="cat">Adobe Illustrator</span></a><a class="hub-card" href="/keepassxc"><strong>KeePassXC</strong><span class="cat">LastPass</span></a><a class="hub-card" href="/kdenlive"><strong>Kdenlive</strong><span class="cat">Adobe Premiere Pro</span></a><a class="hub-card" href="/darktable"><strong>Darktable</strong><span class="cat">Adobe Lightroom</span></a></div></div></main>

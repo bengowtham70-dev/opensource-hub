@@ -246,9 +246,27 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .sort-bar select:hover{border-color:rgba(99,102,241,.5)}
 .sort-bar select:focus{outline:none;border-color:rgba(99,102,241,.6)}
 .sort-bar select option{color:#121212;background:#ffffff}
+.crumbs{font-family:var(--font-m);font-size:11.5px;color:var(--faint);margin-bottom:14px}
+.crumbs a{color:var(--dim)}
+.crumbs a:hover{color:var(--ink)}
+.crumbs b{color:var(--ink);font-weight:600}
+.trend-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
+.cmeta{font-size:11.5px;color:var(--faint);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 @media(max-width:680px){.cmp-head{grid-template-columns:1fr}.cmp-row{grid-template-columns:1fr;gap:8px}.cmp-row .cmp-dim{text-align:left}.cmp-row .side:last-child{justify-content:flex-start;text-align:left}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 `;
+
+function crumbsHtml(ctx) {
+  const c = ctx.crumbs;
+  if (!Array.isArray(c) || !c.length) return "";
+  return `<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>${c
+    .map((x) =>
+      x.href
+        ? ` <span class="sep">/</span> <a href="${esc(x.href)}">${esc(x.label)}</a>`
+        : ` <span class="sep">/</span> <b>${esc(x.label)}</b>`
+    )
+    .join("")}</nav>`;
+}
 
 export function layout(ctx, body) {
   const { config, route } = ctx;
@@ -284,7 +302,7 @@ ${ctx.ogImage ? `<meta property="og:image" content="${esc(base + ctx.ogImage)}">
 ${nav}<span class="spacer"></span>
 <a class="btn primary" href="/#install">Run locally</a>
 </div></header>
-<main><div class="wrap">${body}</div></main>
+<main><div class="wrap">${crumbsHtml(ctx)}${body}</div></main>
 <footer><div class="wrap">
 ${
   config.newsletter?.embedUrl
@@ -440,6 +458,15 @@ ${screenshots ? `<h2>Screenshots</h2><div class="shots">${screenshots}</div>` : 
   return layout(
     {
       ...ctx,
+      crumbs: [
+        ...(ctx.routes.has("alternatives")
+          ? [{ href: "/alternatives.html", label: "Alternatives" }]
+          : []),
+        ...(ctx.routes.has(`alternatives/${pairing.paidTool.slug}`)
+          ? [{ href: `/alternatives/${pairing.paidTool.slug}.html`, label: pairing.paidTool.name }]
+          : [{ label: pairing.paidTool.name }]),
+        { label: a.name },
+      ],
       title: `${a.name}: free open-source alternative to ${pairing.paidTool.name}`,
       description: `${a.description} Free alternative to ${pairing.paidTool.name} ($${pairing.paidTool.pricePerYearUsd}/yr) â€” open source, self-hostable, zero accounts.`,
     },
@@ -653,7 +680,7 @@ export function computeTaxonomies(pairings) {
   return { tags, categories, licenses, stacks };
 }
 
-function taxonomyIndexHtml(kind, entries, ctx) {
+export function taxonomyIndexHtml(kind, entries, ctx) {
   const titles = {
     tags: ["Browse by tag", "Every capability tag across the catalog."],
     categories: ["Browse by category", "Tools grouped by the paid software they replace."],
@@ -680,12 +707,31 @@ function taxonomyIndexHtml(kind, entries, ctx) {
 </a>`
     )
     .join("");
+  let trendHtml = "";
+  if (kind === "categories" && ctx.snapshots) {
+    const withGrowth = sorted
+      .map((e) => ({ e, g: categoryGrowth(e.pairings, ctx.snapshots) }))
+      .filter((x) => x.g)
+      .sort((a, b) => b.g.pct - a.g.pct)
+      .slice(0, 6);
+    if (withGrowth.length) {
+      trendHtml = `<h2 style="margin-top:22px">Trending categories</h2>
+<div class="trend-strip">${withGrowth.map(({ e, g }) => `<a class="hub-card" href="/${kind}/${esc(e.slug)}"><strong>${esc(e.label)}</strong><span class="cat">${e.pairings
+        .slice(0, 3)
+        .map((p) => esc(p.alternative.name))
+        .join(", ")}${e.pairings.length > 3 ? ` +${e.pairings.length - 3} more` : ""}</span><span class="save">${e.pairings.length} tools &middot; <span style="color:${
+        g.pct >= 0 ? "var(--trust)" : "var(--caution)"
+      }">${g.pct >= 0 ? "+" : ""}${g.pct}% avg 30d</span></span></a>`).join("")}</div>`;
+    }
+  }
   const body = `<h1>${esc(h1)}</h1><p class="desc">${esc(blurb)}</p>
+${trendHtml}
 <div class="hub-grid" style="margin-top:18px">${cards}</div>`;
   return layout(
     {
       ...ctx,
       route: `/${kind}`,
+      crumbs: [{ label: `${h1[0].toUpperCase()}${h1.slice(1)}` }],
       title: `${h1[0].toUpperCase()}${h1.slice(1)} â€” OpenSource Hub`,
       description: blurb,
     },
@@ -721,6 +767,7 @@ ${extra}
     {
       ...ctx,
       route: `/${kind}/${entry.slug}`,
+      crumbs: [{ href: `/${kind}.html`, label: `${titleLabels[kind]}s` }, { label: entry.label }],
       title: `${entry.label} (${titleLabels[kind]}) â€” OpenSource Hub`,
       description: `${entry.pairings.length} open source tool(s) tagged ${entry.label}.`,
     },
@@ -870,6 +917,12 @@ ${shareBarHtml(`${(config.baseUrl || "")}/alternatives/${esc(paid.slug)}.html`, 
   return layout(
     {
       ...ctx,
+      crumbs: [
+        ...(ctx.routes.has("alternatives")
+          ? [{ href: "/alternatives.html", label: "Alternatives" }]
+          : []),
+        { label: paid.name },
+      ],
       title: `${paid.name} Alternatives â€” Free Open Source (${year})`,
       description: `Free open-source alternatives to ${paid.name}: ${pairings
         .map((p) => p.alternative.name)
@@ -956,6 +1009,7 @@ ${filterScript}`;
     {
       ...ctx,
       route: page === 1 ? "/alternatives" : `/alternatives/page/${page}`,
+      crumbs: [{ label: "Alternatives" }],
       title: `Open Source Alternatives to Popular SaaS (${year})${suffix}`,
       description: `Browse free open-source alternatives to ${sorted.length} popular paid tools â€” Notion, Figma, Slack and more. Save thousands per year.`,
     },
@@ -1176,13 +1230,25 @@ export function computeCollections(pairings, snapshots) {
   return out;
 }
 
-function collectionCards(entries, repoSlug) {
+function collectionCards(entries, repoSlug, snapshots = {}) {
   return entries
     .map((p) => {
       const slug = repoSlug.get(p.alternative.repo);
+      const stars = snapshots.stars?.[p.alternative.repo];
+      const maint = maintStatusFor(snapshots, p.alternative.repo);
+      const lic = p.alternative.license?.spdx;
+      const meta = [
+        stars != null ? `${fmtStars(stars)} stars` : "",
+        maint
+          ? pill(maint, maint === "active" ? "trust" : maint === "slowing" ? "caution" : "red")
+          : "",
+        lic ? esc(lic) : "",
+      ]
+        .filter(Boolean)
+        .join(" ");
       return `<a class="hub-card" href="/${esc(slug)}"><strong>${esc(p.alternative.name)}</strong><span class="cat">${esc(
         p.paidTool.name
-      )}</span><span class="save">${esc(p.alternative.language || "")}</span></a>`;
+      )}</span><span class="cmeta">${meta || "&nbsp;"}</span></a>`;
     })
     .join("");
 }
@@ -1220,7 +1286,7 @@ function collectionDetailHtml(c, ctx) {
   const body = `<h1>${esc(c.label)}</h1>
 <p class="repo-line">${c.pairings.length} tool${c.pairings.length > 1 ? "s" : ""}</p>
 <p class="desc">${esc(c.blurb)}</p>
-<div class="hub-grid" style="margin-top:18px">${collectionCards(c.pairings, ctx.repoSlug)}</div>`;
+<div class="hub-grid" style="margin-top:18px">${collectionCards(c.pairings, ctx.repoSlug, ctx.snapshots)}</div>`;
   return layout(
     {
       ...ctx,
@@ -1692,6 +1758,12 @@ ${shareBarHtml(`${(config.baseUrl || "")}/compare/${compareRouteSlug(slugA, slug
   return layout(
     {
       ...ctx,
+      crumbs: [
+        ...(ctx.routes.has("alternatives")
+          ? [{ href: "/alternatives.html", label: "Alternatives" }]
+          : []),
+        { label: "Compare" },
+      ],
       title: `${a.name} vs ${b.name}: which open source alternative wins?`,
       description: `Detailed comparison of ${a.name} and ${b.name}${paid ? ` as ${paid.name} alternatives` : ""}: stars, 30-day growth, activity, maturity, parity, license and self-hosting.`,
     },
@@ -1738,7 +1810,7 @@ placement follows the user's own deploy intent, not sponsor preference.</p>
 <p>The directory runs without logins: favorites live locally, comments ride on GitHub Discussions.
 Nothing to breach, nothing to sell.</p>`;
 
-  return layout({ ...ctx, title: "About & Methodology", description: "How OpenSource Hub ranks open source alternatives: Trust Score formula, honesty rules, affiliate disclosure." }, body);
+  return layout({ ...ctx, crumbs: [{ label: "About" }], title: "About & Methodology", description: "How OpenSource Hub ranks open source alternatives: Trust Score formula, honesty rules, affiliate disclosure." }, body);
 }
 
 export function buildSite({ alternatives, snapshots, config, discounts = [], posts = [], ads = [] }) {

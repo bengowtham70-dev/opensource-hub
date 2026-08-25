@@ -843,3 +843,77 @@ test("deep-dive degrades honestly on sparse data; editorial override respected",
   const overridden = toolExplainerHtml(custom, explainerCtx());
   assert.ok(overridden.includes("Hand-verified team notes."));
 });
+
+// ---------- §3d round-3: breadcrumbs, trending categories, rich collection cards ----------
+
+test("breadcrumbs render on profile/hub/taxonomy/compare; absent when unset", async () => {
+  const { buildSite } = await import("../scripts/build-web-directory.mjs");
+  const routes = buildSite({
+    alternatives: { pairings: [JSON.parse(JSON.stringify(PAIRING)), PAIRING_B] },
+    snapshots: CMP_SNAP,
+    config: CONFIG,
+  });
+  for (const key of ["alternatives/notion", "affine", "categories", "categories/notes-docs"]) {
+    if (!routes.has(key)) continue;
+    const html = routes.get(key);
+    assert.ok(html.includes('class="crumbs"'), `crumbs on ${key}`);
+    assert.ok(html.includes('aria-label="Breadcrumb"'));
+  }
+  const compareKey = [...routes.keys()].find((k) => k.startsWith("compare/"));
+  assert.ok(routes.get(compareKey).includes("<b>Compare</b>"));
+});
+
+test("trending categories strip appears only with real growth data (omit-empty)", async () => {
+  const { taxonomyIndexHtml } = await import("../scripts/build-web-directory.mjs");
+  const entries = new Map([
+    [
+      "notes-docs",
+      {
+        slug: "notes-docs",
+        label: "Notes & Docs",
+        variants: new Set(),
+        pairings: [PAIRING, PAIRING_B],
+      },
+    ],
+  ]);
+  const bare = taxonomyIndexHtml(
+    "categories",
+    entries,
+    { snapshots: {}, config: CONFIG, routes: new Map(), repoSlug: new Map() }
+  );
+  assert.ok(!bare.includes("Trending categories"), "no fabricated trend on seed data");
+  const rich = taxonomyIndexHtml(
+    "categories",
+    entries,
+    {
+      snapshots: { history: { "toeverything/AFFiNE": hist(12), "appflowy/io_appflowy": hist(12) }, stars: {} },
+      config: CONFIG,
+      routes: new Map(),
+      repoSlug: new Map(),
+    }
+  );
+  assert.ok(rich.includes("Trending categories"));
+  assert.ok(rich.includes("% avg 30d"));
+});
+
+test("collection cards show stars/maintenance/license meta from snapshots", async () => {
+  const { computeCollections, buildSite } = await import("../scripts/build-web-directory.mjs");
+  const snap = {
+    stars: { "toeverything/AFFiNE": 42000 },
+    meta: { "toeverything/AFFiNE": { pushedAt: new Date(NOW - 5 * 86400000).toISOString(), archived: false } },
+  };
+  const cols = computeCollections([JSON.parse(JSON.stringify(PAIRING))], snap);
+  const selfhosted = cols.get("self-hosted");
+  if (selfhosted && selfhosted.pairings.length) {
+    const html = buildSite({
+      alternatives: { pairings: [JSON.parse(JSON.stringify(PAIRING))] },
+      snapshots: snap,
+      config: CONFIG,
+    });
+    const detail = [...html.entries()].find(([k]) => k.startsWith("collections/self-hosted"));
+    if (detail) {
+      assert.ok(detail[1].includes("42k stars"));
+      assert.ok(detail[1].includes(">active<") || detail[1].includes("MIT"));
+    }
+  }
+});
