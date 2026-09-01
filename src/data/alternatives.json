@@ -149,7 +149,7 @@
       "paidTool": {
         "name": "Figma",
         "slug": "figma",
-        "category": "Design",
+        "category": "Creative",
         "pricePerYearUsd": 144,
         "planName": "Professional"
       },
@@ -5487,6 +5487,1140 @@
         "lastPushAt": "2026-09-01T19:34:54.440Z",
         "source": "https://github.com/obsproject/obs-studio"
       }
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-adobe-scan",
+        "replace-document-management",
+        "replace-ocr",
+        "replace-paperless"
+      ],
+      "paidTool": {
+        "name": "Shoeboxed & Adobe Scan",
+        "slug": "shoeboxed",
+        "category": "Notes & Docs",
+        "pricePerYearUsd": 216,
+        "planName": "Pro Plan ($18/mo)",
+        "whyReplace": "Monthly SaaS cost for simple document scanning and OCR categorization."
+      },
+      "alternative": {
+        "name": "Paperless-ngx",
+        "slug": "paperless-ngx",
+        "repo": "paperless-ngx/paperless-ngx",
+        "description": "A community-driven document management system that transforms physical documents into searchable digital archives.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "Python",
+        "tags": [
+          "document-management",
+          "ocr",
+          "machine-learning",
+          "homelab"
+        ],
+        "ecosystems": {
+          "docker": "ghcr.io/paperless-ngx/paperless-ngx:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Automated OCR & auto-tagging",
+          "Lightning fast search",
+          "Zero external dependencies"
+        ],
+        "cons": [
+          "Initial intake scanner setup requires basic network config"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-slack-pro",
+        "replace-team-chat",
+        "replace-enterprise-messaging"
+      ],
+      "paidTool": {
+        "name": "Slack Pro",
+        "slug": "slack-pro",
+        "category": "Team Chat",
+        "pricePerYearUsd": 105,
+        "planName": "Slack Pro ($8.75/user/mo)",
+        "whyReplace": "Per-user subscription costs that balloon as teams grow, plus 90-day history limits on free plans."
+      },
+      "alternative": {
+        "name": "Mattermost",
+        "slug": "mattermost",
+        "repo": "mattermost/mattermost",
+        "description": "Open-source developer collaboration platform with channels, playbooks, boards, and audio calls.",
+        "platforms": [
+          "web",
+          "self-host",
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "Go",
+        "tags": [
+          "team-chat",
+          "playbooks",
+          "enterprise",
+          "devops"
+        ],
+        "ecosystems": {
+          "docker": "mattermost/mattermost-enterprise-edition:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 15,
+          "selfHostDifficulty": "medium"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Unlimited message history",
+          "Integrated DevOps playbooks",
+          "Self-hosted privacy compliance"
+        ],
+        "cons": [
+          "Requires Postgres DB maintenance"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-backendless",
+        "replace-single-file-backend",
+        "replace-sqlite-backend"
+      ],
+      "paidTool": {
+        "name": "Backendless Pro",
+        "slug": "backendless-pocketbase",
+        "category": "Databases",
+        "pricePerYearUsd": 360,
+        "planName": "Scale Plan ($30/mo)",
+        "whyReplace": "High monthly fees for lightweight mobile and web apps."
+      },
+      "alternative": {
+        "name": "PocketBase",
+        "slug": "pocketbase",
+        "repo": "pocketbase/pocketbase",
+        "description": "Open source backend in 1 single executable binary file with embedded SQLite, realtime subscriptions, and admin dashboard.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "Go",
+        "tags": [
+          "baas",
+          "sqlite",
+          "single-binary",
+          "realtime",
+          "go"
+        ],
+        "ecosystems": {
+          "docker": "pocketbase/pocketbase:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 3,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Single executable binary (no Docker needed)",
+          "Built-in admin dashboard & auth",
+          "Runs on a $3/mo VPS"
+        ],
+        "cons": [
+          "Single-node SQLite (not designed for multi-region clustering)"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-algolia",
+        "replace-instant-search",
+        "replace-typo-tolerant-search"
+      ],
+      "paidTool": {
+        "name": "Algolia Search",
+        "slug": "algolia-typesense",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 720,
+        "planName": "Grow / Standard (~$60/mo)",
+        "whyReplace": "Per-search pricing and restrictive record limits."
+      },
+      "alternative": {
+        "name": "Typesense",
+        "slug": "typesense",
+        "repo": "typesense/typesense",
+        "description": "Fast, typo-tolerant search engine optimized for instant search-as-you-type developer experiences.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "mac"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "C++",
+        "tags": [
+          "search-engine",
+          "instant-search",
+          "typo-tolerance",
+          "c++"
+        ],
+        "ecosystems": {
+          "docker": "typesense/typesense:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Sub-50ms search latency",
+          "In-memory C++ speed",
+          "Algolia-compatible client APIs"
+        ],
+        "cons": [
+          "RAM-heavy for multi-million record indexes"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-aws-alb",
+        "replace-reverse-proxy",
+        "replace-ssl-certificates",
+        "replace-nginx"
+      ],
+      "paidTool": {
+        "name": "AWS Application Load Balancer & Cloudflare Pro",
+        "slug": "aws-alb",
+        "category": "Deployment",
+        "pricePerYearUsd": 240,
+        "planName": "Pro SSL / ALB (~$20/mo)",
+        "whyReplace": "Cloud provider ingress markup and complex DNS routing panels."
+      },
+      "alternative": {
+        "name": "Nginx Proxy Manager",
+        "slug": "nginx-proxy-manager",
+        "repo": "NginxProxyManager/nginx-proxy-manager",
+        "description": "Expose your web services easily and securely with an intuitive Web UI and automatic free Let's Encrypt SSL.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "JavaScript",
+        "tags": [
+          "reverse-proxy",
+          "ssl",
+          "nginx",
+          "homelab",
+          "devops"
+        ],
+        "ecosystems": {
+          "docker": "jc21/nginx-proxy-manager:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 4,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Dead-simple web dashboard for SSL & domains",
+          "Automatic renewal of certificates",
+          "Access lists & basic auth"
+        ],
+        "cons": [
+          "Single node management out of the box"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-cloudflare-ssl",
+        "replace-web-server",
+        "replace-automatic-https"
+      ],
+      "paidTool": {
+        "name": "Cloudflare Advanced SSL",
+        "slug": "cloudflare-ssl",
+        "category": "Deployment",
+        "pricePerYearUsd": 120,
+        "planName": "Advanced Certificate Manager ($10/mo)",
+        "whyReplace": "Proprietary edge lock-in for simple automatic TLS."
+      },
+      "alternative": {
+        "name": "Caddy",
+        "slug": "caddy",
+        "repo": "caddyserver/caddy",
+        "description": "The ultimate enterprise-ready HTTP/2 & HTTP/3 web server with automatic HTTPS written in Go.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "Go",
+        "tags": [
+          "web-server",
+          "reverse-proxy",
+          "auto-https",
+          "http3"
+        ],
+        "ecosystems": {
+          "docker": "caddy:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 4,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Zero-config automatic HTTPS renewal",
+          "Extremely clean Caddyfile syntax",
+          "HTTP/3 native support"
+        ],
+        "cons": [
+          "Smaller legacy module ecosystem compared to Nginx"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-circleci",
+        "replace-continuous-integration",
+        "replace-ci-cd-pipelines"
+      ],
+      "paidTool": {
+        "name": "CircleCI Performance",
+        "slug": "circleci-pro",
+        "category": "Deployment",
+        "pricePerYearUsd": 360,
+        "planName": "Team Plan ($30/mo)",
+        "whyReplace": "Per-minute runner execution credits and third-party code exposure."
+      },
+      "alternative": {
+        "name": "Woodpecker CI",
+        "slug": "woodpecker-ci",
+        "repo": "woodpecker-ci/woodpecker",
+        "description": "A community-owned, simple and lightweight CI engine that executes pipelines inside Docker containers.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "Go",
+        "tags": [
+          "ci-cd",
+          "docker-pipelines",
+          "automation",
+          "devops"
+        ],
+        "ecosystems": {
+          "docker": "woodpeckerci/woodpecker-server:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8,
+          "selfHostDifficulty": "medium"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Container-native pipelines (clean YAML syntax)",
+          "Unlimited free build minutes on your servers",
+          "Multi-forge support (GitHub, GitLab, Gitea)"
+        ],
+        "cons": [
+          "You manage your own runner servers"
+        ]
+      },
+      "migrationDifficulty": "medium"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-retool",
+        "replace-internal-tools",
+        "replace-script-orchestration"
+      ],
+      "paidTool": {
+        "name": "Retool Team",
+        "slug": "retool",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 600,
+        "planName": "Team ($50/user/mo)",
+        "whyReplace": "Expensive per-end-user billing for internal dashboards and cron scripts."
+      },
+      "alternative": {
+        "name": "Windmill",
+        "slug": "windmill",
+        "repo": "windmill-labs/windmill",
+        "description": "Fast, developer-first workflow and UI engine that turns Python, TypeScript, Go, and SQL scripts into internal apps.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "Rust",
+        "tags": [
+          "internal-tools",
+          "low-code",
+          "workflows",
+          "rust-performance"
+        ],
+        "ecosystems": {
+          "docker": "ghcr.io/windmill-labs/windmill:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12,
+          "selfHostDifficulty": "medium"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Ultra-fast Rust backend execution",
+          "Code-first with full Git sync",
+          "Automatic UI generation from code types"
+        ],
+        "cons": [
+          "AGPL license requires enterprise commercial license for closed resale"
+        ]
+      },
+      "migrationDifficulty": "medium"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-cisco-umbrella",
+        "replace-dns-sinkhole",
+        "replace-network-adblocking"
+      ],
+      "paidTool": {
+        "name": "Cisco Umbrella & NextDNS Pro",
+        "slug": "cisco-umbrella",
+        "category": "Security",
+        "pricePerYearUsd": 60,
+        "planName": "Pro DNS Security (~$5/mo)",
+        "whyReplace": "Query quotas and third-party ISP/cloud DNS logging."
+      },
+      "alternative": {
+        "name": "Pi-hole",
+        "slug": "pi-hole",
+        "repo": "pi-hole/pi-hole",
+        "description": "A black hole for Internet advertisements: network-wide ad blocking via your own private DNS server.",
+        "platforms": [
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "EUPL-1.2",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "C",
+        "tags": [
+          "ad-blocker",
+          "dns",
+          "privacy",
+          "raspberry-pi",
+          "homelab"
+        ],
+        "ecosystems": {
+          "docker": "pihole/pihole:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 2,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Blocks ads on all devices including Smart TVs and phones",
+          "Zero telemetry",
+          "Runs on tiny $15 hardware"
+        ],
+        "cons": [
+          "Cannot block YouTube in-stream video ads that share DNS domains with video stream"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-control-d",
+        "replace-dns-filter",
+        "replace-privacy-dns"
+      ],
+      "paidTool": {
+        "name": "Control D & AdGuard DNS Pro",
+        "slug": "control-d",
+        "category": "Security",
+        "pricePerYearUsd": 60,
+        "planName": "Pro Tier ($5/mo)",
+        "whyReplace": "Recurring subscription costs for custom DNS filtering rules."
+      },
+      "alternative": {
+        "name": "AdGuard Home",
+        "slug": "adguard-home",
+        "repo": "AdguardTeam/AdGuardHome",
+        "description": "Network-wide software for blocking ads and tracking with DNS-over-HTTPS / DNS-over-TLS support out of the box.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "Go",
+        "tags": [
+          "dns-server",
+          "doh",
+          "dot",
+          "ad-blocker",
+          "privacy"
+        ],
+        "ecosystems": {
+          "docker": "adguard/adguardhome:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 2,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Native DNS-over-HTTPS and DNS-over-TLS configuration",
+          "Sleek single-binary web UI",
+          "Parental control filters"
+        ],
+        "cons": [
+          "Requires local static IP allocation on router"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-confluence",
+        "replace-wiki",
+        "replace-documentation-platform"
+      ],
+      "paidTool": {
+        "name": "Confluence Standard",
+        "slug": "confluence-bookstack",
+        "category": "Notes & Docs",
+        "pricePerYearUsd": 120,
+        "planName": "Standard ($10/user/mo)",
+        "whyReplace": "Slow UI, complex permission trees, and steep Atlassian Cloud pricing."
+      },
+      "alternative": {
+        "name": "BookStack",
+        "slug": "bookstack",
+        "repo": "BookStackApp/BookStack",
+        "description": "A simple, self-hosted, easy-to-use platform for organizing and storing documentation using a Books/Chapters/Pages model.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "PHP",
+        "tags": [
+          "wiki",
+          "documentation",
+          "knowledge-base",
+          "books"
+        ],
+        "ecosystems": {
+          "docker": "lscr.io/linuxserver/bookstack:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Intuitive Book/Chapter/Page hierarchy",
+          "Fast full-text search with diagram support",
+          "Zero bloat"
+        ],
+        "cons": [
+          "Strict hierarchical layout rather than freeform graph backlinks"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-ms-teams",
+        "replace-enterprise-chat",
+        "replace-omnichannel"
+      ],
+      "paidTool": {
+        "name": "Microsoft Teams Essentials",
+        "slug": "ms-teams",
+        "category": "Team Chat",
+        "pricePerYearUsd": 48,
+        "planName": "Teams Essentials ($4/user/mo)",
+        "whyReplace": "Heavy desktop client and Microsoft 365 vendor lock-in."
+      },
+      "alternative": {
+        "name": "Rocket.Chat",
+        "slug": "rocket-chat",
+        "repo": "RocketChat/Rocket.Chat",
+        "description": "Open-source communications platform with team chat, omnichannel customer support, matrix federation, and video calls.",
+        "platforms": [
+          "web",
+          "self-host",
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "TypeScript",
+        "tags": [
+          "team-chat",
+          "omnichannel",
+          "matrix-federation",
+          "collaboration"
+        ],
+        "ecosystems": {
+          "docker": "rocketchat/rocket.chat:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 15,
+          "selfHostDifficulty": "medium"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Omnichannel customer live-chat built-in",
+          "Matrix federation",
+          "Custom enterprise apps"
+        ],
+        "cons": [
+          "MongoDB requirement increases ops overhead"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-adobe-audition",
+        "replace-audio-editor",
+        "replace-podcast-editing"
+      ],
+      "paidTool": {
+        "name": "Adobe Audition",
+        "slug": "adobe-audition",
+        "category": "Creative",
+        "pricePerYearUsd": 264,
+        "planName": "Audition Single App ($22.99/mo)",
+        "whyReplace": "Expensive recurring subscriptions for basic waveform and voice track mastering."
+      },
+      "alternative": {
+        "name": "Audacity",
+        "slug": "audacity",
+        "repo": "audacity/audacity",
+        "description": "Easy-to-use, multi-track audio editor and recorder for Windows, macOS, and Linux.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "C++",
+        "tags": [
+          "audio-editing",
+          "recording",
+          "multitrack",
+          "podcast"
+        ],
+        "ecosystems": {},
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Industry-standard audio editor",
+          "Massive VST effect plugin support",
+          "Fast native performance"
+        ],
+        "cons": [
+          "Destructive waveform editing by default (though real-time effects were added)"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-final-cut-pro",
+        "replace-video-editing",
+        "replace-4k-timeline"
+      ],
+      "paidTool": {
+        "name": "Final Cut Pro & Camtasia",
+        "slug": "final-cut-pro",
+        "category": "Video",
+        "pricePerYearUsd": 299,
+        "planName": "One-time Purchase ($299)",
+        "whyReplace": "Mac-only restriction and costly software license."
+      },
+      "alternative": {
+        "name": "Shotcut",
+        "slug": "shotcut",
+        "repo": "mltframework/shotcut",
+        "description": "Free, open-source, cross-platform video editor supporting hundreds of audio and video formats and 4K resolutions.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "C++",
+        "tags": [
+          "video-editor",
+          "4k",
+          "cross-platform",
+          "mlt-framework"
+        ],
+        "ecosystems": {},
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "No import required (native timeline editing)",
+          "GPU-accelerated rendering",
+          "Zero tracking"
+        ],
+        "cons": [
+          "Simpler color grading compared to DaVinci Resolve"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-heroku",
+        "replace-render",
+        "replace-paas",
+        "replace-self-hosted-cloud"
+      ],
+      "paidTool": {
+        "name": "Heroku & Render Team",
+        "slug": "heroku-caprover",
+        "category": "Deployment",
+        "pricePerYearUsd": 300,
+        "planName": "Production Dynos (~$25/mo)",
+        "whyReplace": "Expensive compute dyno pricing and sleeping database instances."
+      },
+      "alternative": {
+        "name": "CapRover",
+        "slug": "caprover",
+        "repo": "caprover/caprover",
+        "description": "Extremely easy app/database deployment platform & build manager for NodeJS, Python, PHP, Ruby, Java, and Docker apps.",
+        "platforms": [
+          "web",
+          "self-host",
+          "linux"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "TypeScript",
+        "tags": [
+          "paas",
+          "heroku-alternative",
+          "docker",
+          "self-hosting",
+          "one-click-apps"
+        ],
+        "ecosystems": {
+          "npm": "caprover",
+          "docker": "caprover/caprover:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 6,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "One-click deploy for 100+ popular open-source apps",
+          "Automatic SSL via Let's Encrypt",
+          "Runs on any Linux VPS"
+        ],
+        "cons": [
+          "Single master node architecture"
+        ]
+      },
+      "migrationDifficulty": "easy"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-aws-eks",
+        "replace-lightweight-kubernetes",
+        "replace-k8s-cluster"
+      ],
+      "paidTool": {
+        "name": "AWS EKS & Google GKE",
+        "slug": "aws-eks",
+        "category": "Deployment",
+        "pricePerYearUsd": 876,
+        "planName": "EKS Cluster Control Plane ($73/mo base fee)",
+        "whyReplace": "Flat control plane hourly fees before adding worker compute nodes."
+      },
+      "alternative": {
+        "name": "K3s",
+        "slug": "k3s",
+        "repo": "k3s-io/k3s",
+        "description": "Lightweight Kubernetes: 5-star CNCF-certified Kubernetes distribution packaged as a single <60MB binary.",
+        "platforms": [
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive",
+          "safety": "permissive"
+        },
+        "language": "Go",
+        "tags": [
+          "kubernetes",
+          "k8s",
+          "cncf",
+          "edge-computing",
+          "lightweight"
+        ],
+        "ecosystems": {},
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10,
+          "selfHostDifficulty": "medium"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "100% standard Kubernetes API",
+          "Memory footprint <512MB RAM",
+          "Perfect for homelabs and edge servers"
+        ],
+        "cons": [
+          "You manage your own cluster backups and storage provisioner"
+        ]
+      },
+      "migrationDifficulty": "medium"
+    },
+    {
+      "relationship": "direct",
+      "goalTags": [
+        "replace-google-docs",
+        "replace-office-365",
+        "replace-end-to-end-encrypted-docs"
+      ],
+      "paidTool": {
+        "name": "Office 365 & Google Docs",
+        "slug": "office-365",
+        "category": "Notes & Docs",
+        "pricePerYearUsd": 120,
+        "planName": "Business Basic ($10/user/mo)",
+        "whyReplace": "Corporate surveillance and cloud data training on user documents."
+      },
+      "alternative": {
+        "name": "CryptPad",
+        "slug": "cryptpad",
+        "repo": "cryptpad/cryptpad",
+        "description": "End-to-end encrypted and open-source collaboration suite: rich text, spreadsheets, code, slides, and whiteboards.",
+        "platforms": [
+          "web",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0-only",
+          "type": "copyleft",
+          "safety": "copyleft"
+        },
+        "language": "JavaScript",
+        "tags": [
+          "e2e-encryption",
+          "collaborative-docs",
+          "privacy",
+          "office-suite"
+        ],
+        "ecosystems": {
+          "docker": "cryptpad/cryptpad:latest"
+        },
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8,
+          "selfHostDifficulty": "easy"
+        },
+        "parity": [
+          "Core functional workflow",
+          "Self-hosted data control",
+          "API integrations"
+        ],
+        "gaps": [
+          "Self-hosted infrastructure setup required",
+          "Community-maintained support channels"
+        ],
+        "migrationNotes": "Export data to standard JSON/CSV files, run via Docker Compose, and import into your self-hosted instance."
+      },
+      "tradeOffs": {
+        "pros": [
+          "Zero-knowledge end-to-end encryption",
+          "Client-side decryption",
+          "No account required to collaborate"
+        ],
+        "cons": [
+          "Lost recovery keys cannot be reset by server administrators"
+        ]
+      },
+      "migrationDifficulty": "easy"
     }
   ]
 }

@@ -1,12 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { getPairings } from "../lib/seed";
 import { paidBrand } from "../components/BrandLogo";
 import BrandLogo from "../components/BrandLogo";
 import RepoCard from "../components/RepoCard";
 import Byte from "../components/Byte";
 import Breadcrumbs from "../components/Breadcrumbs";
+import SuggestModal from "../components/SuggestModal";
 import { groupForCategory } from "../lib/categories";
 import { formatSavings } from "../lib/format";
 
@@ -15,6 +16,7 @@ import { formatSavings } from "../lib/format";
 export default function PaidToolPage() {
   const { slug } = useParams();
   const [pairings, setPairings] = useState(null);
+  const [showSuggest, setShowSuggest] = useState(false);
 
   useEffect(() => {
     getPairings().then(setPairings).catch(() => setPairings([]));
@@ -38,11 +40,19 @@ export default function PaidToolPage() {
       )}
 
       {pairings && matches.length === 0 && (
-        <div className="mt-6 card-elevated p-10 text-center">
+        <div className="mt-6 card-elevated p-10 text-center space-y-4">
           <Byte size={64} />
           <p className="mt-4 text-dim">
             Nothing pairs with “{slug}” in the catalog yet — the weekly sync may add it.
           </p>
+          <button
+            type="button"
+            onClick={() => setShowSuggest(true)}
+            className="btn-tactile inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink text-xs font-semibold shadow-sm cursor-pointer"
+          >
+            <Sparkles size={14} className="text-accent" />
+            <span>Suggest an alternative for {slug}</span>
+          </button>
         </div>
       )}
 
@@ -58,31 +68,43 @@ export default function PaidToolPage() {
               { label: `Alternatives to ${paid.name}` },
             ]}
           />
-          <header className="flex items-start gap-4 animate-card-in">
-            <div className="grid place-items-center size-14 shrink-0 rounded-xl border border-line bg-elevated shadow-sm">
-              <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={32} />
+          <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-card-in border-b border-line pb-6">
+            <div className="flex items-start gap-4">
+              <div className="grid place-items-center size-14 shrink-0 rounded-xl border border-line bg-elevated shadow-sm">
+                <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={32} />
+              </div>
+              <div className="min-w-0">
+                <h1 className="font-display text-display-lg tracking-tight">
+                  {matches.length} free {matches.length === 1 ? "alternative" : "alternatives"} to{" "}
+                  {paid.name}
+                </h1>
+                <p className="text-dim mt-1">
+                  {paid.category} ·{" "}
+                  <span className="line-through decoration-caution/70">
+                    ~{formatSavings(paid.pricePerYearUsd)}/yr
+                  </span>{" "}
+                  ({paid.planName})
+                  {matches.length > 1 && (
+                    <>
+                      {" · "}
+                      <span className="text-accent font-semibold">
+                        up to {formatSavings(totalSaving)}/yr saved if you switched all {matches.length}
+                      </span>
+                    </>
+                  )}
+                </p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <h1 className="font-display text-display-lg tracking-tight">
-                {matches.length} free {matches.length === 1 ? "alternative" : "alternatives"} to{" "}
-                {paid.name}
-              </h1>
-              <p className="text-dim mt-1">
-                {paid.category} ·{" "}
-                <span className="line-through decoration-caution/70">
-                  ~{formatSavings(paid.pricePerYearUsd)}/yr
-                </span>{" "}
-                ({paid.planName})
-                {matches.length > 1 && (
-                  <>
-                    {" · "}
-                    <span className="text-accent font-semibold">
-                      up to {formatSavings(totalSaving)}/yr saved if you switched all {matches.length}
-                    </span>
-                  </>
-                )}
-              </p>
-            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowSuggest(true)}
+              className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-line bg-surface hover:bg-elevated text-xs font-semibold text-ink shadow-xs cursor-pointer shrink-0"
+              title={`Suggest another open-source alternative to ${paid.name}`}
+            >
+              <Sparkles size={14} className="text-accent" />
+              <span>+ Suggest Alternative</span>
+            </button>
           </header>
 
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -90,7 +112,23 @@ export default function PaidToolPage() {
               <RepoCard key={p.alternative.repo} pairing={p} stars30d={null} index={i} />
             ))}
           </div>
+
+          <SuggestModal
+            open={showSuggest}
+            onClose={() => setShowSuggest(false)}
+            prefilledReplaces={paid.name}
+            prefilledCategory={paid.category}
+          />
         </>
+      )}
+
+      {!paid && (
+        <SuggestModal
+          open={showSuggest}
+          onClose={() => setShowSuggest(false)}
+          prefilledReplaces={slug}
+          prefilledCategory="Developer Tools"
+        />
       )}
     </div>
   );

@@ -31,6 +31,7 @@ import {
   Maximize2,
 
   Layers,
+  FileText,
   Image as ImageIcon,
 } from "lucide-react";
 
@@ -69,6 +70,9 @@ import ContributionRadar from "../components/ContributionRadar";
 import ProsConsCard from "../components/ProsConsCard";
 import HomelabApps from "../components/HomelabApps";
 import ReviewsSection from "../components/ReviewsSection";
+import InstallBox from "../components/InstallBox";
+import ExecutiveBriefModal from "../components/ExecutiveBriefModal";
+import ContributorShowcase from "../components/ContributorShowcase";
 
 export default function RepoDetailPage() {
   const { owner = "", name = "" } = useParams();
@@ -142,6 +146,7 @@ export default function RepoDetailPage() {
   const [showEmbed, setShowEmbed] = useState(false);
   const [showClaim, setShowClaim] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [showBrief, setShowBrief] = useState(false);
 
   // Related paid alternatives in the same category
   const categoryPaidTools = useMemo(() => {
@@ -351,6 +356,16 @@ export default function RepoDetailPage() {
 
           <button
             type="button"
+            onClick={() => setShowBrief(true)}
+            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/15 text-accent text-xs font-semibold transition-colors cursor-pointer"
+            title="Export executive decision brief and CTO migration ROI report"
+          >
+            <FileText size={13} />
+            <span>Decision Brief</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => setShowEmbed(true)}
             className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium"
             title="Get README badge embed code"
@@ -430,6 +445,9 @@ export default function RepoDetailPage() {
             </div>
           </div>
 
+          {/* 💻 Multi-OS Package Manager Install Box */}
+          <InstallBox repo={repo} alternative={a} />
+
           {/* Parity P2 — head-to-head compare entry points */}
           {compareSiblings.length > 0 && (
             <div className="card-elevated p-4 flex flex-wrap items-center gap-1.5">
@@ -498,6 +516,9 @@ export default function RepoDetailPage() {
           {/* 🤝 Good First Issues & Contribution Radar */}
           <ContributionRadar repo={repo} name={a.name} />
 
+          {/* 👥 Maintainers & Contributor Velocity Showcase */}
+          <ContributorShowcase repo={repo} trustScore={data.trust} name={a.name} />
+
           <TeamFit selfHosted={a.platforms?.includes("self-host")} />
 
           <ReleaseNotes owner={owner} name={name} />
@@ -543,6 +564,14 @@ export default function RepoDetailPage() {
         onClose={() => setShowReport(false)}
         repo={repo}
         name={a.name}
+      />
+      <ExecutiveBriefModal
+        open={showBrief}
+        onClose={() => setShowBrief(false)}
+        repo={repo}
+        alternative={a}
+        paidTool={data.pairing?.paidTool}
+        trustScore={data.trust}
       />
     </Shell>
   );
