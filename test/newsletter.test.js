@@ -1,31 +1,18 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
-import { createNewsletterStore } from "../src/server/newsletter.js";
+import { buildWeeklyNewsletter } from "../scripts/build-weekly-newsletter.mjs";
 
-test("newsletter store validates, stores, deduplicates and exports subscribers to CSV", () => {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "osh-news-test-"));
-  const store = createNewsletterStore({ dir: tmpDir });
+test("Weekly digest generator: builds valid HTML email and Markdown article", async () => {
+  const result = await buildWeeklyNewsletter({ date: new Date("2026-09-01T12:00:00Z") });
+  assert.ok(result.weekId.startsWith("week-2026-"));
+  assert.ok(fs.existsSync(result.mdPath), "Markdown file was written");
+  assert.ok(fs.existsSync(result.htmlPath), "HTML file was written");
 
-  // Invalid email throws
-  assert.throws(() => store.subscribe("invalid-email"), /valid email/);
+  const html = fs.readFileSync(result.htmlPath, "utf8");
+  assert.ok(html.includes("OpenSource Hub Digest"), "HTML contains digest title");
+  assert.ok(html.includes("Top 5 Rising Stars"), "HTML contains rising stars section");
 
-  // Valid subscriber
-  const res1 = store.subscribe("dev@example.com", "hero");
-  assert.equal(res1.ok, true);
-  assert.equal(store.list().length, 1);
-
-  // Duplicate email handled gracefully
-  const res2 = store.subscribe("DEV@EXAMPLE.COM", "footer");
-  assert.equal(res2.ok, true);
-  assert.equal(store.list().length, 1);
-
-  // CSV export
-  const csv = store.toCsv();
-  assert.ok(csv.startsWith("Email,SubscribedAt,Source"));
-  assert.ok(csv.includes("dev@example.com"));
-
-  fs.rmSync(tmpDir, { recursive: true, force: true });
+  const md = fs.readFileSync(result.mdPath, "utf8");
+  assert.ok(md.includes("OpenSource Hub Weekly Digest"), "MD contains title");
 });

@@ -6,6 +6,7 @@ import { createApiRouter } from "./routes.js";
 import { createFavoritesStore } from "./store.js";
 import { createCommunityStore } from "./community.js";
 import { createUsageStore } from "./usage.js";
+import { createReviewStore } from "./reviews.js";
 import { getUserDataDir } from "./paths.js";
 import { readRepoFile, repoFileExists, listRepoDir, isEmbeddedMode } from "./repo-files.js";
 
@@ -34,11 +35,12 @@ export function createApp() {
 
   const favorites = createFavoritesStore();
   const community = createCommunityStore();
+  const reviews = createReviewStore();
   // PRD §16 — strictly local usage counters (privacy.html discloses this).
   // One instance shared by the router (export) and the increment/readback below.
   const usage = createUsageStore({ dir: getUserDataDir() });
   usage.increment();
-  app.use("/api", createApiRouter({ favorites, community, usage }));
+  app.use("/api", createApiRouter({ favorites, community, usage, reviews }));
 
   // plans/PLAN_PHASE2.md Phase 9 — dashboard assets come either from disk
   // (npm install, PRD section 5) or from the embedded payload inside a

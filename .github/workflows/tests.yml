@@ -26,3 +26,7 @@ jobs:
       - run: npm run test:client
         env:
           NODE_OPTIONS: --max-old-space-size=1536
+      - name: Performance & 60 FPS CI Budget Audit
+        run: node scripts/audit-performance.mjs
+      - name: Catalog Coverage Audit
+        run: node scripts/audit-catalog.mjs

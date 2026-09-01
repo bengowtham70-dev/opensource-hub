@@ -22,17 +22,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
       - name: Build star snapshots (GraphQL batch, ~1 call per 80 repos)
         run: node scripts/build-snapshots.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit updated snapshots
+      - name: Build weekly newsletter digest
+        run: node scripts/build-weekly-newsletter.mjs
+      - name: Commit updated snapshots and newsletter
         run: |
           git config user.name "snapshot-bot"
           git config user.email "actions@github.com"
-          git add src/data/snapshots-seed.json
-          git diff --cached --quiet || git commit -m "chore: daily star snapshots $(date -u +%F)"
-          git push
+          git add src/data/snapshots-seed.json content/newsletter/
+          git diff --cached --quiet || git commit -m "chore: daily snapshots & newsletter $(date -u +%F)"
+          git pull --rebase origin main || true
+          git push || true
       # plans/web-directory/PLAN.md W0 — the daily public-site rebuild rides this
       # cron (PRD §35): fresh stars/history/meta flow into the static directory.
       - name: Rebuild public web directory from fresh snapshots

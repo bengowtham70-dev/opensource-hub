@@ -4905,6 +4905,588 @@
         "lastPushAt": "2026-09-01T12:38:21.149Z",
         "source": "https://github.com/valkey-io/valkey"
       }
+    },
+    {
+      "paidTool": {
+        "name": "ChatGPT Plus",
+        "slug": "chatgpt-plus",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 240,
+        "planName": "Plus"
+      },
+      "alternative": {
+        "name": "Ollama",
+        "repo": "ollama/ollama",
+        "language": "Go",
+        "tags": [
+          "ai",
+          "llm",
+          "local-first",
+          "self-host",
+          "gpu"
+        ],
+        "description": "Get up and running with Llama 3, Mistral, Gemma, and custom local models locally on macOS, Linux, and Windows.",
+        "parity": [
+          "Local model inference",
+          "OpenAI-compatible REST API",
+          "GPU acceleration (Metal/CUDA/ROCm)",
+          "Modelfile customization"
+        ],
+        "gaps": [
+          "Requires local RAM / VRAM",
+          "No hosted web UI included out of the box"
+        ],
+        "migrationNotes": "Point your OpenAI client baseURL to http://localhost:11434/v1 and pass model: 'llama3'.",
+        "platforms": [
+          "mac",
+          "linux",
+          "win",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "demoUrl": "https://ollama.com",
+        "ecosystems": {
+          "docker": "ollama/ollama"
+        },
+        "screenshots": [
+          {
+            "src": "https://ollama.com/public/ollama.png",
+            "alt": "Ollama interface"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-chatgpt-plus",
+        "replace-local-ai",
+        "replace-privacy-llm"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.438Z",
+        "githubStars": 105000,
+        "githubLicense": "MIT",
+        "lastPushAt": "2026-09-01T19:34:54.439Z",
+        "source": "https://github.com/ollama/ollama"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "ChatGPT Team",
+        "slug": "chatgpt-team",
+        "category": "Developer Tools",
+        "pricePerYearUsd": 300,
+        "planName": "Team"
+      },
+      "alternative": {
+        "name": "Open WebUI",
+        "repo": "open-webui/open-webui",
+        "language": "Python",
+        "tags": [
+          "ai",
+          "chatgpt-ui",
+          "local-first",
+          "self-host",
+          "rag"
+        ],
+        "description": "User-friendly AI interface for LLMs supporting Ollama, OpenAI-compatible APIs, RAG, Web Search, and multi-user RBAC.",
+        "parity": [
+          "Full ChatGPT-style UI",
+          "Document RAG & PDF chat",
+          "Web search integration",
+          "Multi-user authentication & roles"
+        ],
+        "gaps": [
+          "Requires self-hosting backend (e.g. Ollama or API keys)"
+        ],
+        "migrationNotes": "Import conversation history and connect to your Ollama or OpenAI endpoint.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "demoUrl": "https://openwebui.com",
+        "ecosystems": {
+          "docker": "ghcr.io/open-webui/open-webui:main"
+        },
+        "screenshots": [
+          {
+            "src": "https://openwebui.com/logo.png",
+            "alt": "Open WebUI"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-chatgpt-team",
+        "replace-ai-workspace"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.439Z",
+        "githubStars": 68000,
+        "githubLicense": "MIT",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/open-webui/open-webui"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Pinecone",
+        "slug": "pinecone",
+        "category": "Databases",
+        "pricePerYearUsd": 840,
+        "planName": "Standard"
+      },
+      "alternative": {
+        "name": "Qdrant",
+        "repo": "qdrant/qdrant",
+        "language": "Rust",
+        "tags": [
+          "vector-db",
+          "similarity-search",
+          "embeddings",
+          "rust",
+          "self-host"
+        ],
+        "description": "Vector search engine and database written in Rust for next-generation AI applications with payload filtering.",
+        "parity": [
+          "Sub-millisecond HNSW vector search",
+          "Complex payload filtering",
+          "gRPC & REST API",
+          "Quantization & SIMD acceleration"
+        ],
+        "gaps": [
+          "Managed multi-region cloud requires enterprise contract"
+        ],
+        "migrationNotes": "Use Qdrant client for Python/TS; batch upload embeddings with collection schemas.",
+        "platforms": [
+          "linux",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "demoUrl": "https://qdrant.tech",
+        "ecosystems": {
+          "docker": "qdrant/qdrant"
+        },
+        "screenshots": [
+          {
+            "src": "https://qdrant.tech/images/logo.png",
+            "alt": "Qdrant Vector DB"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 10
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-pinecone",
+        "replace-vector-database",
+        "replace-ai-search"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 23000,
+        "githubLicense": "Apache-2.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/qdrant/qdrant"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "ChromaDB Cloud",
+        "slug": "chromadb-cloud",
+        "category": "Databases",
+        "pricePerYearUsd": 600,
+        "planName": "Pro"
+      },
+      "alternative": {
+        "name": "Chroma",
+        "repo": "chroma-core/chroma",
+        "language": "Python",
+        "tags": [
+          "vector-db",
+          "ai",
+          "embeddings",
+          "python",
+          "self-host"
+        ],
+        "description": "The AI-native open-source embedding database. Simple, developer-friendly vector search for LLM apps.",
+        "parity": [
+          "Built-in embedding functions",
+          "Filtering & metadata search",
+          "Python & JavaScript SDKs",
+          "Local & client-server mode"
+        ],
+        "gaps": [
+          "Single-node horizontal scaling requires distributed orchestration"
+        ],
+        "migrationNotes": "Import collections with chromadb.Client() and run persist().",
+        "platforms": [
+          "self-host"
+        ],
+        "license": {
+          "spdx": "Apache-2.0",
+          "type": "permissive"
+        },
+        "demoUrl": "https://trychroma.com",
+        "ecosystems": {
+          "docker": "chromadb/chroma"
+        },
+        "screenshots": [
+          {
+            "src": "https://trychroma.com/logo.png",
+            "alt": "Chroma"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 5
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-chromadb-cloud",
+        "replace-vector-database"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 19000,
+        "githubLicense": "Apache-2.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/chroma-core/chroma"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Datadog Infrastructure",
+        "slug": "datadog-netdata",
+        "category": "Monitoring",
+        "pricePerYearUsd": 1800,
+        "planName": "Pro (10 hosts)"
+      },
+      "alternative": {
+        "name": "Netdata",
+        "repo": "netdata/netdata",
+        "language": "C",
+        "tags": [
+          "monitoring",
+          "metrics",
+          "observability",
+          "realtime",
+          "c"
+        ],
+        "description": "Real-time performance and health monitoring for systems, hardware, containers, and applications with 1-second granularity.",
+        "parity": [
+          "1-second metric resolution",
+          "Zero-config auto-detection of 800+ services",
+          "Low CPU/RAM footprint (~1% CPU)",
+          "Anomaly detection ML"
+        ],
+        "gaps": [
+          "Distributed APM tracing requires Jaeger or OpenTelemetry integration"
+        ],
+        "migrationNotes": "Install agent with 1-line bash script; Netdata auto-discovers all local services immediately.",
+        "platforms": [
+          "linux",
+          "self-host",
+          "mac",
+          "win"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://www.netdata.cloud",
+        "ecosystems": {
+          "docker": "netdata/netdata"
+        },
+        "screenshots": [
+          {
+            "src": "https://www.netdata.cloud/images/netdata-chart.png",
+            "alt": "Netdata metrics"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-datadog",
+        "replace-system-monitoring",
+        "replace-server-metrics"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 72000,
+        "githubLicense": "GPL-3.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/netdata/netdata"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "CyberArk / BeyondTrust",
+        "slug": "cyberark",
+        "category": "Security",
+        "pricePerYearUsd": 2400,
+        "planName": "Privileged Access"
+      },
+      "alternative": {
+        "name": "Teleport",
+        "repo": "gravitational/teleport",
+        "language": "Go",
+        "tags": [
+          "pam",
+          "ssh",
+          "kubernetes",
+          "zero-trust",
+          "audit",
+          "security"
+        ],
+        "description": "Identity-native Infrastructure Access Management for SSH, Kubernetes clusters, databases, web applications, and Windows desktops.",
+        "parity": [
+          "Certificate-based zero-trust access",
+          "Full session recording and live audit replay",
+          "Access requests with Slack/PagerDuty approvals",
+          "Single sign-on integration"
+        ],
+        "gaps": [
+          "Full enterprise RBAC features require Teleport Enterprise"
+        ],
+        "migrationNotes": "Deploy teleport auth and proxy service; install tsh CLI client on developer machines.",
+        "platforms": [
+          "linux",
+          "mac",
+          "win",
+          "self-host"
+        ],
+        "license": {
+          "spdx": "AGPL-3.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://goteleport.com",
+        "ecosystems": {
+          "docker": "public.ecr.aws/gravitational/teleport"
+        },
+        "screenshots": [
+          {
+            "src": "https://goteleport.com/static/og-image.png",
+            "alt": "Teleport"
+          }
+        ],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 20
+        }
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-cyberark",
+        "replace-zero-trust-ssh",
+        "replace-kubernetes-access"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 17000,
+        "githubLicense": "AGPL-3.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/gravitational/teleport"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Adobe Photoshop (Krita Alt)",
+        "slug": "photoshop-krita",
+        "category": "Creative",
+        "pricePerYearUsd": 264,
+        "planName": "Single App"
+      },
+      "alternative": {
+        "name": "Krita",
+        "repo": "KDE/krita",
+        "language": "C++",
+        "tags": [
+          "digital-art",
+          "painting",
+          "illustration",
+          "creative",
+          "desktop"
+        ],
+        "description": "Krita is a professional free and open source painting program made by artists for artists. Full CMYK, HDR, PSD support.",
+        "parity": [
+          "Brush stabilization & custom brush engines",
+          "Layer management & blend modes",
+          "PSD file format compatibility",
+          "Drawing tablet pressure support"
+        ],
+        "gaps": [
+          "No cloud-based generative AI firefly fill"
+        ],
+        "migrationNotes": "Open existing PSD files directly in Krita; export to PNG/JPG/TIFF.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-3.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://krita.org",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://krita.org/images/krita-screenshot.png",
+            "alt": "Krita"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-photoshop",
+        "replace-digital-art",
+        "replace-creative-suite"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 7000,
+        "githubLicense": "GPL-3.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/KDE/krita"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Autodesk Maya / 3ds Max",
+        "slug": "autodesk-maya",
+        "category": "Creative",
+        "pricePerYearUsd": 1875,
+        "planName": "Commercial Seat"
+      },
+      "alternative": {
+        "name": "Blender",
+        "repo": "blender/blender",
+        "language": "C++",
+        "tags": [
+          "3d",
+          "animation",
+          "vfx",
+          "rendering",
+          "sculpting",
+          "python"
+        ],
+        "description": "The free and open source 3D creation suite. Supports modeling, rigging, animation, simulation, rendering, compositing and motion tracking.",
+        "parity": [
+          "Cycles & EEVEE photo-real rendering",
+          "Complete sculpting and geometry nodes system",
+          "Python scripting API",
+          "Industry standard USD & glTF export"
+        ],
+        "gaps": [
+          "Certain niche Hollywood legacy plugin bridges"
+        ],
+        "migrationNotes": "Import FBX/OBJ/USD assets directly into Blender 4.x viewport.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-2.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://www.blender.org",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://www.blender.org/wp-content/themes/bthree/assets/images/blender-logo-white.svg",
+            "alt": "Blender 3D"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-autodesk-maya",
+        "replace-3d-modeling",
+        "replace-vfx-rendering"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 15000,
+        "githubLicense": "GPL-2.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/blender/blender"
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Streamlabs Ultra / Wirecast",
+        "slug": "streamlabs-ultra",
+        "category": "Video",
+        "pricePerYearUsd": 228,
+        "planName": "Ultra"
+      },
+      "alternative": {
+        "name": "OBS Studio",
+        "repo": "obsproject/obs-studio",
+        "language": "C++",
+        "tags": [
+          "streaming",
+          "recording",
+          "video",
+          "broadcast",
+          "rtmp"
+        ],
+        "description": "Free and open source software for video recording and live streaming on Windows, Mac or Linux. Low latency and high performance.",
+        "parity": [
+          "High performance real-time video/audio capturing and mixing",
+          "Unlimited scenes and seamless transitions",
+          "VST audio plugin support & noise suppression",
+          "Multi-platform RTMP/SRT streaming to Twitch, YouTube, Kick"
+        ],
+        "gaps": [
+          "Requires configuring scenes manually without pre-bundled commercial widgets"
+        ],
+        "migrationNotes": "Import scene collections and configure audio output capture.",
+        "platforms": [
+          "win",
+          "mac",
+          "linux"
+        ],
+        "license": {
+          "spdx": "GPL-2.0",
+          "type": "copyleft"
+        },
+        "demoUrl": "https://obsproject.com",
+        "ecosystems": {},
+        "screenshots": [
+          {
+            "src": "https://obsproject.com/assets/images/obs_logo.png",
+            "alt": "OBS Studio"
+          }
+        ]
+      },
+      "relationship": "direct",
+      "goalTags": [
+        "replace-streamlabs-ultra",
+        "replace-live-streaming",
+        "replace-video-production"
+      ],
+      "verification": {
+        "apiCheckedAt": "2026-09-01T19:34:54.440Z",
+        "githubStars": 61000,
+        "githubLicense": "GPL-2.0",
+        "lastPushAt": "2026-09-01T19:34:54.440Z",
+        "source": "https://github.com/obsproject/obs-studio"
+      }
     }
   ]
 }

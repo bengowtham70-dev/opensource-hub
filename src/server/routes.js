@@ -33,6 +33,8 @@ import { createClaimStore } from "./claim.js";
 import { createForgeClient } from "./forges.js";
 import { createExtensionZip } from "./extension-pack.js";
 import { getAggregatedReleases } from "./releases.js";
+import { createReviewStore } from "./reviews.js";
+import { createAdminStore } from "./admin.js";
 
 function parseFrontMatter(md) {
   const match = md.match(/^---\n([\s\S]*?)\n---\n/);
@@ -46,7 +48,7 @@ function parseFrontMatter(md) {
   return { meta, body: match ? md.slice(match[0].length) : md };
 }
 
-export function createApiRouter({ favorites, community, usage }) {
+export function createApiRouter({ favorites, community, usage, reviews = createReviewStore({ dir: getUserDataDir() }) }) {
   const router = Router();
   const gh = createGithubClient();
   const audits = createAuditStore({ dir: getUserDataDir() });
@@ -55,6 +57,7 @@ export function createApiRouter({ favorites, community, usage }) {
   const newsletter = createNewsletterStore({ dir: getUserDataDir() });
   const claims = createClaimStore({ dir: getUserDataDir(), gh });
   const forges = createForgeClient();
+  const admin = createAdminStore({ dir: getUserDataDir() });
 
   // PRD §17 — export the user's local data as JSON (F1, plans/PLAN_FEATURES.md).
   router.get("/export", (_req, res) => {
@@ -680,6 +683,46 @@ export function createApiRouter({ favorites, community, usage }) {
     "/community/:owner/:name/tags",
     communityRepoRoute((fullName, body) => community.addTag(fullName, body.tag))
   );
+
+  // Developer Reviews & Switcher Stories
+  router.get("/reviews/:owner/:name", (req, res) => {
+    const fullName = `${req.params.owner}/${req.params.name}`;
+    try {
+      res.json(reviews.getReviews(fullName));
+    } catch (err) {
+      res.status(500).json({ error: err.message, reviews: [] });
+    }
+  });
+
+  router.post("/reviews/:owner/:name", (req, res) => {
+    const fullName = `${req.params.owner}/${req.params.name}`;
+    try {
+      res.json(reviews.addReview(fullName, req.body || {}));
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  // In-App Admin Moderation Queue
+  router.get("/admin/queue", (_req, res) => {
+    res.json(admin.getQueue());
+  });
+
+  router.post("/admin/approve/:id", (req, res) => {
+    try {
+      res.json(admin.approve(req.params.id));
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  router.post("/admin/reject/:id", (req, res) => {
+    try {
+      res.json(admin.reject(req.params.id, req.body?.reason));
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
 
   // PRD §38 — monthly public health-snapshot diff (plans/PLAN_PHASE2.md P5).
   // Serves the JSON committed by scripts/build-health-diff.mjs on the monthly

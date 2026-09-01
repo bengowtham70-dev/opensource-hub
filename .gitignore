@@ -15,3 +15,8 @@ scripts/.merge-state.json
 
 # Web directory static build output
 web-dist/
+
+# Test & capture temporary artifacts
+output/
+.playwright-cli/
+

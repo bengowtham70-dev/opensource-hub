@@ -68,6 +68,7 @@ import LiveDemoModal from "../components/LiveDemoModal";
 import ContributionRadar from "../components/ContributionRadar";
 import ProsConsCard from "../components/ProsConsCard";
 import HomelabApps from "../components/HomelabApps";
+import ReviewsSection from "../components/ReviewsSection";
 
 export default function RepoDetailPage() {
   const { owner = "", name = "" } = useParams();
@@ -502,6 +503,8 @@ export default function RepoDetailPage() {
           <ReleaseNotes owner={owner} name={name} />
 
           <SimilarTools category={data.pairing?.paidTool?.category || "Tools"} currentRepo={repo} />
+
+          <ReviewsSection repo={repo} name={a.name} replaces={data.pairing?.paidTool?.name} />
 
           <CommunitySection repo={repo} />
 

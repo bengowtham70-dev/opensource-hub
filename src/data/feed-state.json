@@ -80,7 +80,16 @@
     "knadh/listmonk": "2026-09-01T13:18:13.264Z",
     "zadam/trilium": "2026-09-01T13:18:13.264Z",
     "taigaio/taiga-back": "2026-09-01T13:18:13.264Z",
-    "valkey-io/valkey": "2026-09-01T13:18:13.264Z"
+    "valkey-io/valkey": "2026-09-01T13:18:13.264Z",
+    "ollama/ollama": "2026-09-01T19:58:15.796Z",
+    "open-webui/open-webui": "2026-09-01T19:58:15.796Z",
+    "qdrant/qdrant": "2026-09-01T19:58:15.796Z",
+    "chroma-core/chroma": "2026-09-01T19:58:15.796Z",
+    "netdata/netdata": "2026-09-01T19:58:15.796Z",
+    "gravitational/teleport": "2026-09-01T19:58:15.796Z",
+    "KDE/krita": "2026-09-01T19:58:15.796Z",
+    "blender/blender": "2026-09-01T19:58:15.796Z",
+    "obsproject/obs-studio": "2026-09-01T19:58:15.796Z"
   },
   "hubs": {
     "notion": "2026-08-24T20:40:02.387Z",
@@ -163,7 +172,16 @@
     "klaviyo": "2026-09-01T13:18:13.264Z",
     "onenote": "2026-09-01T13:18:13.264Z",
     "clickup": "2026-09-01T13:18:13.264Z",
-    "redis-enterprise": "2026-09-01T13:18:13.264Z"
+    "redis-enterprise": "2026-09-01T13:18:13.264Z",
+    "chatgpt-plus": "2026-09-01T19:58:15.796Z",
+    "chatgpt-team": "2026-09-01T19:58:15.796Z",
+    "pinecone": "2026-09-01T19:58:15.796Z",
+    "chromadb-cloud": "2026-09-01T19:58:15.796Z",
+    "datadog-netdata": "2026-09-01T19:58:15.796Z",
+    "cyberark": "2026-09-01T19:58:15.796Z",
+    "photoshop-krita": "2026-09-01T19:58:15.796Z",
+    "autodesk-maya": "2026-09-01T19:58:15.796Z",
+    "streamlabs-ultra": "2026-09-01T19:58:15.796Z"
   },
   "posts": {
     "best-notion-alternatives-2026": "2026-08-24T20:51:24.716Z",

@@ -191,6 +191,25 @@ export default function RepoCard({
           </div>
         </div>
 
+        {/* Hardware & Deployment Badges */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+          {a.tags?.includes("local-first") && (
+            <span className="px-1.5 py-0.5 rounded-md bg-trust/10 text-trust text-[10px] font-semibold">
+              Local-First
+            </span>
+          )}
+          {a.platforms?.includes("self-host") && (
+            <span className="px-1.5 py-0.5 rounded-md bg-elevated border border-line text-dim text-[10px] font-medium">
+              Self-Hostable
+            </span>
+          )}
+          {(a.platforms?.includes("docker") || downloads?.docker != null) && (
+            <span className="px-1.5 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-medium">
+              Docker
+            </span>
+          )}
+        </div>
+
         {/* Package downloads if sampled */}
         {downloads && (
           <div
