@@ -10,6 +10,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, "..");
 const DIST = path.join(root, "web-dist");
 
+// GitHub Pages project sites serve under a subpath (e.g. /opensource-hub).
+// Canonical/og/sitemap URLs carry that prefix; files on disk do not. Strip it.
+const SITE_CONFIG = JSON.parse(fs.readFileSync(path.join(root, "site.config.json"), "utf8"));
+const BASE_PATH = new URL(SITE_CONFIG.baseUrl || "https://example.invalid/").pathname.replace(/\/$/, "");
+const urlToPath = (url) => {
+  const p = url.replace(/^https?:\/\/[^/]+/, "");
+  return BASE_PATH && p.startsWith(BASE_PATH) ? p.slice(BASE_PATH.length) : p;
+};
+
 let failures = 0;
 const fail = (msg) => {
   failures += 1;
@@ -73,7 +82,7 @@ for (const f of htmlFiles) {
   const m = /property="og:image" content="([^"]*)"/.exec(html);
   if (!m) continue;
   ogRefs += 1;
-  const imgPath = m[1].replace(/^https?:\/\/[^/]+/, "");
+  const imgPath = urlToPath(m[1]);
   if (!fs.existsSync(path.join(DIST, imgPath.replace(/^\//, "")))) fail(`${f}: og:image missing on disk (${imgPath})`);
 }
 ok(`og:image references verified (${ogRefs} pages carry cards)`);
@@ -96,7 +105,7 @@ jsonLdCount === 0 ? fail("no JSON-LD found at all") : ok(`JSON-LD valid (${jsonL
 // ---------- 4. sitemap covers every page ----------
 const sm = fs.readFileSync(path.join(DIST, "sitemap.xml"), "utf8");
 const locs = new Set([...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) =>
-  m[1].replace(/^https?:\/\/[^/]+/, "").replace(/\.html$/, "") || "/"
+  urlToPath(m[1]).replace(/\.html$/, "") || "/"
 ));
 for (const f of htmlFiles) {
   const r = ("/" + f.replace(/\.html$/, "")).replace(/\/index$/, "") || "/";
