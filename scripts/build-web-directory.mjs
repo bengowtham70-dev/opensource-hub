@@ -47,14 +47,14 @@ export function sparklineSvg(history) {
     .map((s, i) => `${(i * step).toFixed(1)},${(28 - ((s - min) / span) * 24).toFixed(1)}`)
     .join(" ");
   const positive = stars[stars.length - 1] >= stars[0];
-  const color = positive ? "#10b981" : "#f59e0b";
+  const color = positive ? "#059669" : "#d97706";
   return `<svg class="spark" viewBox="0 0 120 30" width="120" height="30" aria-hidden="true"><polyline fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" points="${points}"/></svg>`;
 }
 
 function pill(label, tone) {
   const colors = {
-    trust: ["rgba(16,185,129,.3)", "var(--trust)", "rgba(16,185,129,.08)"],
-    caution: ["rgba(245,158,11,.3)", "var(--caution)", "rgba(245,158,11,.08)"],
+    trust: ["rgba(5,150,105,.3)", "var(--trust)", "rgba(5,150,105,.08)"],
+    caution: ["rgba(217,119,6,.3)", "var(--caution)", "rgba(217,119,6,.08)"],
     dim: ["rgba(255,255,255,.12)", "var(--dim)", "transparent"],
     red: ["rgba(248,113,113,.35)", "#f87171", "rgba(248,113,113,.08)"], // TrustMeter precedent
   }[tone];
@@ -144,7 +144,7 @@ export function categoryGrowth(pairings, snapshots) {
 function growthPillHtml(g) {
   if (!g) return "";
   const up = g.pct >= 0;
-  return `<span class="pill" style="border-color:${up ? "rgba(16,185,129,.3)" : "rgba(245,158,11,.3)"};color:${up ? "var(--trust)" : "var(--caution)"}">${up ? "+" : ""}${g.pct}% avg 30d</span>`;
+  return `<span class="pill" style="border-color:${up ? "rgba(5,150,105,.3)" : "rgba(217,119,6,.3)"};color:${up ? "var(--trust)" : "var(--caution)"}">${up ? "+" : ""}${g.pct}% avg 30d</span>`;
 }
 
 // Deterministic OG card path per page route â€” single source shared with
@@ -157,15 +157,14 @@ export function ogImagePath(route) {
 // ---------- layout ----------
 
 const CSS = `
-:root{--base:#07090e;--surface:#0d111a;--elevated:#151b28;--primary:#6366f1;--trust:#10b981;
---caution:#f59e0b;--tech:#06b6d4;--ink:#f8fafc;--dim:#94a3b8;--faint:#64748b;
---border:rgba(255,255,255,.09);--font-d:"Outfit Variable","Plus Jakarta Sans",ui-sans-serif,sans-serif;
---font-b:"Inter Variable",system-ui,sans-serif;--font-m:"JetBrains Mono",ui-monospace,monospace}
+:root{color-scheme:light;--base:#f6f5f3;--surface:#ffffff;--elevated:#ffffff;--primary:#121212;--strong:#121212;--trust:#059669;--caution:#d97706;--tech:#3f3f46;--ink:#18181b;--dim:#52525b;--faint:#a1a1aa;--link:#c2410c;--border:#e6e4e1;--line-strong:#d4d2cf;--font-d:"Newsreader",Georgia,ui-serif,serif;--font-b:"Inter Variable","Inter",system-ui,sans-serif;--font-m:"Inter Variable","Inter",system-ui,sans-serif}
+html.dark{color-scheme:dark;--base:#000000;--surface:#0a0a0a;--elevated:#141414;--primary:#d4d4d8;--strong:#f5f5f5;--trust:#34d399;--caution:#fbbf24;--tech:#9ca3af;--ink:#e5e7eb;--dim:#9ca3af;--faint:#6b7280;--link:#ff8a5c;--border:rgb(255 255 255/.1);--line-strong:rgb(255 255 255/.18)}
+.tnum{font-variant-numeric:tabular-nums}
 *{box-sizing:border-box;margin:0}
 body{background:var(--base);color:var(--dim);font-family:var(--font-b);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-header{border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(7,9,14,.85);backdrop-filter:blur(12px);z-index:9}
+header{border-bottom:.8px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:9}
 .nav{display:flex;align-items:center;gap:22px;height:60px}
 .logo{font-family:var(--font-d);font-weight:700;color:var(--ink);font-size:17px}
 .logo b{color:var(--primary)}
@@ -182,11 +181,11 @@ h1{font-family:var(--font-d);color:var(--ink);font-size:38px;letter-spacing:-.02
 .stat b{display:block;font-family:var(--font-m);color:var(--ink);font-size:19px}
 .stat span{font-size:12px;color:var(--faint)}
 .spark-wrap{display:flex;align-items:center;gap:12px;margin-top:14px}
-.spark polyline{filter:drop-shadow(0 0 4px rgba(16,185,129,.35))}
+.spark polyline{filter:drop-shadow(0 0 4px rgba(5,150,105,.3))}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:999px;border:1px solid var(--border);font-size:13.5px;color:var(--ink);transition:border-color .25s,transform .25s}
-.btn:hover{border-color:rgba(99,102,241,.5)}
+.btn:hover{border-color:var(--line-strong)}
 .btn:active{transform:scale(.97)}
-.btn.primary{background:linear-gradient(135deg,#6366f1,#4f46e5);border-color:transparent;font-weight:600}
+.btn.primary{background:var(--strong);color:#fff;border-color:transparent;font-weight:500} html.dark .btn.primary{color:#000000}
 .shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
 .shots img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;border:1px solid var(--border);background:var(--elevated)}
 h2{font-family:var(--font-d);color:var(--ink);font-size:19px;margin-top:34px}
@@ -198,7 +197,7 @@ footer a:hover{color:var(--ink)}
 table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:560px}
 th{font-family:var(--font-m);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--faint);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
 td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.05)}
-tbody tr:hover td{background:rgba(99,102,241,.04)}
+tbody tr:hover td{background:rgba(0,0,0,.03)}
 tbody tr td:first-child a{color:var(--ink);font-weight:600}
 tbody tr td:first-child a:hover{color:var(--primary)}
 .faq details{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:12px 16px;margin-top:8px}
@@ -207,7 +206,7 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .checklist{list-style:none;padding:0;margin-top:6px;font-size:13.5px;display:grid;gap:4px}
 .hub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .hub-card{display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;transition:border-color .25s,transform .25s}
-.hub-card:hover{border-color:rgba(99,102,241,.5);transform:translateY(-2px)}
+.hub-card:hover{border-color:var(--line-strong);transform:translateY(-2px)}
 .hub-card strong{color:var(--ink);font-family:var(--font-d);font-size:15px}
 .hub-card .cat{font-size:11.5px;color:var(--tech)}
 .hub-card .save{font-size:12px;color:var(--trust);font-family:var(--font-m)}
@@ -216,18 +215,18 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .chip:hover{color:var(--ink)}
 .pager{display:flex;gap:8px;margin-top:22px;font-family:var(--font-m)}
 .pager a,.pager b{padding:5px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--dim)}
-.pager b{color:var(--ink);border-color:rgba(99,102,241,.5)}
+.pager b{color:var(--ink);border-color:var(--line-strong)}
 .ad-banner{display:flex;align-items:center;gap:14px;margin:0 0 16px;padding:12px 18px;border:1px solid var(--border);border-radius:14px;background:var(--surface);position:relative}
 .ad-banner .ad-tag{font-family:var(--font-m);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:2px 8px}
 .tier{display:flex;flex-direction:column;align-items:flex-start}
-.tier.popular{border-color:rgba(99,102,241,.45)}
+.tier.popular{border-color:var(--line-strong)}
 .share-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:20px;font-family:var(--font-m)}
 .share-bar .lbl{font-size:11px;color:var(--faint);letter-spacing:.06em;text-transform:uppercase}
 .share-bar a,.share-bar button{font-size:12px;color:var(--dim);border:1px solid var(--border);background:transparent;border-radius:999px;padding:5px 14px;cursor:pointer;text-decoration:none;transition:border-color .25s,color .25s}
-.share-bar a:hover,.share-bar button:hover{color:var(--ink);border-color:rgba(99,102,241,.5)}
+.share-bar a:hover,.share-bar button:hover{color:var(--ink);border-color:var(--line-strong)}
 .byline{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13px;color:var(--dim)}
 .byline a{color:var(--tech)}
-.byline .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#0ea5e9);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;font-family:var(--font-m);flex:none}
+.byline .avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3f3f46,#121212);display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;font-family:var(--font-m);flex:none}
 .cmp-head{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
 .cmp-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
 .cmp-card h3{margin:0 0 6px;color:var(--ink)}
@@ -237,14 +236,14 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .cmp-row .side{font-size:13.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .cmp-row .side:last-child{justify-content:flex-end;text-align:right}
 .cmp-dim{font-family:var(--font-m);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:center;line-height:1.5}
-.cmp-win{color:var(--trust);border:1px solid rgba(16,185,129,.3);background:rgba(16,185,129,.08);border-radius:999px;padding:1px 9px;font-size:10.5px;font-family:var(--font-m)}
+.cmp-win{color:var(--trust);border:1px solid rgba(5,150,105,.3);background:rgba(5,150,105,.08);border-radius:999px;padding:1px 9px;font-size:10.5px;font-family:var(--font-m)}
 .cmp-tie{color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:10.5px;font-family:var(--font-m)}
-.cmp-verdict{margin-top:18px;padding:14px 18px;border:1px solid rgba(99,102,241,.35);border-radius:14px;background:rgba(99,102,241,.06);font-size:14.5px}
+.cmp-verdict{margin-top:18px;padding:14px 18px;border:1px solid var(--line-strong);border-radius:14px;background:rgba(99,102,241,.06);font-size:14.5px}
 .sort-bar{display:flex;align-items:center;gap:10px;margin-top:16px;font-family:var(--font-m);font-size:12px;color:var(--dim)}
 .sort-bar label{letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;color:var(--faint)}
 .sort-bar select{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:inherit;font-size:12px;padding:6px 10px;cursor:pointer;transition:border-color .25s}
-.sort-bar select:hover{border-color:rgba(99,102,241,.5)}
-.sort-bar select:focus{outline:none;border-color:rgba(99,102,241,.6)}
+.sort-bar select:hover{border-color:var(--line-strong)}
+.sort-bar select:focus{outline:none;border-color:var(--line-strong)}
 .sort-bar select option{color:#121212;background:#ffffff}
 .crumbs{font-family:var(--font-m);font-size:11.5px;color:var(--faint);margin-bottom:14px}
 .crumbs a{color:var(--dim)}
@@ -252,6 +251,24 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .crumbs b{color:var(--ink);font-weight:600}
 .trend-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:12px}
 .cmeta{font-size:11.5px;color:var(--faint);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.socials a{margin-left:12px;color:var(--dim)}
+.socials a:hover{color:var(--ink)}
+.kbd-hint{display:inline-flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--dim);font-family:var(--font-m);font-size:11.5px;padding:6px 10px;cursor:pointer;transition:border-color .25s,color .25s}
+.kbd-hint:hover{color:var(--ink);border-color:var(--line-strong)}
+.kbd-hint .kbd{border:1px solid var(--border);border-radius:5px;padding:1px 5px;font-size:10px;color:var(--faint)}
+.pal-overlay{position:fixed;inset:0;background:rgba(8,9,13,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding-top:12vh}
+.pal-overlay[hidden]{display:none}
+.pal{width:min(560px,92vw);background:#14161A;border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:rgba(0,0,0,.4) 0 24px 60px -12px;padding:10px}
+#pal-input{width:100%;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:9px;color:#E5E7EB;font-size:14.5px;padding:11px 13px;outline:none;box-sizing:border-box}
+#pal-input:focus{border-color:var(--line-strong)}
+#pal-list{list-style:none;margin:8px 0 0;padding:0;max-height:52vh;overflow:auto}
+#pal-list li.on,#pal-list li:hover{background:rgba(0,0,0,.05)}
+#pal-list a{display:flex;gap:10px;align-items:baseline;padding:9px 11px;border-radius:8px;text-decoration:none;color:#E5E7EB;font-size:13.5px}
+#pal-list b{font-weight:600}
+#pal-list span{margin-left:auto;font-size:10px;font-family:var(--font-m);text-transform:uppercase;color:#9CA3AF;border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:1px 7px;flex:none}
+#pal-list em{font-style:normal;color:#9CA3AF;font-size:11.5px}
+.pal-empty,.pal-foot{color:#9CA3AF;font-size:13px;padding:12px;margin:0}
+.pal-foot{color:var(--dim);font-size:10.5px;font-family:var(--font-m);padding:8px 4px 2px}
 @media(max-width:680px){.cmp-head{grid-template-columns:1fr}.cmp-row{grid-template-columns:1fr;gap:8px}.cmp-row .cmp-dim{text-align:left}.cmp-row .side:last-child{justify-content:flex-start;text-align:left}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 `;
@@ -268,6 +285,32 @@ function crumbsHtml(ctx) {
     .join("")}</nav>`;
 }
 
+// §3d — footer socials from site.config.json; honest-empty until URLs exist.
+const SOCIAL_PREFIX = {
+  x: "https://x.com/",
+  twitter: "https://x.com/",
+  github: "https://github.com/",
+  mastodon: "https://mastodon.social/@",
+  linkedin: "https://linkedin.com/company/",
+  bluesky: "https://bsky.app/profile/",
+};
+
+export function socialsHtml(config = {}) {
+  const entries = Object.entries(config.socials || {}).filter(([, v]) => v);
+  if (!entries.length) return "";
+  return ` <span class="socials">${entries
+    .map(([k, v]) => {
+      const key = String(k).toLowerCase();
+      const href = /^https?:\/\//i.test(v)
+        ? v
+        : `${SOCIAL_PREFIX[key] || ""}${String(v).replace(/^@/, "")}`;
+      return `<a rel="me noopener noreferrer" target="_blank" href="${esc(href)}">${esc(
+        key === "twitter" ? "X" : key[0].toUpperCase() + key.slice(1)
+      )}</a>`;
+    })
+    .join("")}</span>`;
+}
+
 export function layout(ctx, body) {
   const { config, route } = ctx;
   const base = config.baseUrl || "";
@@ -276,7 +319,7 @@ export function layout(ctx, body) {
     .map((n) => {
       const href = n.href.startsWith("/#") ? `/#install` : n.href;
       // Nav entries only link to routes that exist in this build (no dead links).
-      if (!href.includes("#") && !ctx.routes.has(href.replace(/\/$/, "")) && href !== "/") return "";
+      if (!href.includes("#") && ctx.routes && !ctx.routes.has(href.replace(/\/$/, "")) && href !== "/") return "";
       return `<a href="${esc(href)}">${esc(n.label)}</a>`;
     })
     .join("");
@@ -294,12 +337,18 @@ export function layout(ctx, body) {
 <meta property="og:url" content="${esc(canonical)}">
 ${ctx.ogImage ? `<meta property="og:image" content="${esc(base + ctx.ogImage)}">` : ""}
 <meta name="twitter:card" content="summary_large_image">
-<style>${CSS}</style>
+<script>try{var t=localStorage.getItem("osh-theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;if(d)document.documentElement.classList.add("dark")}catch(e){}</script>
+<meta name="theme-color" content="#F6F5F3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161A" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet"><style>{$CSS}</style>
 </head>
 <body>
 <header><div class="wrap nav">
-<span class="logo"><b>â—†</b> ${esc(config.siteName)}</span>
+<span class="logo"><span class="logo-mark" aria-hidden="true" style="display:inline-grid;place-items:center;width:28px;height:28px;border-radius:4px;background:var(--strong);color:var(--surface)"><svg width="17" height="17" viewBox="0 0 18 18" fill="none"><line x1="9" y1="1.2" x2="9" y2="4.6" stroke="#FF5722" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="1.8" r="1.5" fill="#FF5722"/><rect x="2" y="5.6" width="14" height="10.6" rx="3.4" stroke="currentColor" stroke-width="1.7"/><circle cx="6.4" cy="11" r="1.35" fill="currentColor"/><circle cx="11.6" cy="11" r="1.35" fill="currentColor"/></svg></span> ${esc(config.siteName)}</span>
 ${nav}<span class="spacer"></span>
+<button class="kbd-hint" type="button" data-palette-open aria-label="Search this site">Search <span class="kbd">Ctrl K</span></button>
 <a class="btn primary" href="/#install">Run locally</a>
 </div></header>
 <main><div class="wrap">${crumbsHtml(ctx)}${body}</div></main>
@@ -317,8 +366,44 @@ ${
 </div>`
     : ""
 }
-${esc(config.tagline)} Data refreshed daily from GitHub Â· <a href="/terms.html">Terms</a> Â· <a href="/privacy.html">Privacy</a>
+${esc(config.tagline)} Data refreshed daily from GitHub Â· <a href="/terms.html">Terms</a> Â· <a href="/privacy.html">Privacy</a>${socialsHtml(config)}
 </div></footer>
+<div class="pal-overlay" hidden><div class="pal" role="dialog" aria-modal="true" aria-label="Site search">
+<input id="pal-input" type="text" placeholder="Search tools, alternatives, comparisons&hellip;" autocomplete="off" aria-label="Search query">
+<ul id="pal-list" role="listbox"></ul>
+<p class="pal-empty" hidden>No matches &mdash; try a paid tool name like &ldquo;Notion&rdquo;.</p>
+<p class="pal-foot">&uarr;&darr; navigate &middot; Enter open &middot; Esc close</p>
+</div></div>
+<script>
+(function(){
+var ov=document.querySelector('.pal-overlay');if(!ov)return;
+var inp=document.getElementById('pal-input'),list=document.getElementById('pal-list'),empty=ov.querySelector('.pal-empty');
+var DATA=null,sel=-1,cur=[];
+function render(q){if(!DATA)return;q=q.trim().toLowerCase();
+cur=!q?DATA.slice(0,12):DATA.filter(function(x){return x.n.toLowerCase().indexOf(q)>-1||String(x.m||'').toLowerCase().indexOf(q)>-1}).slice(0,12);
+sel=-1;
+list.innerHTML=cur.map(function(x){return '<li role="option"><a href="'+x.h+'"><b>'+x.n+'</b><span>'+x.t+'</span>'+(x.m?'<em>'+x.m+'</em>':'')+'</a></li>'}).join('');
+empty.hidden=cur.length>0;}
+function open(){ov.hidden=false;document.body.style.overflow='hidden';inp.value='';render('');
+if(!DATA){fetch('/search-index.json').then(function(r){return r.json()}).then(function(d){DATA=d;render(inp.value)}).catch(function(){DATA=[];render(inp.value)});}
+setTimeout(function(){inp.focus()},0);}
+function close(){ov.hidden=true;document.body.style.overflow='';}
+function move(d){if(!cur.length)return;sel=(sel+d+cur.length)%cur.length;
+[].forEach.call(list.children,function(li,i){li.classList.toggle('on',i===sel)});
+var on=list.children[sel];on&&on.scrollIntoView({block:'nearest'});}
+document.addEventListener('keydown',function(e){
+if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();ov.hidden?open():close();return;}
+if(ov.hidden)return;
+if(e.key==='Escape'){close();}
+else if(e.key==='ArrowDown'){e.preventDefault();move(1);}
+else if(e.key==='ArrowUp'){e.preventDefault();move(-1);}
+else if(e.key==='Enter'&&sel>-1&&cur[sel]){location.href=cur[sel].h;}});
+document.addEventListener('click',function(e){
+if(e.target.closest('[data-palette-open]')){open();return;}
+if(!e.target.closest('.pal'))close();});
+inp.addEventListener('input',function(){render(inp.value)});
+})();
+</script>
 </body></html>`;
 }
 
@@ -389,6 +474,7 @@ export function profileHtml(pairing, ctx) {
       : ""
   }
   <div><b>${ageY != null ? `${ageY} yrs` : "n/a"}</b><span>repository age</span></div>
+  ${meta?.latestTag ? `<div><b>${esc(meta.latestTag)}</b><span>latest release</span></div>` : ""}
   <div><b>$0</b><span>forever Â· ${esc(pairing.paidTool.name)} ${esc(
     pairing.paidTool.planName || ""
   )} â‰ˆ $${pairing.paidTool.pricePerYearUsd}/yr</span></div>
@@ -418,7 +504,7 @@ ${
 <div class="pills">${(ctx.cmpLinks.get(ctx.route.slice(1)) || [])
       .map(
         (l) =>
-          `<a href="${esc(l.href)}"><span class="pill" style="border-color:rgba(99,102,241,.45);color:var(--primary)">vs ${esc(l.name)}</span></a>`
+          `<a href="${esc(l.href)}"><span class="pill" style="border-color:var(--line-strong);color:var(--primary)">vs ${esc(l.name)}</span></a>`
       )
       .join("")}</div>`
     : ""
@@ -1001,7 +1087,7 @@ ${adBannerHtml(ctx.ads || [])}
 <div class="hub-grid" style="margin-top:18px">${cards}</div>
 ${pager}
 ${sortScript}
-<style>.chip[aria-pressed="true"]{border-color:rgba(99,102,241,.6);color:var(--ink);background:rgba(99,102,241,.15)}</style>
+<style>.chip[aria-pressed="true"]{border-color:var(--line-strong);color:var(--ink);background:rgba(99,102,241,.15)}</style>
 ${filterScript}`;
 
   const suffix = page > 1 ? ` â€” Page ${page}` : "";
@@ -1543,7 +1629,7 @@ export function advertisePageHtml({ ads = [], pairings = [], hubCount = 0 }, ctx
 
   const tiers = TIERS.map(
     (t) => `<div class="card tier${t.popular ? " popular" : ""}">
-${t.popular ? '<span class="pill" style="border-color:rgba(99,102,241,.5);color:var(--primary)">Most popular</span>' : ""}
+${t.popular ? '<span class="pill" style="border-color:var(--line-strong);color:var(--primary)">Most popular</span>' : ""}
 <h3 style="font-family:var(--font-d);color:var(--ink);margin-top:${t.popular ? "8px" : "0"}">${esc(t.name)}</h3>
 <p style="font-size:26px;color:var(--ink);font-family:var(--font-m)">$${t.price}<span style="font-size:13px;color:var(--faint)">/month</span></p>
 <p style="font-size:13.5px">${esc(t.blurb)}</p>
@@ -1591,7 +1677,7 @@ export function submitPageHtml(ctx) {
 
   const expedited =
     config.activateMonetization && config.stripe?.submitUrl
-      ? `<div class="card" style="border-color:rgba(99,102,241,.45)">
+      ? `<div class="card" style="border-color:var(--line-strong)">
 <strong style="color:var(--ink)">Expedited review — $97 one-time</strong>
 <p style="font-size:13.5px;margin-top:6px">48-hour human verification and launch placement. Same public criteria, faster queue.</p>
 <a class="btn primary" href="${esc(config.stripe.submitUrl)}">Pay & submit</a>
@@ -1920,9 +2006,46 @@ export function buildSite({ alternatives, snapshots, config, discounts = [], pos
   for (let n = 2; n <= pageCount; n += 1) {
     routes.set(
       `alternatives/page/${n}`,
-      alternativesIndexHtml(hubs, indexCtx, { page: n })
+      alternativesIndexHtml(hubs, indexCtx, { page: n       })
     );
   }
+
+  // §3d — client-side search index for the Cmd+K palette. Rides on the routes
+  // Map as metadata so main() can emit it without changing the return shape.
+  routes.searchIndex = [
+    ...alternatives.pairings.flatMap((p) => {
+      const slug = repoSlug.get(p.alternative.repo);
+      return slug
+        ? [{ t: "tool", n: p.alternative.name, h: `/${slug}.html`, m: p.paidTool.name }]
+        : [];
+    }),
+    ...[...hubs.entries()].map(([hubSlug, ps]) => ({
+      t: "hub",
+      n: `${ps[0].paidTool.name} alternatives`,
+      h: `/alternatives/${hubSlug}.html`,
+      m: ps[0].paidTool.category || "",
+    })),
+    ...compareJobs.map((j) => ({
+      t: "compare",
+      n: `${j.pA.alternative.name} vs ${j.pB.alternative.name}`,
+      h: `/compare/${j.route}.html`,
+      m: j.pA.paidTool.category || "",
+    })),
+    ...[
+      ["about", "About & methodology"],
+      ["alternatives", "All alternatives"],
+      ["categories", "Categories"],
+      ["tags", "Tags"],
+      ["licenses", "Licenses"],
+      ["stacks", "Tech stacks"],
+      ["collections", "Collections"],
+      ["discounts", "Discount codes"],
+      ["blog", "Blog"],
+      ["submit", "Submit a tool"],
+    ]
+      .filter(([r]) => routes.has(r))
+      .map(([r, n]) => ({ t: "page", n, h: `/${r}.html`, m: "" })),
+  ].sort((a, b) => a.n.localeCompare(b.n));
 
   // Taxonomy surfaces (W3): derived from data, omit-empty by construction.
   const taxonomies = computeTaxonomies(alternatives.pairings);
@@ -2016,6 +2139,7 @@ function main() {
   }
 
   fs.rmSync(OUT, { recursive: true, force: true });
+  fs.mkdirSync(OUT, { recursive: true });
   let ads = { slots: [] };
   try {
     const parsedAds = JSON.parse(fs.readFileSync(path.join(root, "src/data/ads.json"), "utf8"));
@@ -2024,6 +2148,10 @@ function main() {
     /* optional until a real campaign sells */
   }
   const routes = buildSite({ alternatives, snapshots, config, discounts, posts, ads });
+  fs.writeFileSync(
+    path.join(OUT, "search-index.json"),
+    JSON.stringify(routes.searchIndex || [])
+  );
   for (const [route, html] of routes) {
     const file = path.join(OUT, `${route}.html`);
     fs.mkdirSync(path.dirname(file), { recursive: true });

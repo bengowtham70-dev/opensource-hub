@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { MemoryRouter } from "react-router-dom";
-import { buildSparklinePath } from "./sparkline";
+import { buildSparklinePath, buildSparklineAreaPath, getSparklinePoints } from "./sparkline";
 import Markdown from "./markdown";
 import RepoCard from "../components/RepoCard";
+import Header from "../components/Header";
 import { formatStars, formatSavings, formatBytes, formatCompact, relativeDate } from "./format";
 
 describe("buildSparklinePath", () => {
@@ -27,12 +28,28 @@ describe("buildSparklinePath", () => {
     const d = buildSparklinePath(flat);
     expect(d).toContain(",");
   });
+
+  it("buildSparklineAreaPath creates closed path with Z", () => {
+    const area = buildSparklineAreaPath(history, 100, 30);
+    expect(area.endsWith("Z")).toBe(true);
+    expect(area.startsWith("M")).toBe(true);
+    expect(buildSparklineAreaPath([])).toBe("");
+  });
+
+  it("getSparklinePoints returns array of coordinate objects", () => {
+    const points = getSparklinePoints(history, 100, 30);
+    expect(points.length).toBe(30);
+    expect(points[0]).toHaveProperty("x");
+    expect(points[0]).toHaveProperty("y");
+    expect(points[0]).toHaveProperty("stars");
+    expect(getSparklinePoints([])).toEqual([]);
+  });
 });
 
 describe("format utils", () => {
   it("formats stars compactly", () => {
-    expect(formatStars(99500)).toBe("100k");
-    expect(formatStars(35400)).toBe("35k");
+    expect(formatStars(99500)).toBe("99,500");
+    expect(formatStars(35400)).toBe("35,400");
     expect(formatStars(950)).toBe("950");
   });
 
@@ -134,5 +151,16 @@ describe("RepoCard P5 surfaces (PRD §35/§38)", () => {
     const active = renderCard({ maintenance: { status: "active" } });
     expect(active).toContain("var(--color-trust)");
     expect(renderCard({})).not.toContain("Maintenance status");
+  });
+});
+
+describe("Header regression (mobile nav icons)", () => {
+  it("renders without ReferenceError — Menu/X imported from lucide-react", () => {
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    );
+    expect(html).toContain('aria-controls="mobile-nav"');
   });
 });

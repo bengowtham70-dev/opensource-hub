@@ -143,3 +143,21 @@ test("optional tco estimate is a positive number on self-host listings only (F5)
   }
   assert.ok(count >= 15, `expected >=15 tco estimates, got ${count}`);
 });
+
+// Parity P4 (plans/PLAN_PARITY.md) — category hierarchy integrity.
+test("every paid category maps to exactly one group; no empty groups", async () => {
+  const { GROUPS: groups } = await import("../dashboard/src/lib/categories.js");
+  const catalogCats = new Set(catalog.pairings.map((p) => p.paidTool.category));
+  const seen = new Map();
+  for (const g of groups) {
+    assert.ok(g.categories.length >= 1, `group ${g.slug} is empty`);
+    assert.ok(g.label && g.description, `group ${g.slug} missing label/description`);
+    for (const c of g.categories) {
+      assert.ok(!seen.has(c), `category "${c}" appears in both ${seen.get(c)} and ${g.slug}`);
+      seen.set(c, g.slug);
+    }
+  }
+  for (const c of catalogCats) {
+    assert.ok(seen.has(c), `catalog category "${c}" is orphaned — add it to a group`);
+  }
+});

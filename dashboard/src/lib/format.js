@@ -1,10 +1,11 @@
 export function formatStars(n) {
-  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
-  return String(n);
+  if (n == null || isNaN(Number(n))) return "0";
+  return Number(n).toLocaleString("en-US");
 }
 
 export function formatSavings(pricePerYear) {
-  return `$${pricePerYear.toLocaleString("en-US")}`;
+  if (pricePerYear == null || isNaN(Number(pricePerYear))) return "$0";
+  return `$${Number(pricePerYear).toLocaleString("en-US")}`;
 }
 
 // PRD section 35 — compact download counts ("2.1M npm/mo"). Shared by the

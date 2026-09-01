@@ -49,9 +49,20 @@ export function createApp() {
     : fs.existsSync(path.join(diskDist, "index.html"));
 
   if (hasBuild && !isEmbeddedMode()) {
-    app.use(express.static(diskDist));
+    app.use(express.static(diskDist, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+          res.setHeader("Pragma", "no-cache");
+          res.setHeader("Expires", "0");
+        }
+      }
+    }));
     // SPA fallback — dashboard routes like /repo/:owner/:name resolve to index.html.
     app.get(/^(?!\/api\/).*/, (_req, res) => {
+      res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+      res.setHeader("Pragma", "no-cache");
+      res.setHeader("Expires", "0");
       res.sendFile(path.join(diskDist, "index.html"));
     });
   } else if (hasBuild) {

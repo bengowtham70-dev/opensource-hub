@@ -1,0 +1,866 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - link "OpenSource Hub home" [ref=f3e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f3e7]: ◆
+        - generic [ref=f3e8]: OpenSource Hub
+      - navigation "Primary" [ref=f3e9]:
+        - link "Trending" [ref=f3e10] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=f3e14] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=f3e19] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=f3e25] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=f3e29] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=f3e33] [cursor=pointer]:
+          - /url: /learn
+      - button "Open command palette search" [ref=f3e37]:
+        - generic [ref=f3e41]: Search alternatives…
+        - generic [ref=f3e42]: Ctrl K
+      - button "Switch to light mode" [active] [ref=f3e1274]
+      - generic "Byte is watching over your downloads" [ref=f3e53]:
+        - img "Byte the Guardian mascot" [ref=f3e54]
+  - generic [ref=f3e67]:
+    - generic [ref=f3e68]:
+      - heading "Stop renting software. Own it free." [level=1] [ref=f3e69]
+      - group "Install command" [ref=f3e71]:
+        - code [ref=f3e75]: $ npm install -g opensource-hub
+        - button "Copy install command" [ref=f3e76]
+      - generic [ref=f3e80]:
+        - searchbox "Search alternatives by paid tool or keyword" [ref=f3e85]
+        - button "Or press ⌘K" [ref=f3e86]
+    - region "Browse by replacement goal" [ref=f3e87]:
+      - paragraph [ref=f3e88]: I want to replace…
+      - generic [ref=f3e97]:
+        - button "Password Manager 2" [ref=f3e98]:
+          - text: Password Manager
+          - generic [ref=f3e99]: "2"
+        - button "Trello 2" [ref=f3e100]:
+          - text: Trello
+          - generic [ref=f3e101]: "2"
+        - button "Airtable 1" [ref=f3e102]:
+          - text: Airtable
+          - generic [ref=f3e103]: "1"
+        - button "Asana 1" [ref=f3e104]:
+          - text: Asana
+          - generic [ref=f3e105]: "1"
+        - button "Auth Provider 1" [ref=f3e106]:
+          - text: Auth Provider
+          - generic [ref=f3e107]: "1"
+        - button "Docker Desktop 1" [ref=f3e108]:
+          - text: Docker Desktop
+          - generic [ref=f3e109]: "1"
+        - button "Dropbox 1" [ref=f3e110]:
+          - text: Dropbox
+          - generic [ref=f3e111]: "1"
+        - button "Evernote 1" [ref=f3e112]:
+          - text: Evernote
+          - generic [ref=f3e113]: "1"
+        - button "Figma 1" [ref=f3e114]:
+          - text: Figma
+          - generic [ref=f3e115]: "1"
+        - button "Firebase 1" [ref=f3e116]:
+          - text: Firebase
+          - generic [ref=f3e117]: "1"
+        - button "Grammarly 1" [ref=f3e118]:
+          - text: Grammarly
+          - generic [ref=f3e119]: "1"
+        - button "Heroku 1" [ref=f3e120]:
+          - text: Heroku
+          - generic [ref=f3e121]: "1"
+        - button "Illustrator 1" [ref=f3e122]:
+          - text: Illustrator
+          - generic [ref=f3e123]: "1"
+        - button "Jira 1" [ref=f3e124]:
+          - text: Jira
+          - generic [ref=f3e125]: "1"
+        - button "Lightroom 1" [ref=f3e126]:
+          - text: Lightroom
+          - generic [ref=f3e127]: "1"
+        - button "Microsoft Office 1" [ref=f3e128]:
+          - text: Microsoft Office
+          - generic [ref=f3e129]: "1"
+        - button "Miro 1" [ref=f3e130]:
+          - text: Miro
+          - generic [ref=f3e131]: "1"
+        - button "Monday 1" [ref=f3e132]:
+          - text: Monday
+          - generic [ref=f3e133]: "1"
+        - button "Notion 1" [ref=f3e134]:
+          - text: Notion
+          - generic [ref=f3e135]: "1"
+        - button "Photoshop 1" [ref=f3e136]:
+          - text: Photoshop
+          - generic [ref=f3e137]: "1"
+        - button "Postman 1" [ref=f3e138]:
+          - text: Postman
+          - generic [ref=f3e139]: "1"
+        - button "Slack 1" [ref=f3e140]:
+          - text: Slack
+          - generic [ref=f3e141]: "1"
+        - button "Spotify 1" [ref=f3e142]:
+          - text: Spotify
+          - generic [ref=f3e143]: "1"
+        - button "Tableau 1" [ref=f3e144]:
+          - text: Tableau
+          - generic [ref=f3e145]: "1"
+        - button "Todoist 1" [ref=f3e146]:
+          - text: Todoist
+          - generic [ref=f3e147]: "1"
+        - button "Video Editor 1" [ref=f3e148]:
+          - text: Video Editor
+          - generic [ref=f3e149]: "1"
+        - button "Zoom 1" [ref=f3e150]:
+          - text: Zoom
+          - generic [ref=f3e151]: "1"
+    - tablist "Trending views" [ref=f3e152]:
+      - tab "Today" [selected] [ref=f3e153]
+      - tab "Yesterday" [ref=f3e156]
+      - tab "Least trending" [ref=f3e160]
+      - tab "All-time" [ref=f3e164]
+      - generic "Filter by language" [ref=f3e171]:
+        - button "C" [ref=f3e172]
+        - button "C++" [ref=f3e173]
+        - button "Clojure" [ref=f3e174]
+        - button "Go" [ref=f3e175]
+        - button "Java" [ref=f3e176]
+        - button "JavaScript" [ref=f3e177]
+        - button "PHP" [ref=f3e178]
+    - generic [ref=f3e180]:
+      - group "Filter by Platform" [ref=f3e181]:
+        - generic [ref=f3e182]: Platform
+        - button "Windows 17" [ref=f3e183]:
+          - text: Windows
+          - generic [ref=f3e186]: "17"
+        - button "macOS 17" [ref=f3e187]:
+          - text: macOS
+          - generic [ref=f3e191]: "17"
+        - button "Linux 17" [ref=f3e192]:
+          - text: Linux
+          - generic [ref=f3e195]: "17"
+        - button "Web 15" [ref=f3e196]:
+          - text: Web
+          - generic [ref=f3e200]: "15"
+        - button "Self-host 19" [ref=f3e201]:
+          - text: Self-host
+          - generic [ref=f3e205]: "19"
+      - group "Filter by License" [ref=f3e206]:
+        - generic [ref=f3e207]: License
+        - button "Permissive 10" [ref=f3e208]:
+          - text: Permissive
+          - generic [ref=f3e209]: "10"
+        - button "Copyleft 11" [ref=f3e210]:
+          - text: Copyleft
+          - generic [ref=f3e211]: "11"
+        - button "Network copyleft 7" [ref=f3e212]:
+          - text: Network copyleft
+          - generic [ref=f3e213]: "7"
+    - generic [ref=f3e214]:
+      - article [ref=f3e215]:
+        - generic [ref=f3e216]:
+          - generic [ref=f3e217]:
+            - link "GIMP" [ref=f3e218] [cursor=pointer]:
+              - /url: /repo/GNOME/gimp
+            - paragraph [ref=f3e219]: GNOME/gimp
+          - button "Add GIMP to favorites" [ref=f3e220]
+        - paragraph [ref=f3e223]: The veteran open-source raster editor — layers, masks, filters, scriptable, endlessly extendable.
+        - generic [ref=f3e228]:
+          - generic [ref=f3e229]: +10.5% · 30d
+          - generic [ref=f3e230]: 16k
+        - generic [ref=f3e233]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e234]: Direct
+          - generic [ref=f3e235]: C
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e236]':
+            - generic [ref=f3e243]: GPL-3.0-or-later
+            - generic [ref=f3e244]: · Copyleft
+          - generic [ref=f3e245]: image-editing
+          - generic [ref=f3e246]: raster
+          - generic [ref=f3e247]: desktop
+        - generic [ref=f3e248]:
+          - generic "Adobe Photoshop Photography plan" [ref=f3e249]:
+            - generic [ref=f3e250]: $263/yr
+            - text: Adobe Photoshop
+          - generic [ref=f3e251]: Save $263/yr
+      - article [ref=f3e254]:
+        - generic [ref=f3e255]:
+          - generic [ref=f3e256]:
+            - link "Darktable" [ref=f3e257] [cursor=pointer]:
+              - /url: /repo/darktable-org/darktable
+            - paragraph [ref=f3e258]: darktable-org/darktable
+          - button "Add Darktable to favorites" [ref=f3e259]
+        - paragraph [ref=f3e262]: Non-destructive RAW photo workflow — lighttable organization plus darkroom editing that rivals paid tools.
+        - generic [ref=f3e267]:
+          - generic [ref=f3e268]: +10.1% · 30d
+          - generic [ref=f3e269]: 11k
+        - generic [ref=f3e272]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e273]: Direct
+          - generic [ref=f3e274]: C
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e275]':
+            - generic [ref=f3e282]: GPL-3.0
+            - generic [ref=f3e283]: · Copyleft
+          - generic [ref=f3e284]: photography
+          - generic [ref=f3e285]: raw
+          - generic [ref=f3e286]: editing
+        - generic [ref=f3e287]:
+          - generic "Adobe Lightroom Photography plan" [ref=f3e288]:
+            - generic [ref=f3e289]: $120/yr
+            - text: Adobe Lightroom
+          - generic [ref=f3e290]: Save $120/yr
+      - article [ref=f3e293]:
+        - generic [ref=f3e294]:
+          - generic [ref=f3e295]:
+            - link "Zulip" [ref=f3e296] [cursor=pointer]:
+              - /url: /repo/zulip/zulip
+            - paragraph [ref=f3e297]: zulip/zulip
+          - button "Add Zulip to favorites" [ref=f3e298]
+        - paragraph [ref=f3e301]: Threaded team chat where every message lands in a topic — famously readable async communication.
+        - generic [ref=f3e306]:
+          - generic [ref=f3e307]: +9.7% · 30d
+          - generic [ref=f3e308]: 24k
+        - generic [ref=f3e311]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e312]: Direct
+          - generic [ref=f3e313]: Python
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e314]:
+            - generic [ref=f3e318]: Apache-2.0
+            - generic [ref=f3e319]: · Commercial use OK
+          - generic [ref=f3e320]: chat
+          - generic [ref=f3e321]: threads
+          - generic [ref=f3e322]: self-hosted
+        - generic [ref=f3e323]:
+          - generic "Slack Pro" [ref=f3e324]:
+            - generic [ref=f3e325]: $105/yr
+            - text: Slack
+          - generic [ref=f3e326]: Save $105/yr
+      - article [ref=f3e329]:
+        - generic [ref=f3e330]:
+          - generic [ref=f3e331]:
+            - link "Podman Desktop" [ref=f3e332] [cursor=pointer]:
+              - /url: /repo/containers/podman-desktop
+            - paragraph [ref=f3e333]: containers/podman-desktop
+          - button "Add Podman Desktop to favorites" [ref=f3e334]
+        - paragraph [ref=f3e337]: Daemonless container desktop — pods, Kubernetes support and Docker-compatible CLI, free for organizations of any size.
+        - generic [ref=f3e342]:
+          - generic [ref=f3e343]: +9.5% · 30d
+          - generic [ref=f3e344]: 23k
+        - generic [ref=f3e347]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e348]: Direct
+          - generic [ref=f3e349]: TypeScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e350]:
+            - generic [ref=f3e354]: Apache-2.0
+            - generic [ref=f3e355]: · Commercial use OK
+          - generic [ref=f3e356]: containers
+          - generic [ref=f3e357]: kubernetes
+          - generic [ref=f3e358]: developer-tools
+        - generic [ref=f3e359]:
+          - generic "Docker Desktop Pro (large orgs)" [ref=f3e360]:
+            - generic [ref=f3e361]: $180/yr
+            - text: Docker Desktop
+          - generic [ref=f3e362]: Save $180/yr
+      - article [ref=f3e365]:
+        - generic [ref=f3e366]:
+          - generic [ref=f3e367]:
+            - link "AFFiNE" [ref=f3e368] [cursor=pointer]:
+              - /url: /repo/toeverything/AFFiNE
+            - paragraph [ref=f3e369]: toeverything/AFFiNE
+          - button "Add AFFiNE to favorites" [ref=f3e370]
+        - paragraph [ref=f3e373]: All-in-one workspace blending docs, kanban boards and an infinite whiteboard — with local-first storage.
+        - generic [ref=f3e378]:
+          - generic [ref=f3e379]: +9.4% · 30d
+          - generic [ref=f3e380]: 47k
+        - generic [ref=f3e383]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e384]: Direct
+          - generic [ref=f3e385]: TypeScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e386]:
+            - generic [ref=f3e390]: MIT
+            - generic [ref=f3e391]: · Commercial use OK
+          - generic [ref=f3e392]: docs
+          - generic [ref=f3e393]: kanban
+          - generic [ref=f3e394]: whiteboard
+        - generic [ref=f3e395]:
+          - generic "Notion Plus" [ref=f3e396]:
+            - generic [ref=f3e397]: $96/yr
+            - text: Notion
+          - generic [ref=f3e398]: Save $96/yr
+      - article [ref=f3e401]:
+        - generic [ref=f3e402]:
+          - generic [ref=f3e403]:
+            - link "LanguageTool" [ref=f3e404] [cursor=pointer]:
+              - /url: /repo/languagetool-org/languagetool
+            - paragraph [ref=f3e405]: languagetool-org/languagetool
+          - button "Add LanguageTool to favorites" [ref=f3e406]
+        - paragraph [ref=f3e409]: Grammar and style checker for 30+ languages — browser extension everywhere, self-hostable server included.
+        - generic [ref=f3e414]:
+          - generic [ref=f3e415]: +9.4% · 30d
+          - generic [ref=f3e416]: 13k
+        - generic [ref=f3e419]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e420]: Direct
+          - generic [ref=f3e421]: Java
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e422]':
+            - generic [ref=f3e429]: LGPL-2.1
+            - generic [ref=f3e430]: · Copyleft
+          - generic [ref=f3e431]: grammar
+          - generic [ref=f3e432]: writing
+          - generic [ref=f3e433]: self-hosted
+        - generic [ref=f3e434]:
+          - generic "Grammarly Premium" [ref=f3e435]:
+            - generic [ref=f3e436]: $144/yr
+            - text: Grammarly
+          - generic [ref=f3e437]: Save $144/yr
+      - article [ref=f3e440]:
+        - generic [ref=f3e441]:
+          - generic [ref=f3e442]:
+            - link "OpenProject" [ref=f3e443] [cursor=pointer]:
+              - /url: /repo/opf/openproject
+            - paragraph [ref=f3e444]: opf/openproject
+          - button "Add OpenProject to favorites" [ref=f3e445]
+        - paragraph [ref=f3e448]: Mature work-management suite — scrum boards, gantt charts, wiki, and enterprise-grade permissions.
+        - generic [ref=f3e453]:
+          - generic [ref=f3e454]: +9.3% · 30d
+          - generic [ref=f3e455]: 11k
+        - generic [ref=f3e458]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e459]: Direct
+          - generic [ref=f3e460]: Ruby
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e461]':
+            - generic [ref=f3e468]: GPL-3.0
+            - generic [ref=f3e469]: · Copyleft
+          - generic [ref=f3e470]: agile
+          - generic [ref=f3e471]: gantt
+          - generic [ref=f3e472]: scrum
+        - generic [ref=f3e473]:
+          - generic "Jira Standard" [ref=f3e474]:
+            - generic [ref=f3e475]: $87/yr
+            - text: Jira
+          - generic [ref=f3e476]: Save $87/yr
+      - article [ref=f3e479]:
+        - generic [ref=f3e480]:
+          - generic [ref=f3e481]:
+            - link "Supabase" [ref=f3e482] [cursor=pointer]:
+              - /url: /repo/supabase/supabase
+            - paragraph [ref=f3e483]: supabase/supabase
+          - button "Add Supabase to favorites" [ref=f3e484]
+        - paragraph [ref=f3e487]: Postgres-backed backend-as-a-service — auth, realtime subscriptions, storage, edge functions, generous free tier.
+        - generic [ref=f3e492]:
+          - generic [ref=f3e493]: +9.2% · 30d
+          - generic [ref=f3e494]: 88k
+        - generic [ref=f3e497]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e498]: Direct
+          - generic [ref=f3e499]: TypeScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e500]:
+            - generic [ref=f3e504]: Apache-2.0
+            - generic [ref=f3e505]: · Commercial use OK
+          - generic [ref=f3e506]: baas
+          - generic [ref=f3e507]: postgres
+          - generic [ref=f3e508]: auth
+        - generic [ref=f3e509]:
+          - generic "Firebase Blaze (est.)" [ref=f3e510]:
+            - generic [ref=f3e511]: $300/yr
+            - text: Firebase
+          - generic [ref=f3e512]: Save $300/yr
+      - article [ref=f3e515]:
+        - generic [ref=f3e516]:
+          - generic [ref=f3e517]:
+            - link "Vikunja" [ref=f3e518] [cursor=pointer]:
+              - /url: /repo/go-vikunja/vikunja
+            - paragraph [ref=f3e519]: go-vikunja/vikunja
+          - button "Add Vikunja to favorites" [ref=f3e520]
+        - paragraph [ref=f3e523]: To-do and task management with lists, kanban, gantt and labels — single binary or docker deploy.
+        - generic [ref=f3e528]:
+          - generic [ref=f3e529]: +9.2% · 30d
+          - generic [ref=f3e530]: 2.6k
+        - generic [ref=f3e533]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e534]: Direct
+          - generic [ref=f3e535]: Go
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e536]':
+            - generic [ref=f3e542]: AGPL-3.0
+            - generic [ref=f3e543]: · Network copyleft
+          - generic [ref=f3e544]: tasks
+          - generic [ref=f3e545]: todo
+          - generic [ref=f3e546]: lists
+        - generic [ref=f3e547]:
+          - generic "Todoist Pro" [ref=f3e548]:
+            - generic [ref=f3e549]: $58/yr
+            - text: Todoist
+          - generic [ref=f3e550]: Save $58/yr
+      - article [ref=f3e553]:
+        - generic [ref=f3e554]:
+          - generic [ref=f3e555]:
+            - link "KeePassXC" [ref=f3e556] [cursor=pointer]:
+              - /url: /repo/keepassxreboot/keepassxc
+            - paragraph [ref=f3e557]: keepassxreboot/keepassxc
+          - button "Add KeePassXC to favorites" [ref=f3e558]
+        - paragraph [ref=f3e561]: Offline password safe — your vault lives in one encrypted local file, no cloud required, ever.
+        - generic [ref=f3e566]:
+          - generic [ref=f3e567]: +8.9% · 30d
+          - generic [ref=f3e568]: 23k
+        - generic [ref=f3e571]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e572]: Direct
+          - generic [ref=f3e573]: C++
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e574]':
+            - generic [ref=f3e581]: GPL-3.0-or-later
+            - generic [ref=f3e582]: · Copyleft
+          - generic [ref=f3e583]: passwords
+          - generic [ref=f3e584]: offline
+          - generic [ref=f3e585]: security
+        - generic [ref=f3e586]:
+          - generic "LastPass Premium" [ref=f3e587]:
+            - generic [ref=f3e588]: $42/yr
+            - text: LastPass
+          - generic [ref=f3e589]: Save $42/yr
+      - article [ref=f3e592]:
+        - generic [ref=f3e593]:
+          - generic [ref=f3e594]:
+            - link "Wekan" [ref=f3e595] [cursor=pointer]:
+              - /url: /repo/wekan/wekan
+            - paragraph [ref=f3e596]: wekan/wekan
+          - button "Add Wekan to favorites" [ref=f3e597]
+        - paragraph [ref=f3e600]: Fully open-source kanban board with swimlanes, rules and card customization — closest visual cousin to Trello/Monday boards.
+        - generic [ref=f3e605]:
+          - generic [ref=f3e606]: +8.7% · 30d
+          - generic [ref=f3e607]: 20k
+        - generic [ref=f3e610]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e611]: Direct
+          - generic [ref=f3e612]: JavaScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e613]:
+            - generic [ref=f3e617]: MIT
+            - generic [ref=f3e618]: · Commercial use OK
+          - generic [ref=f3e619]: kanban
+          - generic [ref=f3e620]: boards
+          - generic [ref=f3e621]: self-hosted
+        - generic [ref=f3e622]:
+          - generic "Monday.com Basic" [ref=f3e623]:
+            - generic [ref=f3e624]: $108/yr
+            - text: Monday.com
+          - generic [ref=f3e625]: Save $108/yr
+      - article [ref=f3e628]:
+        - generic [ref=f3e629]:
+          - generic [ref=f3e630]:
+            - link "Plane" [ref=f3e631] [cursor=pointer]:
+              - /url: /repo/makeplane/plane
+            - paragraph [ref=f3e632]: makeplane/plane
+          - button "Add Plane to favorites" [ref=f3e633]
+        - paragraph [ref=f3e636]: Modern project tracker mixing issue lists, cycles and modules — Jira/Asana territory, self-hosted.
+        - generic [ref=f3e641]:
+          - generic [ref=f3e642]: +8.5% · 30d
+          - generic [ref=f3e643]: 37k
+        - generic [ref=f3e646]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e647]: Direct
+          - generic [ref=f3e648]: TypeScript
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e649]':
+            - generic [ref=f3e655]: AGPL-3.0
+            - generic [ref=f3e656]: · Network copyleft
+          - generic [ref=f3e657]: issues
+          - generic [ref=f3e658]: cycles
+          - generic [ref=f3e659]: self-hosted
+        - generic [ref=f3e660]:
+          - generic "Asana Starter" [ref=f3e661]:
+            - generic [ref=f3e662]: $158/yr
+            - text: Asana
+          - generic [ref=f3e663]: Save $158/yr
+      - article [ref=f3e666]:
+        - generic [ref=f3e667]:
+          - generic [ref=f3e668]:
+            - link "Bruno" [ref=f3e669] [cursor=pointer]:
+              - /url: /repo/usebruno/bruno
+            - paragraph [ref=f3e670]: usebruno/bruno
+          - button "Add Bruno to favorites" [ref=f3e671]
+        - paragraph [ref=f3e674]: Fast, offline-first API client that stores collections as plain-text files you can keep in git.
+        - generic [ref=f3e679]:
+          - generic [ref=f3e680]: +8.4% · 30d
+          - generic [ref=f3e681]: 35k
+        - generic [ref=f3e684]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e685]: Direct
+          - generic [ref=f3e686]: JavaScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e687]:
+            - generic [ref=f3e691]: MIT
+            - generic [ref=f3e692]: · Commercial use OK
+          - generic [ref=f3e693]: api
+          - generic [ref=f3e694]: rest
+          - generic [ref=f3e695]: graphql
+        - generic [ref=f3e696]:
+          - generic "Postman Basic" [ref=f3e697]:
+            - generic [ref=f3e698]: $108/yr
+            - text: Postman
+          - generic [ref=f3e699]: Save $108/yr
+      - article [ref=f3e702]:
+        - generic [ref=f3e703]:
+          - generic [ref=f3e704]:
+            - link "Metabase" [ref=f3e705] [cursor=pointer]:
+              - /url: /repo/metabase/metabase
+            - paragraph [ref=f3e706]: metabase/metabase
+          - button "Add Metabase to favorites" [ref=f3e707]
+        - paragraph [ref=f3e710]: Question-your-data dashboards for everyone — visual query builder plus full SQL editor, self-hosted in one jar/docker image.
+        - generic [ref=f3e715]:
+          - generic [ref=f3e716]: +8.2% · 30d
+          - generic [ref=f3e717]: 41k
+        - generic [ref=f3e720]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e721]: Direct
+          - generic [ref=f3e722]: Clojure
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e723]':
+            - generic [ref=f3e729]: AGPL-3.0
+            - generic [ref=f3e730]: · Network copyleft
+          - generic [ref=f3e731]: bi
+          - generic [ref=f3e732]: dashboards
+          - generic [ref=f3e733]: sql
+        - generic [ref=f3e734]:
+          - generic "Tableau Creator" [ref=f3e735]:
+            - generic [ref=f3e736]: $900/yr
+            - text: Tableau
+          - generic [ref=f3e737]: Save $900/yr
+      - article [ref=f3e740]:
+        - generic [ref=f3e741]:
+          - generic [ref=f3e742]:
+            - link "Jitsi Meet" [ref=f3e743] [cursor=pointer]:
+              - /url: /repo/jitsi/jitsi-meet
+            - paragraph [ref=f3e744]: jitsi/jitsi-meet
+          - button "Add Jitsi Meet to favorites" [ref=f3e745]
+        - paragraph [ref=f3e748]: Encrypted video meetings straight in the browser — free public servers or full self-hosting.
+        - generic [ref=f3e753]:
+          - generic [ref=f3e754]: +8.2% · 30d
+          - generic [ref=f3e755]: 25k
+        - generic [ref=f3e758]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e759]: Direct
+          - generic [ref=f3e760]: JavaScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e761]:
+            - generic [ref=f3e765]: Apache-2.0
+            - generic [ref=f3e766]: · Commercial use OK
+          - generic [ref=f3e767]: video
+          - generic [ref=f3e768]: meetings
+          - generic [ref=f3e769]: self-hosted
+        - generic [ref=f3e770]:
+          - generic "Zoom Pro" [ref=f3e771]:
+            - generic [ref=f3e772]: $186/yr
+            - text: Zoom
+          - generic [ref=f3e773]: Save $186/yr
+      - article [ref=f3e776]:
+        - generic [ref=f3e777]:
+          - generic [ref=f3e778]:
+            - link "NocoDB" [ref=f3e779] [cursor=pointer]:
+              - /url: /repo/nocodb/nocodb
+            - paragraph [ref=f3e780]: nocodb/nocodb
+          - button "Add NocoDB to favorites" [ref=f3e781]
+        - paragraph [ref=f3e784]: Turns any database into a smart spreadsheet with forms, views and APIs — Airtable's grid without the row limits.
+        - generic [ref=f3e789]:
+          - generic [ref=f3e790]: +8.0% · 30d
+          - generic [ref=f3e791]: 54k
+        - generic [ref=f3e794]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e795]: Direct
+          - generic [ref=f3e796]: Vue
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e797]':
+            - generic [ref=f3e803]: AGPL-3.0
+            - generic [ref=f3e804]: · Network copyleft
+          - generic [ref=f3e805]: database
+          - generic [ref=f3e806]: spreadsheet
+          - generic [ref=f3e807]: self-hosted
+        - generic [ref=f3e808]:
+          - generic "Airtable Team" [ref=f3e809]:
+            - generic [ref=f3e810]: $240/yr
+            - text: Airtable
+          - generic [ref=f3e811]: Save $240/yr
+      - article [ref=f3e814]:
+        - generic [ref=f3e815]:
+          - generic [ref=f3e816]:
+            - link "Joplin" [ref=f3e817] [cursor=pointer]:
+              - /url: /repo/laurent22/joplin
+            - paragraph [ref=f3e818]: laurent22/joplin
+          - button "Add Joplin to favorites" [ref=f3e819]
+        - paragraph [ref=f3e822]: Markdown notebook with end-to-end encrypted sync across Dropbox/OneDrive/WebDAV/Joplin Cloud — your notes stay yours.
+        - generic [ref=f3e827]:
+          - generic [ref=f3e828]: +8.0% · 30d
+          - generic [ref=f3e829]: 49k
+        - generic [ref=f3e832]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e833]: Direct
+          - generic [ref=f3e834]: TypeScript
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e835]':
+            - generic [ref=f3e841]: AGPL-3.0-or-later
+            - generic [ref=f3e842]: · Network copyleft
+          - generic [ref=f3e843]: notes
+          - generic [ref=f3e844]: markdown
+          - generic [ref=f3e845]: sync
+        - generic [ref=f3e846]:
+          - generic "Evernote Personal" [ref=f3e847]:
+            - generic [ref=f3e848]: $130/yr
+            - text: Evernote
+          - generic [ref=f3e849]: Save $130/yr
+      - article [ref=f3e852]:
+        - generic [ref=f3e853]:
+          - generic [ref=f3e854]:
+            - link "Focalboard" [ref=f3e855] [cursor=pointer]:
+              - /url: /repo/mattermost/focalboard
+            - paragraph [ref=f3e856]: mattermost/focalboard
+          - button "Add Focalboard to favorites" [ref=f3e857]
+        - paragraph [ref=f3e860]: Kanban-first project board — standalone personal edition or embedded in Mattermost.
+        - generic [ref=f3e865]:
+          - generic [ref=f3e866]: +7.7% · 30d
+          - generic [ref=f3e867]: 24k
+        - generic [ref=f3e870]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e871]: Direct
+          - generic [ref=f3e872]: TypeScript
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e873]':
+            - generic [ref=f3e879]: AGPL-3.0
+            - generic [ref=f3e880]: · Network copyleft
+          - generic [ref=f3e881]: kanban
+          - generic [ref=f3e882]: tasks
+          - generic [ref=f3e883]: self-hosted
+        - generic [ref=f3e884]:
+          - generic "Trello Standard" [ref=f3e885]:
+            - generic [ref=f3e886]: $60/yr
+            - text: Trello
+          - generic [ref=f3e887]: Save $60/yr
+      - article [ref=f3e890]:
+        - generic [ref=f3e891]:
+          - generic [ref=f3e892]:
+            - link "Navidrome" [ref=f3e893] [cursor=pointer]:
+              - /url: /repo/navidrome/navidrome
+            - paragraph [ref=f3e894]: navidrome/navidrome
+          - button "Add Navidrome to favorites" [ref=f3e895]
+        - paragraph [ref=f3e898]: Your own music streaming server for files you own — Subsonic-compatible apps everywhere, tiny resource footprint.
+        - generic [ref=f3e903]:
+          - generic [ref=f3e904]: +7.6% · 30d
+          - generic [ref=f3e905]: 14k
+        - generic [ref=f3e908]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e909]: Direct
+          - generic [ref=f3e910]: Go
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e911]':
+            - generic [ref=f3e918]: GPL-3.0
+            - generic [ref=f3e919]: · Copyleft
+          - generic [ref=f3e920]: music
+          - generic [ref=f3e921]: streaming
+          - generic [ref=f3e922]: self-hosted
+        - generic [ref=f3e923]:
+          - generic "Spotify Premium" [ref=f3e924]:
+            - generic [ref=f3e925]: $132/yr
+            - text: Spotify
+          - generic [ref=f3e926]: Save $132/yr
+      - article [ref=f3e929]:
+        - generic [ref=f3e930]:
+          - generic [ref=f3e931]:
+            - link "Authentik" [ref=f3e932] [cursor=pointer]:
+              - /url: /repo/goauthentik/authentik
+            - paragraph [ref=f3e933]: goauthentik/authentik
+          - button "Add Authentik to favorites" [ref=f3e934]
+        - paragraph [ref=f3e937]: Identity provider with OIDC/SAML/LDAP — SSO, MFA and user management you fully control.
+        - generic [ref=f3e942]:
+          - generic [ref=f3e943]: +7.6% · 30d
+          - generic [ref=f3e944]: 17k
+        - generic [ref=f3e947]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e948]: Direct
+          - generic [ref=f3e949]: Python
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e950]:
+            - generic [ref=f3e954]: MIT
+            - generic [ref=f3e955]: · Commercial use OK
+          - generic [ref=f3e956]: identity
+          - generic [ref=f3e957]: sso
+          - generic [ref=f3e958]: oidc
+        - generic [ref=f3e959]:
+          - generic "Auth0 B2C Essentials (est.)" [ref=f3e960]:
+            - generic [ref=f3e961]: $1,440/yr
+            - text: Auth0
+          - generic [ref=f3e962]: Save $1,440/yr
+      - article [ref=f3e965]:
+        - generic [ref=f3e966]:
+          - generic [ref=f3e967]:
+            - link "Inkscape" [ref=f3e968] [cursor=pointer]:
+              - /url: /repo/Inkscape/inkscape
+            - paragraph [ref=f3e969]: Inkscape/inkscape
+          - button "Add Inkscape to favorites" [ref=f3e970]
+        - paragraph [ref=f3e973]: Professional vector graphics editor built around SVG — logos, icons, illustrations, print layouts.
+        - generic [ref=f3e978]:
+          - generic [ref=f3e979]: +7.5% · 30d
+          - generic [ref=f3e980]: 16k
+        - generic [ref=f3e983]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e984]: Direct
+          - generic [ref=f3e985]: C++
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e986]':
+            - generic [ref=f3e993]: GPL-3.0-or-later
+            - generic [ref=f3e994]: · Copyleft
+          - generic [ref=f3e995]: vector
+          - generic [ref=f3e996]: illustration
+          - generic [ref=f3e997]: svg
+        - generic [ref=f3e998]:
+          - generic "Adobe Illustrator Single app" [ref=f3e999]:
+            - generic [ref=f3e1000]: $263/yr
+            - text: Adobe Illustrator
+          - generic [ref=f3e1001]: Save $263/yr
+      - article [ref=f3e1004]:
+        - generic [ref=f3e1005]:
+          - generic [ref=f3e1006]:
+            - link "LibreOffice" [ref=f3e1007] [cursor=pointer]:
+              - /url: /repo/LibreOffice/core
+            - paragraph [ref=f3e1008]: LibreOffice/core
+          - button "Add LibreOffice to favorites" [ref=f3e1009]
+        - paragraph [ref=f3e1012]: The full desktop office suite — Writer, Calc, Impress — reading and writing Word/Excel/PowerPoint formats.
+        - generic [ref=f3e1017]:
+          - generic [ref=f3e1018]: +7.3% · 30d
+          - generic [ref=f3e1019]: 4.2k
+        - generic [ref=f3e1022]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1023]: Direct
+          - generic [ref=f3e1024]: C++
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e1025]':
+            - generic [ref=f3e1032]: MPL-2.0
+            - generic [ref=f3e1033]: · Copyleft
+          - generic [ref=f3e1034]: office
+          - generic [ref=f3e1035]: documents
+          - generic [ref=f3e1036]: spreadsheets
+        - generic [ref=f3e1037]:
+          - generic "Microsoft 365 Personal" [ref=f3e1038]:
+            - generic [ref=f3e1039]: $99/yr
+            - text: Microsoft 365
+          - generic [ref=f3e1040]: Save $99/yr
+      - article [ref=f3e1043]:
+        - generic [ref=f3e1044]:
+          - generic [ref=f3e1045]:
+            - link "Kdenlive" [ref=f3e1046] [cursor=pointer]:
+              - /url: /repo/KDE/kdenlive
+            - paragraph [ref=f3e1047]: KDE/kdenlive
+          - button "Add Kdenlive to favorites" [ref=f3e1048]
+        - paragraph [ref=f3e1051]: Full multi-track video editor with proxies, effects and titling — serious NLE, zero subscription.
+        - generic [ref=f3e1056]:
+          - generic [ref=f3e1057]: +7.0% · 30d
+          - generic [ref=f3e1058]: 3.8k
+        - generic [ref=f3e1061]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1062]: Direct
+          - generic [ref=f3e1063]: C++
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e1064]':
+            - generic [ref=f3e1071]: GPL-3.0
+            - generic [ref=f3e1072]: · Copyleft
+          - generic [ref=f3e1073]: video-editing
+          - generic [ref=f3e1074]: timeline
+          - generic [ref=f3e1075]: desktop
+        - generic [ref=f3e1076]:
+          - generic "Adobe Premiere Pro Single app" [ref=f3e1077]:
+            - generic [ref=f3e1078]: $263/yr
+            - text: Adobe Premiere Pro
+          - generic [ref=f3e1079]: Save $263/yr
+      - article [ref=f3e1082]:
+        - generic [ref=f3e1083]:
+          - generic [ref=f3e1084]:
+            - link "Nextcloud" [ref=f3e1085] [cursor=pointer]:
+              - /url: /repo/nextcloud/server
+            - paragraph [ref=f3e1086]: nextcloud/server
+          - button "Add Nextcloud to favorites" [ref=f3e1087]
+        - paragraph [ref=f3e1090]: Self-hosted file sync and share platform with calendar, contacts and a whole app ecosystem.
+        - generic [ref=f3e1095]:
+          - generic [ref=f3e1096]: +6.9% · 30d
+          - generic [ref=f3e1097]: 29k
+        - generic [ref=f3e1100]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1101]: Direct
+          - generic [ref=f3e1102]: PHP
+          - 'generic "AGPL-style: running it as a hosted service counts as distribution — plan for it." [ref=f3e1103]':
+            - generic [ref=f3e1109]: AGPL-3.0
+            - generic [ref=f3e1110]: · Network copyleft
+          - generic [ref=f3e1111]: cloud
+          - generic [ref=f3e1112]: sync
+          - generic [ref=f3e1113]: self-hosted
+        - generic [ref=f3e1114]:
+          - generic "Dropbox Plus" [ref=f3e1115]:
+            - generic [ref=f3e1116]: $119/yr
+            - text: Dropbox
+          - generic [ref=f3e1117]: Save $119/yr
+      - article [ref=f3e1120]:
+        - generic [ref=f3e1121]:
+          - generic [ref=f3e1122]:
+            - link "Bitwarden" [ref=f3e1123] [cursor=pointer]:
+              - /url: /repo/bitwarden/clients
+            - paragraph [ref=f3e1124]: bitwarden/clients
+          - button "Add Bitwarden to favorites" [ref=f3e1125]
+        - paragraph [ref=f3e1128]: Zero-knowledge password manager with free cross-device sync, browser extensions and optional self-hosting.
+        - generic [ref=f3e1133]:
+          - generic [ref=f3e1134]: +6.9% · 30d
+          - generic [ref=f3e1135]: 17k
+        - generic [ref=f3e1138]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1139]: Direct
+          - generic [ref=f3e1140]: TypeScript
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e1141]':
+            - generic [ref=f3e1148]: GPL-3.0
+            - generic [ref=f3e1149]: · Copyleft
+          - generic [ref=f3e1150]: passwords
+          - generic [ref=f3e1151]: security
+          - generic [ref=f3e1152]: sync
+        - generic [ref=f3e1153]:
+          - generic "1Password Individual" [ref=f3e1154]:
+            - generic [ref=f3e1155]: $49/yr
+            - text: 1Password
+          - generic [ref=f3e1156]: Save $49/yr
+      - article [ref=f3e1159]:
+        - generic [ref=f3e1160]:
+          - generic [ref=f3e1161]:
+            - link "Penpot" [ref=f3e1162] [cursor=pointer]:
+              - /url: /repo/penpot/penpot
+            - paragraph [ref=f3e1163]: penpot/penpot
+          - button "Add Penpot to favorites" [ref=f3e1164]
+        - paragraph [ref=f3e1167]: Open-source design & prototyping platform built on open web standards (SVG), self-hostable.
+        - generic [ref=f3e1172]:
+          - generic [ref=f3e1173]: +6.6% · 30d
+          - generic [ref=f3e1174]: 37k
+        - generic [ref=f3e1177]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1178]: Direct
+          - generic [ref=f3e1179]: Clojure
+          - 'generic "Share-alike: if you distribute modified versions, you must share them under the same license." [ref=f3e1180]':
+            - generic [ref=f3e1187]: MPL-2.0
+            - generic [ref=f3e1188]: · Copyleft
+          - generic [ref=f3e1189]: design
+          - generic [ref=f3e1190]: prototyping
+          - generic [ref=f3e1191]: svg
+        - generic [ref=f3e1192]:
+          - generic "Figma Professional" [ref=f3e1193]:
+            - generic [ref=f3e1194]: $144/yr
+            - text: Figma
+          - generic [ref=f3e1195]: Save $144/yr
+      - article [ref=f3e1198]:
+        - generic [ref=f3e1199]:
+          - generic [ref=f3e1200]:
+            - link "Coolify" [ref=f3e1201] [cursor=pointer]:
+              - /url: /repo/coollabsio/coolify
+            - paragraph [ref=f3e1202]: coollabsio/coolify
+          - button "Add Coolify to favorites" [ref=f3e1203]
+        - paragraph [ref=f3e1206]: Self-hosted Heroku/Vercel alternative — git-push deploys, databases, SSL, on any VPS you rent.
+        - generic [ref=f3e1211]:
+          - generic [ref=f3e1212]: +6.2% · 30d
+          - generic [ref=f3e1213]: 41k
+        - generic [ref=f3e1216]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1217]: Direct
+          - generic [ref=f3e1218]: PHP
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e1219]:
+            - generic [ref=f3e1223]: Apache-2.0
+            - generic [ref=f3e1224]: · Commercial use OK
+          - generic [ref=f3e1225]: paas
+          - generic [ref=f3e1226]: docker
+          - generic [ref=f3e1227]: deploy
+        - generic [ref=f3e1228]:
+          - generic "Heroku Basic dyno (per app)" [ref=f3e1229]:
+            - generic [ref=f3e1230]: $84/yr
+            - text: Heroku
+          - generic [ref=f3e1231]: Save $84/yr
+      - article [ref=f3e1234]:
+        - generic [ref=f3e1235]:
+          - generic [ref=f3e1236]:
+            - link "Excalidraw" [ref=f3e1237] [cursor=pointer]:
+              - /url: /repo/excalidraw/excalidraw
+            - paragraph [ref=f3e1238]: excalidraw/excalidraw
+          - button "Add Excalidraw to favorites" [ref=f3e1239]
+        - paragraph [ref=f3e1242]: Hand-drawn style virtual whiteboard with realtime collaboration and end-to-end encryption.
+        - generic [ref=f3e1247]:
+          - generic [ref=f3e1248]: +6.1% · 30d
+          - generic [ref=f3e1249]: 100k
+        - generic [ref=f3e1252]:
+          - generic "Covers part of the paid tool's feature set — check the parity list" [ref=f3e1253]: Direct
+          - generic [ref=f3e1254]: TypeScript
+          - generic "Permissive license — use it in products you sell, keep the copyright notice." [ref=f3e1255]:
+            - generic [ref=f3e1259]: MIT
+            - generic [ref=f3e1260]: · Commercial use OK
+          - generic [ref=f3e1261]: whiteboard
+          - generic [ref=f3e1262]: diagrams
+          - generic [ref=f3e1263]: sketch
+        - generic [ref=f3e1264]:
+          - generic "Miro Starter" [ref=f3e1265]:
+            - generic [ref=f3e1266]: $120/yr
+            - text: Miro
+          - generic [ref=f3e1267]: Save $120/yr
+  - contentinfo [ref=f3e1270]:
+    - generic [ref=f3e1271]:
+      - paragraph [ref=f3e1272]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=f3e1273]: v0.1.0 · MIT

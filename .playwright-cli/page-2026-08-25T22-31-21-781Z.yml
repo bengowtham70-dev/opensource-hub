@@ -1,0 +1,44 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "OpenSource Hub home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: ◆
+        - generic [ref=e8]: OpenSource Hub
+      - navigation "Primary" [ref=e9]:
+        - link "Trending" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=e14] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=e19] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=e25] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=e29] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=e33] [cursor=pointer]:
+          - /url: /learn
+      - button "Open command palette search" [ref=e37]:
+        - generic [ref=e41]: Search alternatives…
+        - generic [ref=e42]: Ctrl K
+      - button "Switch to dark mode" [ref=e43]
+      - generic "Byte is watching over your downloads" [ref=e53]:
+        - img "Byte the Guardian mascot" [ref=e54]
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - heading "Stack Audit" [level=1] [ref=e69]
+      - paragraph [ref=e74]: Paste the paid software your team rents — one per line. Get every open-source alternative we know about, with honest annual savings across the whole stack.
+    - generic [ref=e75]:
+      - textbox "Your paid tools, one per line" [ref=e76]:
+        - /placeholder: "Notion\nFigma\nPostman\nSlack\n1Password"
+      - generic [ref=e77]:
+        - button "Audit my stack" [disabled] [ref=e78]
+        - generic [ref=e79]: 28 paid tools in the catalog — unmatched entries are listed honestly.
+    - generic [ref=e81]:
+      - img "Byte the Guardian mascot" [ref=e82]
+      - heading "Audit your whole stack in one paste" [level=3] [ref=e95]
+      - paragraph [ref=e96]: List what your team pays for today. Anything we can replace shows up with its alternative, license and yearly savings — exportable as CSV for your next budget meeting.
+  - contentinfo [ref=e97]:
+    - generic [ref=e98]:
+      - paragraph [ref=e99]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=e100]: v0.1.0 · MIT

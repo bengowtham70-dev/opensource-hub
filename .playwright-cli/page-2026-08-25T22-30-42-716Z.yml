@@ -1,0 +1,45 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "OpenSource Hub home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: ◆
+        - generic [ref=e8]: OpenSource Hub
+      - navigation "Primary" [ref=e9]:
+        - link "Trending" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=e14] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=e19] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=e25] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=e29] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=e33] [cursor=pointer]:
+          - /url: /learn
+      - button "Open command palette search" [ref=e37]:
+        - generic [ref=e41]: Search alternatives…
+        - generic [ref=e42]: Ctrl K
+      - button "Switch to dark mode" [ref=e43]
+      - generic "Byte is watching over your downloads" [ref=e53]:
+        - img "Byte the Guardian mascot" [ref=e54]
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - heading "AI Tool Finder" [level=1] [ref=e69]
+      - paragraph [ref=e73]: Describe the job you're trying to get done — no keyword guessing. Get a short, reasoned shortlist from the catalog.
+    - generic [ref=e74]:
+      - textbox "Describe your task" [ref=e75]:
+        - /placeholder: e.g. "I manage client invoices for my agency and hate the per-seat pricing"
+      - generic [ref=e76]:
+        - button "Find tools" [disabled] [ref=e77]
+        - generic [ref=e81]: offline matching — no key
+        - button "Add API key" [ref=e82]
+    - generic [ref=e86]:
+      - button "I manage client invoices for my agency" [ref=e87]
+      - button "Team chat that isn't rented per seat" [ref=e91]
+      - button "Design tool my whole team can edit in" [ref=e95]
+  - contentinfo [ref=e99]:
+    - generic [ref=e100]:
+      - paragraph [ref=e101]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=e102]: v0.1.0 · MIT

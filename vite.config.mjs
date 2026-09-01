@@ -12,6 +12,14 @@ export default defineConfig({
   build: {
     outDir: path.join(__dirname, "dist", "client"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "react-router-dom"],
+          ui: ["motion", "cmdk", "zustand"],
+        },
+      },
+    },
   },
   server: {
     port: 5173,

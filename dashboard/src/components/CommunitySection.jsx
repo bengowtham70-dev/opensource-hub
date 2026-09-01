@@ -3,7 +3,6 @@ import { ThumbsUp, ThumbsDown, Tag as TagIcon, Plus, Copy, Check, Send, CircleAl
 import { api } from "../lib/api";
 import { useCommunity } from "../stores/community";
 
-// TODO: replace with the real repository after GitHub publish (same as trust appeals).
 const FEEDBACK_REPO = "opensource-hub/opensource-hub";
 const TAG_RE = /^[a-z0-9][a-z0-9-]{1,23}$/;
 
@@ -90,7 +89,7 @@ export default function CommunitySection({ repo }) {
     .slice(0, 12);
 
   return (
-    <section className="mt-6 card-glass p-6" aria-label="Community verdict">
+    <section className="mt-6 card-elevated p-6" aria-label="Community verdict">
       <h2 className="font-display text-display-md mb-4">Community verdict</h2>
 
       {/* Yes / No votes (PRD §34) */}
@@ -156,7 +155,7 @@ export default function CommunitySection({ repo }) {
               }}
               placeholder="add a tag — e.g. self-host"
               aria-label="Add a crowd tag"
-              className="w-full card-glass !bg-elevated pl-8 pr-3 py-2 text-[13px] text-ink placeholder:text-faint outline-none focus:border-primary/50"
+              className="w-full card-elevated !bg-elevated pl-8 pr-3 py-2 text-[13px] text-ink placeholder:text-faint outline-none focus:border-primary/50"
             />
           </div>
           <button type="submit" className="shimmer-button btn-tactile px-3.5 py-2 text-[13px] text-ink">
@@ -165,7 +164,7 @@ export default function CommunitySection({ repo }) {
         </form>
         {tagError && (
           <p className="mt-1.5 text-[12px] text-caution tnum" role="alert">
-            ⚠ {tagError}
+            {tagError}
           </p>
         )}
       </div>
@@ -177,7 +176,7 @@ export default function CommunitySection({ repo }) {
             href={issueUrl("suggestion", repo)}
             target="_blank"
             rel="noreferrer"
-            className="btn-tactile inline-flex items-center gap-1.5 text-[13px] text-primary hover:text-ink"
+            className="btn-tactile inline-flex items-center gap-1.5 text-[13px] text-link hover:text-ink"
           >
             <Send size={13} /> Send suggestion
           </a>

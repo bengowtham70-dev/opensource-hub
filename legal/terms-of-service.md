@@ -1,8 +1,8 @@
 # Terms of Service — OpenSource Hub
 
-_Draft for launch. Fill bracketed placeholders before publishing (PRD §13)._
+_Effective 2026-08-26. Contact via GitHub Issues until a dedicated support email is published._
 
-**Effective date:** [DATE] · **Contact:** [SUPPORT EMAIL] · **Payments (future tiers):** [PROCESSOR]
+**Effective date:** 2026-08-26 · **Contact:** https://github.com/opensource-hub/opensource-hub/issues · **Payments (future tiers):** not applicable — no payments processed at launch; processor to be disclosed before any paid tier goes live
 
 ## 1. What this is
 

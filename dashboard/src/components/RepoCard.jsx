@@ -1,190 +1,242 @@
-import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { Heart, ArrowRight, Star, GitCommitHorizontal } from "lucide-react";
-import Sparkline from "./Sparkline";
-import LicenseBadge from "./LicenseBadge";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Heart,
+  Star,
+  Clock,
+  Scale,
+  ShieldCheck,
+  Zap,
+  Flame,
+  GitCommitHorizontal,
+  TrendingUp,
+} from "lucide-react";
+import BrandLogo, { repoBrand, paidBrand } from "./BrandLogo";
 import { formatStars, formatSavings, formatCompact, relativeDate } from "../lib/format";
 import { useFavorites } from "../stores/favorites";
 
-// Comparison card per DESIGN.md §6.2 — paid tool → open-source alternative,
-// with savings pill, sparkline, staggered entrance and mouse light sweep.
-// `freshness` (PRD Phase-2 item 6): {pushedAt,days,tone} from snapshot meta —
-// omitted entirely on seed data so we never show a fabricated freshness state.
-// `maintenance` (PRD section 2.2 mandate): {status} Active/Slowing/Abandoned —
-// color-coded pill on every card; hidden until snapshot meta exists.
-// `downloads` (PRD section 35): latest weekly {npm,pypi,docker,sampledAt}
-// sample from the snapshot sync — hidden until the cron populates it.
-export default function RepoCard({ pairing, stars30d, freshness = null, maintenance = null, downloads = null, index = 0 }) {
-  const ref = useRef(null);
+export default function RepoCard({
+  pairing,
+  stars30d,
+  freshness = null,
+  maintenance = null,
+  downloads = null,
+  index = 0,
+}) {
+  const navigate = useNavigate();
   const fav = useFavorites();
   const a = pairing.alternative;
   const paid = pairing.paidTool;
-  // PRD §38 relationship typing (enrichPairing defaults legacy entries to "direct").
-  const rel = a.relationship || "direct";
   const isFav = fav.has(a.repo);
 
-  const onMouseMove = (e) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--mouse-x", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--mouse-y", `${e.clientY - rect.top}px`);
-  };
+  const starsCount = stars30d?.stars ?? a.stars ?? 0;
+  const isHot = (typeof stars30d?.delta === "number" && stars30d.delta >= 300) || (typeof stars30d?.growthPct === "number" && stars30d.growthPct >= 8);
+  const licenseSpdx = a.license?.spdx || "Open Source";
+  const commitDate = freshness?.pushedAt || a.pushedAt || a.lastPushedAt || pairing?.pushedAt || null;
 
   return (
     <article
-      ref={ref}
-      onMouseMove={onMouseMove}
-      className="card-glass group p-5 flex flex-col gap-3.5 animate-card-in"
+      onClick={() => navigate(`/repo/${a.repo}`)}
+      className="card-elevated group p-5 flex flex-col justify-between gap-3 animate-card-in relative cursor-pointer select-none transition-all duration-300 hover:shadow-card hover:border-line-strong bg-surface overflow-hidden"
       style={{ animationDelay: `${Math.min(index, 11) * 40}ms`, opacity: 0 }}
     >
-      <header className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <Link
-            to={`/repo/${a.repo}`}
-            className="font-display text-display-md text-ink tracking-tight hover:text-primary transition-colors"
+      {/* Smooth Background Raccoon Mascot Watermark (Zero color/orange, clean monochrome outline) */}
+      <div
+        className="pointer-events-none absolute -bottom-8 -right-8 w-48 h-48 sm:w-56 sm:h-56 opacity-0 group-hover:opacity-15 group-active:opacity-30 transition-all duration-500 ease-out transform translate-y-4 group-hover:translate-y-0 group-active:scale-105 select-none z-0"
+        aria-hidden="true"
+      >
+        <img
+          src="/mascot-transparent.png"
+          alt=""
+          className="w-full h-full object-contain filter grayscale dark:invert contrast-125 pointer-events-none"
+        />
+      </div>
+
+      {/* 1. Header: Raw Clean Logo, Tool Name, Category / Verified, Red Hot badge, Favorite */}
+      <div className="flex flex-col gap-3 relative z-10">
+        <header className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-3 min-w-0">
+            <BrandLogo brand={repoBrand(a.repo)} repo={a.repo} avatarUrl={a.ownerAvatar} name={a.name} size={36} className="shrink-0" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <Link
+                  to={`/repo/${a.repo}`}
+                  onClick={(e) => e.stopPropagation()}
+                  className="font-display text-xl font-bold text-ink tracking-tight hover:text-ember transition-colors truncate"
+                >
+                  {a.name}
+                </Link>
+                <span className="text-trust shrink-0" title="Verified Open Source Project" aria-label="Verified">
+                  <ShieldCheck size={16} />
+                </span>
+                {/* Hot badge in vivid red */}
+                {isHot && (
+                  <span
+                    title="Fast-rising high momentum repository"
+                    className="px-2 py-0.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 font-bold text-[11px] inline-flex items-center gap-1"
+                  >
+                    <Flame size={12} className="text-red-500 fill-red-500" /> Hot
+                  </span>
+                )}
+                <span className="px-2 py-0.5 rounded-full border border-line bg-surface text-[11px] font-medium text-dim">
+                  {paid.category}
+                </span>
+                {maintenance?.status && (
+                  <span
+                    title={`Maintenance status: ${maintenance.status}`}
+                    className="px-2 py-0.5 rounded-full border text-[11px] tnum inline-flex items-center gap-1"
+                    style={
+                      maintenance.status === "active"
+                        ? { color: "var(--color-trust)", borderColor: "rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.08)" }
+                        : maintenance.status === "slowing"
+                          ? { color: "var(--color-caution)", borderColor: "rgba(245,158,11,0.3)", background: "rgba(245,158,11,0.08)" }
+                          : { color: "#dc2626", borderColor: "rgba(220,38,38,0.30)", background: "rgba(220,38,38,0.06)" }
+                    }
+                  >
+                    <span className="size-1.5 rounded-full" style={{ background: "currentColor" }} aria-hidden="true" />
+                    {maintenance.status}
+                  </span>
+                )}
+              </div>
+              <p className="text-[12px] text-faint tnum truncate mt-0.5">{a.repo}</p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            aria-label={isFav ? `Remove ${a.name} from favorites` : `Add ${a.name} to favorites`}
+            aria-pressed={isFav}
+            onClick={(e) => {
+              e.stopPropagation();
+              fav.toggle(a.repo);
+            }}
+            className={`btn-tactile shrink-0 grid place-items-center size-8 rounded-full border transition-colors ${
+              isFav
+                ? "bg-trust/15 border-trust/40 text-trust"
+                : "border-line text-faint hover:text-dim hover:border-line-strong"
+            }`}
           >
-            {a.name}
-          </Link>
-          <p className="text-[12px] text-faint tnum mt-0.5">{a.repo}</p>
+            <Heart size={15} fill={isFav ? "currentColor" : "none"} />
+          </button>
+        </header>
+
+        {/* 2. Tagline: Concise 2-line description */}
+        <p className="text-xs text-dim leading-relaxed line-clamp-2 min-h-[36px]" title={a.description}>
+          {a.description}
+        </p>
+
+        {/* 3. Specs Area: Dotted Specs on Rest -> Expanded Definition on Hover */}
+        <div className="relative min-h-[72px]">
+          {/* Resting State: Dotted Specs (visible by default, hidden on hover) */}
+          <div className="space-y-1.5 text-xs group-hover:hidden transition-all">
+            {/* Stars row */}
+            <div className="card-spec-row">
+              <span className="inline-flex items-center gap-1 text-dim">
+                <Star size={12} className="text-caution" aria-hidden /> Stars
+              </span>
+              <span className="card-spec-leader" aria-hidden />
+              <span className="font-semibold text-ink tnum inline-flex items-center gap-1">
+                {typeof stars30d?.delta === "number" && stars30d.delta > 0 && (
+                  <span className="text-trust text-[11px] inline-flex items-center gap-0.5">
+                    <TrendingUp size={11} className="shrink-0" />
+                    <span>+{stars30d.delta.toLocaleString()}</span>
+                  </span>
+                )}
+                <span>{formatStars(starsCount)}</span>
+              </span>
+            </div>
+
+            {/* Last commit row */}
+            <div className="card-spec-row">
+              <span className="inline-flex items-center gap-1 text-dim">
+                <Clock size={12} className="text-faint" aria-hidden /> Last commit
+              </span>
+              <span className="card-spec-leader" aria-hidden />
+              <span className="font-medium text-ink tnum inline-flex items-center gap-1">
+                {freshness && (
+                  <span
+                    title={`last push ${freshness.pushedAt?.slice(0, 10) || "unknown"} (${freshness.days}d ago)`}
+                    className={`inline-flex items-center gap-0.5 px-1.5 rounded-full border text-[11px] ${
+                      freshness.tone === "trust"
+                        ? "border-trust/30 text-trust"
+                        : freshness.tone === "caution"
+                          ? "border-caution/30 text-caution"
+                          : "border-line text-faint"
+                    }`}
+                  >
+                    <GitCommitHorizontal size={11} />
+                    {freshness.days}d ago
+                  </span>
+                )}
+                {!freshness && (commitDate ? relativeDate(commitDate) : "Recent")}
+              </span>
+            </div>
+
+            {/* License row */}
+            <div className="card-spec-row">
+              <span className="inline-flex items-center gap-1 text-dim">
+                <Scale size={12} className="text-faint" aria-hidden /> License
+              </span>
+              <span className="card-spec-leader" aria-hidden />
+              <span className="font-medium text-ink truncate max-w-[120px]" title={licenseSpdx}>
+                {licenseSpdx}
+              </span>
+            </div>
+          </div>
+
+          {/* Hover State: Expanded Definition / Value Prop */}
+          <div className="hidden group-hover:block text-[11.5px] text-dim leading-relaxed p-2 rounded-lg bg-elevated border border-line animate-card-in">
+            <span className="font-semibold text-ink">Open Source Alternative: </span>
+            {a.description} Governed by the <span className="font-semibold text-ink">{licenseSpdx}</span> license.
+          </div>
         </div>
-        <button
-          type="button"
-          aria-label={isFav ? `Remove ${a.name} from favorites` : `Add ${a.name} to favorites`}
-          aria-pressed={isFav}
-          onClick={() => fav.toggle(a.repo)}
-          className={`btn-tactile shrink-0 grid place-items-center size-9 rounded-full border transition-colors ${
-            isFav
-              ? "bg-trust/15 border-trust/40 text-trust"
-              : "border-line text-faint hover:text-dim hover:border-line-strong"
-          }`}
-        >
-          <Heart size={16} fill={isFav ? "currentColor" : "none"} />
-        </button>
-      </header>
 
-      <p className="text-sm text-dim leading-relaxed line-clamp-2">{a.description}</p>
-
-      <div className="flex items-center gap-2.5">
-        <Sparkline history={stars30d?.history || []} positive={(stars30d?.change ?? 0) >= 0} />
-        <div className="flex flex-col">
-          <span
-            className={`tnum text-[13px] font-medium ${(stars30d?.change ?? 0) >= 0 ? "text-trust" : "text-caution"}`}
+        {/* Package downloads if sampled */}
+        {downloads && (
+          <div
+            title={`Package activity — weekly sample ${downloads.sampledAt || ""}`.trim()}
+            className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 tnum text-[11.5px] text-faint"
           >
-            {(stars30d?.change ?? 0) >= 0 ? "+" : ""}
-            {(stars30d?.changePct ?? 0).toFixed(1)}% · 30d
-          </span>
-          <span className="tnum text-[12px] text-faint inline-flex items-center gap-1">
-            <Star size={11} className="text-caution" fill="currentColor" />
-            {formatStars(stars30d?.stars ?? 0)}
-            {/* PRD Phase-2 item 6 freshness pill — green <90d / amber >180d. */}
-            {freshness && (
-              <span
-                title={`last push ${freshness.pushedAt?.slice(0, 10) || "unknown"} (${freshness.days}d ago)`}
-                className={`inline-flex items-center gap-0.5 ml-1 px-1.5 rounded-full border ${
-                  freshness.tone === "trust"
-                    ? "border-trust/30 text-trust"
-                    : freshness.tone === "caution"
-                      ? "border-caution/30 text-caution"
-                      : "border-line text-faint"
-                }`}
-              >
-                <GitCommitHorizontal size={11} />
-                {relativeDate(freshness.pushedAt)}
+            {downloads.npm != null && (
+              <span className="inline-flex items-center gap-1">
+                <span className="size-1.5 rounded-full bg-caution" aria-hidden="true" />
+                {formatCompact(downloads.npm)} npm/mo
               </span>
             )}
-          </span>
-        </div>
-      </div>
-
-      {/* PRD section 35 — popularity beyond stars, mono metrics row. Hidden
-          until the weekly snapshot lands a sample; never rendered as zeros. */}
-      {downloads && (
-        <div
-          title={`Package activity — weekly sample ${downloads.sampledAt || ""}`.trim()}
-          className="flex flex-wrap items-center gap-x-2.5 gap-y-0.5 tnum text-[12px] text-faint"
-        >
-          {downloads.npm != null && (
-            <span className="inline-flex items-center gap-1">
-              <span className="size-1.5 rounded-full bg-caution" aria-hidden="true" />
-              {formatCompact(downloads.npm)} npm/mo
-            </span>
-          )}
-          {downloads.pypi != null && (
-            <span className="inline-flex items-center gap-1">
-              <span className="size-1.5 rounded-full bg-tech" aria-hidden="true" />
-              {formatCompact(downloads.pypi)} pypi/mo
-            </span>
-          )}
-          {downloads.docker != null && (
-            <span className="inline-flex items-center gap-1">
-              <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
-              {formatCompact(downloads.docker)} pulls
-            </span>
-          )}
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-1.5">
-        {/* PRD section 2.2 — maintenance pill on every comparison card. Red is
-            the TrustMeter "high-risk" precedent (#dc2626); no new token added. */}
-        {maintenance?.status && (
-          <span
-            title={`Maintenance status: ${maintenance.status}`}
-            className="px-2 py-0.5 rounded-full border text-[11px] tnum inline-flex items-center gap-1"
-            style={
-              maintenance.status === "active"
-                ? { color: "var(--color-trust)", borderColor: "rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.08)" }
-                : maintenance.status === "slowing"
-                  ? { color: "var(--color-caution)", borderColor: "rgba(245,158,11,0.3)", background: "rgba(245,158,11,0.08)" }
-                  : { color: "#dc2626", borderColor: "rgba(220,38,38,0.30)", background: "rgba(220,38,38,0.06)" }
-            }
-          >
-            <span className="size-1.5 rounded-full" style={{ background: "currentColor" }} aria-hidden="true" />
-            {maintenance.status}
-          </span>
+            {downloads.pypi != null && (
+              <span className="inline-flex items-center gap-1">
+                <span className="size-1.5 rounded-full bg-tech" aria-hidden="true" />
+                {formatCompact(downloads.pypi)} pypi/mo
+              </span>
+            )}
+            {downloads.docker != null && (
+              <span className="inline-flex items-center gap-1">
+                <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
+                {formatCompact(downloads.docker)} pulls
+              </span>
+            )}
+          </div>
         )}
-        {/* PRD §38 relationship typing pill — Direct=emerald / Partial=indigo / Fork=cyan. */}
-        <span
-          title={
-            a.relationship === "direct"
-              ? "Drop-in replacement covering the paid tool's core workflows"
-              : a.relationship === "fork"
-                ? "Forked from another project — lineage matters here"
-                : "Covers part of the paid tool's feature set — check the parity list"
-          }
-          className={`px-2 py-0.5 rounded-full border text-[11px] tnum ${
-            rel === "direct"
-              ? "border-trust/25 bg-trust/10 text-trust"
-              : rel === "fork"
-                ? "border-tech/25 bg-tech/10 text-tech"
-                : "border-primary/25 bg-primary/10 text-primary"
-          }`}
-        >
-          {rel.charAt(0).toUpperCase() + rel.slice(1)}
-        </span>
-        <span className="px-2 py-0.5 rounded-full border border-tech/25 bg-tech/10 text-tech text-[11px] tnum">
-          {a.language}
-        </span>
-        {/* PRD §3/§3a license compliance flag (F2). */}
-        <LicenseBadge license={a.license} />
-        {a.tags.slice(0, 3).map((t) => (
-          <span key={t} className="px-2 py-0.5 rounded-full border border-line text-dim text-[11px]">
-            {t}
-          </span>
-        ))}
       </div>
 
-      {/* Paid tool → alternative transition with savings pill (DESIGN.md §6.2). */}
-      <footer className="mt-auto pt-1 flex items-center justify-between gap-2 border-t border-line">
-        <div className="min-w-0" title={`${paid.name} ${paid.planName}`}>
-          <span className="tnum text-[12px] text-faint line-through decoration-caution/70">
-            {formatSavings(paid.pricePerYearUsd)}/yr
-          </span>
-          <span className="ml-1.5 text-[12px] text-faint truncate">{paid.name}</span>
+      {/* 4. Saving Option Under It (Alternative To + Save $XXX/yr) */}
+      <footer className="pt-2 flex items-center justify-between gap-2 border-t border-line/70 mt-2 relative z-10">
+        <div className="min-w-0 flex items-center gap-1.5" title={`Alternative to ${paid.name}`}>
+          <span className="text-[11.5px] text-faint">Alternative to:</span>
+          <Link
+            to={`/alternatives/${paid.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="btn-tactile inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-line bg-surface hover:border-line-strong hover:bg-elevated text-xs font-medium text-ink transition-colors"
+          >
+            <BrandLogo brand={paidBrand(paid.slug)} name={paid.name} size={14} />
+            <span>{paid.name}</span>
+          </Link>
         </div>
-        <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-trust/10 border border-trust/30 text-trust text-[12px] font-semibold whitespace-nowrap">
-          <ArrowRight size={12} /> Save {formatSavings(paid.pricePerYearUsd)}/yr
+
+        {/* Savings Pill */}
+        <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-semibold">
+          <Zap size={12} />
+          <span>Save ~{formatSavings(paid.pricePerYearUsd)}/yr</span>
         </span>
       </footer>
     </article>

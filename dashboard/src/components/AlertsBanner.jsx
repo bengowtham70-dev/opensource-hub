@@ -36,7 +36,7 @@ export default function AlertsBanner() {
       {visible.map((a) => (
         <div
           key={a.repo}
-          className="card-glass p-4 flex items-start gap-3 border-caution/35 bg-caution/5"
+          className="card-elevated p-4 flex items-start gap-3 border-caution/35 bg-caution/5"
         >
           <BellRing size={17} className="text-caution shrink-0 mt-0.5" />
           <p className="text-[13.5px] text-caution/95 leading-relaxed flex-1 min-w-0">

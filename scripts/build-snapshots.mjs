@@ -21,7 +21,7 @@ function batchQuery(repos) {
   const aliases = repos
     .map((r, i) => {
       const [owner, name] = r.split("/");
-      return `r${i}: repository(owner: "${owner}", name: "${name}") { stargazerCount pushedAt isArchived }`;
+      return `r${i}: repository(owner: "${owner}", name: "${name}") { stargazerCount pushedAt isArchived createdAt latestRelease { tagName } }`;
     })
     .join("\n");
   return `query { ${aliases} rateLimit { remaining } }`;
@@ -48,7 +48,14 @@ async function main() {
       const node = json.data[`r${j}`];
       if (!node) return; // repo renamed/deleted — stale-list pruning handles it later (PRD section 15)
       stars[repo] = node.stargazerCount;
-      meta[repo] = { pushedAt: node.pushedAt, archived: node.isArchived };
+      // §3d — createdAt + latestTag ride the same query (zero extra API calls);
+      // powers repo-age + latest-release stats on web profiles.
+      meta[repo] = {
+        pushedAt: node.pushedAt,
+        archived: node.isArchived,
+        createdAt: node.createdAt || null,
+        latestTag: node.latestRelease?.tagName || null,
+      };
     });
   }
 

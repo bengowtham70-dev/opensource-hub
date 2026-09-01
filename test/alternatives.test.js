@@ -2,9 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { getPairings, getCatalog, searchPairings } from "../src/server/data.js";
 
-test("seed contains 20-30 pairings per PRD section 19 Phase 1", () => {
+test("seed contains 60+ pairings per PRD section 19 Phase 2", () => {
   const pairings = getPairings();
-  assert.ok(pairings.length >= 20 && pairings.length <= 30, `got ${pairings.length}`);
+  assert.ok(pairings.length >= 60, `got ${pairings.length}, expected 60+ after Phase 2 expansion`);
 });
 
 test("every pairing has the full required schema", () => {

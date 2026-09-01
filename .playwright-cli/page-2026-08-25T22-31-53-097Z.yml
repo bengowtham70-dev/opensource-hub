@@ -1,0 +1,41 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "OpenSource Hub home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: ◆
+        - generic [ref=e8]: OpenSource Hub
+      - navigation "Primary" [ref=e9]:
+        - link "Trending" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=e14] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=e19] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=e25] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=e29] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=e33] [cursor=pointer]:
+          - /url: /learn
+      - button "Open command palette search" [ref=e37]:
+        - generic [ref=e41]: Search alternatives…
+        - generic [ref=e42]: Ctrl K
+      - button "Switch to dark mode" [ref=e43]
+      - generic "Byte is watching over your downloads" [ref=e53]:
+        - img "Byte the Guardian mascot" [ref=e54]
+  - generic [ref=e67]:
+    - banner [ref=e68]:
+      - heading "Saved audits" [level=1] [ref=e69]
+      - paragraph [ref=e72]: Point-in-time trust snapshots you kept — export any of them as CSV for a procurement ticket. Stored locally on this machine.
+      - paragraph [ref=e73]: 90-day trend charts unlock once the daily snapshot cron accumulates a week of real history — no fabricated data here.
+    - generic [ref=e77]:
+      - img "Byte the Guardian mascot" [ref=e78]
+      - heading "No saved audits yet" [level=3] [ref=e91]
+      - paragraph [ref=e92]: Open any tool and hit “Save audit” on its Trust Score card — keep a point-in-time record you can export later.
+      - link "Find a tool" [ref=e93] [cursor=pointer]:
+        - /url: /
+  - contentinfo [ref=e94]:
+    - generic [ref=e95]:
+      - paragraph [ref=e96]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=e97]: v0.1.0 · MIT

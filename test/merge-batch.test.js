@@ -127,7 +127,7 @@ test("rate-limited responses surface as rateLimited (script resumes, never merge
     rateLimited: true,
     reason: "GitHub API rate limit exhausted",
     headers: new Map(),
-  }));
+  }), NOW, { retryWaitMs: 0 });
   void r;
 });
 

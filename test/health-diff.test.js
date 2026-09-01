@@ -88,6 +88,7 @@ test("GET /api/health-diff serves the committed public diff; per-repo entry reso
     const unknown = await fetch(`${base}/api/health-diff/not/in-catalog`);
     assert.equal(unknown.status, 404);
     server.close();
+    await new Promise((r) => setTimeout(r, 250));
   } finally {
     fs.rmSync(DIFF_FILE, { force: true });
   }
@@ -102,4 +103,5 @@ test("GET /api/health-diff returns an honest empty shape before the first cron r
   assert.equal(json.available, false);
   assert.deepEqual(json.repos, {});
   server.close();
+    await new Promise((r) => setTimeout(r, 250));
 });

@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 /*
- * OpenSource Hub — Sentinel design system
+ * OpenSource Hub — Sentinel design system ("Paper & Ember")
  * Source of truth: Sentinel---Better-Business-Decisions-DESIGN.md
- * Light-first palette; dark mode derived charcoal ramp via html.dark.
+ * Warm neutral canvas, zinc ink ramp, single ember accent; dark mode
+ * derived charcoal ramp via html.dark.
  */
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -12,27 +13,28 @@
   color-scheme: light;
 
   /* ── Surfaces ── */
-  --c-base: #9ca3af;
+  --c-base: #f6f5f3;
   --c-surface: #ffffff;
   --c-elevated: #ffffff;
 
   /* ── Text ── */
-  --c-ink: #4b5563;
-  --c-dim: #6b7280;
-  --c-faint: #9ca3af;
+  --c-ink: #09090b;
+  --c-dim: #27272a;
+  --c-faint: #52525b;
 
   /* ── Accents ── */
-  --c-primary: #9ca3af;
-  --c-strong: #121212;
+  --c-primary: #121212; /* ink actions — Sentinel primary-button rule */
+  --c-strong: #09090b;
+  --c-link: #c2410c; /* AA ember partner for text links & hovers */
   --c-accent: #ff5722;
   --c-trust: #059669;
   --c-caution: #d97706;
-  --c-tech: #4b5563;
+  --c-tech: #27272a;
 
   /* ── Lines ── */
-  --c-line: #f3f4f6;
-  --c-line-strong: #d1d5db;
-  --c-dot: rgb(229 231 235);
+  --c-line: #e6e4e1;
+  --c-line-strong: #d4d2cf;
+  --c-dot: rgb(24 24 27 / 0.08);
 
   /* ── Elevation (Sentinel recipes) ── */
   --sh-card:
@@ -48,48 +50,107 @@
     0 0 0 0 rgb(0 0 0 / 0),
     0 20px 60px -15px rgb(0 0 0 / 0.05);
 
+  /* ── Dynamic Corner Radius Tokens (Subtle Curve by default per user request) ── */
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --radius-control: 6px;
+  --radius-inner: 6px;
+
   /* ── Wash (hero / highlight gradient) ── */
   --wash-a: rgb(255 255 255 / 0.85);
   --wash-b: rgb(255 255 255 / 0);
 }
 
-.dark {
+/* Dynamic Corner Radius Presets */
+:root[data-corner="subtle"], [data-corner="subtle"] {
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --radius-control: 6px;
+  --radius-inner: 6px;
+}
+
+:root[data-corner="balanced"], [data-corner="balanced"] {
+  --radius-card: 16px;
+  --radius-input: 12px;
+  --radius-control: 8px;
+  --radius-inner: 8px;
+}
+
+:root[data-corner="crisp"], [data-corner="crisp"] {
+  --radius-card: 8px;
+  --radius-input: 6px;
+  --radius-control: 4px;
+  --radius-inner: 4px;
+}
+
+:root[data-corner="square"], [data-corner="square"] {
+  --radius-card: 0px;
+  --radius-input: 0px;
+  --radius-control: 0px;
+  --radius-inner: 0px;
+}
+
+:root[data-corner="curved"], [data-corner="curved"] {
+  --radius-card: 22px;
+  --radius-input: 16px;
+  --radius-control: 10px;
+  --radius-inner: 12px;
+}
+
+:root[data-corner="asymmetric"], [data-corner="asymmetric"] {
+  --radius-card: 24px 6px 24px 6px;
+  --radius-input: 14px 4px 14px 4px;
+  --radius-control: 8px 2px 8px 2px;
+  --radius-inner: 12px 4px 12px 4px;
+}
+
+:root[data-corner="pill"], [data-corner="pill"] {
+  --radius-card: 28px;
+  --radius-input: 20px;
+  --radius-control: 14px;
+  --radius-inner: 14px;
+}
+
+:root.dark, html.dark, [data-theme="dark"], .dark {
   color-scheme: dark;
 
-  --c-base: #14161a;
-  --c-surface: #1c1f26;
-  --c-elevated: #242830;
+  /* Sentinel Dark Mode ("Paper & Ember" dark ramp) — distinct elevation and high-contrast lines */
+  --c-base: #0b0d13;
+  --c-surface: #151821;
+  --c-elevated: #1e222d;
 
-  --c-ink: #e5e7eb;
-  --c-dim: #9ca3af;
-  --c-faint: #6b7280;
+  --c-ink: #f9fafb;
+  --c-dim: #cbd5e1;
+  --c-faint: #94a3b8;
 
-  --c-primary: #9ca3af;
-  --c-strong: #f5f5f5;
+  --c-primary: #f9fafb;
+  --c-strong: #ffffff;
+  --c-link: #ff8a5c;
   --c-accent: #ff5722;
   --c-trust: #34d399;
   --c-caution: #fbbf24;
-  --c-tech: #9ca3af;
+  --c-tech: #cbd5e1;
 
-  --c-line: rgb(255 255 255 / 0.08);
-  --c-line-strong: rgb(255 255 255 / 0.16);
-  --c-dot: rgb(255 255 255 / 0.14);
+  /* Crisp, high-contrast hairline borders so lines and box boundaries are always visible */
+  --c-line: rgb(255 255 255 / 0.18);
+  --c-line-strong: rgb(255 255 255 / 0.35);
+  --c-dot: rgb(255 255 255 / 0.18);
 
   --sh-card:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 15px 35px -5px rgb(0 0 0 / 0.35);
+    0 12px 28px -4px rgb(0 0 0 / 0.6);
   --sh-raised:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 1px 2px 0 rgb(0 0 0 / 0.2);
+    0 1px 2px 0 rgb(0 0 0 / 0.4);
   --sh-float:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 20px 60px -15px rgb(0 0 0 / 0.3);
+    0 20px 48px -12px rgb(0 0 0 / 0.7);
 
-  --wash-a: rgb(255 255 255 / 0.05);
-  --wash-b: rgb(255 255 255 / 0);
+  --wash-a: rgb(21 24 33 / 0.7);
+  --wash-b: rgb(11 13 19 / 0);
 }
 
 @theme inline {
@@ -101,6 +162,8 @@
   --color-dim: var(--c-dim);
   --color-faint: var(--c-faint);
   --color-primary: var(--c-primary);
+  --color-link: var(--c-link);
+  --color-ember: var(--c-link);
   --color-strong: var(--c-strong);
   --color-accent: var(--c-accent);
   --color-trust: var(--c-trust);
@@ -148,7 +211,6 @@
   --animate-sparkline: draw-sparkline 0.2s var(--ease-standard) forwards;
   --animate-float-byte: float-byte 3s ease-in-out infinite;
   --animate-pulse-dot: pulse-dot 2.2s ease-in-out infinite;
-  --animate-shimmer: shimmer 1.4s linear infinite;
 }
 
 @keyframes card-in {
@@ -182,6 +244,7 @@
     opacity: 0.35;
   }
 }
+/* Skeleton loaders only — communicates async state; never used on CTAs. */
 @keyframes shimmer {
   from {
     background-position: 200% 0;
@@ -200,19 +263,21 @@
 
 @layer components {
   /* Elevated white card — hairline border, soft shadow, no glass. */
-  .card-glass {
+  /* Elevated white surface card — hairline border, radius, soft shadow.\n     (Named for what it IS: no glassmorphism/blur — that trope is banned.) */\n  .card-elevated {
     position: relative;
     background: var(--c-surface);
     border: 0.8px solid var(--c-line);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-card, 16px);
     box-shadow: var(--sh-card);
     transition:
+      transform 150ms ease,
       border-color 150ms ease,
       box-shadow 150ms ease,
-      background-color 150ms ease;
+      background-color 150ms ease,
+      border-radius 150ms ease;
   }
 
-  .card-glass:hover {
+  .card-elevated:hover {
     border-color: var(--c-line-strong);
     box-shadow: var(--sh-float);
   }
@@ -236,7 +301,7 @@
   }
 
   /* Soft top-down wash used behind heroes and highlight panels. */
-  .mesh-glow-bg {
+  .hero-wash-bg {
     background-image: linear-gradient(
       to bottom,
       var(--wash-a),
@@ -253,6 +318,7 @@
     border-radius: 9999px;
     box-shadow: var(--sh-raised);
     transition:
+      transform 80ms ease,
       border-color 150ms ease,
       box-shadow 150ms ease;
   }
@@ -260,13 +326,20 @@
     border-color: var(--c-line-strong);
     box-shadow: var(--sh-card);
   }
+  .shimmer-button:active:not(:disabled) {
+    transform: scale(0.985);
+  }
 
   .btn-tactile {
     transition:
+      transform 80ms ease,
       background-color 150ms ease,
       color 150ms ease,
       border-color 150ms ease,
       box-shadow 150ms ease;
+  }
+  .btn-tactile:active:not(:disabled) {
+    transform: scale(0.975);
   }
 
   .btn-primary {
@@ -276,14 +349,18 @@
     padding: 10px;
     font-weight: 500;
     transition:
+      transform 80ms ease,
       opacity 150ms ease,
       background-color 150ms ease;
   }
   .btn-primary:hover {
     opacity: 0.88;
   }
+  .btn-primary:active:not(:disabled) {
+    transform: scale(0.98);
+  }
   .dark .btn-primary {
-    color: #14161a;
+    color: #000000;
   }
 
   .btn-link {
@@ -326,6 +403,51 @@
   .tnum {
     font-variant-numeric: tabular-nums;
   }
+
+  /* Slender custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--c-line-strong);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--c-dim);
+  }
+
+  /* Clean Card Spec Dotted Leaders */
+  .card-spec-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .card-spec-leader {
+    flex-grow: 1;
+    border-bottom: 1px dotted var(--c-line-strong);
+    margin: 0 0.35rem;
+    height: 0;
+    opacity: 0.55;
+  }
+
+  .text-ink {
+    color: var(--c-ink) !important;
+  }
+
+  .text-dim {
+    color: var(--c-dim) !important;
+  }
+
+  .text-faint {
+    color: var(--c-faint) !important;
+  }
 }
 
 /* Reduced motion collapse. */
@@ -336,10 +458,33 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transform: none !important;
   }
   .sparkline-path {
     stroke-dashoffset: 0;
   }
+}
+
+/* ── Silky Smooth Global Theme Transitions ── */
+html,
+body,
+header,
+nav,
+main,
+footer,
+section,
+aside,
+article,
+input,
+button,
+select,
+textarea,
+dialog {
+  transition:
+    background-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -358,4 +503,5 @@ body {
   outline: 2px solid var(--c-strong);
   outline-offset: 2px;
   border-radius: 4px;
+  transition: outline-color 100ms ease;
 }

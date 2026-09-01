@@ -57,10 +57,12 @@ test("GET /api/trending/least shows only established repos, smallest 7-day growt
 test("GET /api/search honors query + language filter", async () => {
   const { server, base } = await startServer();
   const hit = await (await fetch(`${base}/api/search?q=postman`)).json();
-  assert.equal(hit.count, 1);
-  assert.equal(hit.results[0].alternative.name, "Bruno");
+  assert.ok(hit.count >= 1);
+  assert.ok(hit.results.some((r) => r.alternative.name === "Bruno"));
   const lang = await (await fetch(`${base}/api/search?language=Rust`)).json();
-  assert.equal(lang.count, 0); // no Rust repos in current seed
+  assert.ok(lang.count >= 1); // Revolt is in the seed
+  const cobol = await (await fetch(`${base}/api/search?language=Cobol`)).json();
+  assert.equal(cobol.count, 0); // No Cobol repos in seed
   const go = await (await fetch(`${base}/api/search?language=Go`)).json();
   assert.ok(go.count >= 2);
   server.close();
@@ -153,6 +155,20 @@ test("learn endpoints list and serve articles", async () => {
   const article = await (await fetch(`${base}/api/learn/${articles[0].slug}`)).json();
   assert.match(article.body, /^# /m);
   const nf = await fetch(`${base}/api/learn/nope`);
+  assert.equal(nf.status, 404);
+  server.close();
+});
+
+test("blog endpoints list and serve editorial posts", async () => {
+  const { server, base } = await startServer();
+  const posts = await (await fetch(`${base}/api/blog`)).json();
+  assert.ok(posts.length >= 3);
+  assert.ok(posts[0].slug);
+  assert.ok(posts[0].title);
+  const post = await (await fetch(`${base}/api/blog/${posts[0].slug}`)).json();
+  assert.ok(post.title);
+  assert.ok(post.body);
+  const nf = await fetch(`${base}/api/blog/nope`);
   assert.equal(nf.status, 404);
   server.close();
 });

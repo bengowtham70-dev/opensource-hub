@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "OpenSource Hub — Free Alternatives Finder",
+  "version": "1.0.0",
+  "description": "Automatically alerts you to free, privacy-first open-source alternatives to paid SaaS products you visit.",
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Find Open Source Alternatives"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.notion.so/*",
+        "*://*.figma.com/*",
+        "*://*.slack.com/*",
+        "*://*.airtable.com/*",
+        "*://*.trello.com/*",
+        "*://*.postman.com/*",
+        "*://*.datadoghq.com/*",
+        "*://*.sentry.io/*",
+        "*://*.supabase.com/*",
+        "*://*.firebase.google.com/*",
+        "*://*.mailchimp.com/*",
+        "*://*.hubspot.com/*",
+        "*://*.canva.com/*",
+        "*://*.zoom.us/*",
+        "*://*.jira.atlassian.com/*",
+        "*://*.asana.com/*",
+        "*://*.clickup.com/*",
+        "*://*.linear.app/*",
+        "*://*.1password.com/*",
+        "*://*.bitwarden.com/*",
+        "*://*.zapier.com/*",
+        "*://*.make.com/*",
+        "*://*.segment.com/*",
+        "*://*.mixpanel.com/*",
+        "*://*.amplitude.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": ["storage"]
+}

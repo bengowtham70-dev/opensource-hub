@@ -65,16 +65,50 @@ export function searchPairings({ q = "", language = "", platform = "", license: 
       return false;
     }
     if (!query) return true;
+    const STOPWORDS = new Set([
+      "free", "open", "source", "alternative", "alternatives", "replacement", "replacements",
+      "replace", "replacing", "instead", "of", "for", "to", "the", "a", "an", "and", "or",
+      "vs", "versus", "app", "apps", "tool", "tools", "software", "program", "programs",
+    ]);
+    const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     const haystack = [
       p.paidTool.name,
-      p.alternative.name,
+      p.paidTool.slug,
       p.paidTool.category,
+      p.alternative.name,
+      p.alternative.repo,
       p.alternative.description,
-      ...p.alternative.tags,
+      p.alternative.language,
+      ...(p.alternative.platforms || []),
+      ...(p.alternative.tags || []),
+      ...(p.goalTags || []),
+      p.alternative.license?.spdx || "",
+      p.alternative.license?.type || "",
+      p.relationship || "",
     ]
       .join(" ")
       .toLowerCase();
-    return haystack.includes(query);
+    // Split query, normalize hyphens, drop filler words user naturally types ("free alternative to Notion")
+    let terms = normalize(query).split(/\s+/).filter((t) => t && !STOPWORDS.has(t));
+    // If query was only stopwords ("free alternative"), treat as empty → show all
+    if (terms.length === 0) terms = normalize(query).split(/\s+/).filter(Boolean);
+    if (terms.length === 0) return true;
+    const haystackWords = haystack.split(/\s+/).filter(Boolean);
+    const levenshtein = (a, b) => {
+      if (Math.abs(a.length - b.length) > 2) return 99;
+      const m = a.length, n = b.length;
+      const dp = Array.from({ length: m + 1 }, (_, i) => Array(n + 1).fill(0));
+      for (let i = 0; i <= m; i++) dp[i][0] = i;
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++) for (let j = 1; j <= n; j++) dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+      return dp[m][n];
+    };
+    const fuzzyMatch = (term) => {
+      if (term.length < 3) return false;
+      const maxDist = term.length <= 4 ? 1 : 2;
+      return haystackWords.some((w) => w.length >= 3 && levenshtein(term, w) <= maxDist);
+    };
+    return terms.every((term) => haystack.includes(term) || fuzzyMatch(term));
   });
 }
 

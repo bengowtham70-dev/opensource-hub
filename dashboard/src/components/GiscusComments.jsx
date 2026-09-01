@@ -35,12 +35,12 @@ export default function GiscusComments({ term }) {
     <section aria-label="Community discussion" className="mt-10">
       <h2 className="font-display text-display-md text-ink mb-4">Discussion</h2>
       {GISCUS.repo ? (
-        <div ref={ref} className="card-glass p-4" />
+        <div ref={ref} className="card-elevated p-4" />
       ) : (
-        <div className="card-glass p-6 text-sm text-dim">
+        <div className="card-elevated p-6 text-sm text-dim">
           <p>
             Community comments run on <span className="text-ink">GitHub Discussions</span> — sign in with your GitHub
-            account to comment or drop a 👍.
+            account to comment or drop a reaction.
           </p>
           <p className="mt-2 text-faint">
             (Widget activates once the listing's Discussion category is configured in{" "}

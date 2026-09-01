@@ -12,3 +12,6 @@ src/server/payload.generated.js
 
 # catalog merge progress state
 scripts/.merge-state.json
+
+# Web directory static build output
+web-dist/

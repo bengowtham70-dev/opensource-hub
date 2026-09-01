@@ -75,7 +75,7 @@ export default function CommandPalette({ open, onOpenChange }) {
           <Command.Group heading="Views" className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-faint">
             {views.map((v) => (
               <Item key={v.to} onSelect={() => go(v.to)}>
-                <v.icon size={15} className="text-primary" />
+                <v.icon size={15} className="text-faint" />
                 {v.label}
               </Item>
             ))}
@@ -84,7 +84,7 @@ export default function CommandPalette({ open, onOpenChange }) {
           <Command.Group heading="Filters" className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-faint">
             {filters.map((f) => (
               <Item key={f.to} onSelect={() => go(f.to)}>
-                <f.icon size={15} className="text-primary" />
+                <f.icon size={15} className="text-faint" />
                 {f.label}
               </Item>
             ))}

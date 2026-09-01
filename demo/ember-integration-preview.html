@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Progress — integration preview (OpenSource Hub)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --page:#E5E7EB; --card:#FFFFFF; --elev:#FFFFFF; --line:#F3F4F6;
+    --ink:#121212; --ink2:#4B5563; --ink3:#9CA3AF;
+    --btn-bg:#121212; --btn-fg:#FFFFFF;
+    --trust:#059669; --track:#EEF0F2;
+    --shadow: rgba(0,0,0,0.1) 0 15px 35px -5px;
+  }
+  html.dark {
+    --page:#14161A; --card:#1C1F26; --elev:#242830; --line:#2B3038;
+    --ink:#E5E7EB; --ink2:#9CA3AF; --ink3:#6B7280;
+    --btn-bg:#F5F5F4; --btn-fg:#121212;
+    --trust:#34D399; --track:#242830;
+    --shadow: rgba(0,0,0,0.5) 0 18px 40px -8px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body {
+    min-height:100vh; background:var(--page);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:var(--ink); padding:36px 20px 64px;
+    transition:background 150ms ease,color 150ms ease;
+  }
+  .wrap { max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:26px; }
+  .top { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; }
+  h1 { font-family:"Newsreader",Georgia,serif; font-weight:400; font-size:30px; letter-spacing:-0.02em; }
+  .sub { font-size:13px; color:var(--ink2); margin-top:6px; }
+  .theme-btn {
+    appearance:none; cursor:pointer; border:1px solid var(--line); background:var(--card);
+    color:var(--ink); font:500 13px "Inter",sans-serif; padding:10px 14px; border-radius:999px;
+    box-shadow:var(--shadow); transition:all 150ms ease;
+  }
+  .card {
+    background:var(--card); border:0.8px solid var(--line); border-radius:16px;
+    padding:20px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:14px;
+    transition:background 150ms ease,border-color 150ms ease;
+  }
+  .kicker { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--ink3); }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--accent,#FF5722); }
+  h2 { font-size:15px; font-weight:600; letter-spacing:-0.01em; }
+  .desc { font-size:13px; color:var(--ink2); margin-top:-8px; }
+
+  .repo-row { display:flex; align-items:center; gap:12px; padding:12px 14px;
+    border:0.8px solid var(--line); border-radius:12px; background:var(--elev); }
+  .logo { width:38px; height:38px; border-radius:10px; display:flex; align-items:center;
+    justify-content:center; font-weight:600; font-size:15px; color:#fff; background:linear-gradient(135deg,#AD3308,#FF7A24); flex:none; }
+  .meta { flex:1; min-width:0; }
+  .meta b { font-size:14px; font-weight:600; }
+  .meta span { display:block; font-size:12px; color:var(--ink3); }
+  .pill { font-size:11px; font-weight:600; padding:5px 10px; border-radius:999px;
+    color:var(--trust); border:1px solid color-mix(in srgb,var(--trust) 30%,transparent); }
+
+  .btn-primary {
+    appearance:none; border:none; cursor:pointer; background:var(--btn-bg); color:var(--btn-fg);
+    font:600 13px "Inter",sans-serif; letter-spacing:0.01em; padding:10px 18px; border-radius:4px;
+    transition:opacity 150ms ease; flex:none;
+  }
+  .btn-primary:hover { opacity:0.85; }
+  .btn-primary[disabled] { opacity:0.6; cursor:default; }
+
+  .bar-slot { position:relative; height:34px; border-radius:10px; overflow:hidden;
+    background:var(--track); border:0.8px solid var(--line); opacity:0; transition:opacity 150ms ease; }
+  .bar-slot.on { opacity:1; }
+  .bar-slot canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
+  .bar-label { position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    gap:8px; font-size:12px; font-weight:600; font-variant-numeric:tabular-nums; pointer-events:none; z-index:2;
+    color:#FFD69E; mix-blend-mode:normal; text-shadow:0 1px 2px rgba(25,6,2,0.65); }
+  .bar-label.done { color:var(--trust); text-shadow:none; }
+
+  .done-row { display:none; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--trust); }
+  .done-row.on { display:flex; }
+  .check { width:18px; height:18px; border-radius:50%; background:var(--trust); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:11px; }
+
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { font-size:11px; font-weight:500; padding:6px 10px; border-radius:999px;
+    background:var(--elev); border:0.8px solid var(--line); color:var(--ink2); }
+  .chip b { color:var(--ink); font-weight:600; }
+
+  .find-row { display:flex; gap:10px; }
+  .input {
+    flex:1; border:0.8px solid var(--line); background:var(--elev); color:var(--ink);
+    font:400 13px "Inter",sans-serif; padding:10px 14px; border-radius:10px; outline:none;
+    transition:border-color 150ms ease;
+  }
+  .input:focus { border-color:#AD3308; }
+  .note { font-size:11px; color:var(--ink3); line-height:1.5; border-top:0.8px solid var(--line); padding-top:12px; }
+  @media (prefers-reduced-motion: reduce){ *{ transition-duration:0.01ms !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>Ember Progress — where it lives in OpenSource Hub</h1>
+      <div class="sub">Three real surfaces, mocked with Sentinel tokens (light + dark). Press the buttons to see each state machine run.</div>
+    </div>
+    <button class="theme-btn" id="themeBtn">Toggle dark</button>
+  </div>
+
+  <section class="card">
+    <div class="kicker"><span class="dot"></span>Tier 1 · strongest fit</div>
+    <h2>Repo Detail — “Run App” installer</h2>
+    <div class="desc">Real <code>{pct, speed}</code> already streams here today (currently a cramped 22&nbsp;px ring). Molten bar replaces it.</div>
+    <div class="repo-row">
+      <div class="logo">Dk</div>
+      <div class="meta"><b>Dockle</b><span>Container image security linter · Rust</span></div>
+      <span class="pill">Trust 94</span>
+      <button class="btn-primary" id="runBtn">Run App</button>
+    </div>
+    <div class="bar-slot" id="slotA"><canvas id="fxA"></canvas><div class="bar-label" id="labA">Connecting…</div></div>
+    <div class="done-row" id="doneA"><span class="check">✓</span>Installed — launched in sandbox · 42 MB in 6.8 s</div>
+  </section>
+
+  <section class="card">
+    <div class="kicker"><span class="dot"></span>Tier 1 · indeterminate today</div>
+    <h2>Stack Audit scan</h2>
+    <div class="desc">Audit button currently just says “Auditing…” with no feedback. Ember sweep + live counter instead.</div>
+    <div class="chips"><span class="chip"><b>docker</b> · image</span><span class="chip"><b>rustc</b> · toolchain</span><span class="chip"><b>sqlite</b> · db</span><span class="chip"><b>electron</b> · shell</span></div>
+    <div class="bar-slot" id="slotB"><canvas id="fxB"></canvas><div class="bar-label" id="labB">Preparing…</div></div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="btn-primary" id="auditBtn">Run audit</button>
+      <span class="done-row" id="doneB"><span class="check">✓</span>34 packages scanned · 0 critical · 2 advisories</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="kicker"><span class="dot"></span>Tier 1 · spinner replacement</div>
+    <h2>AI Tool Finder — “Thinking…”</h2>
+    <div class="desc">Replaces <code>LoaderCircle</code> spin with a slow indeterminate ember drift.</div>
+    <div class="find-row">
+      <input class="input" placeholder="e.g. I need a Figma alternative for wireframing…" value="cheaper alternative to Linear">
+      <button class="btn-primary" id="findBtn">Find tools</button>
+    </div>
+    <div class="bar-slot" id="slotC" style="height:22px;"><canvas id="fxC"></canvas></div>
+    <span class="done-row" id="doneC"><span class="check">✓</span>Found 5 matches · top pick: <b>&nbsp;Vikunja</b></span>
+  </section>
+
+  <div class="note">Color-law guardrail (from .agents/memory): ember ramp runs only <em>during</em> activity; completion always resolves to trust-green per Sentinel semantics. Orange stays money-saved elsewhere. Reduced-motion collapses all of it. If approved, implementation lands as one reusable &lt;EmberProgress&gt; React component wired into DownloadSection / StackAuditPage / AiFinderPage — no app files touched yet.</div>
+</div>
+
+<script>
+(() => {
+  const EMBER = ["#190602","#401204","#AD3308","#FF7A24","#FFD69E","#AD3308","#FF7A24"];
+
+  function rr(c,x,y,w,h,r){ r=Math.min(r,w/2,h/2); c.beginPath(); c.moveTo(x+r,y);
+    c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+
+  class EmberBar {
+    constructor(canvas, opts){
+      this.cv = canvas; this.ctx = canvas.getContext("2d");
+      this.o = Object.assign({ pulse:0.22, pulseRate:3, lag:0.45, indeterminate:false }, opts||{});
+      this.target = 0; this.pos = 0; this.vel = 0; this.green = false;
+      this.grain = document.createElement("canvas"); this.grain.width=this.grain.height=96;
+      const g = this.grain.getContext("2d"); const img = g.createImageData(96,96);
+      for(let i=0;i<img.data.length;i+=4){ const v=(Math.random()*255)|0;
+        img.data[i]=img.data[i+1]=img.data[i+2]=v; img.data[i+3]=255; }
+      g.putImageData(img,0,0); this.pat = this.ctx.createPattern(this.grain,"repeat");
+      const loop = (ms)=>{ this.draw(ms/1000); this._raf=requestAnimationFrame(loop); };
+      this._raf = requestAnimationFrame(loop);
+    }
+    set(v){ this.target = Math.min(1,Math.max(0,v)); this.green=false; }
+    finish(){ this.set(1); this.green=true; setTimeout(()=>this.reset(),2600); }
+    reset(){ this.target=0; this.pos=0; this.vel=0; this.green=false; }
+    destroy(){ cancelAnimationFrame(this._raf); }
+    draw(now){
+      const cv=this.cv,dpr=window.devicePixelRatio||1;
+      const w=cv.clientWidth,h=cv.clientHeight;
+      if(cv.width!==w*dpr||cv.height!==h*dpr){ cv.width=w*dpr; cv.height=h*dpr; }
+      const c=this.ctx; c.setTransform(dpr,0,0,dpr,0,0); c.clearRect(0,0,w,h);
+      if(this.o.indeterminate && !this.green){
+        const cyc=(now*0.22)%1.35; this.target=cyc<1?cyc*cyc*(3-2*cyc):1;
+      }
+      const k=150-118*this.o.lag, dmp=17-9*this.o.lag;
+      let dt=1/60;
+      this.vel+=((this.target-this.pos)*k-this.vel*dmp)*dt; this.pos+=this.vel*dt;
+      const pad=3, bx=pad,by=pad,bw=Math.max(0,(w-pad*2)),bh=h-pad*2,rad=bh*0.32;
+      const fillW=bw*Math.min(1,Math.max(0,this.pos));
+      c.save(); rr(c,bx,by,bw,bh,rad); c.clip();
+      if(this.green){
+        const lg=c.createLinearGradient(bx,0,bx+bw,0);
+        lg.addColorStop(0,"#065F46"); lg.addColorStop(1,this.getVar("--trust","#059669"));
+        c.fillStyle=lg; c.fillRect(bx,by,fillW,bh);
+      } else {
+        const stops=[0,.18,.38,.58,.78,.92,1];
+        const lg=c.createLinearGradient(bx,0,bx+Math.max(2,fillW),0);
+        stops.forEach((s,i)=>lg.addColorStop(s,EMBER[i]));
+        c.fillStyle=lg; c.fillRect(bx,by,fillW,bh);
+        const sheen=c.createLinearGradient(0,by,0,by+bh);
+        sheen.addColorStop(0,"rgba(255,214,158,0.18)"); sheen.addColorStop(0.4,"rgba(255,255,255,0.02)");
+        sheen.addColorStop(1,"rgba(0,0,0,0.22)");
+        c.fillStyle=sheen; c.fillRect(bx,by,fillW,bh);
+        c.save(); c.globalCompositeOperation="lighter";
+        const pm=1+this.o.pulse*Math.sin((2*Math.PI*now)/this.o.pulseRate);
+        const hx=bx+fillW, cy=by+bh/2;
+        const hot=c.createRadialGradient(hx,cy,1,hx,cy,bh*1.1);
+        hot.addColorStop(0,"rgba(255,214,158,"+(0.75*pm).toFixed(3)+")");
+        hot.addColorStop(0.35,"rgba(255,122,36,"+(0.4*pm).toFixed(3)+")");
+        hot.addColorStop(1,"rgba(173,51,8,0)");
+        c.fillStyle=hot; c.fillRect(hx-bh*1.2,by-6,bh*2.4,bh+12);
+        c.shadowColor="rgba(255,122,36,0.85)"; c.shadowBlur=26;
+        c.fillStyle="rgba(255,122,36,"+(0.22*pm).toFixed(3)+")";
+        c.fillRect(bx,by,fillW,bh);
+        c.restore();
+      }
+      c.restore();
+    }
+    getVar(n,f){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||f; }
+  }
+
+  document.getElementById("themeBtn").addEventListener("click",()=>{
+    document.documentElement.classList.toggle("dark");
+  });
+
+  const slotA=document.getElementById("slotA"), labA=document.getElementById("labA"),
+        doneA=document.getElementById("doneA"), runBtn=document.getElementById("runBtn");
+  const barA=new EmberBar(document.getElementById("fxA"));
+  let runningA=false;
+  runBtn.addEventListener("click",()=>{
+    if(runningA) return; runningA=true;
+    doneA.classList.remove("on"); labA.classList.remove("done");
+    slotA.classList.add("on"); runBtn.disabled=true; runBtn.textContent="Downloading…";
+    barA.reset();
+    const t0=performance.now();
+    const iv=setInterval(()=>{
+      const el=(performance.now()-t0)/4200;
+      const p=Math.min(1,el); const eased=p<1?(1-Math.pow(1-p,2.2)):1;
+      barA.set(eased);
+      labA.textContent=Math.round(eased*100)+"% · "+(3.4+Math.random()*2.4).toFixed(1)+" MB/s";
+      if(p>=1){ clearInterval(iv); barA.finish(); labA.textContent="100%"; labA.classList.add("done");
+        doneA.classList.add("on"); runBtn.disabled=false; runBtn.textContent="Run App"; runningA=false; }
+    },90);
+  });
+
+  const slotB=document.getElementById("slotB"), labB=document.getElementById("labB"),
+        doneB=document.getElementById("doneB"), auditBtn=document.getElementById("auditBtn");
+  const barB=new EmberBar(document.getElementById("fxB"),{lag:0.5});
+  let runningB=false;
+  auditBtn.addEventListener("click",()=>{
+    if(runningB) return; runningB=true;
+    doneB.classList.remove("on"); labB.classList.remove("done");
+    slotB.classList.add("on"); auditBtn.disabled=true; auditBtn.textContent="Auditing…";
+    barB.reset();
+    const t0=performance.now();
+    const iv=setInterval(()=>{
+      const p=Math.min(1,(performance.now()-t0)/5200);
+      barB.set(p<1?p:(1));
+      labB.textContent="Scanning "+Math.round(p*34)+"/34 packages…";
+      if(p>=1){ clearInterval(iv); barB.finish(); labB.textContent="Audit complete"; labB.classList.add("done");
+        doneB.classList.add("on"); auditBtn.disabled=false; auditBtn.textContent="Run audit"; runningB=false; }
+    },120);
+  });
+
+  const slotC=document.getElementById("slotC"),
+        doneC=document.getElementById("doneC"), findBtn=document.getElementById("findBtn");
+  const barC=new EmberBar(document.getElementById("fxC"),{indeterminate:true,pulse:0.12});
+  let runningC=false;
+  findBtn.addEventListener("click",()=>{
+    if(runningC) return; runningC=true;
+    doneC.classList.remove("on"); slotC.classList.add("on");
+    findBtn.disabled=true; findBtn.textContent="Thinking…";
+    barC.reset();
+    setTimeout(()=>{
+      barC.green=true; barC.set(1);
+      setTimeout(()=>{ slotC.classList.remove("on"); doneC.classList.add("on");
+        findBtn.disabled=false; findBtn.textContent="Find tools"; barC.reset(); runningC=false; },900);
+    },3400);
+  });
+})();
+</script>
+</body>
+</html>

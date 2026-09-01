@@ -16,7 +16,13 @@ program
   .version(getPackageVersion())
   .option("-p, --port <number>", "preferred port", "3000")
   .option("--no-open", "do not open the browser automatically")
+  .option("--mcp", "run as MCP stdio server for agent clients (PRD §32)")
   .action(async (opts) => {
+    if (opts.mcp) {
+      const { runMcp } = await import("../src/server/mcp.js");
+      await runMcp();
+      return;
+    }
     await run({
       preferredPort: Number.parseInt(opts.port, 10),
       openBrowser: opts.open,

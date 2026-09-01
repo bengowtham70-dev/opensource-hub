@@ -1,0 +1,81 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: ◆
+        - text: OpenSource Hub
+      - link "How it works" [ref=e6] [cursor=pointer]:
+        - /url: "#how"
+      - link "Troubleshooting" [ref=e7] [cursor=pointer]:
+        - /url: "#troubleshoot"
+      - link "GitHub ↗" [ref=e8] [cursor=pointer]:
+        - /url: https://github.com/opensource-hub/opensource-hub
+      - button "Toggle dark mode" [active] [ref=e9] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e14]:
+      - heading [level=1] [ref=e15]:
+        - text: Stop renting software.
+        - emphasis [ref=e16]: Own it free.
+      - paragraph [ref=e17]: One command installs a local dashboard of free, open-source alternatives to the paid tools you already use — with trust signals on every repo.
+      - group "Install command" [ref=e18]:
+        - generic [ref=e19]: $
+        - code [ref=e20]: npm install -g opensource-hub
+        - button "Copy install command" [ref=e22] [cursor=pointer]
+      - paragraph [ref=e26]:
+        - text: Requires
+        - link "Node.js 18+" [ref=e27] [cursor=pointer]:
+          - /url: https://nodejs.org
+        - text: "— you probably have it. To remove later:"
+        - code [ref=e28]: npm uninstall -g opensource-hub
+      - group "Alternative install methods" [ref=e29]:
+        - button "🍺 brew brew install opensource-hub/tap/opensource-hub" [ref=e30] [cursor=pointer]:
+          - generic [ref=e31]: 🍺 brew
+          - code [ref=e32]: brew install opensource-hub/tap/opensource-hub
+        - button "🪣 scoop scoop bucket add opensource-hub && scoop install opensource-hub" [ref=e33] [cursor=pointer]:
+          - generic [ref=e34]: 🪣 scoop
+          - code [ref=e35]: scoop bucket add opensource-hub && scoop install opensource-hub
+        - button "⬇ npm npm install -g opensource-hub" [ref=e36] [cursor=pointer]:
+          - generic [ref=e37]: ⬇ npm
+          - code [ref=e38]: npm install -g opensource-hub
+      - paragraph [ref=e39]: Standalone binaries (.exe / .dmg / AppImage) ship on each GitHub Release — no Node required.
+      - img "OpenSource Hub dashboard showing free alternatives with savings and 30-day star momentum" [ref=e41]
+    - generic [ref=e43]:
+      - text: What you get
+      - heading "Everything runs on your machine." [level=2] [ref=e44]
+      - paragraph [ref=e45]: No account, no API key, no cloud. The app reads public GitHub data and serves a private dashboard in your browser.
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: 💸
+          - heading "Find what you can stop paying for" [level=3] [ref=e49]
+          - paragraph [ref=e50]: Search the paid tool you use — Notion, Postman, Figma — and get a vetted free alternative with honest annual savings and a feature-parity checklist.
+        - generic [ref=e51]:
+          - generic [ref=e52]: 🛡️
+          - heading "Trust what you download" [level=3] [ref=e53]
+          - paragraph [ref=e54]: Maintenance status, license clarity and red-flag warnings on every listing — because star counts alone don't tell you if a project is safe or alive.
+        - generic [ref=e55]:
+          - generic [ref=e56]: ⚡
+          - heading "One-click downloads" [level=3] [ref=e57]
+          - paragraph [ref=e58]: Projects that ship installers get a Run App button that lands the real .exe/.dmg/.AppImage in your Downloads. Source-only projects say so honestly.
+    - generic [ref=e60]:
+      - text: Stuck?
+      - heading "Common install issues" [level=2] [ref=e61]
+      - group [ref=e62]:
+        - 'generic "macOS / Linux: \"EACCES permission denied\" during install" [ref=e63] [cursor=pointer]'
+      - group [ref=e64]:
+        - 'generic "Windows: \"opensource-hub is not recognized\"" [ref=e65] [cursor=pointer]'
+      - group [ref=e66]:
+        - generic "Port 3000 is already in use" [ref=e67] [cursor=pointer]
+      - group [ref=e68]:
+        - generic "Don't have Node.js at all?" [ref=e69] [cursor=pointer]
+  - contentinfo [ref=e70]:
+    - generic [ref=e71]:
+      - generic [ref=e72]: © 2026 OpenSource Hub · MIT License · Runs locally, phones home never.
+      - generic [ref=e73]:
+        - link "Terms" [ref=e74] [cursor=pointer]:
+          - /url: terms.html
+        - text: ·
+        - link "Privacy" [ref=e75] [cursor=pointer]:
+          - /url: privacy.html
+        - text: ·
+        - link "Support" [ref=e76] [cursor=pointer]:
+          - /url: https://github.com/opensource-hub/opensource-hub/issues

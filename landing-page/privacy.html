@@ -15,17 +15,17 @@
     <style>
       :root {
         color-scheme: light;
-        --base:#9ca3af; --surface:#ffffff; --elevated:#f9fafb;
-        --trust:#059669; --caution:#d97706; --ink:#4b5563; --dim:#6b7280; --faint:#9ca3af;
+        --base:#f6f5f3; --surface:#ffffff; --elevated:#ffffff;
+        --trust:#059669; --caution:#d97706; --ink:#18181b; --dim:#52525b; --faint:#a1a1aa;
         --strong:#121212;
-        --line:#f3f4f6; --line-strong:#d1d5db;
+        --line:#e6e4e1; --line-strong:#d4d2cf;
       }
       html.dark {
         color-scheme: dark;
-        --base:#14161a; --surface:#1c1f26; --elevated:#242830;
+        --base:#000000; --surface:#0a0a0a; --elevated:#141414;
         --trust:#34d399; --caution:#fbbf24; --ink:#e5e7eb; --dim:#9ca3af; --faint:#6b7280;
         --strong:#f5f5f5;
-        --line:rgb(255 255 255 / .08); --line-strong:rgb(255 255 255 / .16);
+        --line:rgb(255 255 255 / .1); --line-strong:rgb(255 255 255 / .18);
       }
       * { box-sizing:border-box; margin:0; padding:0; }
       body { background:var(--surface); color:var(--ink); font-family:"Inter",system-ui,sans-serif; font-weight:500; line-height:1.7; -webkit-font-smoothing:antialiased; }
@@ -49,7 +49,7 @@
   <div class="wrap">
     <a class="back" href="index.html">← OpenSource Hub</a>
     <h1>Privacy Policy</h1>
-    <p class="meta">Draft for launch — fill bracketed placeholders before publishing (PRD §13).</p>
+    <p class="meta">Effective 2026-08-26 — contact via <a href="https://github.com/opensource-hub/opensource-hub/issues">GitHub Issues</a> until a dedicated support email is published.</p>
 
     <div class="short"><strong>The short version:</strong> the app runs on your machine. Your favorites and caches stay on your machine. We operate no accounts and no central database of users.</div>
 
@@ -70,14 +70,12 @@
     <p><strong>Local counters only.</strong> The app counts how many times it has been run and stores that number in your local user-data folder. It never leaves your machine — there is no telemetry endpoint and no network call. If remote, aggregate analytics are ever considered, they will be strictly opt-in and disclosed here first (PRD §16).</p>
 
     <h2>Payments</h2>
-    <p>If paid tiers launch (Trust Score Pro, AI Tool Finder), payment processing will be handled by <span class="ph">[PROCESSOR]</span> under their privacy policy; we store only what is operationally required and disclosed at that time.</p>
+    <p>If paid tiers launch (Trust Score Pro, AI Tool Finder), payment processing will be handled by the processor disclosed at that time (none currently — no payments are processed); we store only what is operationally required and disclosed before any paid tier goes live.</p>
 
     <h2>Your control</h2>
     <p>Delete the app's local folder at any time to remove all local data: <code>%LOCALAPPDATA%\opensource-hub</code> (Windows) · <code>~/Library/Application Support/opensource-hub</code> (macOS) · <code>~/.config/opensource-hub</code> (Linux). Uninstall with <code>npm uninstall -g opensource-hub</code>.</p>
 
-    <p class="meta" style="margin-top:36px">Effective date: <span class="ph">[DATE]</span> · Contact: <span class="ph">[SUPPORT EMAIL]</span></p>
-
-    <div class="notice">Placeholder values in amber brackets must be completed before public launch.</div>
+    <p class="meta" style="margin-top:36px">Effective date: 2026-08-26 · Contact: <a href="https://github.com/opensource-hub/opensource-hub/issues">github.com/opensource-hub/opensource-hub/issues</a></p>
   </div>
 <section style="padding:24px 0;border-top:1px solid var(--line)">
 <h2 style="font-size:16px">Ads &amp; affiliate disclosure</h2>

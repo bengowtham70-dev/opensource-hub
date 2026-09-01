@@ -1,0 +1,109 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "OpenSource Hub home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e7]: ◆
+        - generic [ref=e8]: OpenSource Hub
+      - navigation "Primary" [ref=e9]:
+        - link "Trending" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=e14] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=e19] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=e25] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=e29] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=e33] [cursor=pointer]:
+          - /url: /learn
+      - button "Open command palette search" [ref=e37]:
+        - generic [ref=e41]: Search alternatives…
+        - generic [ref=e42]: Ctrl K
+      - button "Switch to dark mode" [ref=e43]
+      - generic "Byte is watching over your downloads" [ref=e53]:
+        - img "Byte the Guardian mascot" [ref=e54]
+  - generic [ref=e67]:
+    - generic [ref=e68]:
+      - heading "Stop renting software. Own it free." [level=1] [ref=e69]
+      - group "Install command" [ref=e71]:
+        - code [ref=e75]: $ npm install -g opensource-hub
+        - button "Copy install command" [ref=e76]
+      - generic [ref=e80]:
+        - searchbox "Search alternatives by paid tool or keyword" [ref=e85]
+        - button "Or press ⌘K" [ref=e86]
+    - region "Browse by replacement goal" [ref=e87]:
+      - paragraph [ref=e88]: I want to replace…
+      - generic [ref=e97]:
+        - button "Password Manager 2" [ref=e98]:
+          - text: Password Manager
+          - generic [ref=e99]: "2"
+        - button "Trello 2" [ref=e100]:
+          - text: Trello
+          - generic [ref=e101]: "2"
+        - button "Airtable 1" [ref=e102]:
+          - text: Airtable
+          - generic [ref=e103]: "1"
+        - button "Asana 1" [ref=e104]:
+          - text: Asana
+          - generic [ref=e105]: "1"
+        - button "Auth Provider 1" [ref=e106]:
+          - text: Auth Provider
+          - generic [ref=e107]: "1"
+        - button "Docker Desktop 1" [ref=e108]:
+          - text: Docker Desktop
+          - generic [ref=e109]: "1"
+        - button "Dropbox 1" [ref=e110]:
+          - text: Dropbox
+          - generic [ref=e111]: "1"
+        - button "Evernote 1" [ref=e112]:
+          - text: Evernote
+          - generic [ref=e113]: "1"
+        - button "More +19" [ref=e114]
+    - tablist "Trending views" [ref=e115]:
+      - tab "Today" [selected] [ref=e116]
+      - tab "Yesterday" [ref=e119]
+      - tab "Least trending" [ref=e123]
+      - tab "All-time" [ref=e127]
+      - generic "Filter by language" [ref=e134]:
+        - button "C" [ref=e135]
+        - button "C++" [ref=e136]
+        - button "Clojure" [ref=e137]
+        - button "Go" [ref=e138]
+        - button "Java" [ref=e139]
+        - button "JavaScript" [ref=e140]
+        - button "PHP" [ref=e141]
+    - generic [ref=e143]:
+      - group "Filter by Platform" [ref=e144]:
+        - generic [ref=e145]: Platform
+        - button "Windows 17" [ref=e146]:
+          - text: Windows
+          - generic [ref=e149]: "17"
+        - button "macOS 17" [ref=e150]:
+          - text: macOS
+          - generic [ref=e154]: "17"
+        - button "Linux 17" [ref=e155]:
+          - text: Linux
+          - generic [ref=e158]: "17"
+        - button "Web 15" [ref=e159]:
+          - text: Web
+          - generic [ref=e163]: "15"
+        - button "Self-host 19" [ref=e164]:
+          - text: Self-host
+          - generic [ref=e168]: "19"
+      - group "Filter by License" [ref=e169]:
+        - generic [ref=e170]: License
+        - button "Permissive 10" [ref=e171]:
+          - text: Permissive
+          - generic [ref=e172]: "10"
+        - button "Copyleft 11" [ref=e173]:
+          - text: Copyleft
+          - generic [ref=e174]: "11"
+        - button "Network copyleft 7" [ref=e175]:
+          - text: Network copyleft
+          - generic [ref=e176]: "7"
+  - contentinfo [ref=e282]:
+    - generic [ref=e283]:
+      - paragraph [ref=e284]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=e285]: v0.1.0 · MIT

@@ -1,8 +1,8 @@
 # Privacy Policy — OpenSource Hub
 
-_Draft for launch. Fill bracketed placeholders before publishing (PRD §13)._
+_Effective 2026-08-26. Contact via GitHub Issues until a dedicated support email is published._
 
-**Effective date:** [DATE] · **Contact:** [SUPPORT EMAIL]
+**Effective date:** 2026-08-26 · **Contact:** https://github.com/opensource-hub/opensource-hub/issues
 
 ## The short version
 
@@ -34,8 +34,8 @@ environment flag, disclosed here first, and kept non-identifying (PRD §16).
 ## Payments
 
 If paid tiers launch (Trust Score Pro, AI Tool Finder), payment processing will be handled by
-[PROCESSOR] under their privacy policy; we store only what is operationally required and
-disclosed at that time.
+the processor disclosed at that time (none currently — no payments are processed); we store
+only what is operationally required and disclosed before any paid tier goes live.
 
 ## Your control
 

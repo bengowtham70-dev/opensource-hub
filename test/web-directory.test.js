@@ -917,3 +917,64 @@ test("collection cards show stars/maintenance/license meta from snapshots", asyn
     }
   }
 });
+
+// ---------- §3d round-4: socials footer, release stat, Cmd+K palette ----------
+
+test("socials footer renders from config; honest-empty until URLs exist", async () => {
+  const { socialsHtml, layout } = await import("../scripts/build-web-directory.mjs");
+  assert.equal(socialsHtml({}), "", "no fabricated links without config");
+  const html = socialsHtml({
+    socials: {
+      x: "opensourcehub",
+      github: "https://github.com/osh/osh",
+      mastodon: "@osh",
+    },
+  });
+  assert.ok(html.includes('href="https://x.com/opensourcehub"'));
+  assert.ok(html.includes('href="https://github.com/osh/osh"'), "absolute URL passes through");
+  assert.ok(html.includes('href="https://mastodon.social/@osh"'), "prefix applied to handles");
+  assert.ok(html.includes(">X<") && html.includes(">Mastodon<"));
+  const page = layout(
+    { config: { ...CONFIG, socials: { x: "o" } }, title: "t", description: "d", route: "/" },
+    "body"
+  );
+  assert.ok(page.includes('class="socials"'));
+});
+
+test("latest-release stat renders only when snapshots carry a tag", async () => {
+  const withTag = profileHtml(PAIRING, ctxFor({ meta: { "toeverything/AFFiNE": { latestTag: "v0.20.0" } } }));
+  assert.ok(withTag.includes("v0.20.0") && withTag.includes("latest release"));
+  const noTag = profileHtml(PAIRING, ctxFor({}));
+  assert.ok(!noTag.includes("latest release"), "honest absence on seed data");
+});
+
+test("buildSite emits a search index covering tools, hubs, compares and pages", () => {
+  const routes = buildSite({
+    alternatives: { pairings: [JSON.parse(JSON.stringify(PAIRING)), PAIRING_B] },
+    snapshots: CMP_SNAP,
+    config: CONFIG,
+  });
+  const idx = routes.searchIndex;
+  assert.ok(Array.isArray(idx) && idx.length >= 5);
+  const types = new Set(idx.map((x) => x.t));
+  for (const t of ["tool", "hub", "compare", "page"]) assert.ok(types.has(t), `missing ${t}`);
+  for (const x of idx) {
+    assert.ok(x.n && x.h.endsWith(".html"), "every entry has name + html href");
+    assert.ok(!x.h.includes("//"), "site-relative hrefs only");
+  }
+  const cmp = idx.find((x) => x.t === "compare");
+  assert.ok(cmp.n.includes(" vs "), "compare entries named head-to-head");
+});
+
+test("palette markup + trigger ship on every layout page; index file referenced by fetch path", () => {
+  const routes = buildSite({
+    alternatives: { pairings: [JSON.parse(JSON.stringify(PAIRING))] },
+    snapshots: {},
+    config: CONFIG,
+  });
+  const anyPage = routes.get("affine");
+  assert.ok(anyPage.includes('data-palette-open'), "header trigger present");
+  assert.ok(anyPage.includes('class="pal-overlay"'), "overlay markup present");
+  assert.ok(anyPage.includes("/search-index.json"), "palette fetches build-time index");
+  assert.ok(routes.searchIndex.some((x) => x.t === "tool" && x.h === "/affine.html"));
+});

@@ -30,7 +30,7 @@ export default function FavoritesPage() {
       await fav.load();
       setImportMsg(`Imported ${json.importedFavorites} favorites · ${json.community.votes} voted tools · ${json.community.tags} tagged.`);
     } catch (err) {
-      setImportMsg(`âš  Import failed: ${err.message}`);
+      setImportMsg(`Import failed: ${err.message}`);
     } finally {
       e.target.value = "";
     }
@@ -98,7 +98,7 @@ export default function FavoritesPage() {
         <input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={onImportFile} />
       </header>
       {importMsg && (
-        <p className={`mb-4 text-[13px] tnum ${importMsg.startsWith("⚠") ? "text-caution" : "text-trust"}`} role="status">
+        <p className={`mb-4 text-[13px] tnum ${importMsg.toLowerCase().includes("failed") ? "text-caution" : "text-trust"}`} role="status">
           {importMsg}
         </p>
       )}
@@ -118,9 +118,9 @@ function FavoriteCard({ pairing }) {
   // Favorites view reuses the trending card minus sparkline (no snapshot fetch per favorite).
   const a = pairing.alternative;
   return (
-    <article className="card-glass p-5 flex flex-col gap-3 h-full">
+    <article className="card-elevated p-5 flex flex-col gap-3 h-full">
       <header className="flex items-start justify-between gap-2">
-        <Link to={`/repo/${a.repo}`} className="font-display text-xl text-ink tracking-tight hover:text-primary transition-colors">
+        <Link to={`/repo/${a.repo}`} className="font-display text-xl text-ink tracking-tight hover:text-link transition-colors">
           {a.name}
         </Link>
         <FavoriteToggle repo={a.repo} name={a.name} />
@@ -130,7 +130,7 @@ function FavoriteCard({ pairing }) {
         <span className="tnum text-[12px] text-tech">{a.language}</span>
         <Link
           to={`/repo/${a.repo}`}
-          className="btn-tactile inline-flex items-center gap-1 text-[12px] text-primary hover:text-ink"
+          className="btn-tactile inline-flex items-center gap-1 text-[12px] text-link hover:text-ink"
         >
           Open <ArrowRight size={13} />
         </Link>

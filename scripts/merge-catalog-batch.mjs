@@ -62,7 +62,7 @@ function family(spdx) {
   return String(spdx).replace(/-or-later$/i, "");
 }
 
-async function fetchRepo(repo, fetchImpl) {
+async function fetchRepo(repo, fetchImpl, { retryWaitMs } = {}) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const headers = {
       "User-Agent": "opensource-hub-catalog-merge",
@@ -73,7 +73,8 @@ async function fetchRepo(repo, fetchImpl) {
     if (res.status === 200) return { ok: true, data: await res.json() };
     if (res.status === 403 || res.status === 429) {
       const reset = Number(res.headers.get("x-ratelimit-reset") || 0) * 1000;
-      const waitMs = reset > Date.now() ? Math.min(reset - Date.now(), 60_000) : 30_000;
+
+      const waitMs = retryWaitMs != null ? retryWaitMs : reset > Date.now() ? Math.min(reset - Date.now(), 60_000) : 30_000;
       await new Promise((r) => setTimeout(r, attempt === 2 ? 0 : waitMs));
       continue;
     }
@@ -84,11 +85,11 @@ async function fetchRepo(repo, fetchImpl) {
 }
 
 // Verifies draft claims against live GitHub data. Returns {ok, entry?, reasons[]}.
-export async function verifyEntry(draft, fetchImpl, nowIso) {
+export async function verifyEntry(draft, fetchImpl, nowIso, opts) {
   const reasons = [];
   const { res } = { res: null }; // shape hint
   void res;
-  const check = await fetchRepo(draft.alternative.repo, fetchImpl);
+  const check = await fetchRepo(draft.alternative.repo, fetchImpl, opts);
   if (!check.ok) {
     return {
       ok: false,

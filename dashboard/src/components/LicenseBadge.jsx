@@ -11,7 +11,7 @@ const TYPES = {
     detail: "Permissive license — use it in products you sell, keep the copyright notice.",
   },
   copyleft: {
-    tone: "border-primary/35 bg-primary/10 text-primary",
+    tone: "border-tech/35 bg-tech/10 text-tech",
     icon: Share2,
     short: "Copyleft",
     detail: "Share-alike: if you distribute modified versions, you must share them under the same license.",

@@ -1,0 +1,29 @@
+- generic [ref=f3e3]:
+  - banner [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - link "OpenSource Hub home" [ref=f3e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f3e13]: OpenSource Hub
+      - navigation "Primary" [ref=f3e14]:
+        - link "Trending" [ref=f3e15] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=f3e19] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=f3e24] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=f3e30] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=f3e34] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=f3e38] [cursor=pointer]:
+          - /url: /learn
+      - generic [ref=f3e42]:
+        - searchbox "Search alternatives by paid tool or keyword" [ref=f3e46]
+        - generic [ref=f3e47]: Ctrl K
+      - button "Switch to light mode" [ref=f3e48]
+      - generic "Byte is watching over your downloads" [ref=f3e58]:
+        - img "Byte the Guardian mascot" [ref=f3e59]
+  - contentinfo [ref=f3e77]:
+    - generic [ref=f3e78]:
+      - paragraph [ref=f3e79]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=f3e80]: v0.1.0 · MIT

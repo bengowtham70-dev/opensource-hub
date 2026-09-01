@@ -3,16 +3,17 @@ version: "alpha"
 name: "Sentinel - Better Business Decisions"
 description: "Sentinel Better Login Section is designed for authenticating users through a focused access flow. Key features include reusable structure, responsive behavior, and production-ready presentation. It is suitable for authentication screens in web products."
 colors:
-  primary: "#9CA3AF"
+  primary: "#121212"
   secondary: "#FF5722"
-  tertiary: "#4B5563"
+  tertiary: "#3F3F46"
   neutral: "#FFFFFF"
-  background: "#9CA3AF"
+  background: "#F6F5F3"
   surface: "#FFFFFF"
-  text-primary: "#4B5563"
-  text-secondary: "#6B7280"
-  border: "#F3F4F6"
-  accent: "#9CA3AF"
+  text-primary: "#18181B"
+  text-secondary: "#52525B"
+  border: "#E6E4E1"
+  accent: "#FF5722"
+  link: "#C2410C"
 typography:
   display-lg:
     fontFamily: "Newsreader"
@@ -64,14 +65,15 @@ components:
 
 ## Colors
 
-The color system uses dark mode with #9CA3AF as the main accent and #FFFFFF as the neutral foundation.
+The color system ("Paper & Ember") pairs a warm neutral canvas with ink actions and a single ember accent; #FFFFFF remains the surface foundation.
 
-- **Primary (#9CA3AF):** Main accent and emphasis color.
-- **Secondary (#FF5722):** Supporting accent for secondary emphasis.
-- **Tertiary (#4B5563):** Reserved accent for supporting contrast moments.
-- **Neutral (#FFFFFF):** Neutral foundation for backgrounds, surfaces, and supporting chrome.
+- **Primary (#121212):** Ink — carries primary buttons, active washes, and quiet-chrome selected states.
+- **Link (#C2410C light / #FF8A5C dark):** Ember-link reserved for text links and hover affordance so ink never loses its interactive signal.
+- **Secondary (#FF5722):** The brand accent (savings pills, Byte's antenna, selection tint) — used sparingly.
+- **Tertiary (#3F3F46):** Tech/neutral contrast moments.
+- **Neutral (#FFFFFF):** Surface foundation on the #F6F5F3 warm-neutral canvas.
 
-- **Usage:** Background: #9CA3AF; Surface: #FFFFFF; Text Primary: #4B5563; Text Secondary: #6B7280; Border: #F3F4F6; Accent: #9CA3AF
+- **Usage:** Background: #F6F5F3; Surface: #FFFFFF; Text Primary: #18181B; Text Secondary: #52525B; Border: #E6E4E1; Accent: #FF5722
 
 - **Gradients:** bg-gradient-to-t from-white to-transparent
 
@@ -103,7 +105,7 @@ Depth is communicated through elevated, border contrast, and reusable shadow or 
 Surfaces should read as elevated first, with borders, shadows, and blur only reinforcing that material choice.
 
 - **Surface style:** Elevated
-- **Borders:** 0.8px #F3F4F6; 0.8px #D1D5DB
+- **Borders:** 0.8px #E6E4E1; 0.8px #D4D2CF
 - **Shadows:** rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 15px 35px -5px; rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px; rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 20px 60px -15px
 
 ### Techniques

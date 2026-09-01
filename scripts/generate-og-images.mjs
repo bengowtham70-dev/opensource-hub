@@ -1,7 +1,7 @@
 // plans/web-directory/PLAN.md W7 â€” build-time OG social cards (deviation #6:
 // static PNGs instead of a runtime /api/og edge function, keeping the $0 promise).
 // Card spec follows skills/claude/programmatic-seo-engine Â§3 (1200Ã—630, Obsidian
-// Dark #07090E) adapted to deterministic text-first content â€” no remote logo
+// Sentinel light palette (#F6F5F3) adapted to deterministic text-first content â€” no remote logo
 // fetches, no fabricated metrics: the 30-day delta renders ONLY from genuine
 // collected history (same honesty rule as every public surface).
 //
@@ -84,32 +84,32 @@ export function buildCardSvg(spec, { siteName = "OpenSource Hub", baseUrl = "" }
   let x = 64;
   let chips = "";
   if (spec.license) {
-    const c = chipSvg(spec.license, "#06b6d4", x, 452);
+    const c = chipSvg(spec.license, "#18181B", x, 452);
     chips += c.rect + c.text;
     x = c.nextX;
   }
   if (spec.stars != null) {
     const label = `★ ${spec.stars >= 1000 ? `${(spec.stars / 1000).toFixed(1)}k` : spec.stars}`;
-    const c = chipSvg(label, "#f59e0b", x, 452);
+    const c = chipSvg(label, "#D97706", x, 452);
     chips += c.rect + c.text;
     x = c.nextX;
   }
   if (spec.delta != null) {
-    const color = spec.delta >= 0 ? "#10b981" : "#f87171";
+    const color = spec.delta >= 0 ? "#059669" : "#DC2626";
     const arrow = spec.delta >= 0 ? "▲" : "▼";
     const c = chipSvg(`${arrow} ${Math.abs(spec.delta)}% 30d`, color, x, 452);
     chips += c.rect + c.text;
   }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-<rect width="1200" height="630" fill="#07090e"/>
-<text x="64" y="96" font-size="28" fill="#6366f1">◆</text>
-<text x="92" y="96" font-size="28" fill="#64748b">${escT(siteName)}</text>
-<text x="64" y="300" font-size="86" font-weight="700" fill="#f8fafc">${escT(spec.name)}</text>
-<text x="64" y="372" font-size="32" fill="#94a3b8">${escT(`Free open-source alternative to ${spec.paidTool}`)}</text>
-<text x="64" y="418" font-size="26" fill="#64748b">${escT(`$${spec.pricePerYearUsd}/yr kept in your pocket`)}</text>
+<rect width="1200" height="630" fill="#F6F5F3"/>
+<text x="64" y="96" font-size="28" fill="#C2410C">◆</text>
+<text x="92" y="96" font-size="28" fill="#52525B">${escT(siteName)}</text>
+<text x="64" y="300" font-size="86" font-weight="700" fill="#18181B">${escT(spec.name)}</text>
+<text x="64" y="372" font-size="32" fill="#52525B">${escT(`Free open-source alternative to ${spec.paidTool}`)}</text>
+<text x="64" y="418" font-size="26" fill="#52525B">${escT(`$${spec.pricePerYearUsd}/yr kept in your pocket`)}</text>
 ${chips}
-<text x="64" y="576" font-size="24" fill="#475569">${escT("Run it locally · npm i -g opensource-hub")}</text>
+<text x="64" y="576" font-size="24" fill="#A1A1AA">${escT("Run it locally · npm i -g opensource-hub")}</text>
 </svg>`;
 }
 

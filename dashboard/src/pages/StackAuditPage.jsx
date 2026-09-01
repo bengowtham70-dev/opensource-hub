@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Layers, FileSpreadsheet, Save, ArrowRight, CircleAlert } from "lucide-react";
+import { Layers, FileSpreadsheet, Save, ArrowRight, CircleAlert, Printer } from "lucide-react";
 import { api } from "../lib/api";
 import { EmptyState } from "../components/states";
+import EmberProgress from "../components/EmberProgress";
 import { formatSavings } from "../lib/format";
+import ExecutiveReportModal from "../components/ExecutiveReportModal";
 
 // F9 (PRD §20) — Stack Audit: paste your paid stack → alternatives + totals + CSV.
 // Free tier keeps ONE saved audit locally, revisitable (PRD §22 freemium shape).
@@ -13,6 +15,8 @@ export default function StackAuditPage() {
   const [savedAt, setSavedAt] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [showExecutiveModal, setShowExecutiveModal] = useState(false);
 
   useEffect(() => {
     api
@@ -48,11 +52,18 @@ export default function StackAuditPage() {
     }
   };
 
+  const onTextareaKeyDown = (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter" && input.trim() && !loading) {
+      e.preventDefault();
+      run(e);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[900px] px-4 md:px-6 py-10">
       <header className="mb-6">
         <h1 className="font-display text-display-lg flex items-center gap-3">
-          <Layers size={28} className="text-primary" /> Stack Audit
+          <Layers size={28} className="text-dim" /> Stack Audit
         </h1>
         <p className="text-dim mt-2 max-w-[65ch]">
           Paste the paid software your team rents — one per line. Get every open-source
@@ -60,35 +71,57 @@ export default function StackAuditPage() {
         </p>
       </header>
 
-      <form onSubmit={run} className="card-glass p-5">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          rows={5}
-          placeholder={"Notion\nFigma\nPostman\nSlack\n1Password"}
-          aria-label="Your paid tools, one per line"
-          className="w-full card-glass !bg-elevated p-3.5 text-[14px] text-ink placeholder:text-faint tnum outline-none focus:border-primary/50 resize-y"
-        />
-        <div className="mt-3 flex items-center gap-3">
+      <form onSubmit={run} className="card-elevated p-5">
+        <div className="relative">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={onTextareaKeyDown}
+            rows={5}
+            placeholder={"Notion\nFigma\nPostman\nSlack\n1Password"}
+            aria-label="Your paid tools, one per line"
+            className="w-full card-elevated !bg-elevated p-3.5 text-[14px] text-ink placeholder:text-faint tnum outline-none focus:border-primary/50 resize-y"
+          />
+          {input && (
+            <button
+              type="button"
+              onClick={() => setInput("")}
+              aria-label="Clear stack input"
+              className="btn-tactile absolute right-3 top-3 px-2 py-0.5 rounded-full border border-line text-[11px] text-faint hover:text-dim bg-surface"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
             disabled={loading || !input.trim()}
-            className="shimmer-button btn-tactile px-5 py-2.5 font-semibold text-ink disabled:opacity-50"
+            className="shimmer-button btn-tactile inline-flex items-center gap-2 px-5 py-2.5 font-semibold text-ink disabled:opacity-50"
           >
             {loading ? "Auditing…" : "Audit my stack"}
+            <kbd className="hidden sm:inline-block tnum text-[10px] ml-1 px-1.5 py-0.5 rounded border border-line text-faint select-none">
+              Ctrl+↵
+            </kbd>
           </button>
           <span className="text-[12px] text-faint">
             28 paid tools in the catalog — unmatched entries are listed honestly.
           </span>
         </div>
+        {loading && (
+          <div className="mt-1">
+            <EmberProgress />
+          </div>
+        )}
       </form>
 
-      {error && <p className="mt-4 text-caution tnum text-sm" role="alert">⚠ {error}</p>}
+      {error && <p className="mt-4 text-caution tnum text-sm" role="alert">{error}</p>}
 
-      {report && (
+      {/* Guard: stale saved audits (pre-totals schema) must not crash the page. */}
+      {report?.totals && (
         <div className="mt-6 animate-card-in opacity-0">
           {/* Totals banner */}
-          <div className="card-glass mesh-glow-bg p-6 mb-4 flex flex-wrap items-center justify-between gap-4">
+          <div className="card-elevated hero-wash-bg p-6 mb-4 flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="tnum text-[11px] uppercase tracking-wider text-trust/70">
                 {report.totals.tools} of your tools replaceable
@@ -98,13 +131,20 @@ export default function StackAuditPage() {
                 <span className="text-base text-faint font-body font-normal">/yr across the stack</span>
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setShowExecutiveModal(true)}
+                className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 font-semibold text-[13px] hover:bg-amber-500/20"
+              >
+                <Printer size={14} /> Executive Report (PDF)
+              </button>
               <button
                 type="button"
                 onClick={save}
                 className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-full border border-line text-dim hover:text-ink text-[13px]"
               >
-                <Save size={14} /> {savedAt ? "Saved ✓" : "Save this audit"}
+                <Save size={14} /> {savedAt ? "Saved" : "Save this audit"}
               </button>
               <a
                 href="/api/stack-audit/saved/export"
@@ -135,7 +175,7 @@ export default function StackAuditPage() {
             {report.matched.map((m, i) => (
               <div
                 key={m.paidTool.name}
-                className="card-glass p-5 flex flex-wrap items-center gap-4 animate-card-in"
+                className="card-elevated p-5 flex flex-wrap items-center gap-4 animate-card-in"
                 style={{ animationDelay: `${Math.min(i, 11) * 40}ms`, opacity: 0 }}
               >
                 <div className="min-w-0 flex-1">
@@ -152,7 +192,7 @@ export default function StackAuditPage() {
                 <div className="min-w-0">
                   <Link
                     to={`/repo/${m.alternative.repo}`}
-                    className="font-display text-lg text-ink hover:text-primary transition-colors"
+                    className="font-display text-lg text-ink hover:text-link transition-colors"
                   >
                     {m.alternative.name}
                   </Link>
@@ -194,6 +234,12 @@ export default function StackAuditPage() {
           />
         </div>
       )}
+
+      <ExecutiveReportModal
+        open={showExecutiveModal}
+        onClose={() => setShowExecutiveModal(false)}
+        report={report}
+      />
     </div>
   );
 }

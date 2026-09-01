@@ -33,9 +33,9 @@ export default function SimilarTools({ category, currentRepo }) {
   if (similar.length === 0) return null;
 
   return (
-    <section className="mt-6 card-glass p-6" aria-label="Similar tools">
+    <section className="mt-6 card-elevated p-6" aria-label="Similar tools">
       <h2 className="font-display text-display-md mb-4 flex items-center gap-2.5">
-        <Layers size={19} className="text-primary" /> More {category} alternatives
+        <Layers size={19} className="text-dim" /> More {category} alternatives
       </h2>
       <div className="grid sm:grid-cols-2 gap-2.5">
         {similar.map((p, i) => (
@@ -46,7 +46,7 @@ export default function SimilarTools({ category, currentRepo }) {
             style={{ animationDelay: `${i * 40}ms`, opacity: 0 }}
           >
             <span className="flex items-center justify-between gap-2">
-              <span className="font-medium text-[13.5px] text-ink group-hover:text-primary transition-colors truncate">
+              <span className="font-medium text-[13.5px] text-ink group-hover:text-link transition-colors truncate">
                 {p.alternative.name}
               </span>
               <span className="tnum text-[11px] text-trust whitespace-nowrap">

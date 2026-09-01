@@ -23,7 +23,7 @@ export default function AuditsPage() {
     <div className="mx-auto max-w-[900px] px-4 md:px-6 py-10">
       <header className="mb-6">
         <h1 className="font-display text-display-lg flex items-center gap-3">
-          <Bookmark size={26} className="text-primary" /> Saved audits
+          <Bookmark size={26} className="text-dim" /> Saved audits
         </h1>
         <p className="text-dim mt-2 text-[14px] max-w-[65ch]">
           Point-in-time trust snapshots you kept — export any of them as CSV for a procurement
@@ -54,11 +54,11 @@ export default function AuditsPage() {
           audits.map((a, i) => (
             <div
               key={a.repo}
-              className="card-glass p-5 flex flex-wrap items-center gap-4 animate-card-in"
+              className="card-elevated p-5 flex flex-wrap items-center gap-4 animate-card-in"
               style={{ animationDelay: `${i * 40}ms`, opacity: 0 }}
             >
               <div className="min-w-0 flex-1">
-                <Link to={`/repo/${a.repo}`} className="font-display text-lg text-ink hover:text-primary transition-colors">
+                <Link to={`/repo/${a.repo}`} className="font-display text-lg text-ink hover:text-link transition-colors">
                   {a.repo.split("/")[1]}
                 </Link>
                 <p className="tnum text-[12px] text-faint">

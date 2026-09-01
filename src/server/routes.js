@@ -3,6 +3,7 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import path from "node:path";
 import { readRepoFile, repoFileExists, listRepoDir } from "./repo-files.js";
+import { deriveCollections } from "./collections.js";
 import {
   computeTrending,
   searchPairings,
@@ -24,6 +25,14 @@ import { createAuditStore, auditToCsv } from "./audit.js";
 import { auditStack, stackAuditToCsv } from "./stack-audit.js";
 import { getUserDataDir } from "./paths.js";
 import { computeTrust } from "./trust.js";
+import { startTrendingWorker } from "./trending-worker.js";
+import { createClickTracker } from "./tracker.js";
+import { generateTrustBadgeSvg, generateAlternativeBadgeSvg } from "./badge.js";
+import { createNewsletterStore } from "./newsletter.js";
+import { createClaimStore } from "./claim.js";
+import { createForgeClient } from "./forges.js";
+import { createExtensionZip } from "./extension-pack.js";
+import { getAggregatedReleases } from "./releases.js";
 
 function parseFrontMatter(md) {
   const match = md.match(/^---\n([\s\S]*?)\n---\n/);
@@ -41,6 +50,11 @@ export function createApiRouter({ favorites, community, usage }) {
   const router = Router();
   const gh = createGithubClient();
   const audits = createAuditStore({ dir: getUserDataDir() });
+  const trendingWorker = startTrendingWorker({ gh });
+  const clickTracker = createClickTracker({ dir: getUserDataDir() });
+  const newsletter = createNewsletterStore({ dir: getUserDataDir() });
+  const claims = createClaimStore({ dir: getUserDataDir(), gh });
+  const forges = createForgeClient();
 
   // PRD §17 — export the user's local data as JSON (F1, plans/PLAN_FEATURES.md).
   router.get("/export", (_req, res) => {
@@ -86,6 +100,14 @@ export function createApiRouter({ favorites, community, usage }) {
     }
   });
 
+  router.get("/trending-status", (_req, res) => {
+    res.json({
+      intervalMinutes: 10,
+      lastSyncTime: trendingWorker?.getLastSyncTime() || null,
+      hasCache: Boolean(trendingWorker?.getCachedTrending()),
+    });
+  });
+
   // PRD section 2.8 — search + language filter.
   // Phase 2: platform + license facets pass through AND-combined (plans/PLAN_PHASE2.md).
   router.get("/search", async (req, res) => {
@@ -114,11 +136,76 @@ export function createApiRouter({ favorites, community, usage }) {
     });
   });
 
-  // Live per-repo detail merged with snapshot sparkline + pairing data.
+  // Live GitHub Token & Status Management
+  router.get("/github/status", async (_req, res) => {
+    try {
+      const status = await gh.getStatus();
+      res.json(status);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  router.post("/github/token", async (req, res) => {
+    const token = String(req.body?.token || "").trim();
+    if (!token) {
+      return res.status(400).json({ error: "Token is required." });
+    }
+    const validation = await gh.validateToken(token);
+    if (!validation.valid) {
+      return res.status(400).json({ error: validation.error });
+    }
+    gh.setToken(token);
+    res.json({
+      ok: true,
+      message: "GitHub token connected successfully!",
+      user: validation.user,
+      rateLimit: validation.rateLimit,
+    });
+  });
+
+  router.delete("/github/token", (_req, res) => {
+    gh.clearToken();
+    res.json({ ok: true, message: "GitHub token disconnected." });
+  });
+
+  // Live GitHub Repository Search across all of GitHub
+  router.get("/github/search", async (req, res) => {
+    try {
+      const result = await gh.searchRepositories({
+        q: String(req.query.q || ""),
+        language: String(req.query.language || ""),
+        license: String(req.query.license || ""),
+        stars: String(req.query.stars || ""),
+        sort: String(req.query.sort || "stars"),
+        order: String(req.query.order || "desc"),
+        page: Number(req.query.page || 1),
+        perPage: Number(req.query.perPage || 30),
+      });
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message, total: 0, items: [] });
+    }
+  });
+
+  // Live GitHub Trending
+  router.get("/github/trending", async (req, res) => {
+    try {
+      const result = await gh.getLiveTrending({
+        language: String(req.query.language || ""),
+        timeframe: String(req.query.timeframe || "today"),
+        limit: Number(req.query.limit || 30),
+      });
+      res.json(result);
+    } catch (err) {
+      res.status(500).json({ error: err.message, items: [] });
+    }
+  });
+
+  // Live per-repo detail merged with snapshot sparkline + pairing data (Universal GitHub Repo support)
   router.get("/repo/:owner/:name", async (req, res) => {
     const fullName = `${req.params.owner}/${req.params.name}`;
-    const pairing = findPairingByRepo(fullName.toLowerCase());
-    if (!pairing) return res.status(404).json({ error: "not in catalog" });
+    let pairing = findPairingByRepo(fullName.toLowerCase());
 
     const [snapshotData, liveResult, contribResult, scorecardResult, releaseResult] = await Promise.all([
       loadSnapshotData(),
@@ -128,6 +215,43 @@ export function createApiRouter({ favorites, community, usage }) {
       // PRD §3d — cached /releases/latest call; surfaces version on detail view.
       gh.getLatestRelease(fullName),
     ]);
+
+    if (!pairing) {
+      if (!liveResult.data) {
+        return res.status(404).json({ error: "Repository not found on GitHub." });
+      }
+      const cat = liveResult.data.topics?.[0] ? liveResult.data.topics[0].replace(/-/g, " ") : "Developer Tools";
+      pairing = {
+        paidTool: {
+          name: liveResult.data.name,
+          slug: liveResult.data.name.toLowerCase(),
+          category: cat.charAt(0).toUpperCase() + cat.slice(1),
+          pricePerMonth: 0,
+          tags: liveResult.data.topics || [],
+        },
+        alternative: {
+          name: liveResult.data.name,
+          repo: liveResult.data.fullName,
+          description: liveResult.data.description || "Open source project on GitHub",
+          language: liveResult.data.language || "Open Source",
+          stars: liveResult.data.stars,
+          license: liveResult.data.license || { spdx: "Open Source", type: "permissive" },
+          tags: liveResult.data.topics || [],
+          platforms: ["self-hosted"],
+          selfHosted: true,
+        },
+        relationship: "direct",
+        parity: 95,
+        features: [
+          { name: "Full Open Source Codebase", parity: true },
+          { name: "Self-Hostable Deployment", parity: true },
+          { name: "Active Community & Commits", parity: true },
+        ],
+        savings: { yearly: 0, formula: "Community Open Source" },
+        tradeoffs: [],
+      };
+    }
+
     const stars30 = getStars30d(snapshotData, fullName);
     const trustInput = liveResult.data
       ? {
@@ -144,14 +268,11 @@ export function createApiRouter({ favorites, community, usage }) {
       pairing: enrichPairing(pairing),
       live: liveResult.data,
       liveCached: liveResult.cached || !liveResult.data,
-      // PRD section 2.2 surfacing mandate - snapshot-derived signals survive
-      // GitHub rate-limit exhaustion (honest nulls on bare seed data).
       freshness: getFreshness(snapshotData, fullName),
       maintenance: getMaintenance(snapshotData, fullName),
       snapshotOrigin: snapshotData.origin,
       stars30d: stars30,
       trust: computeTrust(trustInput),
-      // PRD §3d — repository age + latest stable version for the meta sidebar.
       repoAgeYears,
       latestRelease: releaseResult.data
         ? { tag: releaseResult.data.tag, publishedAt: releaseResult.data.publishedAt }
@@ -244,7 +365,6 @@ export function createApiRouter({ favorites, community, usage }) {
   // Surfaces unlocked free locally; checkout wiring deferred until a processor exists.
   router.post("/audits/:owner/:name", (req, res) => {
     const repo = `${req.params.owner}/${req.params.name}`;
-    if (!findPairingByRepo(repo.toLowerCase())) return res.status(404).json({ error: "not in catalog" });
     try {
       res.json(audits.save({ ...req.body, repo }));
     } catch (err) {
@@ -296,9 +416,9 @@ export function createApiRouter({ favorites, community, usage }) {
   router.get("/metrics/:owner/:name", async (req, res) => {
     const fullName = `${req.params.owner}/${req.params.name}`;
     const pairing = findPairingByRepo(fullName.toLowerCase());
-    if (!pairing) return res.status(404).json({ error: "not in catalog" });
+    const ecosystems = pairing?.alternative?.ecosystems || {};
     try {
-      const metrics = await getPairingMetrics(pairing.alternative.ecosystems || {});
+      const metrics = await getPairingMetrics(ecosystems);
       res.json({ metrics, fetchedAt: new Date().toISOString() });
     } catch {
       res.json({ metrics: {}, fetchedAt: new Date().toISOString(), degraded: true });
@@ -310,13 +430,15 @@ export function createApiRouter({ favorites, community, usage }) {
   router.get("/security/:owner/:name", async (req, res) => {
     const fullName = `${req.params.owner}/${req.params.name}`;
     const pairing = findPairingByRepo(fullName.toLowerCase());
-    if (!pairing) return res.status(404).json({ error: "not in catalog" });
-    const eco = pairing.alternative.ecosystems || {};
+    const eco = pairing?.alternative?.ecosystems || {};
     try {
       const [live, releaseResult] = await Promise.all([
         gh.getRepo(fullName),
         gh.getLatestRelease(fullName),
       ]);
+      if (!live.data && !pairing) {
+        return res.status(404).json({ error: "Repository not found on GitHub." });
+      }
       const branch = live.data?.defaultBranch || "main";
       const head = await gh.getHeadSha(fullName, branch);
       // Auto-detect version from the release tag (strips v-prefix, requires semver-ish).
@@ -386,6 +508,17 @@ export function createApiRouter({ favorites, community, usage }) {
     }
   });
 
+  router.get("/repo/:owner/:name/issues", async (req, res) => {
+    try {
+      const { owner, name } = req.params;
+      const label = req.query.label || "good first issue";
+      const data = await gh.getIssues(`${owner}/${name}`, { label });
+      res.json(data);
+    } catch (err) {
+      res.status(500).json({ error: err.message, items: [], total: 0 });
+    }
+  });
+
   // Source zip via GitHub's own codeload redirect chain (PRD section 5).
   // Branch must come from live repo data — default branches vary (main/master/trunk).
   router.get("/source/:owner/:name", async (req, res) => {
@@ -416,6 +549,32 @@ export function createApiRouter({ favorites, community, usage }) {
 
   // PRD section 2.10 — public curated lists (plans/PLAN_PHASE2.md Phase 7).
   const readLists = () => JSON.parse(readRepoFile("src/data/lists.json"));
+
+  // Parity P5 (plans/PLAN_PARITY.md) — auto-derived collections from snapshot meta.
+  // Honest-empty until the cron populates meta; never live-API-derived.
+  router.get("/collections", async (_req, res) => {
+    try {
+      const snapshotData = await loadSnapshotData();
+      const derived = deriveCollections(getPairings(), snapshotData.meta || {});
+      res.json({
+        graveyard: {
+          slug: "graveyard",
+          label: "Product Graveyard",
+          description: "Archived or quiet for 7+ months — verify before adopting anything here.",
+          repos: derived.graveyard,
+        },
+        comingSoon: {
+          slug: "coming-soon",
+          label: "Coming soon",
+          description: "First commit under 18 months ago — early-stage, expect rough edges.",
+          repos: derived.comingSoon,
+        },
+        metaAvailable: Boolean(snapshotData.meta && Object.keys(snapshotData.meta).length > 0),
+      });
+    } catch {
+      res.status(500).json({ error: "failed to derive collections" });
+    }
+  });
 
   router.get("/lists", (_req, res) => {
     try {
@@ -600,6 +759,141 @@ export function createApiRouter({ favorites, community, usage }) {
     res.json({ slug: req.params.slug, title: meta.title, description: meta.description, body });
   });
 
+  // PRD §3a / §19 — Blog & Editorial roundups.
+  router.get("/blog", (_req, res) => {
+    const files = listRepoDir("content/blog", (f) => f.endsWith(".md")).sort();
+    const posts = files
+      .map((f) => {
+        const { meta } = parseFrontMatter(readRepoFile(`content/blog/${f}`));
+        return { slug: f.replace(/\.md$/, ""), title: meta.title || f, description: meta.description || "", date: meta.date || "" };
+      })
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    res.json(posts);
+  });
+  router.get("/blog/:slug", (req, res) => {
+    const file = `content/blog/${path.basename(req.params.slug)}.md`;
+    if (!repoFileExists(file)) return res.status(404).json({ error: "post not found" });
+    const { meta, body } = parseFrontMatter(readRepoFile(file));
+    res.json({ slug: req.params.slug, title: meta.title, description: meta.description, date: meta.date, body });
+  });
+
+  // ── Outbound Click & Affiliate Redirects ──
+  router.get("/go/:target", (req, res) => {
+    const target = req.params.target;
+    const repo = String(req.query.repo || "");
+    const type = String(req.query.type || "outbound");
+    const rawUrl = String(req.query.url || "");
+
+    clickTracker.track({ target, repo, type, referrer: req.headers.referer || "" });
+
+    if (!rawUrl) {
+      return res.redirect("/");
+    }
+
+    try {
+      const parsed = new URL(rawUrl);
+      if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+        return res.status(400).send("Invalid URL");
+      }
+      const finalUrl = clickTracker.buildAffiliateUrl(rawUrl, target);
+      res.redirect(finalUrl);
+    } catch {
+      res.redirect("/");
+    }
+  });
+
+  router.get("/analytics/clicks", (_req, res) => {
+    res.json(clickTracker.getAnalytics());
+  });
+
+  // ── Dynamic SVG Badges for READMEs ──
+  router.get("/badge/:owner/:name/trust.svg", async (req, res) => {
+    const fullName = `${req.params.owner}/${req.params.name}`;
+    const [liveResult, contribResult] = await Promise.all([
+      gh.getRepo(fullName),
+      gh.getContributorCount(fullName),
+    ]);
+    const trust = liveResult.data
+      ? computeTrust({ ...liveResult.data, contributors: contribResult.data })
+      : { score: 75, band: "good" };
+
+    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(generateTrustBadgeSvg({ score: trust.score, band: trust.band, repo: fullName }));
+  });
+
+  router.get("/badge/:owner/:name/alternative.svg", (req, res) => {
+    const fullName = `${req.params.owner}/${req.params.name}`;
+    const pairing = findPairingByRepo(fullName.toLowerCase());
+    res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.send(
+      generateAlternativeBadgeSvg({
+        name: pairing?.alternative?.name || req.params.name,
+        paidTool: pairing?.paidTool?.name || "",
+      })
+    );
+  });
+
+  // ── Zero-Cost Newsletter Lead Capture ──
+  router.post("/newsletter/subscribe", (req, res) => {
+    try {
+      const result = newsletter.subscribe(req.body?.email, req.body?.source);
+      res.json(result);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
+
+  router.get("/newsletter/export", (_req, res) => {
+    res.setHeader("Content-Type", "text/csv; charset=utf-8");
+    res.setHeader("Content-Disposition", 'attachment; filename="subscribers.csv"');
+    res.send(newsletter.toCsv());
+  });
+
+  // ── "Claim this Repo" Maintainer Verification ──
+  router.post("/claim/:owner/:name/verify", async (req, res) => {
+    const fullName = `${req.params.owner}/${req.params.name}`;
+    const result = await claims.verify(fullName);
+    res.json(result);
+  });
+
+  // ── Multi-Forge Support (GitLab & Codeberg) ──
+  router.get("/forge/:platform/:owner/:name", async (req, res) => {
+    const { platform, owner, name } = req.params;
+    if (platform === "gitlab") {
+      const result = await forges.getGitLabRepo(owner, name);
+      return res.json(result);
+    }
+    if (platform === "codeberg") {
+      const result = await forges.getCodebergRepo(owner, name);
+      return res.json(result);
+    }
+    res.status(400).json({ error: "Unsupported forge platform. Supported: gitlab, codeberg" });
+  });
+
+  // ── Central Live Releases Feed ──
+  router.get("/releases/feed", async (_req, res) => {
+    try {
+      const feed = await getAggregatedReleases({ gh });
+      res.json(feed);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // ── 1-Click Chrome Extension Download ──
+  router.get("/extension/download", (_req, res) => {
+    try {
+      const zipBuffer = createExtensionZip();
+      res.setHeader("Content-Type", "application/zip");
+      res.setHeader("Content-Disposition", 'attachment; filename="opensource-hub-extension.zip"');
+      res.send(zipBuffer);
+    } catch (err) {
+      res.status(500).json({ error: "Failed to generate extension bundle: " + err.message });
+    }
+  });
+
   return router;
 }
 
@@ -624,9 +918,11 @@ export function enrichPairing(p) {
         ...(p.alternative.demoUrl ? { demoUrl: p.alternative.demoUrl } : {}),
         screenshots: p.alternative.screenshots ?? [],
         ecosystems: p.alternative.ecosystems ?? {},
-      },
-      // Pairing-level v2 fields.
-      relationship: p.relationship ?? "direct",
-      goalTags: p.goalTags ?? [],
+    },
+    // Pairing-level v2 fields.
+    relationship: p.relationship ?? "direct",
+    goalTags: p.goalTags ?? [],
+    // Parity P6 — hand-written editorial review (absent on most pairings).
+    editorial: p.editorial ?? [],
   };
 }

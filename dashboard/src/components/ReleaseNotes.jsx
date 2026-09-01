@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
-import { ExternalLink, Newspaper } from "lucide-react";
+import { ExternalLink, Newspaper, Rss, Copy, Check } from "lucide-react";
 import { parseAtomFeed } from "../lib/releases";
 
 // F10 — "What's New" per tool, rendered from GitHub's native releases feed
-// (proxied + cached by /api/rss — no extra infrastructure, PRD §19 item 17).
+// (proxied + cached by /api/rss — no extra infrastructure, PRD §19 item 17, PRD §38).
 export default function ReleaseNotes({ owner, name }) {
   const [entries, setEntries] = useState(null);
   const [failed, setFailed] = useState(false);
+  const [copiedRss, setCopiedRss] = useState(false);
+
+  const rssUrl = typeof window !== "undefined" ? `${window.location.origin}/api/rss/${owner}/${name}` : `/api/rss/${owner}/${name}`;
+
+  const copyRss = (e) => {
+    e.preventDefault();
+    navigator.clipboard.writeText(rssUrl);
+    setCopiedRss(true);
+    setTimeout(() => setCopiedRss(false), 2000);
+  };
 
   useEffect(() => {
     let alive = true;
@@ -25,7 +35,7 @@ export default function ReleaseNotes({ owner, name }) {
   if (failed) return null; // no releases / feed unavailable — section simply doesn't exist
   if (!entries) {
     return (
-      <section className="mt-6 card-glass p-6" aria-label="Release notes">
+      <section className="mt-6 card-elevated p-6" aria-label="Release notes">
         <h2 className="font-display text-display-md mb-3">What's new</h2>
         <div className="skeleton h-16 w-full" />
       </section>
@@ -34,10 +44,21 @@ export default function ReleaseNotes({ owner, name }) {
   if (entries.length === 0) return null;
 
   return (
-    <section className="mt-6 card-glass p-6" aria-label="Release notes">
-      <h2 className="font-display text-display-md mb-4 flex items-center gap-2.5">
-        <Newspaper size={20} className="text-tech" /> What's new
-      </h2>
+    <section className="mt-6 card-elevated p-6" aria-label="Release notes">
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <h2 className="font-display text-display-md flex items-center gap-2.5">
+          <Newspaper size={20} className="text-tech" /> What's new
+        </h2>
+        <button
+          type="button"
+          onClick={copyRss}
+          className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-surface text-xs font-medium text-dim hover:text-ink hover:border-line-strong shadow-2xs transition-colors"
+          title={`Copy RSS feed URL: /api/rss/${owner}/${name}`}
+        >
+          {copiedRss ? <Check size={12} className="text-trust" /> : <Rss size={12} className="text-accent" />}
+          <span>{copiedRss ? "RSS Copied" : "RSS Feed"}</span>
+        </button>
+      </div>
       <div className="space-y-3">
         {entries.map((e, i) => (
           <a

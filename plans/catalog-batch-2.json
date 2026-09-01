@@ -96,7 +96,7 @@
           "web"
         ],
         "license": {
-          "spdx": "GPL-3.0",
+          "spdx": "GPL-2.0",
           "type": "copyleft"
         },
         "ecosystems": {
@@ -112,7 +112,7 @@
         "replace-plex"
       ],
       "claims": {
-        "licenseSpdx": "GPL-3.0",
+        "licenseSpdx": "GPL-2.0",
         "starsApprox": 38000,
         "confidence": "check-price",
         "sources": [
@@ -153,8 +153,8 @@
           "web"
         ],
         "license": {
-          "spdx": "AGPL-3.0",
-          "type": "network-copyleft"
+          "spdx": "MIT",
+          "type": "permissive"
         },
         "ecosystems": {
           "docker": "calcom/cal.com"
@@ -169,7 +169,7 @@
         "replace-calendly"
       ],
       "claims": {
-        "licenseSpdx": "AGPL-3.0",
+        "licenseSpdx": "MIT",
         "starsApprox": 33000,
         "confidence": "check-price",
         "sources": [
@@ -194,7 +194,7 @@
           "tools",
           "self-hosted"
         ],
-        "description": "Self-hosted web PDF toolbox: merge, split, OCR, convert, sign and compress files locally.",
+        "description": "Self-hosted web PDF toolbox to edit and manage PDFs: merge, split, OCR, convert, sign and compress files locally.",
         "parity": [
           "Merge/split/compress",
           "OCR",
@@ -325,7 +325,7 @@
           "type": "network-copyleft"
         },
         "ecosystems": {
-          "docker": "twentyorg/twenty"
+          "docker": "twentyhq/twenty"
         },
         "screenshots": [],
         "tco": {
@@ -707,7 +707,7 @@
           "voice",
           "communities"
         ],
-        "description": "Open-source Discord-style chat with voice, communities and bots on your own infrastructure.",
+        "description": "Open-source chat software with Discord-style servers, voice, communities and bots on your own infrastructure.",
         "parity": [
           "Servers & channels",
           "Voice chat",
@@ -799,7 +799,7 @@
         "replace-teams"
       ],
       "claims": {
-        "licenseSpdx": "Apache-2.0",
+        "licenseSpdx": "AGPL-3.0",
         "starsApprox": 11000,
         "confidence": "check-price",
         "sources": [
@@ -939,7 +939,7 @@
           "surveys",
           "experience-management"
         ],
-        "description": "Privacy-first survey and experience-management forms you can embed anywhere.",
+        "description": "Open source Qualtrics alternative — privacy-first survey and experience-management forms you can embed anywhere.",
         "parity": [
           "Survey builder",
           "Embeds & links",
@@ -1133,7 +1133,7 @@
         "replace-after-effects"
       ],
       "claims": {
-        "licenseSpdx": "GPL-3.0",
+        "licenseSpdx": "GPL-2.0",
         "starsApprox": 4200,
         "confidence": "check-price",
         "sources": [
@@ -1202,46 +1202,46 @@
         "planName": "Individual annual"
       },
       "alternative": {
-        "name": "GNU Octave",
-        "repo": "gnu-octave/octave",
-        "language": "C++",
+        "name": "Julia",
+        "repo": "JuliaLang/julia",
+        "language": "Julia",
         "tags": [
           "math",
           "numerical",
-          "matlab-compatible"
+          "scientific"
         ],
-        "description": "High-level numerical language largely MATLAB-compatible, including many .m scripts unmodified.",
+        "description": "High-performance dynamic language for technical computing with MATLAB-like syntax and strong numerical packages.",
         "parity": [
-          "MATLAB syntax subset",
-          "Plotting",
-          "Toolbox-equivalent packages (Octave Forge)"
+          "Matrix operations",
+          "Plotting (Makie/Plots)",
+          "Package ecosystem"
         ],
         "gaps": [
-          "Simulink has no equivalent"
+          "No Simulink equivalent"
         ],
-        "migrationNotes": "Most pure .m numeric scripts run unchanged; replace Simulink workflows separately.",
+        "migrationNotes": "Port .m scripts to Julia syntax; most vectorized math maps 1:1 with minor syntax tweaks.",
         "platforms": [
           "linux",
           "win",
           "mac"
         ],
         "license": {
-          "spdx": "GPL-3.0",
-          "type": "copyleft"
+          "spdx": "MIT",
+          "type": "permissive"
         },
         "ecosystems": {},
         "screenshots": []
       },
-      "relationship": "direct",
+      "relationship": "partial",
       "goalTags": [
         "replace-matlab"
       ],
       "claims": {
-        "licenseSpdx": "GPL-3.0",
-        "starsApprox": 3500,
+        "licenseSpdx": "MIT",
+        "starsApprox": 45000,
         "confidence": "check-price",
         "sources": [
-          "https://github.com/gnu-octave/octave"
+          "https://github.com/JuliaLang/julia"
         ]
       }
     },
@@ -1753,6 +1753,119 @@
         "confidence": "check-price",
         "sources": [
           "https://github.com/home-assistant/core"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Confluence",
+        "slug": "confluence",
+        "category": "Documentation",
+        "pricePerYearUsd": 660,
+        "planName": "Standard (10 users)"
+      },
+      "alternative": {
+        "name": "Outline",
+        "repo": "outline/outline",
+        "language": "TypeScript",
+        "tags": [
+          "wiki",
+          "documentation",
+          "knowledge-base"
+        ],
+        "description": "Fast knowledge base with realtime editing, Slack integration and Markdown support — self-hostable with Docker.",
+        "parity": [
+          "Realtime collaborative docs",
+          "Collections & permissions",
+          "Slack auth"
+        ],
+        "gaps": [
+          "No Confluence marketplace macro ecosystem"
+        ],
+        "migrationNotes": "Export Confluence spaces to HTML/Markdown and import via Outline's API; recreate permissions as collections.",
+        "platforms": [
+          "self-host",
+          "web"
+        ],
+        "license": {
+          "spdx": "BSL-1.1",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "outlinewiki/outline"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 8
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-confluence"
+      ],
+      "claims": {
+        "licenseSpdx": "BSL-1.1",
+        "starsApprox": 5500,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/outline/outline"
+        ]
+      }
+    },
+    {
+      "paidTool": {
+        "name": "Datadog",
+        "slug": "datadog",
+        "category": "Monitoring",
+        "pricePerYearUsd": 360,
+        "planName": "Pro per host"
+      },
+      "alternative": {
+        "name": "SigNoz",
+        "repo": "SigNoz/signoz",
+        "language": "Go",
+        "tags": [
+          "observability",
+          "monitoring",
+          "tracing"
+        ],
+        "description": "Open-source Datadog alternative with logs, metrics and traces on ClickHouse — single binary deploy.",
+        "parity": [
+          "Logs + metrics + traces",
+          "Alert rules",
+          "Dashboards"
+        ],
+        "gaps": [
+          "No global SaaS edge network"
+        ],
+        "migrationNotes": "Swap Datadog agent for OpenTelemetry collector pointing at SigNoz; rebuild dashboards from JSON exports.",
+        "platforms": [
+          "self-host",
+          "linux",
+          "web"
+        ],
+        "license": {
+          "spdx": "MIT",
+          "type": "permissive"
+        },
+        "ecosystems": {
+          "docker": "signoz/signoz"
+        },
+        "screenshots": [],
+        "tco": {
+          "hostingMonthlyEstimateUsd": 12
+        }
+      },
+      "relationship": "partial",
+      "goalTags": [
+        "replace-datadog"
+      ],
+      "claims": {
+        "licenseSpdx": "MIT",
+        "starsApprox": 20000,
+        "confidence": "check-price",
+        "sources": [
+          "https://github.com/SigNoz/signoz"
         ]
       }
     }

@@ -1,5 +1,5 @@
 {
-  "baseUrl": "",
+  "baseUrl": "https://opensource-hub.example.com",
   "siteName": "OpenSource Hub",
   "tagline": "Free open-source alternatives to the paid software you already use.",
   "contactEmail": "",

@@ -2,7 +2,7 @@ import Byte from "./Byte";
 
 export function CardSkeleton() {
   return (
-    <div className="card-glass p-5 flex flex-col gap-4" aria-hidden="true">
+    <div className="card-elevated p-5 flex flex-col gap-4" aria-hidden="true">
       <div className="flex justify-between gap-3">
         <div className="skeleton h-6 w-32" />
         <div className="skeleton size-9 rounded-full" />
@@ -35,7 +35,7 @@ export function GridSkeleton({ count = 8 }) {
 // Empty states must never be dead ends (PRD section 10, AGENTS.md §3).
 export function EmptyState({ title, body, action }) {
   return (
-    <div className="card-glass mesh-glow-bg p-10 flex flex-col items-center text-center gap-4 animate-card-in">
+    <div className="card-elevated hero-wash-bg p-10 flex flex-col items-center text-center gap-4 animate-card-in">
       <Byte size={72} />
       <h3 className="font-display text-display-md text-ink">{title}</h3>
       <p className="text-sm text-dim max-w-[42ch] leading-relaxed">{body}</p>
@@ -46,8 +46,8 @@ export function EmptyState({ title, body, action }) {
 
 export function ErrorState({ message, onRetry }) {
   return (
-    <div className="card-glass p-10 flex flex-col items-center text-center gap-4 border-caution/30" role="alert">
-      <span className="tnum text-caution text-sm">⚠ {message}</span>
+    <div className="card-elevated p-10 flex flex-col items-center text-center gap-4 border-caution/30" role="alert">
+      <span className="tnum text-caution text-sm">{message}</span>
       {onRetry && (
         <button type="button" onClick={onRetry} className="shimmer-button btn-tactile px-4 py-2 text-sm text-ink">
           Try again

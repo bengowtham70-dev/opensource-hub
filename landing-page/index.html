@@ -8,8 +8,8 @@
     <meta property="og:title" content="OpenSource Hub — own your software free" />
     <meta property="og:description" content="Stop renting software. One command installs a local dashboard of free open-source alternatives to Notion, Postman, Figma and 25+ more paid tools." />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#9CA3AF" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#14161A" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F6F5F3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -35,42 +35,43 @@
     <style>
       :root {
         color-scheme: light;
-        --base: #9ca3af;
+        --base: #f6f5f3;
         --surface: #ffffff;
         --elevated: #ffffff;
-        --primary: #9ca3af;
+        --primary: #121212;
         --trust: #059669;
         --caution: #d97706;
-        --tech: #4b5563;
-        --ink: #4b5563;
-        --dim: #6b7280;
-        --faint: #9ca3af;
+        --tech: #3f3f46;
+        --ink: #18181b;
+        --dim: #52525b;
+        --faint: #a1a1aa;
+        --link: #c2410c;
         --strong: #121212;
         --accent: #ff5722;
-        --line: #f3f4f6;
-        --line-strong: #d1d5db;
-        --dot: rgb(229 231 235);
+        --line: #e6e4e1;
+        --line-strong: #d4d2cf;
+        --dot: rgb(24 24 27 / 0.08);
         --sh-card: 0 15px 35px -5px rgb(0 0 0 / 0.1);
         --sh-raised: 0 1px 2px 0 rgb(0 0 0 / 0.05);
         --sh-float: 0 20px 60px -15px rgb(0 0 0 / 0.05);
       }
       html.dark {
         color-scheme: dark;
-        --base: #14161a;
-        --surface: #1c1f26;
-        --elevated: #242830;
-        --primary: #9ca3af;
+        --base: #000000;
+        --surface: #0a0a0a;
+        --elevated: #141414;
+        --primary: #d4d4d8;
         --trust: #34d399;
         --caution: #fbbf24;
         --tech: #9ca3af;
         --ink: #e5e7eb;
         --dim: #9ca3af;
-        --faint: #6b7280;
+        --faint: #8e95a5;
         --strong: #f5f5f5;
         --accent: #ff5722;
-        --line: rgb(255 255 255 / 0.08);
-        --line-strong: rgb(255 255 255 / 0.16);
-        --dot: rgb(255 255 255 / 0.14);
+        --line: rgb(255 255 255 / 0.1);
+        --line-strong: rgb(255 255 255 / 0.18);
+        --dot: rgb(255 255 255 / 0.16);
         --sh-card: 0 15px 35px -5px rgb(0 0 0 / 0.35);
         --sh-raised: 0 1px 2px 0 rgb(0 0 0 / 0.2);
         --sh-float: 0 20px 60px -15px rgb(0 0 0 / 0.3);
@@ -85,6 +86,12 @@
         -webkit-font-smoothing: antialiased;
         line-height: 1.6;
       }
+      /* Slender custom scrollbar */
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 9999px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+
       .display {
         font-family: "Newsreader", Georgia, serif;
         font-weight: 400;
@@ -107,16 +114,17 @@
         width: 30px; height: 30px; display: grid; place-items: center;
         border-radius: 4px; background: var(--strong); color: var(--surface);
       }
-      html.dark .logo-mark { color: #14161a; background: #f5f5f5; }
+      html.dark .logo-mark { color: #000000; background: #f5f5f5; }
       .nav a { color: var(--dim); text-decoration: none; font-size: 14px; transition: color 150ms ease; }
       .nav a:hover { color: var(--ink); }
       .nav .gh { margin-left: auto; }
       .theme-btn {
         display: grid; place-items: center; width: 34px; height: 34px;
         border-radius: 999px; border: 0.8px solid var(--line); background: var(--surface);
-        color: var(--dim); cursor: pointer; transition: color 150ms ease, border-color 150ms ease;
+        color: var(--dim); cursor: pointer; transition: transform 80ms ease, color 150ms ease, border-color 150ms ease;
       }
       .theme-btn:hover { color: var(--ink); border-color: var(--line-strong); }
+      .theme-btn:active { transform: scale(0.95); }
 
       /* Hero */
       .hero { padding: 88px 0 64px; text-align: center; }
@@ -144,10 +152,11 @@
         width: 38px; height: 38px; border-radius: 4px;
         background: var(--strong); color: #ffffff;
         border: none; cursor: pointer;
-        transition: opacity 150ms ease, background 150ms ease;
+        transition: transform 80ms ease, opacity 150ms ease, background 150ms ease;
       }
-      html.dark .copy-btn { color: #14161a; background: #f5f5f5; }
+      html.dark .copy-btn { color: #000000; background: #f5f5f5; }
       .copy-btn:hover { opacity: 0.88; }
+      .copy-btn:active { transform: scale(0.95); }
       .copy-btn.copied { background: var(--trust); color: #ffffff; }
       .copy-btn .ripple {
         position: absolute; inset: 0; border-radius: inherit;
@@ -174,10 +183,11 @@
         border: 0.8px solid var(--line); border-radius: 12px;
         padding: 12px 14px; cursor: pointer; text-align: left;
         box-shadow: var(--sh-raised);
-        transition: border-color 150ms ease, box-shadow 150ms ease;
+        transition: transform 80ms ease, border-color 150ms ease, box-shadow 150ms ease;
         color: var(--dim);
       }
       .alt-installs button:hover { border-color: var(--line-strong); box-shadow: var(--sh-card); }
+      .alt-installs button:active { transform: scale(0.98); }
       .ai-label { font-size: 12px; color: var(--faint); }
       .alt-installs code {
         font-size: 11.5px; color: var(--ink); word-break: break-all;
@@ -245,10 +255,9 @@
   <body>
     <header>
       <div class="wrap nav">
-        <span class="logo"><span class="logo-mark">◆</span> OpenSource Hub</span>
+        <span class="logo"><img src="logo.png" alt="OpenSource Hub Logo" style="width: 30px; height: 30px; border-radius: 6px; object-fit: cover;" /> OpenSource Hub</span>
         <a href="#how">How it works</a>
         <a href="#troubleshoot">Troubleshooting</a>
-        <!-- TODO: replace both URLs with the real repository after `git init` + GitHub publish -->
         <a class="gh" href="https://github.com/opensource-hub/opensource-hub" rel="noopener">GitHub ↗</a>
         <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode" title="Toggle theme">
           <svg id="ic-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>

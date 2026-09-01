@@ -63,7 +63,7 @@ This application MUST NEVER look or feel like a generic AI-generated "vibe-code"
    - NO generic lorem ipsum or fake placeholder data.
 
 2. **Required High-Craft Engineering Standards (Sentinel tokens — mandatory):**
-   - **Elevated Light Surfaces:** Page bg `#9CA3AF`; cards pure `#FFFFFF` with `0.8px #F3F4F6` hairline borders, radius 16px, padding 20px, soft shadow `rgba(0,0,0,0.1) 0 15px 35px -5px`. Gradient-dot border shell (radial dots, 32px outer radius) as the hero edge treatment.
+    - **Elevated Light Surfaces ("Paper & Ember"):** Page bg `#F6F5F3` warm-neutral canvas; cards pure `#FFFFFF` with `0.8px #E6E4E1` hairline borders, radius 16px, padding 20px, soft shadow `rgba(0,0,0,0.1) 0 15px 35px -5px`. Ink ramp zinc (`#18181B`/`#52525B`/`#A1A1AA`); primary actions and active washes use ink `#121212`; text links/hovers use ember-link `#C2410C` light / `#FF8A5C` dark. Gradient-dot border shell (radial dots, 32px outer radius) as the hero edge treatment.
    - **Semantic States:** Trust green `#059669` light / `#34D399` dark · Caution amber `#D97706` light / `#FBBF24` dark · Emphasis accent `#FF5722` · Primary buttons `#121212` bg, white text, radius 4px, 10px padding.
    - **Dark Mode Parity:** Charcoal-neutral dark ramp (`#14161A` base, `#1C1F26` surface, `#242830` elevated, text `#E5E7EB`/`#9CA3AF`) toggled via `html.dark` variable swap with localStorage + `prefers-color-scheme`.
    - **Tailored High-End Typography:** Newsreader (72px / weight 400 / -0.025em) for display headlines; Inter (14px / weight 500) for body copy. NO third font — JetBrains Mono and all mono usage are retired; metrics use Inter tabular numerals.
@@ -100,7 +100,7 @@ Following the ip-as-logo design doctrine:
 ## 5. Component Design Standards
 
 ### 5.1 Hero Section
-- **Clean Light Backdrop:** Soft top-down gradient (`from-white to-transparent`) over the `#9CA3AF` field — no mesh glows.
+- **Clean Light Backdrop:** Soft top-down gradient (`from-white to-transparent`) over the `#F6F5F3` canvas — no mesh glows.
 - **Command Install Box:** White elevated card with the install command in Inter tabular numerals, pulsing cursor, and one-click copy with checkmark feedback.
 - **Interactive Search Bar:** Command-palette search (`Cmd+K` / `Ctrl+K`), quick-filter tags, instant debounced results.
 

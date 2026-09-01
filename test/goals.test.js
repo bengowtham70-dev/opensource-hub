@@ -53,6 +53,9 @@ test("GET /api/goals returns counted, labeled goals sorted by popularity", async
   const office = json.goals.find((g) => g.tag === "replace-microsoft-office");
   assert.equal(office.label, "Microsoft Office");
   server.close();
+  // Undici's client-side keep-alive handle needs a beat to finish closing
+  // before the next server cycle — otherwise libuv asserts on Windows.
+  await new Promise((r) => setTimeout(r, 250));
 });
 
 test("GET /api/search?goal= serves the pre-filtered entry-grid view end-to-end", async () => {
@@ -65,4 +68,5 @@ test("GET /api/search?goal= serves the pre-filtered entry-grid view end-to-end",
   const none = await (await fetch(`${base}/api/search?goal=replace-nothing-real`)).json();
   assert.equal(none.count, 0);
   server.close();
+  await new Promise((r) => setTimeout(r, 250));
 });

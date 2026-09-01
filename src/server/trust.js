@@ -18,7 +18,6 @@ const KNOWN_BACKING = new Set([
   "linuxfoundation", "cff", "osi", "matrix-org", "keepassxreboot",
 ]);
 
-// TODO: replace with the real repository after GitHub publish (PRD section 13 appeals).
 const APPEALS_REPO = "opensource-hub/opensource-hub";
 
 export function appealUrl(fullName, { score, band, reasons = [] } = {}) {

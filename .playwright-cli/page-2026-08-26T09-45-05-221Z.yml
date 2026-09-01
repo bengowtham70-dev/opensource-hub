@@ -1,0 +1,75 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "OpenSource Hub home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e13]: OpenSource Hub
+      - navigation "Primary" [ref=e14]:
+        - link "Trending" [ref=e15] [cursor=pointer]:
+          - /url: /
+        - link "AI Find" [ref=e19] [cursor=pointer]:
+          - /url: /find
+        - link "Stack Audit" [ref=e24] [cursor=pointer]:
+          - /url: /stack-audit
+        - link "Audits" [ref=e30] [cursor=pointer]:
+          - /url: /audits
+        - link "Favorites" [ref=e34] [cursor=pointer]:
+          - /url: /favorites
+        - link "Learn" [ref=e38] [cursor=pointer]:
+          - /url: /learn
+      - generic [ref=e42]:
+        - searchbox "Search alternatives by paid tool or keyword" [ref=e46]
+        - generic [ref=e47]: Ctrl K
+      - button "Switch to dark mode" [ref=e48]
+      - generic "Byte is watching over your downloads" [ref=e58]:
+        - img "Byte the Guardian mascot" [ref=e59]
+  - generic [ref=e72]:
+    - generic [ref=e73]:
+      - heading "Stop renting software. Own it free." [level=1] [ref=e74]
+      - group "Install command" [ref=e76]:
+        - code [ref=e80]: $ npm install -g opensource-hub
+        - button "Copy install command" [ref=e81]
+      - generic [ref=e85]:
+        - searchbox "Search alternatives by paid tool or keyword" [ref=e90]
+        - button "Press Ctrl K" [ref=e91]
+    - region "Browse by replacement goal" [ref=e92]:
+      - paragraph [ref=e93]: I want to replace…
+      - generic [ref=e102]:
+        - button "Password Manager 2" [ref=e103]:
+          - text: Password Manager
+          - generic [ref=e104]: "2"
+        - button "Trello 2" [ref=e105]:
+          - text: Trello
+          - generic [ref=e106]: "2"
+        - button "Airtable 1" [ref=e107]:
+          - text: Airtable
+          - generic [ref=e108]: "1"
+        - button "Asana 1" [ref=e109]:
+          - text: Asana
+          - generic [ref=e110]: "1"
+        - button "Auth Provider 1" [ref=e111]:
+          - text: Auth Provider
+          - generic [ref=e112]: "1"
+        - button "Docker Desktop 1" [ref=e113]:
+          - text: Docker Desktop
+          - generic [ref=e114]: "1"
+        - button "Dropbox 1" [ref=e115]:
+          - text: Dropbox
+          - generic [ref=e116]: "1"
+        - button "Evernote 1" [ref=e117]:
+          - text: Evernote
+          - generic [ref=e118]: "1"
+        - button "More +19" [ref=e119]
+    - tablist "Trending views" [ref=e120]:
+      - tab "Today" [selected] [ref=e121]
+      - tab "Yesterday" [ref=e124]
+      - tab "Least trending" [ref=e128]
+      - tab "All-time" [ref=e132]
+    - generic [ref=e140]:
+      - button "Platform" [ref=e142]
+      - button "Language" [ref=e146]
+      - button "License" [ref=e150]
+  - contentinfo [ref=e258]:
+    - generic [ref=e259]:
+      - paragraph [ref=e260]: OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
+      - paragraph [ref=e261]: v0.1.0 · MIT

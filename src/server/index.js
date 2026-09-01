@@ -48,7 +48,7 @@ export async function run({ preferredPort = 3000, openBrowser = true }) {
   const server = app.listen(port, "127.0.0.1", () => {
     const url = `http://localhost:${port}`;
     console.log("");
-    console.log(chalk.hex("#6366F1").bold("  ◆ OpenSource Hub") + chalk.gray(` v${getPackageVersion()}`));
+    console.log(chalk.hex("#FF5722").bold("  ◆ OpenSource Hub") + chalk.gray(` v${getPackageVersion()}`));
     console.log(chalk.gray("  ─────────────────────────────────────────"));
     console.log(`  ${chalk.green("●")} Dashboard running at ${chalk.cyan.underline(url)}`);
     if (!hasBuild) {

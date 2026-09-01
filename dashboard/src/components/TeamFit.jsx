@@ -4,15 +4,15 @@ import { Users, Timer } from "lucide-react";
 // Honest, generic guidance; self-host listings get the stronger infrastructure caveat.
 const ROWS = [
   { size: "Under 10 people", verdict: "Any option works", tone: "text-trust", note: "Pick on features and polish — hosting is optional at this scale." },
-  { size: "10–50 people", verdict: "Check access controls", tone: "text-primary", note: "SSO, roles and permissions become the deciding features, not the price." },
+  { size: "10–50 people", verdict: "Check access controls", tone: "text-dim", note: "SSO, roles and permissions become the deciding features, not the price." },
   { size: "50+ people", verdict: "Self-hosting decides", tone: "text-caution", note: "Infrastructure, backups and an admin owner matter more than the license." },
 ];
 
 export default function TeamFit({ selfHosted = false }) {
   return (
-    <section className="mt-6 card-glass p-6" aria-label="Team fit guidance">
+    <section className="mt-6 card-elevated p-6" aria-label="Team fit guidance">
       <h2 className="font-display text-display-md mb-1 flex items-center gap-2.5">
-        <Users size={20} className="text-primary" /> Will it fit your team?
+        <Users size={20} className="text-dim" /> Will it fit your team?
       </h2>
       <p className="text-[12.5px] text-faint mb-4">
         Generic guidance, not a procurement checklist{selfHosted ? " — this tool is self-hosted, so infrastructure is yours to run." : "."}
@@ -30,7 +30,7 @@ export default function TeamFit({ selfHosted = false }) {
 
       {selfHosted && (
         <p className="mt-3 text-[12.5px] text-caution/90 flex items-start gap-2">
-          <span aria-hidden="true">⚠</span>
+          
           Self-hosting adds real work: updates, backups, uptime. Factor that into the switch — see the
           cost calculator below before committing.
         </p>

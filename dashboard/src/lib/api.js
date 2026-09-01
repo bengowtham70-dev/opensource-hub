@@ -98,6 +98,28 @@ export const api = {
     jsonFetch(`/api/favorites/${repo}`, { method: "DELETE" }).catch(() => null),
   lists: () => jsonFetch("/api/lists"),
   list: (slug) => jsonFetch(`/api/lists/${encodeURIComponent(slug)}`),
+  collections: () => jsonFetch("/api/collections"),
+  goals: () => jsonFetch("/api/goals"),
+  healthDiff: () => jsonFetch("/api/health-diff"),
   learnList: () => jsonFetch("/api/learn"),
   learnArticle: (slug) => jsonFetch(`/api/learn/${slug}`),
+  blogList: () => jsonFetch("/api/blog"),
+  blogPost: (slug) => jsonFetch(`/api/blog/${slug}`),
+  // Live GitHub Engine (PRD Live Integration & API Key Management)
+  githubStatus: () => jsonFetch("/api/github/status"),
+  setGithubToken: (token) =>
+    jsonFetch("/api/github/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token }),
+    }),
+  deleteGithubToken: () => jsonFetch("/api/github/token", { method: "DELETE" }),
+  githubSearch: ({ q = "", language = "", license = "", stars = "", sort = "stars", order = "desc", page = 1, perPage = 30 } = {}) =>
+    jsonFetch(
+      `/api/github/search?q=${encodeURIComponent(q)}&language=${encodeURIComponent(language)}` +
+        `&license=${encodeURIComponent(license)}&stars=${encodeURIComponent(stars)}` +
+        `&sort=${encodeURIComponent(sort)}&order=${encodeURIComponent(order)}&page=${page}&perPage=${perPage}`
+    ),
+  githubTrending: ({ language = "", timeframe = "today", limit = 30 } = {}) =>
+    jsonFetch(`/api/github/trending?language=${encodeURIComponent(language)}&timeframe=${encodeURIComponent(timeframe)}&limit=${limit}`),
 };
