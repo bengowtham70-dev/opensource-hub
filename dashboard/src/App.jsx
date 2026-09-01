@@ -20,6 +20,7 @@ const StacksPage = lazy(() => import("./pages/StacksPage"));
 const LicensesPage = lazy(() => import("./pages/LicensesPage"));
 const ReleasesFeedPage = lazy(() => import("./pages/ReleasesFeedPage"));
 const StackBuilderPage = lazy(() => import("./pages/StackBuilderPage"));
+const AdminQueuePage = lazy(() => import("./pages/AdminQueuePage"));
 const AuditsPage = lazy(() => import("./pages/AuditsPage"));
 const StackAuditPage = lazy(() => import("./pages/StackAuditPage"));
 const ListsIndexPage = lazy(() => import("./pages/ListsPage").then((m) => ({ default: m.ListsIndexPage })));
@@ -35,8 +36,20 @@ function HeaderWithPalette() {
 
   useEffect(() => {
     const openPalette = () => setOpen(true);
+    // Global Ctrl/Cmd+K — lives HERE because the palette is only mounted while
+    // open; a listener inside CommandPalette could never open a closed palette.
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setOpen((o) => !o);
+      }
+    };
     window.addEventListener("osh:open-palette", openPalette);
-    return () => window.removeEventListener("osh:open-palette", openPalette);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("osh:open-palette", openPalette);
+      window.removeEventListener("keydown", onKey);
+    };
   }, []);
 
   return (
@@ -94,6 +107,7 @@ export default function App() {
             <Route path="/repo/:owner/:name" element={<RepoDetailPage />} />
             <Route path="/submit" element={<SubmitPage />} />
             <Route path="/advertise" element={<AdvertisePage />} />
+            <Route path="/admin" element={<AdminQueuePage />} />
             <Route
               path="*"
               element={

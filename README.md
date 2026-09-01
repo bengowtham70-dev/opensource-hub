@@ -1,11 +1,24 @@
 # ◆ OpenSource Hub
 
+[![node:test](https://img.shields.io/badge/node--test-221%20passing-059669)](https://github.com/opensource-hub/opensource-hub/actions/workflows/tests.yml)
+[![vitest](https://img.shields.io/badge/vitest-47%20passing-059669)](https://github.com/opensource-hub/opensource-hub/actions/workflows/tests.yml)
+![Node](https://img.shields.io/badge/node-%E2%89%A518-18181B)
+![License](https://img.shields.io/badge/license-MIT-18181B)
+![npm](https://img.shields.io/badge/npm-opensource--hub-C2410C)
+
 **Find free open-source alternatives to the paid software you already use. Trust what you download. One command, local dashboard, zero accounts.**
 
 ```bash
 npm install -g opensource-hub
 opensource-hub
 ```
+
+<p align="center">
+  <img src="docs/demo.gif" alt="Demo: search Notion → AFFiNE alternative with trust score" width="920">
+</p>
+<p align="center">
+  <img src="docs/dashboard.png" alt="OpenSource Hub — local dashboard, Paper &amp; Ember light mode" width="920">
+</p>
 
 A local dashboard opens in your browser with:
 
