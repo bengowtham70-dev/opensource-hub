@@ -5,6 +5,37 @@ Do them once, in this order. Each item is 1–5 minutes.
 
 ---
 
+## 0. THE CRITICAL PATH — one evening, everything goes live
+
+```powershell
+# 1. Create the repo at github.com/new (name: opensource-hub, public), then:
+git remote add origin https://github.com/bengowtham70/opensource-hub.git
+git push -u origin main
+
+# 2. Enable Pages: repo Settings → Pages → Source: "GitHub Actions"
+#    (web-deploy.yml then deploys web-dist automatically on this push)
+
+# 3. Publish to npm (prepublishOnly runs BOTH test suites as a gate):
+npm login
+npm publish
+
+# 4. Cut the first release (release.yml builds Win/macOS/Linux binaries):
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+After step 1: upload social preview + topics (§2 below), pin repos (§3).
+After step 3: `npm install -g opensource-hub` works; update-check activates.
+After step 4: binaries attach to the GitHub Release automatically.
+
+### Giscus comments (after the repo exists)
+1. Repo Settings → General → Features → enable **Discussions**
+2. Visit giscus.app → enter `bengowtham70/opensource-hub` → pick category
+   **Announcements** → copy `repoId` + `categoryId`
+3. Fill them into `dashboard/src/lib/giscus.js` (repo + repoId + categoryId)
+
+---
+
 ## 1. Push the repo & set the real slug
 - [ ] Create the GitHub repo (e.g. `github.com/<you>/opensource-hub`), push `main`.
 - [ ] Update `repoSlug` in `site.config.json` to `<you>/opensource-hub`

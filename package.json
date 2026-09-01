@@ -26,8 +26,12 @@
     "build": "vite build",
     "test": "node --test --test-concurrency=1 --max-old-space-size=2048 \"test/**/*.test.js\"",
     "test:client": "vitest run",
+    "prepublishOnly": "npm test && npm run test:client",
     "fetch:screenshots": "node scripts/fetch-screenshots.mjs",
     "build:web": "node scripts/build-web-directory.mjs",
+    "build:og": "node scripts/generate-og-images.mjs",
+    "social:preview": "node scripts/generate-social-preview.mjs",
+    "demo:gif": "python scripts/capture-demo.py && node scripts/build-demo-gif.mjs",
     "prepack": "node -e \"require('node:fs').rmSync('src/server/payload.generated.js',{force:true})\""
   },
   "dependencies": {
