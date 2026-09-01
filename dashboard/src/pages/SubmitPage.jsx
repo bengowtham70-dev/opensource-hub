@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Send, CheckCircle2, ShieldCheck, Sparkles, Copy, Check, ExternalLink, ArrowRight } from "lucide-react";
 import Breadcrumbs from "../components/Breadcrumbs";
 
-const FEEDBACK_REPO = "opensource-hub/opensource-hub";
+const FEEDBACK_REPO = "bengowtham70/opensource-hub";
 
 export default function SubmitPage() {
   const [formData, setFormData] = useState({

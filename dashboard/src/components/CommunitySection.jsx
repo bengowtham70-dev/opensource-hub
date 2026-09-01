@@ -3,7 +3,7 @@ import { ThumbsUp, ThumbsDown, Tag as TagIcon, Plus, Copy, Check, Send, CircleAl
 import { api } from "../lib/api";
 import { useCommunity } from "../stores/community";
 
-const FEEDBACK_REPO = "opensource-hub/opensource-hub";
+const FEEDBACK_REPO = "bengowtham70/opensource-hub";
 const TAG_RE = /^[a-z0-9][a-z0-9-]{1,23}$/;
 
 function issueUrl(kind, repo) {
