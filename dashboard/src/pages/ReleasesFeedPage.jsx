@@ -95,7 +95,7 @@ export default function ReleasesFeedPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line/60 pb-3">
                 <div className="flex items-center gap-3">
                   <div className="size-10 rounded-xl bg-elevated border border-line grid place-items-center shrink-0">
-                    <BrandLogo brand={paidBrand(rel.name.toLowerCase())} name={rel.name} size={22} />
+                    <BrandLogo repo={rel.repo} name={rel.name} size={24} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">

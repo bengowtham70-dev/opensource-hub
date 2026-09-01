@@ -266,9 +266,9 @@ export default function RepoDetailPage() {
           <div className="flex flex-wrap items-center gap-2">
             <Link
               to={`/alternatives/${paid.slug}`}
-              className="btn-tactile inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line-strong bg-surface hover:bg-elevated text-xs font-medium text-ink shadow-2xs transition-colors"
+              className="btn-tactile inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line-strong bg-surface hover:bg-elevated text-xs font-semibold text-ink shadow-2xs transition-colors"
             >
-              <BrandLogo brand={paidBrand(paid.slug)} name={paid.name} size={15} />
+              <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={16} />
               <span>{paid.name}</span>
             </Link>
 
@@ -278,7 +278,7 @@ export default function RepoDetailPage() {
                 to={`/alternatives/${p.slug}`}
                 className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-surface/70 hover:border-line-strong hover:bg-elevated text-xs text-dim hover:text-ink transition-colors"
               >
-                <BrandLogo brand={paidBrand(p.slug)} name={p.name} size={14} />
+                <BrandLogo brand={paidBrand(p.slug)} paidSlug={p.slug} name={p.name} size={15} />
                 <span>{p.name}</span>
               </Link>
             ))}

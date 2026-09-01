@@ -228,7 +228,7 @@ export default function RepoCard({
             onClick={(e) => e.stopPropagation()}
             className="btn-tactile inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-line bg-surface hover:border-line-strong hover:bg-elevated text-xs font-medium text-ink transition-colors"
           >
-            <BrandLogo brand={paidBrand(paid.slug)} name={paid.name} size={14} />
+            <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={15} />
             <span>{paid.name}</span>
           </Link>
         </div>

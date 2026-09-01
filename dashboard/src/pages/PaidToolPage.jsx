@@ -59,8 +59,8 @@ export default function PaidToolPage() {
             ]}
           />
           <header className="flex items-start gap-4 animate-card-in">
-            <div className="grid place-items-center size-14 shrink-0 rounded-xl border border-line bg-elevated">
-              <BrandLogo brand={paidBrand(paid.slug)} name={paid.name} size={26} />
+            <div className="grid place-items-center size-14 shrink-0 rounded-xl border border-line bg-elevated shadow-sm">
+              <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={32} />
             </div>
             <div className="min-w-0">
               <h1 className="font-display text-display-lg tracking-tight">

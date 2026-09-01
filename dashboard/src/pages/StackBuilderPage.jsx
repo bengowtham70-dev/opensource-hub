@@ -165,7 +165,7 @@ export default function StackBuilderPage() {
               >
                 <div className="flex items-center gap-3">
                   <div className="size-9 rounded-lg bg-elevated border border-line grid place-items-center shrink-0">
-                    <BrandLogo brand={paidBrand(item.paidTool.slug)} name={item.alternative.name} size={18} />
+                    <BrandLogo repo={item.alternative.repo} name={item.alternative.name} size={20} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
@@ -243,9 +243,12 @@ export default function StackBuilderPage() {
                       : "bg-surface border-line hover:border-line-strong text-dim hover:text-ink"
                   }`}
                 >
-                  <div className="min-w-0">
-                    <span className="font-semibold text-xs text-ink block truncate">{p.alternative.name}</span>
-                    <span className="text-[10.5px] text-faint block truncate">Replaces {p.paidTool.name}</span>
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <BrandLogo repo={p.alternative.repo} name={p.alternative.name} size={22} className="shrink-0" />
+                    <div className="min-w-0">
+                      <span className="font-semibold text-xs text-ink block truncate">{p.alternative.name}</span>
+                      <span className="text-[10.5px] text-faint block truncate">Replaces {p.paidTool.name}</span>
+                    </div>
                   </div>
                   <span
                     className={`size-6 rounded-md border grid place-items-center shrink-0 text-xs font-bold ${
