@@ -398,4 +398,16 @@ describe("Comprehensive Button & Interactive Element Verification", () => {
     expect(html).toContain("Team Size (Seats)");
     expect(html).toContain("You keep");
   });
+
+  it("ClaimModal renders maintainer claim workflow and verification snippet", async () => {
+    const { default: ClaimModal } = await import("./ClaimModal");
+    const html = renderToStaticMarkup(
+      <ClaimModal open={true} onClose={() => {}} repo="toeverything/AFFiNE" name="AFFiNE" />
+    );
+
+    expect(html).toContain("Claim Repository Verification");
+    expect(html).toContain("AFFiNE");
+    expect(html).toContain(".opensource-hub.json");
+    expect(html).toContain("Verify Now");
+  });
 });

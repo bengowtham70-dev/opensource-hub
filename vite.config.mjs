@@ -14,9 +14,25 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        manualChunks: {
-          react: ["react", "react-dom", "react-router-dom"],
-          ui: ["motion", "cmdk", "zustand"],
+        manualChunks(id) {
+          if (id.includes("node_modules/react/") || id.includes("node_modules/react-dom/") || id.includes("node_modules/react-router-dom/")) {
+            return "vendor-react";
+          }
+          if (id.includes("node_modules/motion/")) {
+            return "vendor-motion";
+          }
+          if (id.includes("node_modules/cmdk/")) {
+            return "vendor-cmdk";
+          }
+          if (id.includes("node_modules/lucide-react/")) {
+            return "vendor-icons";
+          }
+          if (id.includes("node_modules/zustand/")) {
+            return "vendor-zustand";
+          }
+          if (id.includes("dashboard/src/lib/logos.js")) {
+            return "catalog-logos";
+          }
         },
       },
     },

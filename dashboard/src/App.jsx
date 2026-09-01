@@ -1,10 +1,11 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import CommandPalette from "./components/CommandPalette";
 import NewsletterFooter from "./components/NewsletterFooter";
-import TrendingPage from "./pages/TrendingPage";
-import FavoritesPage from "./pages/FavoritesPage";
+
+const CommandPalette = lazy(() => import("./components/CommandPalette"));
+const TrendingPage = lazy(() => import("./pages/TrendingPage"));
+const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
 const RepoDetailPage = lazy(() => import("./pages/RepoDetailPage"));
 const ComparePage = lazy(() => import("./pages/ComparePage"));
 const AiFinderPage = lazy(() => import("./pages/AiFinderPage"));
@@ -19,11 +20,14 @@ const StacksPage = lazy(() => import("./pages/StacksPage"));
 const LicensesPage = lazy(() => import("./pages/LicensesPage"));
 const ReleasesFeedPage = lazy(() => import("./pages/ReleasesFeedPage"));
 const StackBuilderPage = lazy(() => import("./pages/StackBuilderPage"));
-import AuditsPage from "./pages/AuditsPage";
-import StackAuditPage from "./pages/StackAuditPage";
-import { ListsIndexPage, ListDetailPage } from "./pages/ListsPage";
-import { LearnListPage, LearnArticlePage } from "./pages/LearnPages";
-import { BlogListPage, BlogPostPage } from "./pages/BlogPages";
+const AuditsPage = lazy(() => import("./pages/AuditsPage"));
+const StackAuditPage = lazy(() => import("./pages/StackAuditPage"));
+const ListsIndexPage = lazy(() => import("./pages/ListsPage").then((m) => ({ default: m.ListsIndexPage })));
+const ListDetailPage = lazy(() => import("./pages/ListsPage").then((m) => ({ default: m.ListDetailPage })));
+const LearnListPage = lazy(() => import("./pages/LearnPages").then((m) => ({ default: m.LearnListPage })));
+const LearnArticlePage = lazy(() => import("./pages/LearnPages").then((m) => ({ default: m.LearnArticlePage })));
+const BlogListPage = lazy(() => import("./pages/BlogPages").then((m) => ({ default: m.BlogListPage })));
+const BlogPostPage = lazy(() => import("./pages/BlogPages").then((m) => ({ default: m.BlogPostPage })));
 
 function HeaderWithPalette() {
   const [open, setOpen] = useState(false);
@@ -38,7 +42,11 @@ function HeaderWithPalette() {
   return (
     <>
       <Header />
-      <CommandPalette open={open} onOpenChange={setOpen} key={location.pathname} />
+      {open && (
+        <Suspense fallback={null}>
+          <CommandPalette open={open} onOpenChange={setOpen} key={location.pathname} />
+        </Suspense>
+      )}
     </>
   );
 }

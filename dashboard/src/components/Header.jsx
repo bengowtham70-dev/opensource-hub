@@ -24,10 +24,63 @@ import {
   ListChecks,
   Key,
   Lightbulb,
+  Globe,
 } from "lucide-react";
 import { paletteKeyLabel } from "../lib/platform";
 import { api } from "../lib/api";
 import ApiKeyModal from "./ApiKeyModal";
+import { useI18n, SUPPORTED_LANGUAGES } from "../lib/i18n";
+
+function LanguagePicker() {
+  const { locale, setLocale } = useI18n();
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const current = SUPPORTED_LANGUAGES.find((l) => l.code === locale) || SUPPORTED_LANGUAGES[0];
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-label="Change language"
+        className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-line bg-surface text-dim hover:text-ink text-xs font-medium"
+      >
+        <span>{current.flag}</span>
+        <span className="hidden sm:inline uppercase text-[11px] font-semibold">{current.code}</span>
+      </button>
+
+      {open && (
+        <div className="absolute right-0 mt-2 w-36 rounded-xl border border-line bg-surface shadow-float p-1.5 z-50 text-xs space-y-0.5">
+          {SUPPORTED_LANGUAGES.map((lang) => (
+            <button
+              key={lang.code}
+              type="button"
+              onClick={() => {
+                setLocale(lang.code);
+                setOpen(false);
+              }}
+              className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
+                locale === lang.code ? "bg-ember/10 text-ember font-semibold" : "text-dim hover:text-ink hover:bg-elevated"
+              }`}
+            >
+              <span>{lang.flag} {lang.label}</span>
+              {locale === lang.code && <span>✓</span>}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ThemeToggle() {
   const [dark, setDark] = useState(
@@ -422,6 +475,9 @@ export default function Header() {
               <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             </button>
           )}
+
+          {/* Language Picker */}
+          <LanguagePicker />
 
           {/* Theme Toggle */}
           <ThemeToggle />
