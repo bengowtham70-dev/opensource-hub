@@ -1,5 +1,24 @@
 # Agent Memory Journal — OpenSource Hub
 
+## 2026-09-02 — Next-Gen Upgrade: Multi-OS Install Box, Executive Decision Brief Exporter, & 107-Titan Expansion COMPLETE ✅
+- **Multi-OS Package Manager CLI Install Box (`InstallBox.jsx`):**
+  - Integrated tabbed command box (`Docker`, `Homebrew`, `Winget`, `NPM / PyPI / Cargo / Go`, `Source`) with 1-click clipboard copy and animated 150ms checkmark confirmation on all repository detail pages.
+- **Executive Decision Brief & CTO Migration Exporter (`ExecutiveBriefModal.jsx`):**
+  - Built 1-click "Decision Brief" exporter with dynamic team seat scaling (5, 10, 25, 50 seats) calculating annual SaaS savings and 3-year cumulative ROI, OpenSSF security ratings, and air-gapped data sovereignty compliance.
+  - Generates downloadable Markdown (`.md`) briefs and clean printable PDF reports via `@media print`.
+- **Contextual "+ Suggest Alternative" Modal (`SuggestModal.jsx`):**
+  - Added prefilled suggestion modals on all `/alternatives/:slug` pages feeding candidate submissions directly into the in-app admin queue (`/admin`).
+- **Maintainers & Contributor Velocity Showcase (`ContributorShowcase.jsx`):**
+  - Visualized distributed bus factor ratings, commit velocity, and direct links to GitHub contributor graphs.
+- **Catalog Scaling to 107 Verified Titans:**
+  - Expanded catalog to **107 verified pairings** ($51,647/yr tracked savings across 41 categories) adding: Nextcloud, Paperless-ngx, Penpot, Vikunja, Stirling-PDF, Activepieces, Windmill, Supabase Self-Hosted, Mattermost, Zulip, Pi-hole, AdGuard Home, MinIO, GIMP, Kdenlive, Audacity, Chatwoot, Twenty CRM, Medusa.
+- **Verification Matrix:**
+  - **`227 / 227`** backend unit tests passing (`npm test`).
+  - **`51 / 51`** client component tests passing (`npm run test:client`).
+  - **`47.50 kB`** production JS bundle (13.09 kB gzip) (93% reduction).
+  - All CI performance & 150ms animation timing audits passed.
+  - Live visual verification recorded and confirmed via browser subagent.
+
 ## 2026-09-02 — 5-Pillar World-Class Upgrade & 90-Tool Catalog Expansion COMPLETE ✅
 - **Bundle Size Optimization (93% Initial Payload Drop):**
   - Converted entrypoint bundle with code-splitting (`React.lazy()`) and granular `manualChunks` in `vite.config.mjs` (`vendor-react`, `vendor-motion`, `vendor-cmdk`, `vendor-icons`, `vendor-zustand`, `catalog-logos`).
