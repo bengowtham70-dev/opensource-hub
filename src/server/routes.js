@@ -300,37 +300,66 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
     if (q && results.length < 8) {
       try {
         const catRes = searchCatalog({ q, language: String(req.query.language || ""), limit: 16 });
+        const wantPlatform = String(req.query.platform || "").trim().toLowerCase();
+        const wantLicense = String(req.query.license || "").trim().toLowerCase();
+        const wantGoal = String(req.query.goal || "").trim().toLowerCase();
+
         const existingRepos = new Set(results.map((r) => r.alternative.repo.toLowerCase()));
         for (const item of catRes.items) {
-          if (!existingRepos.has(item.repo.toLowerCase())) {
-            results.push({
-              paidTool: {
-                name: item.alternativeTo || "Proprietary Software",
-                slug: (item.alternativeTo || "software").toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-                category: "Open Source Tool",
-                pricePerYearUsd: 240,
-                planName: "Standard SaaS Tier",
-              },
-              alternative: {
-                name: item.name,
-                repo: item.repo,
-                owner: item.owner,
-                shortName: item.name,
-                language: item.language,
-                tags: item.topics,
-                description: item.description,
-                platforms: item.platforms.length > 0 ? item.platforms : ["docker", "self-host"],
-                license: item.license,
-                stars: item.stars,
-                forks: item.forks,
-                tco: { hostingMonthlyEstimateUsd: 5, selfHostDifficulty: "moderate" },
-                ecosystems: { docker: `${item.owner}/${item.name}:latest` },
-              },
-              relationship: "replaces",
-              goalTags: ["open-source", "self-host"],
-            });
-            existingRepos.add(item.repo.toLowerCase());
-          }
+          if (existingRepos.has(item.repo.toLowerCase())) continue;
+
+          const itemPlatforms = (item.platforms && item.platforms.length > 0 ? item.platforms : ["docker", "self-host"]).map((p) => p.toLowerCase());
+          if (wantPlatform && !itemPlatforms.includes(wantPlatform)) continue;
+
+          // License facet is three-valued (permissive | copyleft | network-copyleft,
+          // see the zod enum in mcp.js). Infer from SPDX only when the item carries
+          // no explicit type. AGPL must be tested before the GPL family or it would
+          // be misclassified as plain copyleft; LGPL groups with copyleft.
+          const licSpdx = (item.license?.spdx || (typeof item.license === "string" ? item.license : "")).toLowerCase();
+          const inferredType = licSpdx.includes("agpl")
+            ? "network-copyleft"
+            : /(?:l)?gpl|mpl/.test(licSpdx)
+              ? "copyleft"
+              : "permissive";
+          const licType = String(item.license?.type || inferredType).toLowerCase();
+          if (wantLicense && licType !== wantLicense) continue;
+
+          // Catalog-augmented items only ever carry the two synthetic goal tags
+          // ("open-source", "self-host" — see goalTags pushed below), so a real
+          // /api/goals facet value (e.g. "replace-heroku") can never match them.
+          // Gate on the REQUEST value here: skip augmentation entirely for those
+          // queries instead of fabricating a goal match.
+          if (wantGoal && !["open-source", "self-host"].includes(wantGoal)) continue;
+
+          results.push({
+            paidTool: {
+              name: item.alternativeTo || "Proprietary Software",
+              slug: (item.alternativeTo || "software").toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+              category: "Open Source Tool",
+              pricePerYearUsd: 240,
+              planName: "Standard SaaS Tier",
+            },
+            alternative: {
+              name: item.name,
+              repo: item.repo,
+              owner: item.owner,
+              shortName: item.name,
+              language: item.language,
+              tags: item.topics,
+              description: item.description,
+              platforms: item.platforms.length > 0 ? item.platforms : ["docker", "self-host"],
+              // Neutral "Open Source" (same default as the db layer) — never invent
+              // a specific SPDX like MIT for items with unknown licenses.
+              license: typeof item.license === "object" ? item.license : { spdx: item.license || "Open Source", type: licType },
+              stars: item.stars,
+              forks: item.forks,
+              tco: { hostingMonthlyEstimateUsd: 5, selfHostDifficulty: "moderate" },
+              ecosystems: { docker: `${item.owner}/${item.name}:latest` },
+            },
+            relationship: "replaces",
+            goalTags: ["open-source", "self-host"],
+          });
+          existingRepos.add(item.repo.toLowerCase());
         }
 
         // 3. If STILL sparse (< 4 results) and a query exists, query GitHub API and auto-ingest into catalog!
@@ -679,10 +708,48 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
       res.json({
         ...result,
         results: result.items.map((it) => {
-          const pairing = findPairingByRepo(String(it.repo).toLowerCase());
+          let pairing = findPairingByRepo(String(it.repo).toLowerCase());
+          if (pairing) {
+            pairing = enrichPairing(pairing);
+          } else {
+            const dbRow = getRepoByFullName(it.repo);
+            if (dbRow) {
+              const altName = dbRow.alternativeTo || "Commercial SaaS";
+              const altSlug = altName.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+              pairing = {
+                paidTool: {
+                  name: altName,
+                  slug: altSlug,
+                  category: (dbRow.topics && dbRow.topics[0]) || dbRow.language || "Developer Tool",
+                  pricePerYearUsd: 240,
+                  planName: "Standard Team Plan",
+                },
+                alternative: {
+                  name: dbRow.name,
+                  repo: dbRow.repo,
+                  owner: dbRow.owner,
+                  shortName: dbRow.name,
+                  language: dbRow.language || "Open Source",
+                  tags: dbRow.topics || [],
+                  description: dbRow.description || "Open source software project.",
+                  parity: ["Core workflow parity", "Self-hosted privacy"],
+                  gaps: ["Self-hosted infrastructure required"],
+                  platforms: dbRow.platforms && dbRow.platforms.length > 0 ? dbRow.platforms : ["self-host", "web"],
+                  license: typeof dbRow.license === "object" ? dbRow.license : { spdx: dbRow.license || "Open Source", type: "permissive" },
+                  stars: dbRow.stars,
+                  forks: dbRow.forks,
+                  tco: { hostingMonthlyEstimateUsd: 5, selfHostDifficulty: "moderate" },
+                  ecosystems: { docker: `${dbRow.owner}/${dbRow.name}:latest` },
+                },
+                relationship: "replaces",
+                goalTags: ["open-source", "self-host"],
+                editorial: [],
+              };
+            }
+          }
           return {
             ...it,
-            pairing: pairing ? enrichPairing(pairing) : null,
+            pairing,
           };
         }),
       });
