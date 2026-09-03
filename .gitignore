@@ -24,6 +24,7 @@ output/
 scripts/qa-shots/
 test/screenshots/
 scratch_*
+__pycache__/
 
 # Local runtime SQLite catalog (generated from alternatives.json)
 src/data/catalog.db

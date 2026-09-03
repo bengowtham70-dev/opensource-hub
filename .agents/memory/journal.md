@@ -1,5 +1,26 @@
 # Agent Memory Journal — OpenSource Hub
 
+## 2026-09-03 — AI Tool Finder (/find) Deep Upgrade COMPLETE ✅
+
+- **26,000+ Catalog Pairing Resolution (`src/server/routes.js`):**
+  - Resolved non-flagship catalog tools in `POST /api/ai-find` using `getRepoByFullName(it.repo)` when not present in the 107 flagship pairings.
+  - Generates authentic pairing objects with tool name, description, live stars, language, license, and commercial counterpart so non-flagship tools are never silently dropped.
+- **Local Ollama Inference Support (`src/server/ai-finder.js`):**
+  - Permitted localhost dev runtimes (`http://localhost:11434/v1` or `127.0.0.1`) without requiring an API key.
+  - Dynamically feeds candidate catalog items from SQLite into the LLM context prompt so the model can evaluate tools across all 26,000+ repositories.
+- **Sentinel Design Upgrade for AI Finder (`dashboard/src/pages/AiFinderPage.jsx`):**
+  - Implemented high-craft Sentinel cards with Newsreader typography, tabular star numbers, language badges, and savings calculations.
+  - Added confidence score pills and dedicated "Why this fits your workflow" callout cards.
+  - Added 1-click inference provider switch buttons (OpenAI Cloud, Ollama Local Free, OpenRouter).
+  - Added dynamic client-side filter pills (`All Tools`, `Self-Hostable`, `Permissive`, `Local-First`).
+  - Added 6 real-world prompt preset cards for instant discovery.
+- **Verification Matrix:**
+  - `python scripts/verify-ai-finder-e2e.py`: 100% Playwright checks passed.
+  - `node --test test/ai-finder.test.js`: 10 / 10 unit tests passed.
+  - `npm test`: 229 / 229 backend tests passed.
+  - `npm run test:client`: 76 / 76 client tests passed.
+  - `npm run build`: Compiled clean production bundle in 4.50s.
+
 ## 2026-09-03 — Option A: Live 26,000+ Tool Autocomplete in Header & Command Palette (Ctrl+K) COMPLETE ✅
 
 - **Global Header Search Autocomplete (`Header.jsx`):**
@@ -18,6 +39,41 @@
   - `npm run test:client`: 76 / 76 client tests passing.
   - `npm test`: 228 / 228 backend tests passing.
   - `npm run build`: Production bundle compiled in 11.17s with 0 errors.
+
+## 2026-09-03 — 100% Completeness Audit (6-stage, user-requested) COMPLETE ✅
+
+**Verdict: NOT 100% — ~97% code-complete. 1 Phase-2 item missing, 1 design deviation, 7 human-only launch actions.**
+
+### Gates re-verified live
+- `npm test` 228/228 (×2) · vitest 76/76 (×3) · vite build clean (×3) · `npm publish --dry-run` OK (119 files, README ships, no payload.generated.js leak).
+- audit-catalog: 107 pairs / $51,647yr / 41 categories ✓ (SCRIPT BUG: misreports "1 distinct language" — actual 16 in alternatives.json; tooling fix needed, data fine).
+- audit-performance ✓ · check-theme-buttons ✓ · sitemap parity 645/646 0-missing ✓ · verify-web-dist ✓ (links/OG/JSON-LD/feeds/robots).
+- contrast_audit: 2 WCAG AA FAILS found live (#059669 11px on white = 3.77:1, home + trending) → FIXED via existing AA tokens → 0 fails light+dark.
+
+### Fixes applied this session
+1. `RepoCard.jsx:96` maintenance pill "active": `--color-trust` → `--color-trust-strong` (#047857). Parallel session added matching caution-strong for "slowing" (#b45309). Test expectation updated in `client.test.jsx`.
+2. `RepoDetailPage.jsx` HeaderTrustScoreBadge popover: replaced 2 HARDCODED fabricated rows ("Verified Safe" / "High Activity" — honesty violation) with real `trust.signals` render + `trust.disclaimer`. trust.js already computed 9 real signals; standalone TrustMeter component remains unwired (dead code, kept).
+
+### Matrix findings
+- PRD §19 Phase 1: 14/14 VERIFIED with citations.
+- PRD §19 Phase 2: 25/26 — **MISSING: per-tool stable-release RSS feeds (§38)**; only site-wide rss/tools|alternatives|posts.xml exist. Everything else wired incl. binaries+brew+scoop CI (release.yml), appeals deep-link, update-check (index.js), similar-tools, share bar.
+- §13: appeals process BUILT+TESTED but PRD checkbox still "[ ]" (doc lag — propose flipping). NLnet window OPENS Sep 3 → Nov 3, 2026 (human).
+- Sentinel: no indigo, fonts Inter/Newsreader only (`--font-mono` aliased to Inter inside @theme — font-mono classes render Inter ✓), 150ms motion ✓, dark mode localStorage+prefers-color-scheme+html.dark ✓. **DEVIATION: 20 `backdrop-blur-*` instances across 16 files (modals/header/popovers) — glassmorphism blur is on the banned list; needs user design decision, not silently mass-removed.**
+- Live E2E: 26/26 routes OK, 22/22 interactive PASS. Trust payload `null` live = IP rate-limited (0/60 GitHub budget) → honest degrade path, tested; snapshot-sourced data still serves. NOTE: routes.js uncommitted diff (+42/−29) = parallel session's facet-leakage fix, now journaled under "Option A" — audit ran with it in tree.
+
+### Human-only blockers (7)
+1. Real GitHub repo + push (README badges/legal URLs point at placeholder org `opensource-hub/opensource-hub`; real slug bengowtham70/opensource-hub in site.config.json).
+2. giscus repo/repoId/categoryId (empty in giscus.js — honest setup notice until repo live).
+3. First npm publish + tag (NPM_TOKEN secret in CI).
+4. CI secrets HOMEBREW_TAP_TOKEN / SCOOP_BUCKET_TOKEN (optional gates).
+5. Affiliate applications ×4 (DO/Vercel/Railway/Supabase).
+6. NLnet application (window Sep 3–Nov 3, 2026).
+7. Dedicated support email (legal currently uses interim GitHub-Issues contact).
+
+### Packaging notes (user decision)
+- npm tarball ships `src/data/catalog.db` 16.2MB + WAL 4.1MB + SHM (25.7MB unpacked) — WAL/SHM are transient; consider excluding or prepack checkpoint.
+- README badge counts stale (221/47 vs actual 228/76) — drifts every run; consider count-less badges.
+- package.json lacks `repository` field (npm metadata nicety).
 
 ## 2026-09-03 — Exhaustive Options Deep Check & 26-Page Complete Verification COMPLETE ✅
 
@@ -1161,3 +1217,10 @@ epoSlug map populates during profileCtxs building; any code needing slugs must r
 - **BLOCKER (user action required):** git remote was never configured; added origin https://github.com/bengowtham70/opensource-hub.git but push fails "Repository not found" — the GitHub account bengowtham70 itself 404s (does not exist publicly) and this machine has NO stored github.com credentials. Cannot create accounts/repos without user.
 - **Unblock paths:** (A) user confirms correct username -> update site.config.json baseUrl/repoSlug + workflow links + remote URL, then push; (B) user creates account+repo named opensource-hub, runs one git push to trigger browser login; (C) switch to Vercel via token. Pages workflow web-deploy.yml fires on push to main automatically.
 - **Local prod preview is fully validated** (server :3000 healthy, all E2E green) — launch quality is not in question; only hosting identity is missing.
+
+## 2026-09-03 — Code Review Pass on 26k-Autocomplete Catalog Augmentation (4 findings) FIXED ✅
+- R1 license inference (routes.js): regex now three-valued per facet enum (mcp.js zod) — AGPL -> network-copyleft, GPL/LGPL/MPL -> copyleft, else permissive. AGPL tested BEFORE GPL family (substring order bug). license=network-copyleft no longer blind to augmented items; license=copyleft no longer over-includes AGPL. Probe verified all 7 SPDX classes.
+- R2 verify-autocomplete-e2e.py: 3 hardcoded C:/Users/vasan/.gemini/... screenshot paths -> SHOT_DIR = scripts/qa-shots/ via pathlib + mkdir(parents=True, exist_ok=True). Portable across machines/CI.
+- R3 unknown-license fabrication: spdx default "MIT" -> neutral "Open Source" (db-layer parity, routes.js ~353). No invented SPDX passes license filters.
+- R4 goal-check: gates on the REQUEST value (synthetic allowlist) — documented via comment: catalog items only carry "open-source"/"self-host" goalTags, so real /api/goals facets intentionally skip augmentation instead of fabricating matches.
+- Gates: node --check routes.js OK, py_compile OK, license-inference probe 7/7, npm test 229/229 (parallel session added 1 test). Committed 21a8b27. Parallel session meanwhile started ANOTHER feature (ai-finder E2E WIP in tree — left untouched).
