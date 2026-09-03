@@ -264,22 +264,50 @@ export async function computeTrending(view = "today") {
   };
 
   let result = rows;
+  let tfLabel = "today";
   switch (view) {
+    case "week":
+    case "this-week":
+      tfLabel = "this week";
+      result = [...rows]
+        .map((r) => ({ ...r, timeframeDelta: Math.max(0, weekChange(r)), timeframeLabel: tfLabel }))
+        .sort((a, b) => weekChange(b) - weekChange(a));
+      break;
+    case "month":
+    case "this-month":
+      tfLabel = "this month";
+      result = [...rows]
+        .map((r) => ({ ...r, timeframeDelta: Math.max(0, r.change || 0), timeframeLabel: tfLabel }))
+        .sort((a, b) => (b.change || 0) - (a.change || 0));
+      break;
+    case "year":
+    case "this-year":
+    case "all-time":
+      tfLabel = view === "all-time" ? "all time" : "this year";
+      result = [...rows]
+        .map((r) => ({ ...r, timeframeDelta: r.stars, timeframeLabel: tfLabel }))
+        .sort((a, b) => b.stars - a.stars);
+      break;
     case "yesterday":
-      result = [...rows].sort((a, b) => dayChange(b, 28) - dayChange(a, 28));
+      tfLabel = "yesterday";
+      result = [...rows]
+        .map((r) => ({ ...r, timeframeDelta: Math.max(0, dayChange(r, 28)), timeframeLabel: tfLabel }))
+        .sort((a, b) => dayChange(b, 28) - dayChange(a, 28));
       break;
     case "least":
       // PRD section 2.3: ESTABLISHED repos with the smallest recent growth.
+      tfLabel = "this week";
       result = rows
         .filter((r) => r.stars >= 1000)
+        .map((r) => ({ ...r, timeframeDelta: Math.max(0, weekChange(r)), timeframeLabel: tfLabel }))
         .sort((a, b) => weekChange(a) - weekChange(b));
-      break;
-    case "all-time":
-      result = [...rows].sort((a, b) => b.stars - a.stars);
       break;
     case "today":
     default:
-      result = [...rows].sort((a, b) => b.changePct - a.changePct);
+      tfLabel = "today";
+      result = [...rows]
+        .map((r) => ({ ...r, timeframeDelta: Math.max(0, dayChange(r, 29)), timeframeLabel: tfLabel }))
+        .sort((a, b) => b.changePct - a.changePct);
   }
   return { view, generatedAt: snapshotData.generatedAt, origin: snapshotData.origin, repos: result };
 }

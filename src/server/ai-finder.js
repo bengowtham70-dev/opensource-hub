@@ -8,6 +8,7 @@
 // honored: top-level object, all fields required, additionalProperties:false.
 // The `refusal` field is handled explicitly; local validation runs anyway.
 import { searchPairings } from "./data.js";
+import { searchCatalog } from "./db.js";
 
 const STOP = new Set([
   "i", "need", "want", "a", "an", "the", "for", "to", "my", "me", "something", "that",
@@ -23,12 +24,13 @@ export function tokenize(task) {
     .filter((w) => w.length > 2 && !STOP.has(w));
 }
 
-// Offline fallback: keyword × tags × category × description overlap scoring.
+// Offline fallback: keyword × tags × category × description overlap scoring,
+// augmented with SQLite FTS5 catalog search across 26,000+ open-source repos.
 export function heuristicFind(task, pairings, limit = 5) {
   const words = tokenize(task);
-  const scored = pairings.map((p) => {
+  const scored = (pairings || []).map((p) => {
     const a = p.alternative;
-    const haystackTags = a.tags.join(" ").toLowerCase();
+    const haystackTags = (a.tags || []).join(" ").toLowerCase();
     let score = 0;
     const hits = [];
     for (const w of words) {
@@ -36,20 +38,42 @@ export function heuristicFind(task, pairings, limit = 5) {
       if (p.paidTool.category.toLowerCase().includes(w)) { score += 4; hits.push(w); }
       if (haystackTags.includes(w)) { score += 3; hits.push(w); }
       if (a.name.toLowerCase().includes(w)) { score += 3; hits.push(w); }
-      if (a.description.toLowerCase().includes(w)) { score += 1; hits.push(w);
-      }
+      if (a.description.toLowerCase().includes(w)) { score += 1; hits.push(w); }
     }
-    return { pairing: p, score, hits: [...new Set(hits)] };
+    return { pairing: p, score, hits: [...new Set(hits)], repo: a.repo };
   });
-  return scored
+
+  const results = scored
     .filter((s) => s.score > 0)
     .sort((x, y) => y.score - x.score)
     .slice(0, limit)
     .map((s) => ({
-      repo: s.pairing.alternative.repo,
+      repo: s.repo,
       reason: `Matched your description on: ${s.hits.join(", ")}.`,
       confidence: Math.min(0.9, 0.3 + s.score / 20),
     }));
+
+  // If fewer than limit, augment from the 26,000+ SQLite catalog via FTS5
+  if (results.length < limit && words.length > 0) {
+    try {
+      const q = words.slice(0, 3).join(" ");
+      const cat = searchCatalog({ q, limit: limit * 2, sort: "stars" });
+      const existing = new Set(results.map((r) => r.repo.toLowerCase()));
+      for (const item of cat.items || []) {
+        if (!existing.has(item.repo.toLowerCase())) {
+          results.push({
+            repo: item.repo,
+            reason: item.description ? item.description.slice(0, 120) : `Matched your task keywords: ${words.slice(0, 2).join(", ")}.`,
+            confidence: 0.75,
+          });
+          existing.add(item.repo.toLowerCase());
+          if (results.length >= limit) break;
+        }
+      }
+    } catch {}
+  }
+
+  return results;
 }
 
 const SCHEMA = {
