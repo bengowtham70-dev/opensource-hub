@@ -238,7 +238,7 @@ tbody tr td:first-child a:hover{color:var(--primary)}
 .cmp-dim{font-family:var(--font-m);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:center;line-height:1.5}
 .cmp-win{color:var(--trust);border:1px solid rgba(5,150,105,.3);background:rgba(5,150,105,.08);border-radius:999px;padding:1px 9px;font-size:10.5px;font-family:var(--font-m)}
 .cmp-tie{color:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 9px;font-size:10.5px;font-family:var(--font-m)}
-.cmp-verdict{margin-top:18px;padding:14px 18px;border:1px solid var(--line-strong);border-radius:14px;background:rgba(99,102,241,.06);font-size:14.5px}
+.cmp-verdict{margin-top:18px;padding:14px 18px;border:1px solid var(--line-strong);border-radius:14px;background:rgba(18,18,18,.04);font-size:14.5px}
 .sort-bar{display:flex;align-items:center;gap:10px;margin-top:16px;font-family:var(--font-m);font-size:12px;color:var(--dim)}
 .sort-bar label{letter-spacing:.06em;text-transform:uppercase;font-size:10.5px;color:var(--faint)}
 .sort-bar select{background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--ink);font-family:inherit;font-size:12px;padding:6px 10px;cursor:pointer;transition:border-color .25s}
@@ -1087,7 +1087,7 @@ ${adBannerHtml(ctx.ads || [])}
 <div class="hub-grid" style="margin-top:18px">${cards}</div>
 ${pager}
 ${sortScript}
-<style>.chip[aria-pressed="true"]{border-color:var(--line-strong);color:var(--ink);background:rgba(99,102,241,.15)}</style>
+<style>.chip[aria-pressed="true"]{border-color:var(--line-strong);color:var(--ink);background:rgba(18,18,18,.07)}</style>
 ${filterScript}`;
 
   const suffix = page > 1 ? ` â€” Page ${page}` : "";
@@ -1589,6 +1589,49 @@ export function blogPostHtml(post, ctx) {
   );
 }
 
+export function newsletterIndexHtml(issues, ctx) {
+  const cards = [...issues]
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+    .map(
+      (p) =>
+        `<a class="hub-card" href="/newsletter/${esc(p.slug)}"><strong>${esc(p.title)}</strong><span class="cat">${esc(p.description || "")}</span><span class="save">${esc(p.date || "")}</span></a>`
+    )
+    .join("");
+  const body = `<h1>Weekly Digest</h1>
+<p class="desc">The fastest-rising open-source alternatives, tracked weekly from the catalog â€” momentum, savings and trust signals. No spam.</p>
+<div class="hub-grid" style="margin-top:18px">${cards}</div>`;
+  return layout(
+    { ...ctx, title: "Weekly Digest â€” OpenSource Hub", description: "Weekly open-source alternative digests: rising repos, savings, trust signals." },
+    body
+  );
+}
+
+export function newsletterIssueHtml(issue, ctx) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: issue.title,
+    description: issue.description,
+    datePublished: issue.date,
+    author: { "@type": "Organization", name: ctx.config.siteName },
+  };
+  const body = `<p><a href="/newsletter" class="btn" style="padding:5px 12px">â† All issues</a></p>
+<h1>${esc(issue.title)}</h1>
+<p class="repo-line">${esc(issue.date || "")}</p>
+<article>${issue.html}</article>
+<p style="margin-top:26px"><a class="btn primary" href="/#install">â–¶ Run OpenSource Hub locally</a></p>
+<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`;
+  return layout(
+    {
+      ...ctx,
+      route: `/newsletter/${issue.slug}`,
+      title: `${issue.title} â€” OpenSource Hub`,
+      description: issue.description || issue.title,
+    },
+    body
+  );
+}
+
 // ---------- W8: dormant monetization scaffolding (/advertise + /submit) ----------
 // Zero payment rails while site.config.activateMonetization is false (PRD §6.3):
 // pages exist, tiers are visible, but every CTA degrades to contact channels —
@@ -1899,7 +1942,7 @@ Nothing to breach, nothing to sell.</p>`;
   return layout({ ...ctx, crumbs: [{ label: "About" }], title: "About & Methodology", description: "How OpenSource Hub ranks open source alternatives: Trust Score formula, honesty rules, affiliate disclosure." }, body);
 }
 
-export function buildSite({ alternatives, snapshots, config, discounts = [], posts = [], ads = [] }) {
+export function buildSite({ alternatives, snapshots, config, discounts = [], posts = [], newsletters = [], ads = [] }) {
   const routes = new Map(); // route → html
   const lastUpdated = new Date().toISOString().slice(0, 10);
   const slugs = new Set();
@@ -2090,6 +2133,18 @@ export function buildSite({ alternatives, snapshots, config, discounts = [], pos
     }
   }
 
+  // Newsletter archive: committed issues in content/newsletter render as reader
+  // pages here, so the directory rebuild (rmSync) can never drop an issue the
+  // way the standalone email writer could. Omit-empty like blog.
+  if (newsletters.length) {
+    const nctx = { snapshots, config, routes, ogImage: null, takenSlugs, repoSlug };
+    routes.set("newsletter", null);
+    routes.set("newsletter", newsletterIndexHtml(newsletters, { ...nctx, route: "/newsletter" }));
+    for (const issue of newsletters) {
+      routes.set(`newsletter/${issue.slug}`, newsletterIssueHtml(issue, { ...nctx, route: `/newsletter/${issue.slug}` }));
+    }
+  }
+
   // Monetization scaffolding (W8): routes ALWAYS exist; payment rails stay
   // dormant while activateMonetization=false (PRD §6.3 sequencing).
   const w8ctx = { snapshots, config, routes, ogImage: null, takenSlugs, repoSlug };
@@ -2138,6 +2193,25 @@ function main() {
     /* no blog dir yet â€” omit-empty */
   }
 
+  // W6-adjacent â€” newsletter archive issues (same frontmatter contract as blog).
+  const newsletters = [];
+  const newsletterDir = path.join(root, "content", "newsletter");
+  try {
+    for (const f of fs.readdirSync(newsletterDir).filter((f) => f.endsWith(".md")).sort()) {
+      const slug = f.replace(/\.md$/, "");
+      const { meta, body } = parseFrontMatter(fs.readFileSync(path.join(newsletterDir, f), "utf8"));
+      newsletters.push({
+        slug,
+        title: meta.title || slug,
+        description: meta.description || "",
+        date: meta.date || "",
+        html: renderMarkdown(body),
+      });
+    }
+  } catch {
+    /* no newsletter dir yet â€” omit-empty */
+  }
+
   fs.rmSync(OUT, { recursive: true, force: true });
   fs.mkdirSync(OUT, { recursive: true });
   let ads = { slots: [] };
@@ -2147,7 +2221,7 @@ function main() {
   } catch {
     /* optional until a real campaign sells */
   }
-  const routes = buildSite({ alternatives, snapshots, config, discounts, posts, ads });
+  const routes = buildSite({ alternatives, snapshots, config, discounts, posts, newsletters, ads });
   fs.writeFileSync(
     path.join(OUT, "search-index.json"),
     JSON.stringify(routes.searchIndex || [])
