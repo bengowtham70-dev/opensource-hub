@@ -44,6 +44,19 @@ import {
   upsertReposFromGithub,
 } from "./db.js";
 
+// Three-valued license facet inference (permissive | copyleft | network-copyleft,
+// matching the zod enum in mcp.js). Shared by the /api/search augmentation path
+// and the ai-find dbRow fallback. AGPL must be tested before the GPL family or
+// it would be misclassified as plain copyleft; LGPL groups with copyleft.
+function inferLicenseType(license) {
+  const spdx = (typeof license === "object" && license !== null ? license.spdx || "" : license || "")
+    .toString()
+    .toLowerCase();
+  if (spdx.includes("agpl")) return "network-copyleft";
+  if (/(?:l)?gpl|mpl/.test(spdx)) return "copyleft";
+  return "permissive";
+}
+
 function parseFrontMatter(md) {
   const match = md.match(/^---\n([\s\S]*?)\n---\n/);
   const meta = {};
@@ -311,17 +324,7 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
           const itemPlatforms = (item.platforms && item.platforms.length > 0 ? item.platforms : ["docker", "self-host"]).map((p) => p.toLowerCase());
           if (wantPlatform && !itemPlatforms.includes(wantPlatform)) continue;
 
-          // License facet is three-valued (permissive | copyleft | network-copyleft,
-          // see the zod enum in mcp.js). Infer from SPDX only when the item carries
-          // no explicit type. AGPL must be tested before the GPL family or it would
-          // be misclassified as plain copyleft; LGPL groups with copyleft.
-          const licSpdx = (item.license?.spdx || (typeof item.license === "string" ? item.license : "")).toLowerCase();
-          const inferredType = licSpdx.includes("agpl")
-            ? "network-copyleft"
-            : /(?:l)?gpl|mpl/.test(licSpdx)
-              ? "copyleft"
-              : "permissive";
-          const licType = String(item.license?.type || inferredType).toLowerCase();
+          const licType = String(item.license?.type || inferLicenseType(item.license)).toLowerCase();
           if (wantLicense && licType !== wantLicense) continue;
 
           // Catalog-augmented items only ever carry the two synthetic goal tags
@@ -735,7 +738,10 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
                   parity: ["Core workflow parity", "Self-hosted privacy"],
                   gaps: ["Self-hosted infrastructure required"],
                   platforms: dbRow.platforms && dbRow.platforms.length > 0 ? dbRow.platforms : ["self-host", "web"],
-                  license: typeof dbRow.license === "object" ? dbRow.license : { spdx: dbRow.license || "Open Source", type: "permissive" },
+                  license:
+                    typeof dbRow.license === "object"
+                      ? dbRow.license
+                      : { spdx: dbRow.license || "Open Source", type: inferLicenseType(dbRow.license) },
                   stars: dbRow.stars,
                   forks: dbRow.forks,
                   tco: { hostingMonthlyEstimateUsd: 5, selfHostDifficulty: "moderate" },

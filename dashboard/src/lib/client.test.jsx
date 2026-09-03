@@ -149,7 +149,7 @@ describe("RepoCard P5 surfaces (PRD §35/§38)", () => {
     expect(abandoned).toContain("abandoned");
     expect(abandoned).toContain("#dc2626"); // TrustMeter high-risk (AA-tuned Sentinel semantic)
     const active = renderCard({ maintenance: { status: "active" } });
-    expect(active).toContain("var(--color-trust)");
+    expect(active).toContain("var(--color-trust-strong)"); // AA trust text on white (small badge)
     expect(renderCard({})).not.toContain("Maintenance status");
   });
 });

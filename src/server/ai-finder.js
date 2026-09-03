@@ -128,13 +128,17 @@ export async function findTools({
   if (!clean) return { mode: "offline", summary: "Describe what you need first.", items: [] };
 
   // Hardening: the server fetches user-supplied baseUrls — restrict to https
-  // (localhost http allowed for dev runtimes like Ollama).
+  // (localhost http allowed for dev runtimes like Ollama). Anchored with an
+  // optional port + path/end boundary so lookalike hosts (localhost.evil.com,
+  // 127.0.0.1@evil.com) can't slip past.
   const url = String(baseUrl || "");
-  if (!/^https:\/\//.test(url) && !/^http:\/\/(localhost|127\.0\.0\.1)/.test(url)) {
+  const localhostRe = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/;
+  if (!/^https:\/\//.test(url) && !localhostRe.test(url)) {
     return { mode: "offline", summary: "Invalid API base URL — must be https.", items: heuristicFind(clean, pairings) };
   }
 
-  if (!apiKey) {
+  const isLocalhost = localhostRe.test(url);
+  if (!apiKey && !isLocalhost) {
     return {
       mode: "offline",
       summary: "Offline matching (no API key set) — keyword overlap only.",
@@ -142,13 +146,39 @@ export async function findTools({
     };
   }
 
+  // Pre-seed catalog context with pairings + top matching catalog items from SQLite
+  const words = tokenize(clean);
+  const catalogContext = compactCatalog(pairings);
+  if (words.length > 0) {
+    try {
+      const extraCat = searchCatalog({ q: words.slice(0, 3).join(" "), limit: 15, sort: "stars" });
+      const seen = new Set(catalogContext.map((c) => c.repo.toLowerCase()));
+      for (const item of extraCat.items || []) {
+        if (!seen.has(item.repo.toLowerCase())) {
+          catalogContext.push({
+            repo: item.repo,
+            name: item.name,
+            category: (item.topics && item.topics[0]) || item.language || "Open Source Tool",
+            replaces: item.alternativeTo || "Commercial Software",
+            tags: item.topics || [],
+            description: item.description || "",
+            platforms: item.platforms && item.platforms.length > 0 ? item.platforms : ["self-host"],
+            license: item.license || "Open Source",
+          });
+          seen.add(item.repo.toLowerCase());
+          if (catalogContext.length >= 150) break;
+        }
+      }
+    } catch {}
+  }
+
   try {
+    const headers = { "Content-Type": "application/json" };
+    if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
+
     const res = await fetchImpl(`${url.replace(/\/+$/, "")}/chat/completions`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers,
       signal: AbortSignal.timeout(30000),
       body: JSON.stringify({
         model,
@@ -162,7 +192,7 @@ export async function findTools({
           },
           {
             role: "user",
-            content: `Task: ${clean}\n\nCatalog:\n${JSON.stringify(compactCatalog(pairings))}`,
+            content: `Task: ${clean}\n\nCatalog:\n${JSON.stringify(catalogContext)}`,
           },
         ],
         response_format: { type: "json_schema", json_schema: SCHEMA },
@@ -175,9 +205,18 @@ export async function findTools({
     const parsed = JSON.parse(msg?.content || "{}");
 
     // Local validation (defense-in-depth even with Structured Outputs).
-    const byRepo = new Map(pairings.map((p) => [p.alternative.repo, p]));
+    // Membership AND uniqueness: models without strict structured-output
+    // support (Ollama/OpenRouter presets) can repeat a repo; duplicate cards
+    // keyed by the same repo would render twice.
+    const validRepos = new Set(catalogContext.map((c) => c.repo.toLowerCase()));
+    const seenRepos = new Set();
     const items = (Array.isArray(parsed.items) ? parsed.items : [])
-      .filter((it) => byRepo.has(it.repo))
+      .filter((it) => {
+        const repo = String(it.repo || "").toLowerCase();
+        if (!validRepos.has(repo) || seenRepos.has(repo)) return false;
+        seenRepos.add(repo);
+        return true;
+      })
       .slice(0, 5)
       .map((it) => ({
         repo: it.repo,

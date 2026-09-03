@@ -109,3 +109,39 @@ test("non-https baseUrl rejected (hardening) — falls back to offline", async (
   await findTools({ task: "notes", pairings, apiKey: "k", baseUrl: "http://localhost:11434/v1", fetchImpl: localFetch });
   assert.equal(localCalled, true, "localhost http must be allowed");
 });
+
+test("localhost Ollama works without an API key", async () => {
+  let fetchedHeaders = null;
+  const fetchImpl = async (_url, options) => {
+    fetchedHeaders = options.headers;
+    return new Response(
+      JSON.stringify({
+        choices: [
+          {
+            message: {
+              content: JSON.stringify({
+                summary: "Local Ollama resolved AppFlowy.",
+                items: [
+                  { repo: "appflowy-io/appflowy", reason: "Local-first workspace", confidence: 0.95 },
+                ],
+              }),
+            },
+          },
+        ],
+      }),
+      { status: 200 }
+    );
+  };
+  const r = await findTools({
+    task: "notion notes",
+    pairings,
+    apiKey: "",
+    baseUrl: "http://localhost:11434/v1",
+    fetchImpl,
+  });
+  assert.equal(r.mode, "ai");
+  assert.equal(r.items.length, 1);
+  assert.equal(r.items[0].repo, "appflowy-io/appflowy");
+  assert.equal(fetchedHeaders.Authorization, undefined, "No Authorization header should be sent when apiKey is empty");
+});
+

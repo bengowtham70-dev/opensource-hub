@@ -20,6 +20,25 @@ export const useAiSettings = create(
       setModel(model) {
         set({ model: model.trim() || "gpt-5.4-mini" });
       },
+      setPreset(type) {
+        if (type === "ollama") {
+          set({
+            baseUrl: "http://localhost:11434/v1",
+            model: "llama3",
+            key: "",
+          });
+        } else if (type === "openrouter") {
+          set({
+            baseUrl: "https://openrouter.ai/api/v1",
+            model: "meta-llama/llama-3.1-8b-instruct",
+          });
+        } else {
+          set({
+            baseUrl: "https://api.openai.com/v1",
+            model: "gpt-5.4-mini",
+          });
+        }
+      },
       toggleOpen() {
         set({ open: !get().open });
       },

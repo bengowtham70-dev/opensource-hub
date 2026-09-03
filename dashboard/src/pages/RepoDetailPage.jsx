@@ -1281,19 +1281,14 @@ function HeaderTrustScoreBadge({ trust }) {
           </div>
           
           <div className="space-y-1 text-dim">
-            <div className="flex items-center justify-between">
-              <span>Maintenance:</span>
-              <span className="font-medium text-ink capitalize">{trust.maintenance?.status || "active"}</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Security Audit:</span>
-              <span className="font-medium text-trust">Verified Safe</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span>Community Velocity:</span>
-              <span className="font-medium text-ink">High Activity</span>
-            </div>
+            {trust.signals?.map((s) => (
+              <div key={s.key} className="flex items-center justify-between gap-2">
+                <span className="shrink-0">{s.label}:</span>
+                <span className="font-medium text-ink text-right">{s.detail}</span>
+              </div>
+            ))}
           </div>
+          <p className="pt-1 border-t border-line/60 text-[10px] text-faint leading-snug">{trust.disclaimer}</p>
         </div>
       )}
     </div>
