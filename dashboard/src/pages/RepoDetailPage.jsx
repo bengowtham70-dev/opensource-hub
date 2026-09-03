@@ -32,6 +32,10 @@ import {
 
   Layers,
   FileText,
+  Terminal,
+  Users,
+  MessageSquarePlus,
+  Calculator,
   Image as ImageIcon,
 } from "lucide-react";
 
@@ -65,12 +69,14 @@ import DockerComposeViewer from "../components/DockerComposeViewer";
 import SelfHostSpecs from "../components/SelfHostSpecs";
 import PrivacyScorecard from "../components/PrivacyScorecard";
 import MigrationGuide from "../components/MigrationGuide";
-import LiveDemoModal from "../components/LiveDemoModal";
 import ContributionRadar from "../components/ContributionRadar";
 import ProsConsCard from "../components/ProsConsCard";
 import HomelabApps from "../components/HomelabApps";
 import ReviewsSection from "../components/ReviewsSection";
 import InstallBox from "../components/InstallBox";
+import SelfHostHub from "../components/SelfHostHub";
+import DecisionGuideHub from "../components/DecisionGuideHub";
+import AccordionCard from "../components/AccordionCard";
 import ExecutiveBriefModal from "../components/ExecutiveBriefModal";
 import ContributorShowcase from "../components/ContributorShowcase";
 
@@ -147,6 +153,48 @@ export default function RepoDetailPage() {
   const [showClaim, setShowClaim] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showBrief, setShowBrief] = useState(false);
+  const [activeSection, setActiveSection] = useState("install-section");
+  const [savingsPeriod, setSavingsPeriod] = useState("year");
+
+  // ScrollSpy to track active section
+  useEffect(() => {
+    const sections = ["install-section", "compare-section", "security-section", "community-section"];
+    const handleScroll = () => {
+      const scrollY = window.scrollY + 180;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sections[i]);
+        if (el && el.offsetTop <= scrollY) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Keyboard shortcut handler: keys 1, 2, 3, 4 jump to sections
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const tag = document.activeElement?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "textarea" || tag === "select" || e.metaKey || e.ctrlKey || e.altKey) return;
+      const targetMap = {
+        "1": "install-section",
+        "2": "compare-section",
+        "3": "security-section",
+        "4": "community-section",
+      };
+      if (targetMap[e.key]) {
+        const targetEl = document.getElementById(targetMap[e.key]);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: "smooth" });
+          setActiveSection(targetMap[e.key]);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Related paid alternatives in the same category
   const categoryPaidTools = useMemo(() => {
@@ -222,9 +270,9 @@ export default function RepoDetailPage() {
               
               <span
                 title="Verified Open Source Project"
-                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-trust/30 bg-trust/10 text-trust select-none"
+                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-line bg-surface text-ink select-none shadow-2xs"
               >
-                <ShieldCheck size={12} />
+                <ShieldCheck size={12} className="text-ink" />
                 Verified
               </span>
 
@@ -233,13 +281,32 @@ export default function RepoDetailPage() {
 
               {/* Save $X/yr Savings Badge */}
               {paid?.pricePerYearUsd > 0 && (
-                <span
-                  title={`Switching from ${paid.name} saves approximately ${formatSavings(paid.pricePerYearUsd)} per year`}
-                  className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold border border-accent/30 bg-accent/10 text-accent select-none"
+                <button
+                  type="button"
+                  onClick={() => setSavingsPeriod((p) => (p === "year" ? "month" : "year"))}
+                  title={`Switching from ${paid.name} saves approximately ${formatSavings(paid.pricePerYearUsd)} per year. Click to toggle period.`}
+                  className="group/save inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-line bg-surface select-none shadow-2xs transition-colors cursor-pointer"
                 >
-                  <Zap size={11} />
-                  <span>Save {formatSavings(paid.pricePerYearUsd)}/yr</span>
-                </span>
+                  <Zap
+                    size={11}
+                    className={`transition-colors ${
+                      savingsPeriod === "year"
+                        ? "text-dim dark:text-white/80 group-hover/save:text-[#FF4500]"
+                        : "text-faint"
+                    }`}
+                  />
+                  <span
+                    className={`transition-colors ${
+                      savingsPeriod === "year"
+                        ? "text-ink dark:text-white group-hover/save:text-[#FF4500]"
+                        : "text-faint"
+                    }`}
+                  >
+                    Save {savingsPeriod === "year"
+                      ? `${formatSavings(paid.pricePerYearUsd)}/year`
+                      : `${formatSavings(Math.round(paid.pricePerYearUsd / 12))}/mo`}
+                  </span>
+                </button>
               )}
 
               <Link
@@ -300,26 +367,26 @@ export default function RepoDetailPage() {
           </div>
         </div>
 
-        {/* ── Unified Actions Bar: Download · Source · Visit Website ‖ Save · Embed · Import · Report ── */}
-        <div className="flex flex-wrap items-center gap-2 pt-1">
+        {/* ── Unified Actions Bar: Download · Source · Visit Website ‖ Save · Decision Brief · Embed · Claim · Report ── */}
+        <div className="flex flex-wrap items-center gap-2.5 pt-1.5">
           {/* Primary CTA Buttons */}
           <a
             href={`/api/install/${repo}`}
             download
-            className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#121212] dark:bg-white text-white dark:text-[#121212] text-sm font-semibold shadow-sm hover:opacity-90 transition-opacity"
+            className="btn-tactile inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#121212] dark:bg-white text-white dark:text-[#121212] text-sm font-semibold shadow-sm hover:opacity-90 transition-all cursor-pointer"
             title="Download packaged installer for your OS"
           >
-            <Download size={14} />
+            <Download size={16} />
             <span>Download for Your OS</span>
           </a>
 
           <a
             href={`/api/source/${repo}`}
             download
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:bg-elevated text-sm font-medium text-ink transition-colors"
+            className="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-line bg-surface hover:bg-elevated text-sm font-medium text-ink transition-colors cursor-pointer"
             title="Download source code zip"
           >
-            <Package size={14} />
+            <Package size={16} />
             <span>Source Code (.zip)</span>
           </a>
 
@@ -327,81 +394,65 @@ export default function RepoDetailPage() {
             href={a.demoUrl || `https://github.com/${repo}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:bg-elevated text-sm font-medium text-ink transition-colors"
+            className="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-line bg-surface hover:bg-elevated text-sm font-medium text-ink transition-colors cursor-pointer"
           >
-            <Globe size={14} />
+            <Globe size={16} />
             <span>Visit Website</span>
-            <ExternalLink size={12} className="opacity-60" />
+            <ExternalLink size={13} className="opacity-60" />
           </a>
 
-          {/* 🎮 Try in Browser Live Web Demo */}
-          {a.demoUrl && <LiveDemoModal demoUrl={a.demoUrl} name={a.name} repo={repo} />}
+          <div className="h-6 w-px bg-line/60 mx-1 hidden sm:block" />
 
-          {/* Divider */}
-          <div className="h-5 w-px bg-line/60 mx-0.5 hidden sm:block" />
-
-          {/* Secondary Utility Buttons */}
           <button
             type="button"
             onClick={() => fav.toggle(repo)}
-            className={`btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border text-xs font-semibold transition-colors ${
+            className={`btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-colors cursor-pointer ${
               isFav
                 ? "bg-trust/15 border-trust/40 text-trust shadow-2xs"
                 : "border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink"
             }`}
           >
-            <Bookmark size={13} fill={isFav ? "currentColor" : "none"} />
+            <Bookmark size={14} fill={isFav ? "currentColor" : "none"} />
             <span>{isFav ? "Saved" : "Save Project"}</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowBrief(true)}
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-accent/30 bg-accent/5 hover:bg-accent/15 text-accent text-xs font-semibold transition-colors cursor-pointer"
+            className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-semibold transition-colors cursor-pointer"
             title="Export executive decision brief and CTO migration ROI report"
           >
-            <FileText size={13} />
+            <FileText size={14} />
             <span>Decision Brief</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowEmbed(true)}
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium"
+            className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium cursor-pointer"
             title="Get README badge embed code"
           >
-            <Code2 size={13} />
+            <Code2 size={14} />
             <span>Embed</span>
           </button>
 
           <button
             type="button"
             onClick={() => setShowClaim(true)}
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium"
+            className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium cursor-pointer"
             title="Claim and verify maintainership for this repository"
           >
-            <ShieldCheck size={13} className="text-trust" />
+            <ShieldCheck size={14} />
             <span>Claim</span>
           </button>
-
-          <a
-            href={`https://github.com/${repo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium"
-            title="Import or fork this project on GitHub"
-          >
-            <Layers size={13} />
-            <span>Import</span>
-          </a>
 
           <button
             type="button"
             onClick={() => setShowReport(true)}
-            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium"
+            className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium cursor-pointer"
             title="Report or suggest edits"
           >
-            <Flag size={13} />
+            <Flag size={14} />
             <span>Report</span>
           </button>
         </div>
@@ -429,107 +480,307 @@ export default function RepoDetailPage() {
       </div>
 
       {/* ── Sponsor Ad — Full width under the showcase, matching the left column size ── */}
-      <div className="mt-5">
+      <div className="mt-5 space-y-4">
         <SponsorAdCard name={a.name} category={paid.category} />
+
+        {/* ── The Honest Review — Positioned directly under the Deploy & Scale affiliate banner ── */}
+        {data.pairing.editorial?.length > 0 && (
+          <section
+            className="card-elevated p-6 space-y-3 bg-surface border border-line rounded-2xl shadow-sm animate-card-in"
+            aria-label={`Editorial review of ${a.name}`}
+          >
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <h3 className="font-display text-lg font-bold text-ink">The Honest Review</h3>
+              <span className="text-[10px] uppercase font-semibold tracking-wider text-dim bg-elevated px-2.5 py-0.5 rounded-full border border-line">
+                Independent Analysis
+              </span>
+            </div>
+            <div className="space-y-3 pt-1">
+              {data.pairing.editorial.map((para, i) => (
+                <p key={i} className={`text-dim leading-relaxed text-sm ${i === 0 ? "text-ink font-medium" : ""}`}>
+                  {para.body}
+                </p>
+              ))}
+            </div>
+            <p className="pt-2 text-[11.5px] text-faint border-t border-line/60">
+              Hand-written editorial — independent analysis, not vendor claims. Verify against the project's official documentation.
+            </p>
+          </section>
+        )}
       </div>
+
+      {/* ── Sticky In-Page Sub-Navigation Bar with ScrollSpy ── */}
+      <nav aria-label="Page Sections" className="mt-8 sticky top-16 z-30 py-2.5 bg-canvas/95 backdrop-blur-md border-y border-line">
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+          <a
+            href="#install-section"
+            onClick={() => setActiveSection("install-section")}
+            className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs transition-all shrink-0 inline-flex items-center gap-1.5 ${
+              activeSection === "install-section"
+                ? "border border-line-strong bg-ink text-surface dark:bg-surface dark:text-ink font-semibold shadow-xs"
+                : "border border-line bg-surface hover:border-line-strong text-dim hover:text-ink"
+            }`}
+          >
+            {activeSection === "install-section" ? (
+              <span className="size-1.5 rounded-full bg-surface dark:bg-ink" />
+            ) : (
+              <Terminal size={13} className="text-dim" />
+            )}
+            <span>Install &amp; Self-Host</span>
+            <kbd
+              className={`hidden sm:inline-flex text-[10px] px-1 py-0.2 rounded border font-sans ${
+                activeSection === "install-section"
+                  ? "border-surface/20 bg-surface/10 text-surface/80 dark:border-ink/20 dark:bg-ink/10 dark:text-ink/80"
+                  : "border-line bg-elevated text-faint"
+              }`}
+            >
+              1
+            </kbd>
+          </a>
+
+          <a
+            href="#compare-section"
+            onClick={() => setActiveSection("compare-section")}
+            className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs transition-all shrink-0 inline-flex items-center gap-1.5 ${
+              activeSection === "compare-section"
+                ? "border border-line-strong bg-ink text-surface dark:bg-surface dark:text-ink font-semibold shadow-xs"
+                : "border border-line bg-surface hover:border-line-strong text-dim hover:text-ink"
+            }`}
+          >
+            {activeSection === "compare-section" ? (
+              <span className="size-1.5 rounded-full bg-surface dark:bg-ink" />
+            ) : (
+              <GitCompare size={13} className="text-dim" />
+            )}
+            <span>Decision Guide &amp; Migration</span>
+            <kbd
+              className={`hidden sm:inline-flex text-[10px] px-1 py-0.2 rounded border font-sans ${
+                activeSection === "compare-section"
+                  ? "border-surface/20 bg-surface/10 text-surface/80 dark:border-ink/20 dark:bg-ink/10 dark:text-ink/80"
+                  : "border-line bg-elevated text-faint"
+              }`}
+            >
+              2
+            </kbd>
+          </a>
+
+          <a
+            href="#security-section"
+            onClick={() => setActiveSection("security-section")}
+            className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs transition-all shrink-0 inline-flex items-center gap-1.5 ${
+              activeSection === "security-section"
+                ? "border border-line-strong bg-ink text-surface dark:bg-surface dark:text-ink font-semibold shadow-xs"
+                : "border border-line bg-surface hover:border-line-strong text-dim hover:text-ink"
+            }`}
+          >
+            {activeSection === "security-section" ? (
+              <span className="size-1.5 rounded-full bg-surface dark:bg-ink" />
+            ) : (
+              <ShieldCheck size={13} className="text-dim" />
+            )}
+            <span>Security &amp; Contribution Radar</span>
+            <kbd
+              className={`hidden sm:inline-flex text-[10px] px-1 py-0.2 rounded border font-sans ${
+                activeSection === "security-section"
+                  ? "border-surface/20 bg-surface/10 text-surface/80 dark:border-ink/20 dark:bg-ink/10 dark:text-ink/80"
+                  : "border-line bg-elevated text-faint"
+              }`}
+            >
+              3
+            </kbd>
+          </a>
+
+          <a
+            href="#community-section"
+            onClick={() => setActiveSection("community-section")}
+            className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs transition-all shrink-0 inline-flex items-center gap-1.5 ${
+              activeSection === "community-section"
+                ? "border border-line-strong bg-ink text-surface dark:bg-surface dark:text-ink font-semibold shadow-xs"
+                : "border border-line bg-surface hover:border-line-strong text-dim hover:text-ink"
+            }`}
+          >
+            {activeSection === "community-section" ? (
+              <span className="size-1.5 rounded-full bg-surface dark:bg-ink" />
+            ) : (
+              <Users size={13} className="text-dim" />
+            )}
+            <span>Community &amp; Reviews</span>
+            <kbd
+              className={`hidden sm:inline-flex text-[10px] px-1 py-0.2 rounded border font-sans ${
+                activeSection === "community-section"
+                  ? "border-surface/20 bg-surface/10 text-surface/80 dark:border-ink/20 dark:bg-ink/10 dark:text-ink/80"
+                  : "border-line bg-elevated text-faint"
+              }`}
+            >
+              4
+            </kbd>
+          </a>
+        </div>
+      </nav>
 
       {/* ── Lower Details & Community Layout (8 cols left + 4 cols right sidebar) ── */}
       <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Detailed Content Column */}
-        <div className="lg:col-span-8 space-y-6 min-w-0">
-          {/* Social share and tech stack badges */}
-          <div className="card-elevated p-4 space-y-3">
-            <ShareBar repo={repo} name={a.name} />
-            <div className="border-t border-line/60 pt-2.5">
-              <TechStackBadges language={a.language} tags={a.tags} platforms={a.platforms} />
-            </div>
-          </div>
-
-          {/* 💻 Multi-OS Package Manager Install Box */}
-          <InstallBox repo={repo} alternative={a} />
-
-          {/* Parity P2 — head-to-head compare entry points */}
-          {compareSiblings.length > 0 && (
-            <div className="card-elevated p-4 flex flex-wrap items-center gap-1.5">
-              <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-faint mr-0.5">
-                <GitCompare size={12} aria-hidden /> Compare with
-              </span>
-              {compareSiblings.map((s) => (
-                <Link
-                  key={s.alternative.repo}
-                  to={`/compare/${a.shortName || a.repo.split("/")[1]}/vs/${s.alternative.repo.split("/")[1]}`}
-                  className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full tnum text-[11px] border border-line text-dim hover:text-ink hover:border-primary/40 transition-colors"
-                >
-                  {s.alternative.name}
-                </Link>
-              ))}
-            </div>
-          )}
-
-          {/* Parity P6 — hand-written editorial review */}
-          {data.pairing.editorial?.length > 0 && (
-            <section className="card-elevated p-6" aria-label={`Editorial review of ${a.name}`}>
-              <h2 className="font-display text-display-md mb-3">The honest review</h2>
-              <div className="space-y-3">
-                {data.pairing.editorial.map((para, i) => (
-                  <p key={i} className={`text-dim leading-relaxed max-w-[70ch] ${i === 0 ? "text-ink" : ""}`}>
-                    {para.body}
-                  </p>
-                ))}
+        {/* Left Detailed Content Column — Grouped into 4 Clean Sections */}
+        <div className="lg:col-span-8 space-y-10 min-w-0">
+          
+          {/* ── SECTION 1: Installation & Self-Hosting ── */}
+          <section id="install-section" className="space-y-6 scroll-mt-28">
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <div className="flex items-center gap-2">
+                <Terminal size={16} className="text-ink" />
+                <h2 className="font-display text-lg font-bold text-ink">Installation &amp; Self-Hosting</h2>
               </div>
-              <p className="mt-3 text-[11.5px] text-faint">
-                Hand-written editorial — opinions, not vendor claims. Verify against the project's own docs.
-              </p>
-            </section>
-          )}
+              <span className="text-[11px] text-faint uppercase font-semibold tracking-wider">Zero Lock-In</span>
+            </div>
 
-          <DownloadSection repo={repo} release={release} branch={data.live?.defaultBranch} />
+            {/* Simplified Self-Hosting Hub with 1-Click Download Package and Progressive Disclosure */}
+            <SelfHostHub
+              repo={repo}
+              alternative={a}
+              release={release}
+              defaultBranch={data.live?.defaultBranch || "main"}
+              SelfHostSpecsComponent={SelfHostSpecs}
+              DownloadSectionComponent={DownloadSection}
+            />
+          </section>
 
-          {/* ⚖️ Key Pros & Cons Trade-Offs Decision Card */}
-          <ProsConsCard
-            name={a.name}
-            paidName={data.pairing?.paidTool?.name}
-            parity={a.parity}
-            gaps={a.gaps}
-          />
+          {/* ── SECTION 2: Decision Guide, Comparison & Migration ── */}
+          <section id="compare-section" className="space-y-6 scroll-mt-28 pt-2">
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <div className="flex items-center gap-2">
+                <GitCompare size={16} className="text-ink" />
+                <h2 className="font-display text-lg font-bold text-ink">Decision Guide &amp; Migration</h2>
+              </div>
+              <span className="text-[11px] text-faint uppercase font-semibold tracking-wider">Feature Parity &amp; ROI</span>
+            </div>
 
-          {/* 🐳 1-Click Docker Compose Generator & Launcher */}
-          <DockerComposeViewer repo={repo} alternative={a} />
+            {/* Decision Guide Hub with 1-click expand & arrow trigger */}
+            <DecisionGuideHub
+              alternative={a}
+              paidTool={data.pairing?.paidTool}
+              compareSiblings={compareSiblings}
+            />
+          </section>
 
-          {/* 🏠 Homelab OS 1-Click Support (Umbrel, CasaOS, Unraid) */}
-          <HomelabApps repo={repo} name={a.name} />
+          {/* ── SECTION 3: Security, Governance & Contribution Radar ── */}
+          <section id="security-section" className="space-y-6 scroll-mt-28 pt-2">
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <div className="flex items-center gap-2">
+                <ShieldCheck size={16} className="text-ink" />
+                <h2 className="font-display text-lg font-bold text-ink">Security, Audit &amp; Contribution Radar</h2>
+              </div>
+              <span className="text-[11px] text-faint uppercase font-semibold tracking-wider">Health Signals</span>
+            </div>
 
-          {/* 🚦 Self-Host Specs & Hardware Requirements */}
-          <SelfHostSpecs alternative={a} />
+            {/* 1. Good First Issues & Contribution Radar inside Accordion */}
+            <AccordionCard
+              icon={Activity}
+              title="Good First Issues &amp; Contribution Radar"
+              subtitle="Live GitHub contributor velocity, open issue breakdown &amp; mentor signals"
+              badge="Health Radar"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <ContributionRadar repo={repo} name={a.name} />
+            </AccordionCard>
 
-          {/* 🔒 Privacy & Data Sovereignty Scorecard */}
-          <PrivacyScorecard alternative={a} />
+            {/* 3. Privacy & Data Sovereignty Scorecard inside Accordion */}
+            <AccordionCard
+              icon={ShieldCheck}
+              title="Privacy &amp; Data Sovereignty Scorecard"
+              subtitle="GDPR readiness, telemetry controls &amp; full data ownership"
+              badge="Privacy Audit"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <PrivacyScorecard alternative={a} />
+            </AccordionCard>
 
-          {/* 📊 Interactive Team ROI / TCO Calculator */}
-          {a.tco && <TcoCalculator paidTool={data.pairing.paidTool} tco={a.tco} />}
+            {/* 4. Maintainers & Contributor Velocity Showcase inside Accordion */}
+            <AccordionCard
+              icon={Users}
+              title="Maintainers &amp; Contributor Velocity"
+              subtitle="Commit frequency, active core maintainers &amp; release cadence"
+              badge="Active Velocity"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <ContributorShowcase repo={repo} trustScore={data.trust} name={a.name} />
+            </AccordionCard>
 
-          {/* 📦 Step-by-Step Data Migration Guide */}
-          {data.pairing?.paidTool && (
-            <MigrationGuide paidTool={data.pairing.paidTool} alternative={a} />
-          )}
+            {/* 5. Team Fit & Scalability Analysis inside Accordion */}
+            <AccordionCard
+              icon={Layers}
+              title="Team Fit &amp; Scalability Analysis"
+              subtitle="Infrastructure overhead, DevOps learning curve &amp; migration effort"
+              badge="DevOps Scope"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <TeamFit selfHosted={a.platforms?.includes("self-host")} />
+            </AccordionCard>
+          </section>
 
-          {/* 🤝 Good First Issues & Contribution Radar */}
-          <ContributionRadar repo={repo} name={a.name} />
+          {/* ── SECTION 4: Community, Releases & Verified Reviews ── */}
+          <section id="community-section" className="space-y-6 scroll-mt-28 pt-2">
+            <div className="flex items-center justify-between border-b border-line pb-2.5">
+              <div className="flex items-center gap-2">
+                <Users size={16} className="text-ink" />
+                <h2 className="font-display text-lg font-bold text-ink">Community, Feedback &amp; Releases</h2>
+              </div>
+              <span className="text-[11px] text-faint uppercase font-semibold tracking-wider">Verified Reviews</span>
+            </div>
 
-          {/* 👥 Maintainers & Contributor Velocity Showcase */}
-          <ContributorShowcase repo={repo} trustScore={data.trust} name={a.name} />
+            {/* Developer Reviews & Switcher Stories inside Accordion */}
+            <AccordionCard
+              icon={MessageSquarePlus}
+              title="Developer Reviews &amp; Switcher Stories"
+              subtitle="Real migration experiences, pros/cons &amp; ratings from developers"
+              badge="Reviews"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <ReviewsSection repo={repo} name={a.name} replaces={data.pairing?.paidTool?.name} />
+            </AccordionCard>
 
-          <TeamFit selfHosted={a.platforms?.includes("self-host")} />
+            {/* Release Notes inside Accordion */}
+            <AccordionCard
+              icon={FileText}
+              title="Changelog &amp; Version Release Notes"
+              subtitle="Recent software updates, breaking changes &amp; security patches"
+              badge="Latest Releases"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <ReleaseNotes owner={owner} name={name} />
+            </AccordionCard>
 
-          <ReleaseNotes owner={owner} name={name} />
+            {/* Similar Tools inside Accordion */}
+            <AccordionCard
+              icon={Layers}
+              title="Explore Similar Tools in this Category"
+              subtitle={`Other trending open-source projects in ${data.pairing?.paidTool?.category || "Tools"}`}
+              badge="Alternatives"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <SimilarTools category={data.pairing?.paidTool?.category || "Tools"} currentRepo={repo} />
+            </AccordionCard>
 
-          <SimilarTools category={data.pairing?.paidTool?.category || "Tools"} currentRepo={repo} />
+            {/* Community Section inside Accordion */}
+            <AccordionCard
+              icon={Users}
+              title="Live Community Q&amp;A &amp; Discussions"
+              subtitle="Join the community chat, ask questions, or report bugs"
+              badge="Community Hub"
+              badgeTone="default"
+              defaultOpen={false}
+            >
+              <CommunitySection repo={repo} />
+            </AccordionCard>
 
-          <ReviewsSection repo={repo} name={a.name} replaces={data.pairing?.paidTool?.name} />
-
-          <CommunitySection repo={repo} />
-
-          <GiscusComments term={repo} />
+            <GiscusComments term={repo} />
+          </section>
         </div>
 
         {/* Right Sticky Sidebar Column (4 cols) */}
@@ -584,15 +835,15 @@ function SponsorAdCard({ name, category }) {
       {/* Ad label */}
       <Link
         to="/advertise?ref=ad"
-        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-line/60 text-faint border border-line hover:bg-line transition-colors absolute top-3 right-3 sm:static sm:order-last z-10 leading-none"
+        className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-elevated text-faint border border-line hover:border-line-strong transition-colors absolute top-3 right-3 sm:static sm:order-last z-10 leading-none"
       >
         Ad
       </Link>
 
       {/* Sponsor Content */}
       <div className="flex items-center gap-3 flex-1 min-w-0 pr-12 sm:pr-0">
-        <div className="size-9 rounded-lg border border-line bg-elevated grid place-items-center shrink-0">
-          <Rocket size={18} className="text-accent" />
+        <div className="size-8 rounded-lg border border-line bg-elevated grid place-items-center shrink-0">
+          <Rocket size={15} className="text-ink dark:text-white" />
         </div>
         <div className="min-w-0">
           <p className="text-sm font-medium text-ink leading-snug">
@@ -663,7 +914,7 @@ function ScreenshotGallery({ screenshots, name, repo }) {
       {/* Featured Screenshot Card Matching Graph Card Frame */}
       <div className="card-elevated border border-line bg-surface rounded-2xl overflow-hidden shadow-float group flex flex-col h-full justify-between">
         {/* Browser Top Window Header */}
-        <div className="flex items-center justify-between px-4 py-2.5 border-b border-line bg-elevated/60 text-xs text-dim">
+        <div className="flex items-center justify-between px-4 py-2.5 border-b border-line bg-elevated text-xs text-dim">
           <div className="flex items-center gap-1.5">
             <span className="size-2.5 rounded-full bg-red-400/80" />
             <span className="size-2.5 rounded-full bg-amber-400/80" />
@@ -685,7 +936,7 @@ function ScreenshotGallery({ screenshots, name, repo }) {
         {/* Large Screenshot Showcase Container — Fills Frame Completely with No Side Gaps */}
         <div
           onClick={() => setLightboxOpen(true)}
-          className="relative w-full flex-1 min-h-[260px] sm:min-h-[280px] bg-elevated/30 grid place-items-center cursor-zoom-in overflow-hidden"
+          className="relative w-full flex-1 min-h-[260px] sm:min-h-[280px] bg-elevated grid place-items-center cursor-zoom-in overflow-hidden"
         >
           <img
             src={currentShot.src}
@@ -694,7 +945,7 @@ function ScreenshotGallery({ screenshots, name, repo }) {
             className="w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
           />
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
-            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-ink/90 text-surface text-xs font-semibold backdrop-blur-sm shadow-md">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-ink text-surface dark:bg-surface dark:text-ink text-xs font-semibold backdrop-blur-sm shadow-md">
               <Maximize2 size={13} />
               <span>Click to view full size</span>
             </span>
@@ -702,7 +953,7 @@ function ScreenshotGallery({ screenshots, name, repo }) {
         </div>
 
         {/* Bottom Thumbnail Strip / Footer Info */}
-        <div className="px-4 py-2.5 border-t border-line/60 bg-elevated/30 flex items-center justify-between gap-3 text-xs">
+        <div className="px-4 py-2.5 border-t border-line bg-elevated flex items-center justify-between gap-3 text-xs">
           <div className="flex items-center gap-1.5 text-faint">
             <ImageIcon size={13} />
             <span>Interface Preview · Shot {activeIndex + 1} of {shots.length}</span>
@@ -985,16 +1236,6 @@ function HeaderTrustScoreBadge({ trust }) {
   if (!trust) return null;
 
   const score = trust.score;
-  const isHighRisk = trust.band === "high-risk";
-  const isCaution = trust.band === "caution";
-
-  const strokeColor = isHighRisk ? "#dc2626" : isCaution ? "#d97706" : "#059669";
-  const bgBadge = isHighRisk
-    ? "bg-red-500/10 border-red-500/30 text-red-500"
-    : isCaution
-    ? "bg-amber-500/10 border-amber-500/30 text-amber-500"
-    : "bg-trust/10 border-trust/30 text-trust";
-
   const R = 7;
   const CIRC = 2 * Math.PI * R;
   const dash = (displayScore / 100) * CIRC;
@@ -1007,26 +1248,26 @@ function HeaderTrustScoreBadge({ trust }) {
     >
       <div
         title={`Audit & Test Score: ${score}/100`}
-        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${bgBadge} select-none cursor-pointer transition-all hover:scale-105 shadow-2xs`}
+        className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-line bg-surface text-ink select-none cursor-pointer transition-all hover:border-line-strong shadow-2xs"
       >
         <div className="relative size-4 grid place-items-center shrink-0">
           <svg viewBox="0 0 20 20" className="size-full -rotate-90">
-            <circle cx="10" cy="10" r={R} fill="none" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2.5" />
+            <circle cx="10" cy="10" r={R} fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="2.5" />
             <circle
               cx="10"
               cy="10"
               r={R}
               fill="none"
-              stroke={strokeColor}
+              stroke="currentColor"
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeDasharray={`${dash} ${CIRC}`}
-              className="transition-all duration-300 ease-out"
+              className="transition-all duration-300 ease-out text-ink"
             />
           </svg>
         </div>
 
-        <span className="tnum font-bold tracking-tight">{displayScore}% Test Score</span>
+        <span className="tnum font-bold tracking-tight text-ink">{displayScore}% Test Score</span>
       </div>
 
       {/* Hover popover for health signals */}

@@ -1,5 +1,17 @@
 import { useState } from "react";
-import { Copy, Check, Terminal, Layers, Box, Cpu, Download } from "lucide-react";
+import {
+  Copy,
+  Check,
+  Terminal,
+  Container,
+  Coffee,
+  AppWindow,
+  Package,
+  Code2,
+  Cpu,
+  Binary,
+  GitBranch,
+} from "lucide-react";
 
 export default function InstallBox({ repo = "", alternative = {}, defaultTab = "" }) {
   const [copied, setCopied] = useState(false);
@@ -7,7 +19,7 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
   const [owner, name] = repo.split("/");
   const cleanName = (alternative.name || name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 
-  // Generate commands for all available package managers
+  // Generate commands for all available package managers with dedicated vector icons
   const commands = [];
 
   // 1. Docker
@@ -15,7 +27,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
   commands.push({
     id: "docker",
     label: "Docker",
-    icon: "🐳",
+    icon: Container,
+    iconColor: "text-ink",
     cmd: `docker run -d -p 8080:8080 --name ${cleanName} ${dockerImg}`,
     secondaryCmd: `curl -sSL https://raw.githubusercontent.com/${repo}/main/docker-compose.yml | docker compose -f - up -d`,
     desc: "1-Click local container deployment",
@@ -26,7 +39,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
   commands.push({
     id: "brew",
     label: "Homebrew",
-    icon: "🍺",
+    icon: Coffee,
+    iconColor: "text-ink",
     cmd: `brew install ${brewPkg}`,
     desc: "macOS & Linux package manager",
   });
@@ -36,7 +50,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
   commands.push({
     id: "winget",
     label: "Winget",
-    icon: "🪟",
+    icon: AppWindow,
+    iconColor: "text-ink",
     cmd: `winget install ${wingetPkg}`,
     desc: "Windows Package Manager CLI",
   });
@@ -46,7 +61,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
     commands.push({
       id: "npm",
       label: "NPM",
-      icon: "📦",
+      icon: Package,
+      iconColor: "text-ink",
       cmd: `npm i -g ${ecosystems.npm || cleanName}`,
       desc: "Node.js global CLI / package",
     });
@@ -54,7 +70,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
     commands.push({
       id: "pypi",
       label: "Pip",
-      icon: "🐍",
+      icon: Code2,
+      iconColor: "text-ink",
       cmd: `pip install ${ecosystems.pypi || cleanName}`,
       desc: "Python package index",
     });
@@ -62,7 +79,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
     commands.push({
       id: "cargo",
       label: "Cargo",
-      icon: "🦀",
+      icon: Cpu,
+      iconColor: "text-ink",
       cmd: `cargo install ${ecosystems.cargo || cleanName}`,
       desc: "Rust package manager",
     });
@@ -70,7 +88,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
     commands.push({
       id: "go",
       label: "Go",
-      icon: "🐹",
+      icon: Binary,
+      iconColor: "text-ink",
       cmd: `go install github.com/${repo}@latest`,
       desc: "Go toolchain binary install",
     });
@@ -80,7 +99,8 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
   commands.push({
     id: "git",
     label: "Source",
-    icon: "⚡",
+    icon: GitBranch,
+    iconColor: "text-ink",
     cmd: `git clone https://github.com/${repo}.git && cd ${name || cleanName}`,
     desc: "Compile & run from source",
   });
@@ -114,6 +134,7 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
       <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none" role="tablist">
         {commands.map((tab) => {
           const isActive = tab.id === activeTab;
+          const IconComp = tab.icon;
           return (
             <button
               key={tab.id}
@@ -124,10 +145,10 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
               className={`btn-tactile px-3 py-1.5 rounded-xl border text-xs font-semibold shrink-0 inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
                 isActive
                   ? "bg-ink text-surface dark:bg-surface dark:text-ink border-transparent shadow-xs"
-                  : "border-line bg-elevated/50 text-dim hover:text-ink hover:bg-elevated"
+                  : "border-line bg-surface text-dim hover:text-ink hover:bg-elevated"
               }`}
             >
-              <span>{tab.icon}</span>
+              <IconComp size={14} className={`shrink-0 ${isActive ? "text-current" : tab.iconColor}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -135,7 +156,7 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
       </div>
 
       {/* Command Box with 1-click Copy */}
-      <div className="relative group rounded-xl border border-line bg-ink text-zinc-100 dark:bg-black/80 p-3.5 flex items-center justify-between gap-3 font-mono text-xs overflow-hidden">
+      <div className="relative group rounded-xl border border-line bg-elevated text-ink p-3.5 flex items-center justify-between gap-3 font-mono text-xs overflow-hidden">
         <div className="overflow-x-auto whitespace-nowrap scrollbar-none flex-1 pr-2">
           <span className="text-accent mr-2 select-none">$</span>
           <span className="tnum selection:bg-accent selection:text-white">{current?.cmd}</span>
@@ -144,7 +165,7 @@ export default function InstallBox({ repo = "", alternative = {}, defaultTab = "
         <button
           type="button"
           onClick={() => handleCopy(current?.cmd)}
-          className="btn-tactile px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-white font-sans text-xs font-semibold shrink-0 inline-flex items-center gap-1.5 shadow-sm border border-zinc-700 cursor-pointer"
+          className="btn-tactile px-3 py-1.5 rounded-lg bg-ink text-surface dark:bg-surface dark:text-ink font-sans text-xs font-semibold shrink-0 inline-flex items-center gap-1.5 shadow-sm border border-transparent hover:opacity-90 cursor-pointer"
           title="Copy command to clipboard"
         >
           {copied ? (

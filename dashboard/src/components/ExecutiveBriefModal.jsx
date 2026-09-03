@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, FileText, Download, Printer, Check, ShieldCheck, DollarSign, ArrowRight, Lock, Server } from "lucide-react";
+import { X, FileText, Download, Printer, Check, ShieldCheck, DollarSign, ArrowRight, Lock, Server, AlertTriangle } from "lucide-react";
 
 export default function ExecutiveBriefModal({
   open = false,
@@ -14,19 +14,25 @@ export default function ExecutiveBriefModal({
 
   const annualSaaSPerUser = paidTool.pricePerYearUsd || 120;
   const annualSaaSTeam = annualSaaSPerUser * teamSize;
-  const selfHostedAnnual = (alternative.tco?.hostingMonthlyEstimateUsd || 5) * 12;
+  const selfHostedAnnual = 240; 
   const annualSavings = Math.max(0, annualSaaSTeam - selfHostedAnnual);
   const threeYearSavings = annualSavings * 3;
 
-  const scoreNum = trustScore?.score || 85;
-  const parityList = alternative.parity || ["Core workspace", "Data sovereignty", "API access"];
-  const gapsList = alternative.gaps || ["Minor edge integrations"];
+  const scoreNum = trustScore?.overallScore ?? 85;
+  const parityList = alternative.features?.map((f) => f.name) || [
+    "Core Application Logic & Workflow",
+    "Self-Hosted Data Control",
+    "Open API & Extensibility",
+  ];
+  const gapsList = alternative.tradeoffs || [
+    "Requires self-managed backup procedures",
+    "No commercial 24/7 SLA by default",
+  ];
 
   const generateMarkdown = () => {
-    return `# Executive Migration Brief: ${paidTool.name || "Proprietary SaaS"} → ${alternative.name || "Open Source"}
-
-**Generated:** ${new Date().toISOString().split("T")[0]}
-**Target Open-Source Solution:** [${alternative.name || repo}](https://github.com/${repo})
+    return `# Open Source Procurement & Executive Decision Brief
+**Subject:** Open Source Alternative Migration Assessment
+**Target Software:** ${alternative.name || "Open Source Solution"} (${repo || "Self-Hosted"})
 **Replaces:** ${paidTool.name || "Proprietary SaaS"} (${paidTool.category || "General"})
 
 ---
@@ -43,10 +49,10 @@ export default function ExecutiveBriefModal({
 - **Data Sovereignty:** 100% Local-First / Self-Hosted (Zero Cloud Vendor Lock-in)
 
 ## 3. Feature Parity & Coverage
-### ✅ Supported Features
+### Supported Features
 ${parityList.map((p) => `- ${p}`).join("\n")}
 
-### ⚠️ Known Trade-Offs & Gaps
+### Identified Trade-Offs & Gaps
 ${gapsList.map((g) => `- ${g}`).join("\n")}
 
 ## 4. Migration Strategy
@@ -165,8 +171,8 @@ ${alternative.migrationNotes || "Export data to standard JSON/CSV and import int
               </span>
             </div>
             <div className="p-3 rounded-xl bg-trust/10 border border-trust/30 text-trust space-y-0.5 col-span-2 sm:col-span-1">
-              <span className="text-[11px] font-bold uppercase tracking-wider block">Annual Savings</span>
-              <span className="font-display text-base sm:text-lg font-bold text-trust tnum">
+              <span className="text-[11px] font-bold uppercase tracking-wider block text-trust-strong">Annual Savings</span>
+              <span className="font-display text-base sm:text-lg font-bold text-trust-strong tnum">
                 +${annualSavings.toLocaleString()}/yr
               </span>
             </div>
@@ -225,7 +231,8 @@ ${alternative.migrationNotes || "Export data to standard JSON/CSV and import int
 
             <div className="p-3.5 rounded-xl bg-surface border border-line space-y-2">
               <span className="font-semibold text-caution flex items-center gap-1.5">
-                <span>⚠️</span> Identified Trade-Offs
+                <AlertTriangle size={14} className="shrink-0" />
+                <span>Identified Trade-Offs</span>
               </span>
               <ul className="space-y-1 text-dim text-[11.5px]">
                 {gapsList.map((g, i) => (

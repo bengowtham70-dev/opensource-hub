@@ -20,3 +20,16 @@ web-dist/
 output/
 .playwright-cli/
 
+# QA session screenshots & scratch captures
+scripts/qa-shots/
+test/screenshots/
+scratch_*
+
+# Local runtime SQLite catalog (generated from alternatives.json)
+src/data/catalog.db
+src/data/catalog.db-shm
+src/data/catalog.db-wal
+
+# Local agent workspace config
+.verdent/
+

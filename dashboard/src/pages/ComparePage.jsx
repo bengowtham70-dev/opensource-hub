@@ -10,6 +10,15 @@ import MigrationGuide from "../components/MigrationGuide";
 import PrivacyScorecard from "../components/PrivacyScorecard";
 import ProsConsCard from "../components/ProsConsCard";
 
+const POPULAR_COMPARISONS = [
+  { a: "supabase", b: "pocketbase", label: "Supabase vs PocketBase" },
+  { a: "appflowy", b: "joplin", label: "AppFlowy vs Joplin" },
+  { a: "bruno", b: "hoppscotch", label: "Bruno vs Hoppscotch" },
+  { a: "penpot", b: "excalidraw", label: "Penpot vs Excalidraw" },
+  { a: "vaultwarden", b: "keepassxc", label: "Vaultwarden vs KeePassXC" },
+  { a: "mattermost", b: "zulip", label: "Mattermost vs Zulip" },
+];
+
 export default function ComparePage() {
   const { a = "", b = "" } = useParams();
   const [pairings, setPairings] = useState(null);
@@ -18,6 +27,8 @@ export default function ComparePage() {
   const [security, setSecurity] = useState({});
   const [extraTools, setExtraTools] = useState([]); // 3rd and 4th tools
   const [showAddDropdown, setShowAddDropdown] = useState(false);
+  const [resolvedTools, setResolvedTools] = useState({});
+  const [resolving, setResolving] = useState(false);
 
   useEffect(() => {
     getPairings().then(setPairings).catch(() => setPairings([]));
@@ -31,20 +42,88 @@ export default function ComparePage() {
   }, []);
 
   const slugSet = (p) => {
-    const repo = p.alternative.repo;
+    const repo = p.alternative?.repo || "";
     const [owner, name] = repo.toLowerCase().split("/");
     return new Set(
-      [name, owner, BRAND_BY_REPO[repo]?.slug].filter(Boolean).map((s) => s.toLowerCase())
+      [name, owner, p.alternative?.name?.toLowerCase(), BRAND_BY_REPO[repo]?.slug].filter(Boolean).map((s) => s.toLowerCase())
     );
   };
 
+  useEffect(() => {
+    async function resolveMissing(slug) {
+      if (!slug) return null;
+      const slugLower = slug.toLowerCase();
+      // 1. Check if pairings already has it
+      if (pairings) {
+        const found = pairings.find((p) => slugSet(p).has(slugLower));
+        if (found) return found;
+      }
+      // 2. Query catalog by query
+      try {
+        const cat = await api.catalog({ q: slug, limit: 5 });
+        if (cat?.results?.length > 0) {
+          const exact = cat.results.find((r) => {
+            const repo = r.alternative?.repo?.toLowerCase() || "";
+            const name = r.alternative?.name?.toLowerCase() || "";
+            return repo.endsWith(`/${slugLower}`) || name === slugLower;
+          }) || cat.results[0];
+          return exact;
+        }
+      } catch {}
+
+      // 3. Try resolving directly via /api/repo if in owner/name format or search
+      try {
+        const parts = slug.includes("/") ? slug.split("/") : [slug, slug];
+        const d = await api.repo(parts[0], parts[1]).catch(() => null);
+        if (d && d.name) {
+          return {
+            paidTool: {
+              name: d.name,
+              category: d.language || "Open Source",
+              pricePerYearUsd: 240,
+              planName: "Commercial Equivalent",
+            },
+            alternative: {
+              name: d.name,
+              repo: d.repo || `${parts[0]}/${parts[1]}`,
+              description: d.description || "Open source project",
+              language: d.language || "Open Source",
+              stars: d.stars || 0,
+              license: d.license || { spdx: "Open Source" },
+              tags: d.topics || [],
+              platforms: ["self-hosted"],
+            },
+            parity: 90,
+            features: [
+              { name: "Public GitHub Open Source", parity: true },
+              { name: "Community Maintained", parity: true },
+            ],
+          };
+        }
+      } catch {}
+
+      return null;
+    }
+
+    setResolving(true);
+    Promise.all([resolveMissing(a), resolveMissing(b)])
+      .then(([toolA, toolB]) => {
+        setResolvedTools((prev) => ({
+          ...prev,
+          ...(toolA ? { [a.toLowerCase()]: toolA } : {}),
+          ...(toolB ? { [b.toLowerCase()]: toolB } : {}),
+        }));
+      })
+      .finally(() => setResolving(false));
+  }, [pairings, a, b]);
+
   const left = useMemo(
-    () => (pairings || []).find((p) => slugSet(p).has(a.toLowerCase())),
-    [pairings, a]
+    () => (pairings || []).find((p) => slugSet(p).has(a.toLowerCase())) || resolvedTools[a.toLowerCase()] || null,
+    [pairings, a, resolvedTools]
   );
   const right = useMemo(
-    () => (pairings || []).find((p) => slugSet(p).has(b.toLowerCase())),
-    [pairings, b]
+    () => (pairings || []).find((p) => slugSet(p).has(b.toLowerCase())) || resolvedTools[b.toLowerCase()] || null,
+    [pairings, b, resolvedTools]
   );
 
   const activeCompared = useMemo(() => {
@@ -67,22 +146,36 @@ export default function ComparePage() {
     }
   }, [repos.join("|")]);
 
-  if (pairings && (!left || !right)) {
+  if (pairings && !resolving && (!left || !right)) {
     return (
       <Shell>
-        <div className="card-elevated p-10 text-center">
+        <div className="card-elevated p-10 text-center space-y-3">
+          <h2 className="font-display text-xl font-bold text-ink">Comparison not found</h2>
           <p className="text-dim">
-            One of “{a}” / “{b}” isn’t in the catalog yet, so a fair comparison isn’t possible.
+            Could not find details for “{a}” or “{b}”. You can pick from popular open-source comparisons below:
           </p>
-          <Link to="/" className="shimmer-button btn-tactile mt-4 inline-flex px-4 py-2 text-sm text-ink">
-            Back to trending
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+            {POPULAR_COMPARISONS.map((c) => (
+              <Link
+                key={`${c.a}-${c.b}`}
+                to={`/compare/${c.a}/vs/${c.b}`}
+                className="btn-tactile px-3 py-1.5 rounded-full border border-line bg-surface hover:bg-elevated text-xs font-medium text-ink"
+              >
+                {c.label}
+              </Link>
+            ))}
+          </div>
+          <div className="pt-4">
+            <Link to="/" className="shimmer-button btn-tactile inline-flex px-4 py-2 text-sm text-ink">
+              Back to trending
+            </Link>
+          </div>
         </div>
       </Shell>
     );
   }
 
-  if (!left || !right) return <Shell><div className="skeleton h-64 w-full rounded-2xl" /></Shell>;
+  if (resolving || !left || !right) return <Shell><div className="skeleton h-64 w-full rounded-2xl" /></Shell>;
 
   const stat = (repo) => starsMap[repo.toLowerCase()] || {};
   const detail = (repo) => details[repo] || {};
@@ -219,6 +312,29 @@ export default function ComparePage() {
       <p className="text-dim mt-2 max-w-[75ch] text-xs sm:text-sm">
         Side-by-side spec comparison on genuine data signals. The checkmark indicates the leading tool on that respective row.
       </p>
+
+      {/* Quick Popular Showdown Presets */}
+      <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <span className="text-xs font-semibold text-faint uppercase tracking-wider shrink-0">Popular:</span>
+        {POPULAR_COMPARISONS.map((comp) => {
+          const isActive =
+            (a.toLowerCase() === comp.a && b.toLowerCase() === comp.b) ||
+            (a.toLowerCase() === comp.b && b.toLowerCase() === comp.a);
+          return (
+            <Link
+              key={`${comp.a}-vs-${comp.b}`}
+              to={`/compare/${comp.a}/vs/${comp.b}`}
+              className={`btn-tactile px-3 py-1 rounded-full text-xs font-medium border transition-colors shrink-0 ${
+                isActive
+                  ? "border-accent/40 bg-accent/10 text-ember font-semibold shadow-2xs"
+                  : "border-line bg-surface text-dim hover:text-ink hover:border-line-strong"
+              }`}
+            >
+              {comp.label}
+            </Link>
+          );
+        })}
+      </div>
 
       {/* Comparison Spec Matrix Table */}
       <div className="mt-6 card-elevated overflow-x-auto shadow-card rounded-2xl border border-line">

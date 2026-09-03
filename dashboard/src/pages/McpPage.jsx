@@ -154,7 +154,7 @@ export default function McpPage() {
               Add this to your Claude Desktop configuration file (<code>claude_desktop_config.json</code>):
             </p>
             <div className="relative">
-              <pre className="p-4 rounded-xl border border-line bg-base text-ink text-xs font-mono overflow-x-auto leading-relaxed">
+              <pre className="p-4 rounded-xl border border-line bg-canvas text-ink text-xs font-mono overflow-x-auto leading-relaxed">
                 {claudeConfig}
               </pre>
               <button
@@ -175,7 +175,7 @@ export default function McpPage() {
               Add this under Cursor Settings → Features → MCP or in your project's <code>.cursor/mcp.json</code>:
             </p>
             <div className="relative">
-              <pre className="p-4 rounded-xl border border-line bg-base text-ink text-xs font-mono overflow-x-auto leading-relaxed">
+              <pre className="p-4 rounded-xl border border-line bg-canvas text-ink text-xs font-mono overflow-x-auto leading-relaxed">
                 {cursorConfig}
               </pre>
               <button
@@ -196,7 +196,7 @@ export default function McpPage() {
               Launch the MCP server directly over standard I/O for custom agents or scripts:
             </p>
             <div className="relative">
-              <pre className="p-4 rounded-xl border border-line bg-base text-ink text-xs font-mono overflow-x-auto leading-relaxed">
+              <pre className="p-4 rounded-xl border border-line bg-canvas text-ink text-xs font-mono overflow-x-auto leading-relaxed">
                 {terminalCommand}
               </pre>
               <button
@@ -252,7 +252,7 @@ export default function McpPage() {
                   </div>
                 )}
               </div>
-              <div className="p-2.5 rounded-lg bg-base border border-line text-[11.5px] text-faint italic flex items-center gap-1.5">
+              <div className="p-2.5 rounded-lg bg-canvas border border-line text-[11.5px] text-faint italic flex items-center gap-1.5">
                 <Sparkles size={12} className="text-accent shrink-0" />
                 <span>Example: "{tool.sample}"</span>
               </div>

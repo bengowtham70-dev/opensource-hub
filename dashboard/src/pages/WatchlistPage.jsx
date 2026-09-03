@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Bell, BellOff, RefreshCw, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Bell, BellOff, RefreshCw, ShieldCheck, ArrowRight, AlertTriangle, CheckCircle2, Rss, Download } from "lucide-react";
 import { useWatchlist } from "../stores/watchlist";
 import { EmptyState } from "../components/states";
 
@@ -13,6 +13,23 @@ export default function WatchlistPage() {
     repo,
     baselineScore,
   }));
+
+  const exportWatchlist = () => {
+    const data = {
+      version: "1.0",
+      exportedAt: new Date().toISOString(),
+      watchlist: watchlist.watched,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "osh-watchlist.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  };
 
   const handleCheckNow = async () => {
     setChecking(true);
@@ -54,8 +71,20 @@ export default function WatchlistPage() {
             className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-line bg-surface text-xs font-semibold text-dim hover:text-ink shadow-2xs transition-colors"
             title="Subscribe to RSS Release Feed"
           >
-            <span>📡 RSS Feed</span>
+            <Rss size={13} className="text-accent shrink-0" />
+            <span>RSS Feed</span>
           </a>
+
+          <button
+            type="button"
+            onClick={exportWatchlist}
+            disabled={watchedEntries.length === 0}
+            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-line bg-surface text-xs font-semibold text-dim hover:text-ink shadow-2xs transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+            title={watchedEntries.length > 0 ? "Download your watchlist as JSON" : "Watchlist is empty"}
+          >
+            <Download size={13} className="text-ember shrink-0" />
+            <span>Export JSON</span>
+          </button>
 
           {watchedEntries.length > 0 && (
             <button

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Sparkles } from "lucide-react";
 import { getPairings } from "../lib/seed";
+import { api } from "../lib/api";
 import { paidBrand } from "../components/BrandLogo";
 import BrandLogo from "../components/BrandLogo";
 import RepoCard from "../components/RepoCard";
@@ -16,18 +17,69 @@ import { formatSavings } from "../lib/format";
 export default function PaidToolPage() {
   const { slug } = useParams();
   const [pairings, setPairings] = useState(null);
+  const [catalogMatches, setCatalogMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showSuggest, setShowSuggest] = useState(false);
 
   useEffect(() => {
-    getPairings().then(setPairings).catch(() => setPairings([]));
-  }, []);
+    setLoading(true);
+    Promise.all([
+      getPairings().catch(() => []),
+      api.catalog({ alternativeTo: slug, limit: 30 }).catch(() => null),
+      api.catalog({ q: slug, limit: 30 }).catch(() => null),
+    ])
+      .then(([seedPairings, altRes, qRes]) => {
+        setPairings(seedPairings || []);
+        const items = [];
+        const seen = new Set();
 
-  const matches = useMemo(
-    () => (pairings || []).filter((p) => p.paidTool.slug === slug),
-    [pairings, slug]
-  );
-  const paid = matches[0]?.paidTool || null;
-  const totalSaving = matches.reduce((sum, p) => sum + (p.paidTool.pricePerYearUsd || 0), 0);
+        for (const r of altRes?.results || []) {
+          const repo = r.alternative?.repo?.toLowerCase();
+          if (repo && !seen.has(repo)) {
+            seen.add(repo);
+            items.push(r);
+          }
+        }
+        for (const r of qRes?.results || []) {
+          const repo = r.alternative?.repo?.toLowerCase();
+          if (repo && !seen.has(repo)) {
+            seen.add(repo);
+            items.push(r);
+          }
+        }
+        setCatalogMatches(items);
+        setLoading(false);
+      })
+      .catch(() => {
+        setPairings([]);
+        setLoading(false);
+      });
+  }, [slug]);
+
+  const matches = useMemo(() => {
+    const slugLower = (slug || "").toLowerCase();
+    const seedMatches = (pairings || []).filter(
+      (p) =>
+        p.paidTool?.slug?.toLowerCase() === slugLower ||
+        p.paidTool?.name?.toLowerCase() === slugLower
+    );
+    const seen = new Set(seedMatches.map((p) => p.alternative.repo.toLowerCase()));
+    const additional = catalogMatches.filter(
+      (p) => !seen.has(p.alternative.repo.toLowerCase())
+    );
+    return [...seedMatches, ...additional];
+  }, [pairings, catalogMatches, slug]);
+
+  const prettyName = slug ? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, " ") : "Software";
+  const paid = matches[0]?.paidTool || (matches.length > 0 ? {
+    name: prettyName,
+    slug,
+    category: "Software Tool",
+    pricePerYearUsd: 240,
+    planName: "Standard SaaS Tier",
+  } : null);
+
+  const totalSaving = matches.reduce((sum, p) => sum + (p.paidTool?.pricePerYearUsd || 0), 0);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 md:px-6 py-10">
@@ -35,11 +87,11 @@ export default function PaidToolPage() {
         <ArrowLeft size={15} /> Trending
       </Link>
 
-      {!pairings && (
+      {loading && (
         <div className="mt-6 skeleton h-24 w-full rounded-2xl" />
       )}
 
-      {pairings && matches.length === 0 && (
+      {!loading && matches.length === 0 && (
         <div className="mt-6 card-elevated p-10 text-center space-y-4">
           <Byte size={64} />
           <p className="mt-4 text-dim">
@@ -56,7 +108,7 @@ export default function PaidToolPage() {
         </div>
       )}
 
-      {paid && (
+      {!loading && matches.length > 0 && paid && (
         <>
           <Breadcrumbs
             trail={[

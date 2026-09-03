@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
 export const SUPPORTED_LANGUAGES = [
-  { code: "en", label: "English", flag: "🇺🇸" },
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "de", label: "Deutsch", flag: "🇩🇪" },
-  { code: "fr", label: "Français", flag: "🇫🇷" },
-  { code: "zh", label: "中文", flag: "🇨🇳" },
-  { code: "ja", label: "日本語", flag: "🇯🇵" },
+  { code: "en", label: "English", country: "EN" },
+  { code: "es", label: "Español", country: "ES" },
+  { code: "de", label: "Deutsch", country: "DE" },
+  { code: "fr", label: "Français", country: "FR" },
+  { code: "zh", label: "中文", country: "ZH" },
+  { code: "ja", label: "日本語", country: "JA" },
 ];
 
 export const TRANSLATIONS = {

@@ -11,7 +11,6 @@ import {
   MessageSquare,
   X,
   ArrowRight,
-  ShieldAlert,
 } from "lucide-react";
 
 export default function ContributionRadar({ repo, name = "" }) {
@@ -63,8 +62,8 @@ export default function ContributionRadar({ repo, name = "" }) {
     >
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
         <div className="flex items-center gap-2.5">
-          <span className="grid place-items-center size-9 rounded-xl bg-pink-500/10 text-pink-500 border border-pink-500/20">
-            <HeartHandshake size={18} />
+          <span className="grid place-items-center size-9 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink">
+            <HeartHandshake size={18} className="text-accent" />
           </span>
           <div>
             <h2 className="font-display text-xl font-bold text-ink">Contribution Radar</h2>
@@ -74,36 +73,40 @@ export default function ContributionRadar({ repo, name = "" }) {
           </div>
         </div>
 
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-trust/30 bg-trust/10 text-trust text-xs font-semibold">
-          <Sparkles size={13} className="text-trust" />
-          Community Welcome
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-line bg-elevated text-dim text-xs font-semibold">
+          <Sparkles size={13} className="text-accent" />
+          <span>Community Welcome</span>
         </span>
       </div>
 
-      {/* 3 Interactive Cards */}
+      {/* 3 Interactive Cards — Clean Dark / Neutral Styling */}
       <div className="grid sm:grid-cols-3 gap-3">
         {/* Good First Issues */}
         <div
-          onClick={() => setSelectedTab("first-issue")}
+          onClick={() => setSelectedTab(selectedTab === "first-issue" ? null : "first-issue")}
           className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between select-none ${
             selectedTab === "first-issue"
-              ? "bg-pink-500/10 border-pink-500/50 shadow-sm"
-              : "bg-elevated/40 border-line hover:border-pink-500/40 hover:bg-surface"
+              ? "bg-ink text-surface dark:bg-surface dark:text-ink border-transparent shadow-sm"
+              : "bg-surface border-line hover:border-line-strong hover:bg-elevated/60"
           }`}
         >
           <div>
-            <div className="flex items-center justify-between text-pink-500 mb-2">
-              <Sparkles size={16} />
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-pink-500/10">
+            <div className="flex items-center justify-between mb-2">
+              <Sparkles size={16} className={selectedTab === "first-issue" ? "text-accent" : "text-faint"} />
+              <span
+                className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                  selectedTab === "first-issue" ? "bg-surface/20 text-current" : "bg-elevated text-faint"
+                }`}
+              >
                 Beginner
               </span>
             </div>
-            <h3 className="font-display text-sm font-bold text-ink">Good First Issues</h3>
-            <p className="text-xs text-faint mt-1 leading-relaxed">
+            <h3 className="font-display text-sm font-bold text-current">Good First Issues</h3>
+            <p className={`text-xs mt-1 leading-relaxed ${selectedTab === "first-issue" ? "opacity-80" : "text-faint"}`}>
               Curated beginner-friendly tasks ideal for first-time open-source contributors.
             </p>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-pink-600 dark:text-pink-400 font-semibold">
+          <div className="mt-3 flex items-center justify-between text-xs font-semibold">
             <span>Explore Tasks</span>
             <ArrowRight size={13} />
           </div>
@@ -111,26 +114,30 @@ export default function ContributionRadar({ repo, name = "" }) {
 
         {/* Help Wanted */}
         <div
-          onClick={() => setSelectedTab("help-wanted")}
+          onClick={() => setSelectedTab(selectedTab === "help-wanted" ? null : "help-wanted")}
           className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between select-none ${
             selectedTab === "help-wanted"
-              ? "bg-amber-500/10 border-amber-500/50 shadow-sm"
-              : "bg-elevated/40 border-line hover:border-amber-500/40 hover:bg-surface"
+              ? "bg-ink text-surface dark:bg-surface dark:text-ink border-transparent shadow-sm"
+              : "bg-surface border-line hover:border-line-strong hover:bg-elevated/60"
           }`}
         >
           <div>
-            <div className="flex items-center justify-between text-amber-500 mb-2">
-              <HelpCircle size={16} />
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-amber-500/10">
+            <div className="flex items-center justify-between mb-2">
+              <HelpCircle size={16} className={selectedTab === "help-wanted" ? "text-accent" : "text-faint"} />
+              <span
+                className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                  selectedTab === "help-wanted" ? "bg-surface/20 text-current" : "bg-elevated text-faint"
+                }`}
+              >
                 Features
               </span>
             </div>
-            <h3 className="font-display text-sm font-bold text-ink">Help Wanted</h3>
-            <p className="text-xs text-faint mt-1 leading-relaxed">
+            <h3 className="font-display text-sm font-bold text-current">Help Wanted</h3>
+            <p className={`text-xs mt-1 leading-relaxed ${selectedTab === "help-wanted" ? "opacity-80" : "text-faint"}`}>
               High-impact feature requests and bug fixes currently needing maintainer assistance.
             </p>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-amber-600 dark:text-amber-400 font-semibold">
+          <div className="mt-3 flex items-center justify-between text-xs font-semibold">
             <span>View Backlog</span>
             <ArrowRight size={13} />
           </div>
@@ -138,26 +145,30 @@ export default function ContributionRadar({ repo, name = "" }) {
 
         {/* Active Pull Requests */}
         <div
-          onClick={() => setSelectedTab("prs")}
+          onClick={() => setSelectedTab(selectedTab === "prs" ? null : "prs")}
           className={`p-4 rounded-xl border cursor-pointer transition-all flex flex-col justify-between select-none ${
             selectedTab === "prs"
-              ? "bg-blue-500/10 border-blue-500/50 shadow-sm"
-              : "bg-elevated/40 border-line hover:border-blue-500/40 hover:bg-surface"
+              ? "bg-ink text-surface dark:bg-surface dark:text-ink border-transparent shadow-sm"
+              : "bg-surface border-line hover:border-line-strong hover:bg-elevated/60"
           }`}
         >
           <div>
-            <div className="flex items-center justify-between text-blue-500 mb-2">
-              <GitPullRequest size={16} />
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.5 rounded bg-blue-500/10">
+            <div className="flex items-center justify-between mb-2">
+              <GitPullRequest size={16} className={selectedTab === "prs" ? "text-accent" : "text-faint"} />
+              <span
+                className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+                  selectedTab === "prs" ? "bg-surface/20 text-current" : "bg-elevated text-faint"
+                }`}
+              >
                 In Progress
               </span>
             </div>
-            <h3 className="font-display text-sm font-bold text-ink">Active Pull Requests</h3>
-            <p className="text-xs text-faint mt-1 leading-relaxed">
+            <h3 className="font-display text-sm font-bold text-current">Active Pull Requests</h3>
+            <p className={`text-xs mt-1 leading-relaxed ${selectedTab === "prs" ? "opacity-80" : "text-faint"}`}>
               Review community contributions and see upcoming changes shipping next.
             </p>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-blue-600 dark:text-blue-400 font-semibold">
+          <div className="mt-3 flex items-center justify-between text-xs font-semibold">
             <span>Browse PRs</span>
             <ArrowRight size={13} />
           </div>
@@ -166,10 +177,10 @@ export default function ContributionRadar({ repo, name = "" }) {
 
       {/* In-App Live Issues Drawer / Explorer */}
       {selectedTab && (
-        <div className="card-elevated p-5 rounded-xl border border-line bg-surface/90 space-y-4 animate-in fade-in duration-200">
+        <div className="card-elevated p-5 rounded-xl border border-line bg-surface space-y-4 animate-in fade-in duration-200">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-3">
             <div className="flex items-center gap-2">
-              <CircleDot size={16} className="text-trust" />
+              <CircleDot size={16} className="text-accent" />
               <h4 className="font-semibold text-sm text-ink">
                 {selectedTab === "first-issue"
                   ? "Live Beginner Issues"
@@ -183,7 +194,7 @@ export default function ContributionRadar({ repo, name = "" }) {
               <button
                 type="button"
                 onClick={copyActiveUrl}
-                className="btn-tactile px-2.5 py-1 rounded-lg border border-line text-xs text-dim hover:text-ink inline-flex items-center gap-1"
+                className="btn-tactile px-2.5 py-1 rounded-lg border border-line bg-elevated/50 text-xs text-dim hover:text-ink inline-flex items-center gap-1 cursor-pointer"
                 title="Copy GitHub issues search link"
               >
                 {copiedUrl ? <Check size={12} className="text-trust" /> : <Copy size={12} />}
@@ -194,7 +205,7 @@ export default function ContributionRadar({ repo, name = "" }) {
                 href={getActiveUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-tactile px-3 py-1 rounded-lg bg-ink text-white dark:bg-white dark:text-ink text-xs font-semibold inline-flex items-center gap-1.5"
+                className="btn-tactile px-3 py-1 rounded-lg bg-ink text-surface dark:bg-surface dark:text-ink text-xs font-semibold inline-flex items-center gap-1.5 cursor-pointer"
               >
                 <span>Open on GitHub</span>
                 <ExternalLink size={12} />
@@ -203,7 +214,7 @@ export default function ContributionRadar({ repo, name = "" }) {
               <button
                 type="button"
                 onClick={() => setSelectedTab(null)}
-                className="p-1 text-faint hover:text-ink rounded-md"
+                className="p-1 text-faint hover:text-ink rounded-md cursor-pointer"
                 title="Close"
               >
                 <X size={15} />
@@ -220,7 +231,7 @@ export default function ContributionRadar({ repo, name = "" }) {
                   href={item.htmlUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-lg border border-line bg-elevated/40 hover:border-line-strong hover:bg-surface transition-all flex items-center justify-between gap-3 group block"
+                  className="p-3 rounded-lg border border-line bg-elevated/30 hover:border-line-strong hover:bg-elevated transition-all flex items-center justify-between gap-3 group block"
                 >
                   <div className="min-w-0 space-y-1">
                     <div className="flex items-center gap-2">
@@ -255,7 +266,7 @@ export default function ContributionRadar({ repo, name = "" }) {
               ))}
             </div>
           ) : (
-            <div className="p-4 rounded-lg bg-elevated/40 border border-line text-xs text-dim text-center space-y-1">
+            <div className="p-4 rounded-lg bg-elevated/30 border border-line text-xs text-dim text-center space-y-1">
               <p>Ready to contribute? Click <strong>Open on GitHub</strong> above to browse the open tracker directly.</p>
               <p className="text-faint text-[11px]">Direct repository target: {repo}</p>
             </div>

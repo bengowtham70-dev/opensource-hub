@@ -25,9 +25,12 @@ import {
   Key,
   Lightbulb,
   Globe,
+  Check,
+  Code2,
 } from "lucide-react";
 import { paletteKeyLabel } from "../lib/platform";
 import { api } from "../lib/api";
+import { formatStars } from "../lib/format";
 import ApiKeyModal from "./ApiKeyModal";
 import { useI18n, SUPPORTED_LANGUAGES } from "../lib/i18n";
 
@@ -52,10 +55,10 @@ function LanguagePicker() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Change language"
-        className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-line bg-surface text-dim hover:text-ink text-xs font-medium"
+        className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-line bg-surface text-dim hover:text-ink text-xs font-medium cursor-pointer"
       >
-        <span>{current.flag}</span>
-        <span className="hidden sm:inline uppercase text-[11px] font-semibold">{current.code}</span>
+        <Globe size={13} className="text-dim shrink-0" />
+        <span className="uppercase text-[11px] font-semibold">{current.code}</span>
       </button>
 
       {open && (
@@ -68,12 +71,15 @@ function LanguagePicker() {
                 setLocale(lang.code);
                 setOpen(false);
               }}
-              className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors ${
+              className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center justify-between transition-colors cursor-pointer ${
                 locale === lang.code ? "bg-ember/10 text-ember font-semibold" : "text-dim hover:text-ink hover:bg-elevated"
               }`}
             >
-              <span>{lang.flag} {lang.label}</span>
-              {locale === lang.code && <span>✓</span>}
+              <span className="flex items-center gap-1.5">
+                <span className="text-[10px] font-mono px-1 py-0.2 rounded bg-elevated text-faint uppercase font-bold">{lang.country || lang.code}</span>
+                <span>{lang.label}</span>
+              </span>
+              {locale === lang.code && <Check size={12} className="text-ember shrink-0" />}
             </button>
           ))}
         </div>
@@ -87,31 +93,46 @@ function ThemeToggle() {
     () => typeof document !== "undefined" && document.documentElement.classList.contains("dark")
   );
 
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
+  const toggle = () => {
+    if (typeof document === "undefined") return;
+    const nextDark = !dark;
+    const root = document.documentElement;
+
+    // Fast-path: synchronously toggle theme without multi-card reflow transition lag
+    root.classList.add("disable-transitions");
+    root.classList.toggle("dark", nextDark);
+    setDark(nextDark);
+
     try {
-      localStorage.setItem("osh-theme", dark ? "dark" : "light");
+      localStorage.setItem("osh-theme", nextDark ? "dark" : "light");
     } catch {}
-  }, [dark]);
+
+    // Restore standard hover interactions on next frame
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        root.classList.remove("disable-transitions");
+      });
+    });
+  };
 
   return (
     <button
       type="button"
-      onClick={() => setDark((d) => !d)}
-      className="btn-tactile grid place-items-center size-9 rounded-full border border-line bg-surface text-dim hover:text-ink hover:border-line-strong transition-all duration-200"
+      onClick={toggle}
+      className="btn-tactile grid place-items-center size-9 rounded-full border border-line bg-surface text-dim hover:text-ink hover:border-line-strong transition-colors duration-150 cursor-pointer"
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       title={dark ? "Light mode" : "Dark mode"}
     >
       <span className="relative block size-[16px]">
         <Sun
           size={16}
-          className={`absolute inset-0 transition-all duration-200 ease-out ${
+          className={`absolute inset-0 transition-all duration-150 ease-out ${
             dark ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
           }`}
         />
         <Moon
           size={16}
-          className={`absolute inset-0 transition-all duration-200 ease-out ${
+          className={`absolute inset-0 transition-all duration-150 ease-out ${
             dark ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75"
           }`}
         />
@@ -166,17 +187,99 @@ export default function Header() {
     setResourcesOpen(false);
   }, [location.pathname]);
 
+  const [searchTerm, setSearchTerm] = useState(q);
+  const [autocompleteResults, setAutocompleteResults] = useState([]);
+  const [autocompleteOpen, setAutocompleteOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [searching, setSearching] = useState(false);
+  const searchContainerRef = useRef(null);
+  const searchDebounce = useRef(null);
+
+  // Sync searchTerm when URL q param changes externally
+  useEffect(() => {
+    setSearchTerm(q);
+  }, [q]);
+
+  // Debounced live 26k+ catalog autocomplete
+  useEffect(() => {
+    const trimmed = searchTerm.trim();
+    if (!trimmed) {
+      setAutocompleteResults([]);
+      setSearching(false);
+      return;
+    }
+
+    setSearching(true);
+    clearTimeout(searchDebounce.current);
+    searchDebounce.current = setTimeout(async () => {
+      try {
+        const data = await api.catalog({ q: trimmed, limit: 6, sort: "stars" });
+        setAutocompleteResults(data.results || []);
+      } catch {
+        setAutocompleteResults([]);
+      } finally {
+        setSearching(false);
+      }
+    }, 120);
+
+    return () => clearTimeout(searchDebounce.current);
+  }, [searchTerm]);
+
+  // Close autocomplete on click outside
+  useEffect(() => {
+    function handleSearchClickOutside(e) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setAutocompleteOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleSearchClickOutside);
+    return () => document.removeEventListener("mousedown", handleSearchClickOutside);
+  }, []);
+
   const onSearchInput = (e) => {
     const v = e.target.value;
-    const next = new URLSearchParams(params);
-    if (v) next.set("q", v);
-    else next.delete("q");
-    if (location.pathname !== "/") navigate(`/?${next.toString()}`, { replace: true });
-    else setParams(next, { replace: true });
+    setSearchTerm(v);
+    setSelectedIndex(-1);
+    if (v.trim()) setAutocompleteOpen(true);
+    else setAutocompleteOpen(false);
+  };
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === "Escape") {
+      setAutocompleteOpen(false);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!autocompleteOpen && autocompleteResults.length > 0) {
+        setAutocompleteOpen(true);
+        setSelectedIndex(0);
+      } else if (autocompleteResults.length > 0) {
+        setSelectedIndex((idx) => (idx + 1 < autocompleteResults.length ? idx + 1 : 0));
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (autocompleteResults.length > 0) {
+        setSelectedIndex((idx) => (idx - 1 >= 0 ? idx - 1 : autocompleteResults.length - 1));
+      }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (autocompleteOpen && selectedIndex >= 0 && autocompleteResults[selectedIndex]) {
+        const sel = autocompleteResults[selectedIndex];
+        const targetRepo = sel.alternative?.repo || sel.repo;
+        setAutocompleteOpen(false);
+        navigate(`/repo/${targetRepo}`);
+      } else {
+        setAutocompleteOpen(false);
+        const next = new URLSearchParams(params);
+        if (searchTerm.trim()) next.set("q", searchTerm.trim());
+        else next.delete("q");
+        if (location.pathname !== "/") navigate(`/?${next.toString()}`);
+        else setParams(next, { replace: true });
+      }
+    }
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-base/80 backdrop-blur-md transition-colors duration-200">
+    <header className="sticky top-0 z-40 bg-canvas/80 backdrop-blur-md transition-colors duration-200">
       <div className="mx-auto max-w-[1400px] px-4 md:px-6 h-[68px] flex items-center justify-between gap-4">
         {/* 1. Left: Official Raccoon Mascot Logo + Title */}
         <div className="flex items-center gap-6">
@@ -192,7 +295,7 @@ export default function Header() {
           </NavLink>
 
           {/* 2. Center: Navigation Links matching OpenAlternative */}
-          <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+          <nav aria-label="Primary" className="hidden xl:flex items-center gap-1 shrink-0">
             <NavLink
               to="/alternatives"
               className={({ isActive }) =>
@@ -414,6 +517,14 @@ export default function Header() {
                       <Send size={14} className="text-dim shrink-0" />
                       <span>Submit Open Source Tool</span>
                     </NavLink>
+
+                    <NavLink
+                      to="/advertise"
+                      className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors"
+                    >
+                      <Sparkles size={14} className="text-dim shrink-0" />
+                      <span>Advertise with Us</span>
+                    </NavLink>
                   </div>
                 </div>
               )}
@@ -422,7 +533,7 @@ export default function Header() {
             <NavLink
               to="/advertise"
               className={({ isActive }) =>
-                `btn-tactile px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                `btn-tactile hidden 2xl:inline-flex px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors ${
                   isActive ? "bg-primary/10 text-ink" : "text-dim hover:text-ink hover:bg-elevated"
                 }`
               }
@@ -434,20 +545,99 @@ export default function Header() {
 
         {/* 3. Right: Search Input + GitHub Key / Sign In + Theme Toggle + Submit Button */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Search Box */}
-          <div className="hidden md:flex items-center gap-2 rounded-full border border-line bg-base/60 px-3 py-1.5 text-sm w-36 lg:w-44 xl:w-52 focus-within:border-line-strong focus-within:bg-surface transition-colors shrink">
-            <Search size={14} className="text-faint shrink-0" />
-            <input
-              type="search"
-              value={q}
-              onChange={onSearchInput}
-              placeholder="Search tools..."
-              aria-label="Search tools by keyword or paid name"
-              className="w-full bg-transparent outline-none text-dim placeholder:text-faint focus:text-ink text-xs md:text-sm"
-            />
-            <kbd className="shrink-0 tnum text-[10px] px-1.5 py-0.5 rounded-sm border border-line bg-surface text-faint">
-              {paletteKeyLabel()}
-            </kbd>
+          {/* Search Box with Live 26,000+ Catalog Autocomplete */}
+          <div
+            ref={searchContainerRef}
+            className="relative hidden lg:block"
+          >
+            <div className="flex items-center gap-2 rounded-full border border-line bg-canvas/60 px-3 py-1.5 text-sm w-36 xl:w-52 focus-within:border-line-strong focus-within:bg-surface transition-colors">
+              <Search size={14} className="text-faint shrink-0" />
+              <input
+                type="search"
+                value={searchTerm}
+                onChange={onSearchInput}
+                onFocus={() => {
+                  if (searchTerm.trim()) setAutocompleteOpen(true);
+                }}
+                onKeyDown={handleSearchKeyDown}
+                placeholder="Search tools..."
+                aria-label="Search tools by keyword or paid name"
+                className="w-full bg-transparent outline-none text-dim placeholder:text-faint focus:text-ink text-xs md:text-sm"
+              />
+              <kbd className="shrink-0 tnum text-[10px] px-1.5 py-0.5 rounded-sm border border-line bg-surface text-faint">
+                {paletteKeyLabel()}
+              </kbd>
+            </div>
+
+            {/* Floating Autocomplete Dropdown */}
+            {autocompleteOpen && searchTerm.trim() && (
+              <div className="absolute top-full right-0 mt-2.5 w-88 sm:w-96 rounded-2xl border border-line bg-surface shadow-2xl p-2 z-50 animate-card-in">
+                <div className="flex items-center justify-between px-3 py-1.5 border-b border-line text-[11px] font-semibold text-faint uppercase tracking-wider">
+                  <span>Top Matches (26,000+ Catalog)</span>
+                  {searching && <span className="size-3 rounded-full border-2 border-line border-t-ink animate-spin" />}
+                </div>
+
+                {autocompleteResults.length === 0 && !searching ? (
+                  <div className="px-3 py-4 text-center text-xs text-dim">
+                    No direct matches found for <strong className="text-ink">"{searchTerm}"</strong>. Press <kbd className="px-1 py-0.5 rounded border border-line bg-elevated font-sans">Enter</kbd> to search everything.
+                  </div>
+                ) : (
+                  <div className="py-1 space-y-0.5 max-h-80 overflow-y-auto">
+                    {autocompleteResults.map((item, idx) => {
+                      const a = item.alternative || {};
+                      const targetRepo = a.repo || item.repo;
+                      const starsCount = a.stars ?? item.stars ?? 0;
+                      const isSelected = selectedIndex === idx;
+
+                      return (
+                        <button
+                          key={targetRepo}
+                          type="button"
+                          onClick={() => {
+                            setAutocompleteOpen(false);
+                            navigate(`/repo/${targetRepo}`);
+                          }}
+                          onMouseEnter={() => setSelectedIndex(idx)}
+                          className={`w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors cursor-pointer ${
+                            isSelected
+                              ? "bg-ink text-surface dark:bg-surface dark:text-ink shadow-xs"
+                              : "hover:bg-elevated text-dim hover:text-ink"
+                          }`}
+                        >
+                          <div className="size-7 rounded-lg bg-elevated border border-line grid place-items-center text-ink shrink-0">
+                            <Code2 size={13} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-semibold text-xs truncate text-ink">{a.name || item.name}</span>
+                              {a.language && (
+                                <span className="text-[10px] px-1.5 py-0.2 rounded bg-elevated border border-line text-dim font-medium shrink-0">
+                                  {a.language}
+                                </span>
+                              )}
+                              {starsCount > 0 && (
+                                <span className="inline-flex items-center gap-1 text-[11px] font-semibold tnum text-ink shrink-0 ml-auto">
+                                  <Star size={10} className="text-amber-400 fill-amber-400" />
+                                  {formatStars(starsCount)}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-faint truncate mt-0.5">{a.description || targetRepo}</p>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <div className="border-t border-line mt-1 pt-2 px-3 pb-1 flex items-center justify-between text-[11px] text-faint">
+                  <span>Explore on Trending</span>
+                  <span className="inline-flex items-center gap-1 font-medium">
+                    Press <kbd className="px-1 py-0.5 rounded border border-line bg-elevated font-sans">↵ Enter</kbd>
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
 
           <button
@@ -544,72 +734,84 @@ export default function Header() {
           <div className="mx-auto max-w-[1400px] px-4 py-3 flex flex-col gap-1 text-sm">
             <NavLink
               to="/alternatives"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Alternatives
             </NavLink>
             <NavLink
               to="/categories"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Categories
             </NavLink>
             <NavLink
               to="/lists"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Curated Lists
             </NavLink>
             <NavLink
               to="/watchlist"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Your Watchlist
             </NavLink>
             <NavLink
               to="/blog"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Editorial Blog
             </NavLink>
             <NavLink
               to="/mcp"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               MCP AI Hub
             </NavLink>
             <NavLink
               to="/stacks"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Tech Stacks
             </NavLink>
             <NavLink
               to="/licenses"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               License Compliance
             </NavLink>
             <NavLink
               to="/find"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               AI Finder
             </NavLink>
             <NavLink
               to="/stack-audit"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Stack Audit
             </NavLink>
             <NavLink
               to="/learn"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Tools & Decision Guides
             </NavLink>
             <NavLink
               to="/advertise"
+              onClick={() => setMenuOpen(false)}
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Advertise
@@ -617,6 +819,7 @@ export default function Header() {
             <div className="pt-2 border-t border-line flex flex-col sm:flex-row gap-2">
               <NavLink
                 to="/submit"
+                onClick={() => setMenuOpen(false)}
                 className="w-full text-center py-2 rounded-xl border border-line text-ink font-medium text-xs md:text-sm hover:bg-elevated transition-colors"
               >
                 Submit Tool

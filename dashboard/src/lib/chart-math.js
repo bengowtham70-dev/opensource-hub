@@ -90,15 +90,36 @@ export function buildSmoothSplinePath(points, width, height, pad = { top: 16, bo
  * based on the 30-day base history and total repository age.
  */
 export function generateRangeHistory(base30History = [], currentStars = 0, range = "30D", repoAgeYears = 3) {
-  if (!base30History || base30History.length === 0) return [];
-  if (range === "30D") return base30History;
+  let baseHistory = base30History;
+  if (!baseHistory || baseHistory.length === 0) {
+    if (!currentStars || currentStars <= 0) return [];
+    // Generate synthetic 30-day base history
+    const pts = [];
+    const now = Date.now();
+    const delta = Math.max(10, Math.round(currentStars * 0.04));
+    const start = Math.max(1, currentStars - delta);
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(now - (29 - i) * 86400000);
+      const progress = i / 29;
+      const eased = progress < 0.5 ? 2 * progress * progress : -1 + (4 - 2 * progress) * progress;
+      const stars = Math.round(start + (currentStars - start) * eased);
+      pts.push({
+        date: d.toISOString().slice(0, 10),
+        stars: Math.min(currentStars, Math.max(1, stars)),
+      });
+    }
+    pts[pts.length - 1].stars = currentStars;
+    baseHistory = pts;
+  }
 
-  const count = base30History.length;
-  const lastPoint = base30History[count - 1] || { stars: currentStars, date: new Date().toISOString().slice(0, 10) };
-  const firstPoint = base30History[0] || { stars: currentStars * 0.95, date: new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10) };
+  if (range === "30D") return baseHistory;
+
+  const count = baseHistory.length;
+  const lastPoint = baseHistory[count - 1] || { stars: currentStars, date: new Date().toISOString().slice(0, 10) };
+  const firstPoint = baseHistory[0] || { stars: Math.round(currentStars * 0.95), date: new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10) };
   const recent30Delta = Math.max(1, lastPoint.stars - firstPoint.stars);
 
-  const now = new Date(lastPoint.date).getTime();
+  const now = new Date(lastPoint.date).getTime() || Date.now();
 
   if (range === "90D") {
     const points = [];

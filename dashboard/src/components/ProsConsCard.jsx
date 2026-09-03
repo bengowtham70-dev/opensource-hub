@@ -1,4 +1,4 @@
-import { CheckCircle2, AlertTriangle, ShieldCheck, Zap } from "lucide-react";
+import { CheckCircle2, AlertTriangle, ShieldCheck, Zap, Check } from "lucide-react";
 
 export default function ProsConsCard({ name = "", paidName = "", parity = [], gaps = [] }) {
   // Built-in smart pros derived from parity & open-source nature
@@ -37,32 +37,32 @@ export default function ProsConsCard({ name = "", paidName = "", parity = [], ga
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-1">
-        {/* Pros Column */}
-        <div className="p-4 rounded-xl border border-trust/20 bg-trust/5 space-y-3">
-          <div className="flex items-center gap-2 text-trust font-bold text-xs uppercase tracking-wider">
-            <CheckCircle2 size={15} />
+        {/* Pros Column — Standard Clean Neutral Elevated Surface */}
+        <div className="p-4 rounded-xl border border-line bg-elevated/40 space-y-3">
+          <div className="flex items-center gap-2 text-ink font-bold text-xs uppercase tracking-wider">
+            <CheckCircle2 size={15} className="text-trust shrink-0" />
             <span>Key Advantages &amp; Superpowers</span>
           </div>
           <ul className="space-y-2 text-xs text-dim">
             {prosList.map((item, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className="text-trust font-bold shrink-0 mt-0.5">✓</span>
+                <Check size={13} className="text-trust font-bold shrink-0 mt-0.5" />
                 <span>{item}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Cons Column */}
-        <div className="p-4 rounded-xl border border-caution/20 bg-caution/5 space-y-3">
-          <div className="flex items-center gap-2 text-caution font-bold text-xs uppercase tracking-wider">
-            <AlertTriangle size={15} />
+        {/* Cons Column — Standard Clean Neutral Elevated Surface */}
+        <div className="p-4 rounded-xl border border-line bg-elevated/40 space-y-3">
+          <div className="flex items-center gap-2 text-ink font-bold text-xs uppercase tracking-wider">
+            <AlertTriangle size={15} className="text-caution shrink-0" />
             <span>Honest Trade-Offs &amp; Considerations</span>
           </div>
           <ul className="space-y-2 text-xs text-dim">
             {consList.map((item, idx) => (
               <li key={idx} className="flex items-start gap-2">
-                <span className="text-caution font-bold shrink-0 mt-0.5">•</span>
+                <span className="text-faint font-bold shrink-0 mt-0.5">•</span>
                 <span>{item}</span>
               </li>
             ))}

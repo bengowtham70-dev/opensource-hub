@@ -76,23 +76,16 @@ export default function StarGrowthChart({
 
   const isPositive = rangeDelta >= 0;
   const strokeColor = isPositive ? "#059669" : "#D97706";
-  const glowColor = isPositive ? "rgba(5, 150, 105, 0.4)" : "rgba(217, 119, 6, 0.4)";
 
   return (
-    <div className="card-elevated p-5 space-y-4 border border-line bg-surface rounded-2xl shadow-float relative overflow-hidden group h-full flex flex-col justify-between">
-      {/* Ambient background glow */}
-      <div
-        className="absolute -top-24 -right-24 size-64 rounded-full pointer-events-none blur-3xl opacity-20 dark:opacity-15 transition-opacity"
-        style={{ background: `radial-gradient(circle, ${strokeColor} 0%, transparent 70%)` }}
-      />
-
+    <div className="card-elevated p-5 space-y-4 border border-line bg-surface rounded-2xl relative overflow-hidden group h-full flex flex-col justify-between">
       {/* Header Bar */}
       <div className="flex flex-wrap items-start justify-between gap-3 relative z-10">
         <div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-trust px-2 py-0.5 rounded-full bg-trust/10 border border-trust/20">
-              <TrendingUp size={12} />
-              <span>Star Trajectory & Momentum</span>
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-surface border border-line text-ink shadow-2xs">
+              <TrendingUp size={12} className="text-emerald-500" />
+              <span className="text-ink">Star Trajectory &amp; Momentum</span>
             </span>
             <span className="text-[11px] text-faint tnum">
               {range === "30D" ? "Past 30 Days" : range === "90D" ? "Past Quarter" : range === "1Y" ? "Past Year" : "All Time"}
@@ -107,86 +100,72 @@ export default function StarGrowthChart({
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold tnum ${
-                  isPositive ? "bg-trust/15 text-trust border border-trust/30" : "bg-caution/15 text-caution border border-caution/30"
-                }`}
-              >
-                <ArrowUpRight size={13} className={isPositive ? "" : "rotate-90"} />
-                <span>
-                  {isPositive ? `+${formatCompact(rangeDelta)}` : formatCompact(rangeDelta)} ({rangePct}%)
-                </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold tnum bg-surface border border-line text-ink shadow-2xs">
+                <ArrowUpRight size={13} className={isPositive ? "text-emerald-500" : "text-amber-500 rotate-90"} />
+                <span className="text-ink">{isPositive ? `+${rangePct}%` : `${rangePct}%`}</span>
               </span>
-
-              <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-tech/10 text-tech border border-tech/20 tnum">
-                <Zap size={11} />
-                <span>~{dailyVelocity}/day velocity</span>
-              </span>
+              <span className="text-xs text-faint tnum">({isPositive ? `+${formatCompact(rangeDelta)}` : formatCompact(rangeDelta)})</span>
             </div>
           </div>
         </div>
 
-        {/* Time Horizon Selector */}
-        <div className="inline-flex items-center p-1 rounded-xl bg-elevated/80 border border-line text-xs font-medium">
-          {["30D", "90D", "1Y", "ALL"].map((btn) => (
+        {/* Range Selector Pill Switcher */}
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-elevated border border-line select-none">
+          {["30D", "90D", "1Y", "ALL"].map((r) => (
             <button
-              key={btn}
+              key={r}
               type="button"
-              onClick={() => setRange(btn)}
-              className={`btn-tactile px-2.5 py-1 rounded-lg transition-all ${
-                range === btn
-                  ? "bg-surface text-ink font-semibold shadow-2xs border border-line"
+              onClick={() => setRange(r)}
+              className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                range === r
+                  ? "bg-ink text-surface dark:bg-surface dark:text-ink shadow-xs"
                   : "text-dim hover:text-ink hover:bg-surface/50"
               }`}
             >
-              {btn}
+              {r}
             </button>
           ))}
         </div>
       </div>
 
-      {/* SVG Interactive Chart Canvas */}
-      <div className="relative w-full aspect-[21/10] sm:aspect-[24/11] max-h-[260px] select-none my-auto">
+      {/* SVG Trajectory Canvas */}
+      <div className="relative w-full flex-1 min-h-[160px] flex items-center justify-center pt-1">
         <svg
           ref={svgRef}
+          role="img"
+          aria-label="Star trajectory chart"
           viewBox={`0 0 ${width} ${height}`}
-          className="size-full overflow-visible cursor-crosshair"
+          className="w-full h-auto overflow-visible select-none cursor-crosshair"
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
           <defs>
-            {/* Area gradient underglow */}
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={strokeColor} stopOpacity="0.32" />
-              <stop offset="60%" stopColor={strokeColor} stopOpacity="0.08" />
-              <stop offset="100%" stopColor={strokeColor} stopOpacity="0.0" />
+              <stop offset="0%" stopColor={strokeColor} stopOpacity="0.25" />
+              <stop offset="90%" stopColor={strokeColor} stopOpacity="0.0" />
             </linearGradient>
-
-            {/* Glowing stroke shadow filter */}
-            <filter id={filterId} x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3.5" floodColor={glowColor} />
-            </filter>
           </defs>
 
-          {/* Horizontal Gridlines & Y-Axis Labels */}
-          {gridTicks.map((t, i) => (
-            <g key={i} className="opacity-40">
+          {/* Background Gridlines */}
+          {gridTicks.map((tick, i) => (
+            <g key={i}>
               <line
                 x1={pad.left}
-                y1={t.y}
+                y1={tick.y}
                 x2={width - pad.right}
-                y2={t.y}
+                y2={tick.y}
                 stroke="currentColor"
-                strokeDasharray="3 4"
-                strokeWidth="0.8"
+                strokeDasharray="3 3"
+                strokeWidth="1"
                 className="text-line"
               />
               <text
-                x={pad.left + 2}
-                y={t.y - 4}
-                className="text-[10px] fill-faint font-sans font-medium"
+                x={width - pad.right}
+                y={tick.y - 4}
+                textAnchor="end"
+                className="text-[9.5px] fill-faint tnum font-mono"
               >
-                {formatCompact(t.val)}
+                {formatCompact(tick.val)}
               </text>
             </g>
           ))}
@@ -194,55 +173,22 @@ export default function StarGrowthChart({
           {/* Area Fill */}
           {areaPath && <path d={areaPath} fill={`url(#${gradientId})`} />}
 
-          {/* Spline Stroke */}
+          {/* Main Trajectory Spline */}
           {linePath && (
             <path
               d={linePath}
               fill="none"
               stroke={strokeColor}
-              strokeWidth="2.4"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              filter={`url(#${filterId})`}
-              className="sparkline-path"
+              className="transition-all duration-300 ease-out"
             />
           )}
 
-          {/* Milestone / Boundary Point Dots */}
-          {firstPoint && (
-            <circle
-              cx={firstPoint.x}
-              cy={firstPoint.y}
-              r={3}
-              fill={strokeColor}
-              className="opacity-75"
-            />
-          )}
-          {lastPoint && (
-            <g>
-              <circle
-                cx={lastPoint.x}
-                cy={lastPoint.y}
-                r={6}
-                fill={strokeColor}
-                opacity="0.25"
-                className="animate-ping"
-              />
-              <circle
-                cx={lastPoint.x}
-                cy={lastPoint.y}
-                r={4}
-                fill="#FFFFFF"
-                stroke={strokeColor}
-                strokeWidth="2"
-              />
-            </g>
-          )}
-
-          {/* Interactive Hover Crosshair & Data Indicator */}
+          {/* Interactive Hover Crosshair & Dot */}
           {activePoint && (
             <g>
-              {/* Vertical guideline */}
               <line
                 x1={activePoint.x}
                 y1={pad.top}
@@ -254,21 +200,21 @@ export default function StarGrowthChart({
                 className="text-ink/60"
               />
 
-              {/* Pulsing indicator ring */}
+              {/* Indicator dot */}
               <circle
                 cx={activePoint.x}
                 cy={activePoint.y}
-                r={7}
+                r={6}
                 fill={strokeColor}
                 opacity="0.3"
               />
               <circle
                 cx={activePoint.x}
                 cy={activePoint.y}
-                r={4.5}
+                r={4}
                 fill="#FFFFFF"
                 stroke={strokeColor}
-                strokeWidth="2.5"
+                strokeWidth="2"
               />
             </g>
           )}
@@ -292,17 +238,17 @@ export default function StarGrowthChart({
         {/* Dynamic Floating Tooltip */}
         {activePoint && (
           <div
-            className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-full mb-3 px-3 py-2 rounded-xl bg-ink/90 dark:bg-surface/95 text-white dark:text-ink border border-line/50 shadow-float backdrop-blur-md transition-all text-xs"
+            className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-full mb-3 px-3 py-2 rounded-xl bg-elevated text-ink border border-line shadow-float backdrop-blur-md transition-all text-xs"
             style={{
               left: `${(activePoint.x / width) * 100}%`,
               top: `${(activePoint.y / height) * 100}%`,
             }}
           >
-            <div className="flex items-center gap-1.5 text-[10.5px] opacity-80 border-b border-line/30 pb-1 mb-1">
+            <div className="flex items-center gap-1.5 text-[10.5px] text-faint border-b border-line pb-1 mb-1">
               <Calendar size={11} />
               <span>{activePoint.date || "Repository Date"}</span>
             </div>
-            <div className="font-semibold text-sm tnum flex items-center gap-1">
+            <div className="font-semibold text-sm tnum flex items-center gap-1 text-ink">
               <Star size={13} className="text-amber-400 fill-amber-400" />
               <span>{activePoint.stars.toLocaleString()} stars</span>
             </div>
@@ -310,36 +256,20 @@ export default function StarGrowthChart({
         )}
       </div>
 
-      {/* Bottom Insights Matrix Row */}
-      <div className="border-t border-line/60 pt-3 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+      {/* Bottom Insights Matrix Row (Clean 2-Column Layout) */}
+      <div className="border-t border-line pt-3 grid grid-cols-2 gap-4 text-xs">
         <div className="space-y-0.5">
           <p className="text-[11px] text-faint">Daily Growth Rate</p>
-          <p className="font-semibold text-ink tnum flex items-center gap-1">
-            <Flame size={13} className="text-ember" />
+          <p className="font-semibold text-ink tnum flex items-center gap-1.5">
+            <Flame size={13} className="text-dim" />
             <span>+{dailyVelocity} stars/day</span>
           </p>
         </div>
 
         <div className="space-y-0.5">
-          <p className="text-[11px] text-faint">Momentum Rank</p>
-          <p className="font-semibold text-trust tnum flex items-center gap-1">
-            <Sparkles size={13} />
-            <span>Top 5% Velocity</span>
-          </p>
-        </div>
-
-        <div className="space-y-0.5">
-          <p className="text-[11px] text-faint">30-Day Growth</p>
+          <p className="text-[11px] text-faint">30-Day Growth Trajectory</p>
           <p className="font-semibold text-ink tnum">
             {stars30?.growthPct ? `+${stars30.growthPct}%` : "+8.4%"}
-          </p>
-        </div>
-
-        <div className="space-y-0.5">
-          <p className="text-[11px] text-faint">Community Health</p>
-          <p className="font-semibold text-trust flex items-center gap-1">
-            <Activity size={13} />
-            <span>High Activity</span>
           </p>
         </div>
       </div>

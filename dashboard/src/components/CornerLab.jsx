@@ -130,7 +130,7 @@ export default function CornerLab() {
             <Sparkles size={12} />
           </span>
           <span>Corner Lab</span>
-          <span className="px-1.5 py-0.5 rounded-full bg-base border border-line text-[11px] font-mono text-dim tnum">
+          <span className="px-1.5 py-0.5 rounded-full bg-canvas border border-line text-[11px] font-mono text-dim tnum">
             {isCustomMode ? `${customRadius}px` : PRESETS.find((p) => p.id === activePreset)?.label || "16px"}
           </span>
         </button>
@@ -154,7 +154,7 @@ export default function CornerLab() {
               <button
                 type="button"
                 onClick={resetDefault}
-                className="btn-tactile p-1.5 rounded-md text-faint hover:text-ink hover:bg-base"
+                className="btn-tactile p-1.5 rounded-md text-faint hover:text-ink hover:bg-canvas"
                 title="Reset to default 16px Balanced"
               >
                 <RotateCcw size={14} />
@@ -162,7 +162,7 @@ export default function CornerLab() {
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="btn-tactile p-1.5 rounded-md text-faint hover:text-ink hover:bg-base"
+                className="btn-tactile p-1.5 rounded-md text-faint hover:text-ink hover:bg-canvas"
                 title="Close panel"
               >
                 <X size={16} />
@@ -184,13 +184,13 @@ export default function CornerLab() {
                     className={`btn-tactile text-left p-2.5 rounded-lg border transition-all flex items-center justify-between gap-3 ${
                       isSelected
                         ? "border-accent bg-accent/5 ring-1 ring-accent"
-                        : "border-line bg-surface hover:border-line-strong hover:bg-base/50"
+                        : "border-line bg-surface hover:border-line-strong hover:bg-canvas/50"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       {/* Mini corner preview shape */}
                       <div
-                        className="size-7 shrink-0 border-2 border-ink/70 bg-base grid place-items-center"
+                        className="size-7 shrink-0 border-2 border-ink/70 bg-canvas grid place-items-center"
                         style={preset.previewStyle}
                       >
                         <span className="size-1 rounded-full bg-accent" />
@@ -198,7 +198,7 @@ export default function CornerLab() {
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
                           <span className="text-xs font-semibold text-ink">{preset.label}</span>
-                          <span className="text-[10px] px-1.5 py-0.2 rounded-full border border-line bg-base text-dim">
+                          <span className="text-[10px] px-1.5 py-0.2 rounded-full border border-line bg-canvas text-dim">
                             {preset.tag}
                           </span>
                         </div>
@@ -247,7 +247,7 @@ export default function CornerLab() {
           </div>
 
           {/* Quick Note */}
-          <p className="text-[10.5px] text-dim bg-base p-2 rounded-md border border-line flex items-center gap-1.5">
+          <p className="text-[10.5px] text-dim bg-canvas p-2 rounded-md border border-line flex items-center gap-1.5">
             <Sparkles size={13} className="text-accent shrink-0" />
             <span>Changes apply instantly to all cards, tool comparison boxes, search bars, and drawers across the app in real time.</span>
           </p>

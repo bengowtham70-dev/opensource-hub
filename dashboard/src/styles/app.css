@@ -28,7 +28,9 @@
   --c-link: #c2410c; /* AA ember partner for text links & hovers */
   --c-accent: #ff5722;
   --c-trust: #059669;
+  --c-trust-strong: #047857; /* AA trust text on white for small badges */
   --c-caution: #d97706;
+  --c-caution-strong: #b45309; /* AA caution text on white for small badges */
   --c-tech: #27272a;
 
   /* ── Lines ── */
@@ -114,48 +116,50 @@
 :root.dark, html.dark, [data-theme="dark"], .dark {
   color-scheme: dark;
 
-  /* Sentinel Dark Mode ("Paper & Ember" dark ramp) — distinct elevation and high-contrast lines */
-  --c-base: #0b0d13;
-  --c-surface: #151821;
-  --c-elevated: #1e222d;
+  /* Sentinel Dark Mode — Pure Neutral Deep Black & Charcoal (Zero Navy Blue) */
+  --c-base: #09090b; /* Pure deep neutral black background (zinc-950) */
+  --c-surface: #121214; /* Pure neutral black card surface */
+  --c-elevated: #18181b; /* Pure neutral elevated well / inner card */
 
-  --c-ink: #f9fafb;
-  --c-dim: #cbd5e1;
-  --c-faint: #94a3b8;
+  --c-ink: #f4f4f5; /* Pure neutral zinc-100 primary text */
+  --c-dim: #a1a1aa; /* Pure neutral zinc-400 secondary text */
+  --c-faint: #8f8f9a; /* muted text — AA (≥4.5:1) on surface/elevated */
 
-  --c-primary: #f9fafb;
+  --c-primary: #f4f4f5;
   --c-strong: #ffffff;
   --c-link: #ff8a5c;
   --c-accent: #ff5722;
   --c-trust: #34d399;
+  --c-trust-strong: #34d399;
   --c-caution: #fbbf24;
-  --c-tech: #cbd5e1;
+  --c-caution-strong: #fbbf24;
+  --c-tech: #a1a1aa;
 
   /* Crisp, high-contrast hairline borders so lines and box boundaries are always visible */
-  --c-line: rgb(255 255 255 / 0.18);
-  --c-line-strong: rgb(255 255 255 / 0.35);
-  --c-dot: rgb(255 255 255 / 0.18);
+  --c-line: rgb(255 255 255 / 0.12);
+  --c-line-strong: rgb(255 255 255 / 0.24);
+  --c-dot: rgb(255 255 255 / 0.12);
 
   --sh-card:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 12px 28px -4px rgb(0 0 0 / 0.6);
+    0 12px 28px -4px rgb(0 0 0 / 0.7);
   --sh-raised:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 1px 2px 0 rgb(0 0 0 / 0.4);
+    0 1px 2px 0 rgb(0 0 0 / 0.5);
   --sh-float:
     0 0 0 0 rgb(0 0 0 / 0),
     0 0 0 0 rgb(0 0 0 / 0),
-    0 20px 48px -12px rgb(0 0 0 / 0.7);
+    0 20px 48px -12px rgb(0 0 0 / 0.8);
 
-  --wash-a: rgb(21 24 33 / 0.7);
-  --wash-b: rgb(11 13 19 / 0);
+  --wash-a: rgb(18 18 20 / 0.7);
+  --wash-b: rgb(9 9 11 / 0);
 }
 
 @theme inline {
   /* ── Color tokens ─────────────────────────────── */
-  --color-base: var(--c-base);
+  --color-canvas: var(--c-base); /* named canvas so Tailwind's text-base font-size utility is not shadowed */
   --color-surface: var(--c-surface);
   --color-elevated: var(--c-elevated);
   --color-ink: var(--c-ink);
@@ -167,7 +171,9 @@
   --color-strong: var(--c-strong);
   --color-accent: var(--c-accent);
   --color-trust: var(--c-trust);
+  --color-trust-strong: var(--c-trust-strong);
   --color-caution: var(--c-caution);
+  --color-caution-strong: var(--c-caution-strong);
   --color-tech: var(--c-tech);
   --color-line: var(--c-line);
   --color-line-strong: var(--c-line-strong);
@@ -211,6 +217,14 @@
   --animate-sparkline: draw-sparkline 0.2s var(--ease-standard) forwards;
   --animate-float-byte: float-byte 3s ease-in-out infinite;
   --animate-pulse-dot: pulse-dot 2.2s ease-in-out infinite;
+}
+
+/* Instant theme toggle: bypass reflow transitions during theme swap */
+html.disable-transitions,
+html.disable-transitions *,
+html.disable-transitions *::before,
+html.disable-transitions *::after {
+  transition: none !important;
 }
 
 @keyframes card-in {

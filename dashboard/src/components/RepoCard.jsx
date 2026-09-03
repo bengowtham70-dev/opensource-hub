@@ -28,6 +28,7 @@ export default function RepoCard({
   const a = pairing.alternative;
   const paid = pairing.paidTool;
   const isFav = fav.has(a.repo);
+  const [savingsPeriod, setSavingsPeriod] = useState("year");
 
   const starsCount = stars30d?.stars ?? a.stars ?? 0;
   const isHot = (typeof stars30d?.delta === "number" && stars30d.delta >= 300) || (typeof stars30d?.growthPct === "number" && stars30d.growthPct >= 8);
@@ -69,15 +70,20 @@ export default function RepoCard({
                 <span className="text-trust shrink-0" title="Verified Open Source Project" aria-label="Verified">
                   <ShieldCheck size={16} />
                 </span>
-                {/* Hot badge in vivid red */}
-                {isHot && (
+                {/* Timeframe Star Momentum Badge */}
+                {(stars30d?.timeframeDelta > 0 || isHot) ? (
                   <span
-                    title="Fast-rising high momentum repository"
-                    className="px-2 py-0.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 font-bold text-[11px] inline-flex items-center gap-1"
+                    title={stars30d?.timeframeDelta ? `+${stars30d.timeframeDelta.toLocaleString()} stars ${stars30d.timeframeLabel || "recently"}` : "High momentum project"}
+                    className={`px-2 py-0.5 rounded-full border text-[11px] font-bold inline-flex items-center gap-1 shrink-0 ${
+                      (stars30d?.timeframeDelta >= 500 || isHot)
+                        ? "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400"
+                        : "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                    }`}
                   >
-                    <Flame size={12} className="text-red-500 fill-red-500" /> Hot
+                    <Flame size={12} className={(stars30d?.timeframeDelta >= 500 || isHot) ? "text-red-500 fill-red-500" : "text-emerald-500 fill-emerald-500"} />
+                    <span>+{stars30d?.timeframeDelta ? stars30d.timeframeDelta.toLocaleString() : (stars30d?.delta || 300)} {stars30d?.timeframeLabel || "stars"}</span>
                   </span>
-                )}
+                ) : null}
                 <span className="px-2 py-0.5 rounded-full border border-line bg-surface text-[11px] font-medium text-dim">
                   {paid.category}
                 </span>
@@ -194,7 +200,7 @@ export default function RepoCard({
         {/* Hardware & Deployment Badges */}
         <div className="flex flex-wrap items-center gap-1.5 pt-1">
           {a.tags?.includes("local-first") && (
-            <span className="px-1.5 py-0.5 rounded-md bg-trust/10 text-trust text-[10px] font-semibold">
+            <span className="px-1.5 py-0.5 rounded-md bg-trust/10 text-trust-strong text-[10px] font-semibold">
               Local-First
             </span>
           )}
@@ -253,10 +259,35 @@ export default function RepoCard({
         </div>
 
         {/* Savings Pill */}
-        <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent text-xs font-semibold">
-          <Zap size={12} />
-          <span>Save ~{formatSavings(paid.pricePerYearUsd)}/yr</span>
-        </span>
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setSavingsPeriod((p) => (p === "year" ? "month" : "year"));
+          }}
+          title={`Switching from ${paid.name} saves approximately ${formatSavings(paid.pricePerYearUsd)} per year. Click to toggle period.`}
+          className="group/save shrink-0 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface border border-line text-xs font-semibold select-none shadow-2xs transition-colors cursor-pointer"
+        >
+          <Zap
+            size={12}
+            className={`transition-colors ${
+              savingsPeriod === "year"
+                ? "text-dim dark:text-white/80 group-hover:text-[#FF4500] group-hover/save:text-[#FF4500]"
+                : "text-faint"
+            }`}
+          />
+          <span
+            className={`transition-colors ${
+              savingsPeriod === "year"
+                ? "text-ink dark:text-white group-hover:text-[#FF4500] group-hover/save:text-[#FF4500]"
+                : "text-faint"
+            }`}
+          >
+            Save ~{savingsPeriod === "year"
+              ? `${formatSavings(paid.pricePerYearUsd)}/year`
+              : `${formatSavings(Math.round(paid.pricePerYearUsd / 12))}/mo`}
+          </span>
+        </button>
       </footer>
     </article>
   );

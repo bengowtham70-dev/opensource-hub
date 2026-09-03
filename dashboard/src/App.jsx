@@ -76,7 +76,7 @@ function RouteFallback() {
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-dvh bg-base">
+      <div className="min-h-dvh bg-canvas">
         <HeaderWithPalette />
         <Suspense fallback={<RouteFallback />}>
           <Routes>
@@ -102,7 +102,12 @@ export default function App() {
             <Route path="/licenses" element={<LicensesPage />} />
             <Route path="/alternatives" element={<AlternativesPage />} />
             <Route path="/alternatives/:slug" element={<PaidToolPage />} />
+            <Route path="/compare" element={<Navigate to="/compare/supabase/vs/pocketbase" replace />} />
             <Route path="/compare/:a/vs/:b" element={<ComparePage />} />
+            <Route path="/stack-builder" element={<Navigate to="/stacks/builder" replace />} />
+            <Route path="/ai-finder" element={<Navigate to="/find" replace />} />
+            <Route path="/trending" element={<Navigate to="/" replace />} />
+            <Route path="/collections" element={<Navigate to="/lists" replace />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/repo/:owner/:name" element={<RepoDetailPage />} />
             <Route path="/submit" element={<SubmitPage />} />

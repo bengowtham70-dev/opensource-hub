@@ -35,8 +35,8 @@ export default function MigrationGuide({ paidTool = {}, alternative = {} }) {
     <section className="card-elevated p-6 mt-6 relative overflow-hidden" aria-label="Step-by-Step Data Migration Guide">
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2.5">
-          <span className="grid place-items-center size-8 rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/20">
-            <ArrowRightLeft size={18} />
+          <span className="grid place-items-center size-8 rounded-lg bg-ink text-surface dark:bg-surface dark:text-ink">
+            <ArrowRightLeft size={16} className="text-accent" />
           </span>
           <div>
             <h2 className="font-display text-display-md text-ink">Migration Assistant: {paidName} → {altName}</h2>

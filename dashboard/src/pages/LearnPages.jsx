@@ -354,7 +354,7 @@ export function LearnListPage() {
                     <span className={`grid place-items-center size-8 rounded-lg ${point.bgColor} ${point.color}`}>
                       <Icon size={16} />
                     </span>
-                    <span className="text-[10px] uppercase tracking-wider font-bold text-faint px-1.5 py-0.5 rounded bg-base border border-line">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-faint px-1.5 py-0.5 rounded bg-canvas border border-line">
                       {point.tag}
                     </span>
                   </div>
@@ -378,7 +378,7 @@ export function LearnListPage() {
                 <p className="text-dim text-sm max-w-[60ch]">{activePain.problemSummary}</p>
               </div>
 
-              <div className="shrink-0 p-4 rounded-[var(--radius-card,12px)] bg-base border border-line text-center min-w-[140px]">
+              <div className="shrink-0 p-4 rounded-[var(--radius-card,12px)] bg-canvas border border-line text-center min-w-[140px]">
                 <div className="font-display text-2xl font-bold text-ink tnum">{activePain.statNumber}</div>
                 <div className="text-[11px] text-faint mt-0.5">{activePain.statLabel}</div>
               </div>
@@ -467,21 +467,21 @@ export function LearnListPage() {
               <button
                 type="button"
                 onClick={() => selectPreset("solo")}
-                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-base text-xs font-medium text-dim hover:text-ink cursor-pointer"
+                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-canvas text-xs font-medium text-dim hover:text-ink cursor-pointer"
               >
                 Solo Stack
               </button>
               <button
                 type="button"
                 onClick={() => selectPreset("team5")}
-                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-base text-xs font-medium text-dim hover:text-ink cursor-pointer"
+                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-canvas text-xs font-medium text-dim hover:text-ink cursor-pointer"
               >
                 Team of 5
               </button>
               <button
                 type="button"
                 onClick={() => selectPreset("team20")}
-                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-base text-xs font-medium text-dim hover:text-ink cursor-pointer"
+                className="btn-tactile px-2.5 py-1.5 rounded-md border border-line bg-canvas text-xs font-medium text-dim hover:text-ink cursor-pointer"
               >
                 Team of 20
               </button>
@@ -492,12 +492,12 @@ export function LearnListPage() {
             {/* Left: Tool Selection & Team Size Slider */}
             <div className="lg:col-span-7 space-y-6">
               {/* Team Size Slider */}
-              <div className="p-4 rounded-[var(--radius-card,12px)] bg-base border border-line space-y-3">
+              <div className="p-4 rounded-[var(--radius-card,12px)] bg-canvas border border-line space-y-3">
                 <div className="flex items-center justify-between">
                   <label htmlFor="team-slider" className="text-xs font-semibold text-ink flex items-center gap-1.5">
                     <Users size={14} className="text-faint" /> Team Size (Users / Seats):
                   </label>
-                  <span className="font-display font-bold text-base text-accent tnum bg-accent/10 px-2.5 py-0.5 rounded border border-accent/20">
+                  <span className="font-display font-bold text-base text-ember tnum bg-accent/10 px-2.5 py-0.5 rounded border border-accent/20">
                     {teamSize} {teamSize === 1 ? "person" : "people"}
                   </span>
                 </div>
@@ -537,7 +537,7 @@ export function LearnListPage() {
                         className={`btn-tactile p-3 rounded-[var(--radius-control,8px)] border text-left flex items-center justify-between gap-2 transition-all cursor-pointer ${
                           isChecked
                             ? "border-accent bg-accent/5 ring-1 ring-accent/40"
-                            : "border-line bg-surface hover:border-line-strong hover:bg-base/40"
+                            : "border-line bg-surface hover:border-line-strong hover:bg-canvas/40"
                         }`}
                       >
                         <div className="min-w-0">
@@ -552,7 +552,7 @@ export function LearnListPage() {
 
                         <div
                           className={`size-5 rounded grid place-items-center shrink-0 border ${
-                            isChecked ? "bg-accent border-accent text-white" : "border-line bg-base text-transparent"
+                            isChecked ? "bg-accent border-accent text-white" : "border-line bg-canvas text-transparent"
                           }`}
                         >
                           <Check size={12} strokeWidth={3} />
@@ -664,7 +664,7 @@ export function LearnListPage() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 border-t border-line text-xs sm:text-sm text-dim leading-relaxed bg-base/40 animate-card-in">
+                    <div className="px-5 pb-5 pt-1 border-t border-line text-xs sm:text-sm text-dim leading-relaxed bg-canvas/40 animate-card-in">
                       <p>{myth.a}</p>
                     </div>
                   )}
@@ -708,7 +708,7 @@ export function LearnListPage() {
                     className={`btn-tactile p-3.5 rounded-[var(--radius-control,8px)] border text-left transition-all cursor-pointer ${
                       quizAnswers.hosting === opt.id
                         ? "border-ink bg-ink text-surface shadow-xs"
-                        : "border-line bg-surface text-ink hover:border-line-strong hover:bg-base"
+                        : "border-line bg-surface text-ink hover:border-line-strong hover:bg-canvas"
                     }`}
                   >
                     <div className="font-semibold text-xs mb-1">{opt.title}</div>
@@ -738,7 +738,7 @@ export function LearnListPage() {
                     className={`btn-tactile p-3.5 rounded-[var(--radius-control,8px)] border text-left transition-all cursor-pointer ${
                       quizAnswers.priority === opt.id
                         ? "border-ink bg-ink text-surface shadow-xs"
-                        : "border-line bg-surface text-ink hover:border-line-strong hover:bg-base"
+                        : "border-line bg-surface text-ink hover:border-line-strong hover:bg-canvas"
                     }`}
                   >
                     <div className="font-semibold text-xs mb-1">{opt.title}</div>
@@ -827,7 +827,7 @@ export function LearnListPage() {
                   className="card-elevated p-5 flex items-center gap-4 group animate-card-in rounded-[var(--radius-card,12px)] border border-line bg-surface hover:bg-elevated transition-all"
                   style={{ animationDelay: `${i * 40}ms`, opacity: 0 }}
                 >
-                  <span className="tnum font-mono text-faint text-sm font-bold bg-base size-8 rounded-full border border-line grid place-items-center shrink-0">
+                  <span className="tnum font-mono text-faint text-sm font-bold bg-canvas size-8 rounded-full border border-line grid place-items-center shrink-0">
                     {String(a.order).padStart(2, "0")}
                   </span>
                   <span className="flex-1 min-w-0">

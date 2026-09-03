@@ -16,13 +16,14 @@ export default function InstallPill() {
     try {
       await navigator.clipboard.writeText(CMD);
     } catch {
-      // Clipboard denied — select the text as fallback so copy still works.
-      codeRef.current?.setAttribute?.("tabindex", "0");
-      const range = document.createRange();
-      range.selectNodeContents(codeRef.current);
-      getSelection()?.removeAllRanges();
-      getSelection()?.addRange(range);
-      return;
+      try {
+        codeRef.current?.setAttribute?.("tabindex", "0");
+        const range = document.createRange();
+        range.selectNodeContents(codeRef.current);
+        getSelection()?.removeAllRanges();
+        getSelection()?.addRange(range);
+        document.execCommand?.("copy");
+      } catch {}
     }
     setCopied(true);
     timer.current = setTimeout(() => setCopied(false), 1600);

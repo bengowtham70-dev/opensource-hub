@@ -135,9 +135,10 @@ export default function StackAuditPage() {
               <button
                 type="button"
                 onClick={() => setShowExecutiveModal(true)}
-                className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-400 font-semibold text-[13px] hover:bg-amber-500/20"
+                className="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface border border-line text-ink font-semibold text-xs sm:text-sm hover:bg-elevated shadow-xs cursor-pointer"
               >
-                <Printer size={14} /> Executive Report (PDF)
+                <Printer size={15} className="text-dim" />
+                <span>Executive Report (PDF/MD)</span>
               </button>
               <button
                 type="button"

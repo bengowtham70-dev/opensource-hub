@@ -1,20 +1,37 @@
 import { useState } from "react";
-import { Flag, Check, X, Send } from "lucide-react";
+import { Flag, Check, X, Send, Loader2 } from "lucide-react";
+import { api } from "../lib/api";
 
 export default function ReportModal({ open, onClose, repo, name }) {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
   const [reason, setReason] = useState("outdated");
   const [notes, setNotes] = useState("");
 
   if (!open) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      onClose();
-    }, 1800);
+    setSubmitting(true);
+    setError(null);
+    try {
+      await api.communityFlag({
+        repo: repo || name,
+        reason,
+        notes,
+      });
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 1800);
+    } catch (err) {
+      console.error("Report submit error:", err);
+      setError("Failed to submit feedback. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -93,20 +110,30 @@ export default function ReportModal({ open, onClose, repo, name }) {
               />
             </div>
 
+            {error && (
+              <p className="text-xs text-caution">{error}</p>
+            )}
+
             <div className="flex justify-end gap-2 pt-2">
               <button
                 type="button"
                 onClick={onClose}
-                className="px-3 py-1.5 text-xs text-dim hover:text-ink"
+                disabled={submitting}
+                className="px-3 py-1.5 text-xs text-dim hover:text-ink disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="btn-tactile px-4 py-1.5 rounded-lg bg-ink text-surface text-xs font-medium inline-flex items-center gap-1.5 hover:opacity-90"
+                disabled={submitting}
+                className="btn-tactile px-4 py-1.5 rounded-lg bg-ink text-surface text-xs font-medium inline-flex items-center gap-1.5 hover:opacity-90 disabled:opacity-50 cursor-pointer"
               >
-                <Send size={13} />
-                <span>Submit report</span>
+                {submitting ? (
+                  <Loader2 size={13} className="animate-spin text-surface" />
+                ) : (
+                  <Send size={13} />
+                )}
+                <span>{submitting ? "Submitting..." : "Submit report"}</span>
               </button>
             </div>
           </form>

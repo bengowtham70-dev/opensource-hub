@@ -8,7 +8,13 @@ const jsonFetch = async (url, options) => {
 };
 
 export const api = {
-  trending: (view) => jsonFetch(`/api/trending/${view}`),
+  trending: (view, fresh = false) => jsonFetch(`/api/trending/${view}${fresh ? "?fresh=true" : ""}`),
+  catalog: ({ q = "", language = "", alternativeTo = "", page = 1, limit = 24, sort = "stars" } = {}) =>
+    jsonFetch(
+      `/api/catalog?q=${encodeURIComponent(q)}&language=${encodeURIComponent(language)}` +
+        `&alt=${encodeURIComponent(alternativeTo)}&page=${page}&limit=${limit}&sort=${encodeURIComponent(sort)}`
+    ),
+  catalogStats: () => jsonFetch("/api/catalog/stats"),
   search: ({ q, language, platform, license, goal }) =>
     jsonFetch(
       `/api/search?q=${encodeURIComponent(q)}&language=${encodeURIComponent(language)}` +

@@ -55,7 +55,7 @@ export default function LiveDemoModal({ demoUrl, name = "", repo = "" }) {
             </div>
 
             {/* Sandbox Embed */}
-            <div className="flex-1 w-full bg-base min-h-[500px] relative">
+            <div className="flex-1 w-full bg-canvas min-h-[500px] relative">
               <iframe
                 src={demoUrl}
                 title={`${repoName} live sandbox`}

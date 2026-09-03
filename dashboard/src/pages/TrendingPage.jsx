@@ -14,6 +14,7 @@ import {
   Globe,
   Zap,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 import { api } from "../lib/api";
 import { getPairings } from "../lib/seed";
@@ -45,6 +46,15 @@ const SORT_OPTIONS = [
   { id: "name-asc", label: "Name (A to Z)" },
   { id: "name-desc", label: "Name (Z to A)" },
   { id: "forks", label: "Most Popular" },
+];
+
+const TIMEFRAME_OPTIONS = [
+  { id: "today", label: "Today" },
+  { id: "week", label: "This Week" },
+  { id: "month", label: "This Month" },
+  { id: "year", label: "This Year" },
+  { id: "all-time", label: "All Time" },
+  { id: "least", label: "Hidden Gems" },
 ];
 
 export default function TrendingPage() {
@@ -130,8 +140,20 @@ export default function TrendingPage() {
         const cleanGoal = goal.replace(/^replace-/, "").replace(/-/g, " ");
         return `${cleanGoal} alternative`;
       }
+      const tf = String(view || "today").toLowerCase();
+      const now = new Date();
+      let sinceDate;
+      if (tf === "today") {
+        sinceDate = new Date(now.getTime() - 48 * 3600 * 1000).toISOString().split("T")[0];
+      } else if (tf.includes("week")) {
+        sinceDate = new Date(now.getTime() - 7 * 24 * 3600 * 1000).toISOString().split("T")[0];
+      } else if (tf.includes("month")) {
+        sinceDate = new Date(now.getTime() - 30 * 24 * 3600 * 1000).toISOString().split("T")[0];
+      } else {
+        sinceDate = new Date(now.getTime() - 365 * 24 * 3600 * 1000).toISOString().split("T")[0];
+      }
       if (sort === "stars") return "stars:>5000";
-      return "stars:>100";
+      return `pushed:>${sinceDate} stars:>50`;
     };
 
     // 1. If Mode is specifically "live"
@@ -161,20 +183,32 @@ export default function TrendingPage() {
       };
     }
 
-    // 2. Curated Discovery with Live Fallback & Expansion
-    // If user is searching, filtering, or sorting by stars/alphabetical, load full catalog via api.search
-    const shouldLoadAll = isFiltered || sort !== "trending";
-    const load = shouldLoadAll
-      ? api.search({ q: debouncedQ || "", language: langList[0] || "", platform, license: licList[0] || "", goal })
-      : api.trending(view);
+    // 2. Real Timeframe Trending with Search & Live Integration
+    const loadTrending = api.trending(view, refresh > 0);
+    const loadSearch = debouncedQ
+      ? api.search({ q: debouncedQ, language: langList[0] || "", platform, license: licList[0] || "", goal })
+      : null;
 
-    load
-      .then(async (data) => {
+    Promise.all([loadTrending, loadSearch].filter(Boolean))
+      .then(async (results) => {
         if (!alive) return;
-        const curatedResults = shouldLoadAll ? data.results : data.repos;
-        setRows(curatedResults || []);
+        const trendingData = results[0];
+        const searchData = results.length > 1 ? results[1] : null;
 
-        // Preload live GitHub items matching current query / sort
+        const trendRepos = trendingData?.repos || [];
+        let combined = trendRepos;
+
+        if (searchData?.results && searchData.results.length > 0) {
+          const trendReposSet = new Set(trendRepos.map((r) => String(r.repo || r.fullName || "").toLowerCase()));
+          const searchMatches = searchData.results.filter(
+            (r) => !trendReposSet.has(String(r.alternative?.repo || "").toLowerCase())
+          );
+          combined = [...searchMatches, ...trendRepos];
+        }
+
+        setRows(combined);
+
+        // Preload live GitHub items matching current query / sort / timeframe
         try {
           const queryStr = getGitHubQuery();
 
@@ -320,10 +354,13 @@ export default function TrendingPage() {
               stars: r.stars,
               change: r.change,
               changePct: r.changePct,
+              timeframeDelta: r.timeframeDelta,
+              timeframeLabel: r.timeframeLabel,
             },
             freshness: r.freshness ?? null,
             maintenance: r.maintenance ?? null,
             downloads: r.downloads ?? null,
+            forks: r.forks || pairing.alternative.forks || 0,
           };
         })
         .filter(Boolean);
@@ -374,12 +411,15 @@ export default function TrendingPage() {
             stars30d: {
               history: [],
               stars: item.stars,
-              change: 0,
-              changePct: 0,
+              change: item.timeframeDelta || 0,
+              changePct: item.timeframeDelta ? Math.round((item.timeframeDelta / Math.max(item.stars - item.timeframeDelta, 1)) * 100) : 10,
+              timeframeDelta: item.timeframeDelta || 0,
+              timeframeLabel: item.timeframeLabel || view,
             },
             freshness: item.pushedAt ? { pushedAt: item.pushedAt } : null,
             maintenance: null,
             downloads: null,
+            forks: item.forks || 0,
           };
         });
       list.push(...liveCards);
@@ -409,17 +449,25 @@ export default function TrendingPage() {
       list = list.filter((c) => licSet.has(c.pairing.alternative?.license?.spdx?.toLowerCase()));
     }
 
-    // 5. Apply Sorting
+    // 5. Apply Sorting (All Options Handled)
     if (sort === "stars") {
       list.sort((a, b) => (b.stars30d?.stars ?? b.pairing?.alternative?.stars ?? 0) - (a.stars30d?.stars ?? a.pairing?.alternative?.stars ?? 0));
     } else if (sort === "name-asc") {
       list.sort((a, b) => a.pairing.alternative.name.localeCompare(b.pairing.alternative.name));
     } else if (sort === "name-desc") {
       list.sort((a, b) => b.pairing.alternative.name.localeCompare(a.pairing.alternative.name));
-    } else if (sort === "commit") {
+    } else if (sort === "commit" || sort === "latest") {
       list.sort((a, b) => {
         const da = a.freshness?.pushedAt ? new Date(a.freshness.pushedAt).getTime() : 0;
         const db = b.freshness?.pushedAt ? new Date(b.freshness.pushedAt).getTime() : 0;
+        return db - da;
+      });
+    } else if (sort === "forks") {
+      list.sort((a, b) => (b.forks || b.pairing?.alternative?.forks || 0) - (a.forks || a.pairing?.alternative?.forks || 0));
+    } else if (sort === "trending") {
+      list.sort((a, b) => {
+        const da = a.stars30d?.timeframeDelta || a.stars30d?.change || a.stars30d?.changePct || 0;
+        const db = b.stars30d?.timeframeDelta || b.stars30d?.change || b.stars30d?.changePct || 0;
         return db - da;
       });
     }
@@ -438,11 +486,11 @@ export default function TrendingPage() {
 
           <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink">
             Open Source Alternatives <br className="hidden sm:inline" />
-            <span className="text-accent">to Popular Software</span>
+            <span className="text-dim font-normal italic">to Popular Software</span>
           </h1>
 
-          <p className="text-sm md:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed max-w-xl mx-auto font-normal">
-            Over 1 million developers and teams replaced proprietary tools with open source software. Discover verified alternatives and take control of your stack.
+          <p className="text-sm md:text-base text-dim leading-relaxed max-w-xl mx-auto font-normal">
+            Find verified open-source replacements for the paid software you rely on — every listing pairs popularity with live maintenance and trust signals, so you can switch with confidence.
           </p>
 
           <div className="pt-2">
@@ -481,6 +529,24 @@ export default function TrendingPage() {
             )}
           </div>
 
+          {/* Timeframe Switcher: Today | This Week | This Month | This Year */}
+          <div className="inline-flex items-center p-1 rounded-xl border border-line bg-surface shadow-2xs shrink-0 self-start md:self-auto overflow-x-auto">
+            {TIMEFRAME_OPTIONS.map((tf) => (
+              <button
+                key={tf.id}
+                type="button"
+                onClick={() => setParam("view", tf.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
+                  view === tf.id
+                    ? "bg-elevated text-ink dark:text-white font-semibold shadow-xs border border-line/60"
+                    : "text-dim hover:text-ink hover:bg-elevated/50"
+                }`}
+              >
+                {tf.label}
+              </button>
+            ))}
+          </div>
+
           {/* Filters Toggle Button with Multi-Select Badge */}
           <button
             type="button"
@@ -488,7 +554,7 @@ export default function TrendingPage() {
             aria-expanded={filterDrawerOpen}
             className={`btn-tactile inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-colors ${
               filterDrawerOpen || activeFilterCount > 0
-                ? "bg-ink text-surface border-ink shadow-xs"
+                ? "border border-accent/40 bg-accent/10 text-accent font-semibold shadow-xs"
                 : "border-line bg-surface text-dim hover:text-ink hover:border-line-strong"
             }`}
           >
@@ -572,12 +638,12 @@ export default function TrendingPage() {
                   onClick={() => setParam("goal", active ? "" : g.tag)}
                   className={`btn-tactile inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium shrink-0 transition-colors ${
                     active
-                      ? "bg-ink text-surface font-semibold shadow-xs"
+                      ? "border border-accent/40 bg-accent/10 text-accent font-semibold shadow-xs"
                       : "border border-line bg-surface text-dim hover:text-ink hover:border-line-strong"
                   }`}
                 >
                   <span>{g.label}</span>
-                  <span className={`text-[10px] tnum ${active ? "text-surface/80" : "text-faint"}`}>
+                  <span className={`text-[10px] tnum ${active ? "text-accent font-semibold" : "text-faint"}`}>
                     {g.count}
                   </span>
                 </button>
@@ -683,19 +749,44 @@ export default function TrendingPage() {
         {!error && rows === null && <GridSkeleton count={8} />}
 
         {!error && rows !== null && cards.length === 0 && (
-          <EmptyState
-            title="No matches found"
-            body="No open-source alternatives match your exact multi-filter combination. Try unchecking some filters or searching for another tool."
-            action={
+          <div className="card-elevated p-8 sm:p-12 text-center max-w-xl mx-auto rounded-3xl border border-line bg-surface space-y-5 animate-fade-in shadow-sm">
+            <div className="size-12 rounded-2xl bg-elevated border border-line text-dim grid place-items-center mx-auto">
+              <Search size={22} className="text-faint" />
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="font-display text-lg sm:text-xl font-bold text-ink">
+                {q ? `No open-source alternatives found for "${q}"` : "No matches found"}
+              </h3>
+              <p className="text-xs sm:text-sm text-dim">
+                Try unchecking filters, searching for a category, or picking one of the trending alternatives below.
+              </p>
+            </div>
+
+            {/* Popular Search Suggestions */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-2">
+              <span className="text-xs text-faint font-medium">Popular:</span>
+              {["Airtable", "Slack", "Notion", "Figma", "Postman", "Supabase", "Datadog"].map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => setParam("q", term)}
+                  className="btn-tactile px-3 py-1.5 rounded-full border border-line bg-elevated hover:bg-surface text-xs font-medium text-dim hover:text-ink hover:border-line-strong transition-colors cursor-pointer"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+
+            <div className="pt-3">
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="btn-tactile px-4 py-2 rounded-full bg-ink text-surface text-xs font-semibold"
+                className="btn-tactile px-5 py-2.5 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink text-xs sm:text-sm font-semibold hover:opacity-90 transition-opacity shadow-sm cursor-pointer"
               >
-                Clear all filters
+                Reset all filters &amp; search
               </button>
-            }
-          />
+            </div>
+          </div>
         )}
 
         {!error && cards.length > 0 && (
@@ -734,7 +825,8 @@ export default function TrendingPage() {
 
             {!hasMore && cards.length >= 10 && (
               <div className="text-center py-8 text-xs text-faint flex items-center justify-center gap-2">
-                <span>✨ You've explored all trending open-source projects for this query.</span>
+                <Sparkles size={14} className="text-accent shrink-0" />
+                <span>You've explored all trending open-source projects for this query.</span>
               </div>
             )}
           </>

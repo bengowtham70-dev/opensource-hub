@@ -55,18 +55,18 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
   };
 
   return (
-    <section className="mt-8 space-y-6 animate-card-in" aria-labelledby="reviews-heading">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
+    <div className="space-y-5 animate-card-in" aria-labelledby="reviews-heading">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3.5">
         <div>
           <div className="flex items-center gap-2">
-            <h2 id="reviews-heading" className="font-display text-xl sm:text-2xl font-bold text-ink">
-              Developer Reviews & Switcher Stories
-            </h2>
-            <span className="px-2 py-0.5 rounded-full bg-trust/10 text-trust font-mono text-xs font-semibold">
-              Verified
+            <h3 id="reviews-heading" className="font-display text-base font-bold text-ink">
+              Developer Reviews &amp; Switcher Stories
+            </h3>
+            <span className="px-2 py-0.5 rounded-full border border-line bg-elevated text-dim font-medium text-[10.5px]">
+              Verified Feedback
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-dim mt-1">
+          <p className="text-xs text-dim mt-0.5">
             Real feedback and migration experiences from developers who made the switch.
           </p>
         </div>
@@ -74,9 +74,9 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
         <button
           type="button"
           onClick={() => setModalOpen(true)}
-          className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink hover:opacity-90 text-xs sm:text-sm font-semibold shadow-sm shrink-0 self-start sm:self-auto cursor-pointer"
+          className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink hover:opacity-90 text-xs font-semibold shadow-sm shrink-0 self-start sm:self-auto cursor-pointer"
         >
-          <MessageSquarePlus size={16} />
+          <MessageSquarePlus size={14} />
           <span>Write a Switcher Review</span>
         </button>
       </div>
@@ -128,7 +128,7 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
           <button
             type="button"
             onClick={() => setModalOpen(true)}
-            className="btn-tactile px-3.5 py-1.5 rounded-lg border border-line text-xs font-semibold text-ink hover:bg-elevated inline-flex items-center gap-1.5"
+            className="btn-tactile px-3.5 py-1.5 rounded-lg border border-line text-xs font-semibold text-ink hover:bg-elevated inline-flex items-center gap-1.5 cursor-pointer"
           >
             <span>Add First Review</span>
           </button>
@@ -144,7 +144,7 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
                     {rev.role && <span className="text-[11px] text-faint">· {rev.role}</span>}
                   </div>
                   {rev.switchedFrom && (
-                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full bg-ember/10 border border-ember/20 text-ember font-medium text-[11px]">
+                    <span className="inline-block mt-1 px-2 py-0.5 rounded-full border border-line bg-elevated text-dim font-medium text-[10.5px]">
                       Migrated from {rev.switchedFrom}
                     </span>
                   )}
@@ -162,14 +162,14 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
               {(rev.pros?.length > 0 || rev.cons?.length > 0) && (
                 <div className="pt-2 border-t border-line/60 space-y-1.5 text-[11.5px]">
                   {rev.pros?.length > 0 && (
-                    <div className="flex items-start gap-1.5 text-trust">
-                      <span className="font-bold">Pros:</span>
+                    <div className="flex items-start gap-1.5">
+                      <span className="font-bold text-ink">Pros:</span>
                       <span className="text-dim">{rev.pros.join(" · ")}</span>
                     </div>
                   )}
                   {rev.cons?.length > 0 && (
-                    <div className="flex items-start gap-1.5 text-caution">
-                      <span className="font-bold">Cons:</span>
+                    <div className="flex items-start gap-1.5">
+                      <span className="font-bold text-ink">Cons:</span>
                       <span className="text-dim">{rev.cons.join(" · ")}</span>
                     </div>
                   )}
@@ -335,6 +335,6 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }

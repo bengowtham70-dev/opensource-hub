@@ -46,7 +46,7 @@ export default function NewsletterFooter() {
               Discover high-growth alternatives before they go mainstream
             </h3>
             <p className="text-xs text-dim leading-relaxed">
-              Join 12,000+ engineers, CTOs, and creators. Zero spam, free forever. Unsubscribe anytime in one click.
+              Join engineers, CTOs, and creators. Zero spam, free forever. Unsubscribe anytime in one click.
             </p>
 
             <form onSubmit={handleSubscribe} className="mt-3 flex flex-col sm:flex-row gap-2 max-w-md">
@@ -64,7 +64,7 @@ export default function NewsletterFooter() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="btn-tactile px-4 py-2 rounded-lg bg-ink text-white dark:bg-white dark:text-ink text-xs font-semibold hover:opacity-90 shadow-sm shrink-0 disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
+                className="btn-tactile btn-primary px-4 py-2 text-xs font-semibold shadow-sm shrink-0 disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
               >
                 {submitting ? "Joining…" : "Subscribe"}
               </button>
@@ -94,7 +94,7 @@ export default function NewsletterFooter() {
                   <span className="text-[10.5px] text-faint">100% Free · Developer Mode</span>
                 </div>
               </div>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-trust/10 text-trust border border-trust/30">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-trust/10 text-trust-strong border border-trust/30">
                 Manifest V3
               </span>
             </div>

@@ -1,21 +1,52 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Search, Layers, Sparkles, X, ArrowRight } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { Search, Layers, Sparkles, X, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import { getPairings } from "../lib/seed";
 import { api } from "../lib/api";
 import RepoCard from "../components/RepoCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 
 export default function AlternativesPage() {
+  const [params, setParams] = useSearchParams();
   const [pairings, setPairings] = useState([]);
   const [starsMap, setStarsMap] = useState({});
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  
+  const search = params.get("q") || "";
+  const selectedCategory = params.get("category") || "all";
+
   const [liveRows, setLiveRows] = useState([]);
   const [livePage, setLivePage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const sentinelRef = useRef(null);
+  const scrollTrackRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const setSearch = (newSearch) => {
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (newSearch && newSearch.trim()) {
+        next.set("q", newSearch);
+      } else {
+        next.delete("q");
+      }
+      return next;
+    }, { replace: true });
+  };
+
+  const setSelectedCategory = (newCat) => {
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (newCat && newCat !== "all") {
+        next.set("category", newCat);
+      } else {
+        next.delete("category");
+      }
+      return next;
+    }, { replace: true });
+  };
 
   useEffect(() => {
     Promise.all([
@@ -39,6 +70,32 @@ export default function AlternativesPage() {
       });
   }, []);
 
+  // Update scroll track arrows
+  const checkScroll = useCallback(() => {
+    if (!scrollTrackRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollTrackRef.current;
+    setCanScrollLeft(scrollLeft > 4);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollTrackRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll, pairings]);
+
+  const scrollByAmount = (offset) => {
+    if (scrollTrackRef.current) {
+      scrollTrackRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
+
   // Reset live rows when search or category changes
   useEffect(() => {
     setLiveRows([]);
@@ -47,7 +104,7 @@ export default function AlternativesPage() {
     setIsLoadingMore(false);
   }, [search, selectedCategory]);
 
-  // Load more GitHub repos continuously on scroll
+  // Load more repos continuously on scroll from the 26,000+ SQLite catalog with GitHub fallback
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMore || loading) return;
     setIsLoadingMore(true);
@@ -55,34 +112,49 @@ export default function AlternativesPage() {
     try {
       const nextPage = livePage + 1;
       let queryStr = search.trim();
-      if (!queryStr) {
-        if (selectedCategory !== "all") {
-          queryStr = `topic:${selectedCategory.toLowerCase().replace(/\s+/g, "-")}`;
-        } else {
-          queryStr = "stars:>100";
-        }
+      if (!queryStr && selectedCategory !== "all") {
+        queryStr = selectedCategory.toLowerCase();
       }
 
-      const res = await api.githubSearch({
+      // 1. Query local 26,000+ SQLite catalog first (instant, 0 rate limits)
+      const catRes = await api.catalog({
         q: queryStr,
-        sort: "stars",
         page: nextPage,
-        perPage: 24,
-      });
+        limit: 24,
+        sort: "stars",
+      }).catch(() => null);
 
-      const newItems = res.items || [];
-      if (newItems.length === 0) {
-        setHasMore(false);
-      } else {
+      const newItems = catRes?.results || [];
+      if (newItems.length > 0) {
         setLiveRows((prev) => {
-          const existing = new Set(prev.map((i) => (i.fullName || "").toLowerCase()));
-          const unique = newItems.filter((i) => !existing.has((i.fullName || "").toLowerCase()));
+          const existing = new Set(prev.map((i) => (i.fullName || i.alternative?.repo || "").toLowerCase()));
+          const unique = newItems.filter((i) => !existing.has((i.fullName || i.alternative?.repo || "").toLowerCase()));
           return [...prev, ...unique];
         });
         setLivePage(nextPage);
-        if (nextPage >= 40 || (res.total && nextPage * 24 >= res.total)) {
+        if (nextPage >= (catRes.totalPages || 40)) {
           setHasMore(false);
         }
+      } else {
+        // Fallback to GitHub Search only if catalog has no more pages and query is set
+        if (queryStr) {
+          const ghRes = await api.githubSearch({
+            q: queryStr,
+            sort: "stars",
+            page: nextPage,
+            perPage: 24,
+          }).catch(() => ({ items: [] }));
+          if (ghRes.items && ghRes.items.length > 0) {
+            setLiveRows((prev) => {
+              const existing = new Set(prev.map((i) => (i.fullName || i.alternative?.repo || "").toLowerCase()));
+              const unique = ghRes.items.filter((i) => !existing.has((i.fullName || "").toLowerCase()));
+              return [...prev, ...unique];
+            });
+            setLivePage(nextPage);
+            return;
+          }
+        }
+        setHasMore(false);
       }
     } catch (err) {
       console.error("Alternatives infinite scroll error:", err);
@@ -107,41 +179,36 @@ export default function AlternativesPage() {
     return () => observer.disconnect();
   }, [loadMore, hasMore, isLoadingMore, loading]);
 
-  // Categories list derived from pairings
-  const categories = useMemo(() => {
+  // Categories list derived from pairings + count maps
+  const { categories, categoryCounts } = useMemo(() => {
+    const counts = { all: pairings.length };
     const set = new Set();
     for (const p of pairings) {
-      if (p.paidTool?.category) set.add(p.paidTool.category);
+      const cat = p.paidTool?.category;
+      if (cat) {
+        set.add(cat);
+        counts[cat] = (counts[cat] || 0) + 1;
+      }
     }
-    return ["all", ...Array.from(set).sort()];
+    return {
+      categories: ["all", ...Array.from(set).sort()],
+      categoryCounts: counts,
+    };
   }, [pairings]);
 
-  // Filtered list of open source alternative pairings merged with live stream
+  // Combined Cards
   const allCards = useMemo(() => {
+    const qLower = search.trim().toLowerCase();
+
     const curatedFiltered = pairings.filter((p) => {
-      const cat = p.paidTool?.category || "";
-      const matchesCat =
-        selectedCategory === "all" ||
-        cat.toLowerCase() === selectedCategory.toLowerCase();
-
-      const q = search.trim().toLowerCase();
-      if (!q) return matchesCat;
-
-      const altName = p.alternative?.name?.toLowerCase() || "";
-      const altRepo = p.alternative?.repo?.toLowerCase() || "";
-      const altDesc = p.alternative?.description?.toLowerCase() || "";
-      const paidName = p.paidTool?.name?.toLowerCase() || "";
-      const paidCat = p.paidTool?.category?.toLowerCase() || "";
-      const tags = (p.alternative?.tags || []).join(" ").toLowerCase();
-
+      const matchesCat = selectedCategory === "all" || p.paidTool?.category?.toLowerCase() === selectedCategory.toLowerCase();
+      if (!qLower) return matchesCat;
       const matchesQuery =
-        altName.includes(q) ||
-        altRepo.includes(q) ||
-        altDesc.includes(q) ||
-        paidName.includes(q) ||
-        paidCat.includes(q) ||
-        tags.includes(q);
-
+        p.paidTool.name.toLowerCase().includes(qLower) ||
+        p.alternative.name.toLowerCase().includes(qLower) ||
+        p.alternative.repo.toLowerCase().includes(qLower) ||
+        p.alternative.description.toLowerCase().includes(qLower) ||
+        (p.alternative.tags || []).some((t) => t.toLowerCase().includes(qLower));
       return matchesCat && matchesQuery;
     }).map((p, idx) => {
       const liveData = starsMap[p.alternative.repo.toLowerCase()];
@@ -159,8 +226,22 @@ export default function AlternativesPage() {
     const curatedRepos = new Set(curatedFiltered.map((c) => c.key.toLowerCase()));
 
     const liveCards = liveRows
-      .filter((item) => !curatedRepos.has(item.fullName.toLowerCase()))
+      .filter((item) => {
+        const repoKey = (item.fullName || item.alternative?.repo || "").toLowerCase();
+        return !curatedRepos.has(repoKey);
+      })
       .map((item, idx) => {
+        if (item.alternative) {
+          return {
+            key: item.alternative.repo,
+            pairing: item,
+            stars30d: item.stars30d || { history: [], stars: item.alternative.stars, change: 0, changePct: 0 },
+            freshness: item.freshness || null,
+            maintenance: item.maintenance || null,
+            downloads: item.downloads || null,
+            index: curatedFiltered.length + idx,
+          };
+        }
         const cat = item.topics?.[0] ? item.topics[0].replace(/-/g, " ") : (item.language || "Open Source");
         const pairing = {
           paidTool: {
@@ -217,7 +298,7 @@ export default function AlternativesPage() {
 
         <h1 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink">
           Open Source Alternatives <br className="hidden sm:inline" />
-          <span className="text-accent">to Commercial & Paid Software</span>
+          <span className="text-ember">to Commercial & Paid Software</span>
         </h1>
 
         <p className="text-sm md:text-base text-dim leading-relaxed max-w-2xl">
@@ -225,66 +306,130 @@ export default function AlternativesPage() {
         </p>
       </header>
 
-      {/* Search & Filter Toolbar */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-6">
-        <div className="relative flex-1">
-          <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-faint" />
+      {/* Full-Width Search Bar & Swipeable Category Rail */}
+      <section className="mb-8 space-y-3" aria-label="Search and category filters">
+        {/* Generous Full-Width Search Input */}
+        <div className="relative w-full max-w-full">
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-faint pointer-events-none" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by paid software (e.g. Notion, Slack, Figma) or open-source name..."
-            aria-label="Search by paid software"
-            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-line bg-surface text-sm text-ink placeholder:text-faint outline-none focus:border-line-strong shadow-2xs transition-colors"
+            placeholder="Search by paid software (e.g. Notion, Slack, Figma, Jira) or open-source name..."
+            aria-label="Search open-source alternatives by commercial or open-source name"
+            className="w-full pl-11 pr-24 py-3 sm:py-3.5 rounded-2xl border border-line bg-surface text-sm md:text-base text-ink placeholder:text-faint outline-none focus:border-line-strong focus:ring-2 focus:ring-primary/10 shadow-sm transition-all"
           />
-          {search && (
+          <div className="absolute right-3.5 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                aria-label="Clear search query"
+                className="p-1 rounded-full text-faint hover:text-ink hover:bg-elevated transition-colors"
+                title="Clear search"
+              >
+                <X size={16} />
+              </button>
+            )}
+            <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-md border border-line bg-canvas text-[11px] text-faint tnum font-sans shadow-2xs">
+              /
+            </kbd>
+          </div>
+        </div>
+
+        {/* Dedicated Swipeable Category Rail with Navigation Controls */}
+        <div className="relative group/rail">
+          {/* Scroll Left Button */}
+          {canScrollLeft && (
             <button
               type="button"
-              onClick={() => setSearch("")}
-              aria-label="Clear search"
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-faint hover:text-ink"
+              onClick={() => scrollByAmount(-240)}
+              aria-label="Scroll categories left"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 size-8 rounded-full border border-line bg-surface/95 backdrop-blur-xs shadow-md grid place-items-center text-dim hover:text-ink hover:border-line-strong transition-all"
             >
-              <X size={15} />
+              <ChevronLeft size={16} />
+            </button>
+          )}
+
+          {/* Swipeable Pills Track */}
+          <div
+            ref={scrollTrackRef}
+            tabIndex={0}
+            aria-label="Filter alternatives by category"
+            className="flex items-center gap-2 overflow-x-auto scrollbar-none scroll-smooth py-1.5 px-0.5 focus:outline-none"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat;
+              const count = categoryCounts[cat] ?? 0;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`btn-tactile shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs transition-all select-none cursor-pointer ${
+                    isSelected
+                      ? "border border-accent/40 bg-accent/10 text-ember font-semibold shadow-xs"
+                      : "border border-line bg-surface text-dim hover:text-ink hover:border-line-strong hover:bg-elevated"
+                  }`}
+                >
+                  <span>{cat === "all" ? "All Categories" : cat}</span>
+                  <span
+                    className={`px-1.5 py-0.2 rounded-full text-[10.5px] tnum font-semibold ${
+                      isSelected ? "bg-accent/20 text-ember" : "bg-elevated text-faint"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Scroll Right Button */}
+          {canScrollRight && (
+            <button
+              type="button"
+              onClick={() => scrollByAmount(240)}
+              aria-label="Scroll categories right"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 size-8 rounded-full border border-line bg-surface/95 backdrop-blur-xs shadow-md grid place-items-center text-dim hover:text-ink hover:border-line-strong transition-all"
+            >
+              <ChevronRight size={16} />
             </button>
           )}
         </div>
 
-        {/* Category Filter Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setSelectedCategory(cat)}
-              className={`btn-tactile shrink-0 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                selectedCategory === cat
-                  ? "bg-ink text-surface shadow-2xs font-semibold"
-                  : "border border-line bg-surface text-dim hover:text-ink hover:border-line-strong"
-              }`}
-            >
-              {cat === "all" ? "All Categories" : cat}
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* Result Stats & Active Filter Notice */}
+        {!loading && (
+          <div className="flex items-center justify-between text-xs text-dim pt-1 px-1">
+            <span className="flex items-center gap-1.5">
+              <SlidersHorizontal size={13} className="text-faint shrink-0" />
+              <span>
+                Showing <strong className="text-ink font-semibold">{allCards.length}</strong> {allCards.length === 1 ? "alternative" : "alternatives"}
+                {selectedCategory !== "all" && (
+                  <span> in <strong className="text-ink">{selectedCategory}</strong></span>
+                )}
+                {search && (
+                  <span> matching "<strong className="text-ink">{search}</strong>"</span>
+                )}
+              </span>
+            </span>
 
-      {/* Result Count Banner */}
-      {!loading && (
-        <div className="flex items-center justify-between text-xs text-dim mb-4 px-1">
-          <span>
-            Showing <strong className="text-ink font-semibold">{allCards.length}</strong> open-source {allCards.length === 1 ? "alternative" : "alternatives"}
-          </span>
-          {selectedCategory !== "all" && (
-            <button
-              type="button"
-              onClick={() => setSelectedCategory("all")}
-              className="text-accent hover:underline font-medium"
-            >
-              Clear category filter
-            </button>
-          )}
-        </div>
-      )}
+            {(selectedCategory !== "all" || search) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch("");
+                  setSelectedCategory("all");
+                }}
+                className="text-ember hover:underline font-medium text-xs cursor-pointer shrink-0"
+              >
+                Reset filters
+              </button>
+            )}
+          </div>
+        )}
+      </section>
 
       {/* Loading Skeletons matching Home Page */}
       {loading && (
@@ -363,7 +508,8 @@ export default function AlternativesPage() {
 
           {!hasMore && allCards.length >= 10 && (
             <div className="text-center py-8 text-xs text-faint flex items-center justify-center gap-2">
-              <span>✨ You've explored all trending open-source alternatives.</span>
+              <Sparkles size={14} className="text-accent shrink-0" />
+              <span>You've explored all trending open-source alternatives.</span>
             </div>
           )}
         </>

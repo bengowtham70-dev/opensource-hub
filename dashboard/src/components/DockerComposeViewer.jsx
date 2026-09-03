@@ -73,8 +73,8 @@ export default function DockerComposeViewer({ repo, alternative = {} }) {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="grid place-items-center size-8 rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/20">
-              <Container size={18} />
+            <span className="grid place-items-center size-8 rounded-lg bg-ink text-surface dark:bg-surface dark:text-ink">
+              <Container size={16} className="text-accent" />
             </span>
             <h2 className="font-display text-display-md text-ink">1-Click Docker Compose</h2>
           </div>
@@ -133,7 +133,7 @@ export default function DockerComposeViewer({ repo, alternative = {} }) {
       </div>
 
       {/* YAML Preview Container */}
-      <div className="relative rounded-xl border border-line-strong/60 bg-base p-4 overflow-x-auto text-[12.5px] leading-relaxed text-dim font-mono">
+      <div className="relative rounded-xl border border-line-strong/60 bg-canvas p-4 overflow-x-auto text-[12.5px] leading-relaxed text-dim font-mono">
         <pre className="select-text whitespace-pre overflow-x-auto">{composeYaml}</pre>
       </div>
 

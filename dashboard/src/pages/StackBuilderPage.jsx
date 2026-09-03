@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { Layers, Plus, Trash2, Copy, Check, Share2, DollarSign, Download, Sparkles, Terminal, FileCode } from "lucide-react";
 import { getPairings } from "../lib/seed";
+import { api } from "../lib/api";
 import { formatSavings } from "../lib/format";
 import BrandLogo, { paidBrand } from "../components/BrandLogo";
 
 export default function StackBuilderPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [catalog, setCatalog] = useState([]);
+  const [catalogSearchResults, setCatalogSearchResults] = useState([]);
+  const [resolvedCustomTools, setResolvedCustomTools] = useState({});
   const [selectedSlugs, setSelectedSlugs] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedLink, setCopiedLink] = useState(false);
@@ -29,15 +32,50 @@ export default function StackBuilderPage() {
       .catch(() => {});
   }, [searchParams]);
 
+  // Debounced search against the 26,000+ catalog
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setCatalogSearchResults([]);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await api.catalog({ q: searchQuery.trim(), limit: 12 });
+        if (res?.results) {
+          setCatalogSearchResults(res.results);
+        }
+      } catch {}
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Resolve any selected slugs that aren't in the default seed
+  useEffect(() => {
+    for (const slug of selectedSlugs) {
+      if (
+        !catalog.some((p) => p.alternative.repo.toLowerCase() === slug) &&
+        !catalogSearchResults.some((p) => p.alternative.repo.toLowerCase() === slug) &&
+        !resolvedCustomTools[slug]
+      ) {
+        api.catalog({ q: slug, limit: 1 }).then((res) => {
+          if (res?.results?.[0]) {
+            setResolvedCustomTools((prev) => ({ ...prev, [slug]: res.results[0] }));
+          }
+        }).catch(() => {});
+      }
+    }
+  }, [selectedSlugs, catalog, catalogSearchResults, resolvedCustomTools]);
+
   const selectedItems = selectedSlugs
-    .map((slug) =>
-      catalog.find(
+    .map((slug) => {
+      const allKnown = [...catalog, ...catalogSearchResults, ...Object.values(resolvedCustomTools)];
+      return allKnown.find(
         (p) =>
           p.alternative.repo.toLowerCase() === slug ||
           p.alternative.name.toLowerCase() === slug ||
           p.alternative.repo.split("/")[1]?.toLowerCase() === slug
-      )
-    )
+      );
+    })
     .filter(Boolean);
 
   const totalSavings = selectedItems.reduce(
@@ -94,14 +132,35 @@ export default function StackBuilderPage() {
     } catch {}
   };
 
-  const filteredCatalog = catalog.filter((p) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      p.alternative.name.toLowerCase().includes(q) ||
-      p.alternative.repo.toLowerCase().includes(q) ||
-      p.paidTool.name.toLowerCase().includes(q)
+  const downloadComposeYaml = () => {
+    const yaml = generateCompose();
+    const blob = new Blob([yaml], { type: "text/yaml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "docker-compose.yml";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  };
+
+  const filteredCatalog = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    const seedFiltered = catalog.filter((p) => {
+      if (!q) return true;
+      return (
+        p.alternative.name.toLowerCase().includes(q) ||
+        p.alternative.repo.toLowerCase().includes(q) ||
+        p.paidTool.name.toLowerCase().includes(q)
+      );
+    });
+    const seen = new Set(seedFiltered.map((p) => p.alternative.repo.toLowerCase()));
+    const extra = catalogSearchResults.filter(
+      (p) => !seen.has(p.alternative?.repo?.toLowerCase())
     );
-  });
+    return [...seedFiltered, ...extra];
+  }, [catalog, searchQuery, catalogSearchResults]);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 md:px-6 py-8 space-y-8">
@@ -203,14 +262,25 @@ export default function StackBuilderPage() {
                   <FileCode size={16} className="text-ember" />
                   <span>Unified Docker Compose Stack</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={copyComposeYaml}
-                  className="btn-tactile px-3 py-1.5 rounded-lg border border-line text-xs font-medium inline-flex items-center gap-1.5"
-                >
-                  {copiedCompose ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
-                  <span>{copiedCompose ? "Copied" : "Copy YAML"}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={downloadComposeYaml}
+                    className="btn-tactile px-3 py-1.5 rounded-lg border border-line text-xs font-medium inline-flex items-center gap-1.5 hover:border-line-strong hover:bg-elevated transition-colors"
+                    title="Download docker-compose.yml file to disk"
+                  >
+                    <Download size={13} className="text-ember" />
+                    <span>Download .yml</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={copyComposeYaml}
+                    className="btn-tactile px-3 py-1.5 rounded-lg border border-line text-xs font-medium inline-flex items-center gap-1.5"
+                  >
+                    {copiedCompose ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
+                    <span>{copiedCompose ? "Copied" : "Copy YAML"}</span>
+                  </button>
+                </div>
               </div>
               <pre className="p-4 rounded-xl bg-elevated border border-line text-xs font-mono text-dim overflow-x-auto">
                 {generateCompose()}
@@ -255,7 +325,7 @@ export default function StackBuilderPage() {
                       isSelected ? "bg-trust text-white border-trust" : "border-line text-faint"
                     }`}
                   >
-                    {isSelected ? "✓" : "+"}
+                    {isSelected ? <Check size={13} /> : <Plus size={13} />}
                   </span>
                 </div>
               );
