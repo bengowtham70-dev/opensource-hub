@@ -130,11 +130,21 @@ export async function findTools({
   // Hardening: the server fetches user-supplied baseUrls — restrict to https
   // (localhost http allowed for dev runtimes like Ollama). Anchored with an
   // optional port + path/end boundary so lookalike hosts (localhost.evil.com,
-  // 127.0.0.1@evil.com) can't slip past.
+  // 127.0.0.1@evil.com) can't slip past; case-insensitive because URL hosts
+  // are case-insensitive (http://LOCALHOST:11434 is still localhost).
   const url = String(baseUrl || "");
-  const localhostRe = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/;
+  const localhostRe = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/i;
   if (!/^https:\/\//.test(url) && !localhostRe.test(url)) {
-    return { mode: "offline", summary: "Invalid API base URL — must be https.", items: heuristicFind(clean, pairings) };
+    // invalidBaseUrl lets the client distinguish "user's URL was rejected"
+    // (misconfigured Ollama, typo, uppercase LOCALHOST, IPv6 literal) from a
+    // normal no-key offline fallback — silently heuristics here made the
+    // misconfiguration undiagnosable.
+    return {
+      mode: "offline",
+      invalidBaseUrl: true,
+      summary: "API base URL rejected — use https:// (or http://localhost:port for local runtimes).",
+      items: heuristicFind(clean, pairings),
+    };
   }
 
   const isLocalhost = localhostRe.test(url);

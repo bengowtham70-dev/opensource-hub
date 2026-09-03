@@ -46,14 +46,22 @@ import {
 
 // Three-valued license facet inference (permissive | copyleft | network-copyleft,
 // matching the zod enum in mcp.js). Shared by the /api/search augmentation path
-// and the ai-find dbRow fallback. AGPL must be tested before the GPL family or
-// it would be misclassified as plain copyleft; LGPL groups with copyleft.
+// and the ai-find dbRow fallback. AGPL is checked before the GPL family so the
+// AGPL-* ids land in network-copyleft; LGPL groups with copyleft.
+// NOTE: fail-open default — unknown/empty SPDX infers "permissive", which only
+// holds for the current curated catalog's SPDX vocabulary. Matching is
+// token-based: the expression is split on whitespace operators (OR/AND/WITH),
+// ".", "-", and legacy "+" suffixes, and whole base tokens are matched against
+// a whitelist, so lookalike ids ("TGPPL", "gplplus") can't substring-match into
+// the copyleft buckets. If license strings ever come from untrusted sources,
+// revisit the fail-open default too.
 function inferLicenseType(license) {
   const spdx = (typeof license === "object" && license !== null ? license.spdx || "" : license || "")
     .toString()
     .toLowerCase();
-  if (spdx.includes("agpl")) return "network-copyleft";
-  if (/(?:l)?gpl|mpl/.test(spdx)) return "copyleft";
+  const bases = new Set(spdx.split(/[\s.\-+]+/).filter((t) => t && t !== "or" && t !== "and" && t !== "with"));
+  if (bases.has("agpl")) return "network-copyleft";
+  if (bases.has("gpl") || bases.has("lgpl") || bases.has("mpl")) return "copyleft";
   return "permissive";
 }
 

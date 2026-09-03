@@ -39,7 +39,7 @@ def verify_ai_finder():
         page = browser.new_page(viewport={"width": 1280, "height": 900})
 
         print("1. Navigating to /find...")
-        page.goto("http://localhost:3000/find", wait_until="networkidle")
+        page.goto(f"{BASE_URL}/find", wait_until="networkidle")
 
         # 2. Verify Page Header & Preset prompts
         assert page.locator("h1:has-text('AI Tool Finder')").is_visible(), "AI Tool Finder title missing"

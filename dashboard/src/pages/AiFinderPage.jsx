@@ -135,7 +135,7 @@ export default function AiFinderPage() {
       {/* Header */}
       <header className="mb-8">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line bg-surface text-[12px] text-faint mb-3">
-          <Sparkles size={13} className="text-accent" />
+          <Sparkles size={13} className="text-link" />
           <span>Semantic Discovery Engine · 26,000+ Tools</span>
         </div>
         <h1 className="font-display text-3xl md:text-4xl text-ink tracking-tight font-normal">

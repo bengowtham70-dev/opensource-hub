@@ -97,7 +97,8 @@ test("non-https baseUrl rejected (hardening) — falls back to offline", async (
   };
   const r = await findTools({ task: "notes", pairings, apiKey: "sk-test", baseUrl: "http://evil.example.com/v1", fetchImpl });
   assert.equal(r.mode, "offline");
-  assert.match(r.summary, /Invalid API base URL/);
+  assert.equal(r.invalidBaseUrl, true, "rejection must be surfaced to the client");
+  assert.match(r.summary, /base URL rejected/);
   assert.equal(called, false, "must never fetch a non-https baseUrl");
 
   // localhost http is allowed for dev runtimes (Ollama etc.)
