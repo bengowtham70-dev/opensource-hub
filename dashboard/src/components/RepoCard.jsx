@@ -93,9 +93,9 @@ export default function RepoCard({
                     className="px-2 py-0.5 rounded-full border text-[11px] tnum inline-flex items-center gap-1"
                     style={
                       maintenance.status === "active"
-                        ? { color: "var(--color-trust)", borderColor: "rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.08)" }
+                        ? { color: "var(--color-trust-strong)", borderColor: "rgba(16,185,129,0.3)", background: "rgba(16,185,129,0.08)" }
                         : maintenance.status === "slowing"
-                          ? { color: "var(--color-caution)", borderColor: "rgba(245,158,11,0.3)", background: "rgba(245,158,11,0.08)" }
+                          ? { color: "var(--color-caution-strong)", borderColor: "rgba(245,158,11,0.3)", background: "rgba(245,158,11,0.08)" }
                           : { color: "#dc2626", borderColor: "rgba(220,38,38,0.30)", background: "rgba(220,38,38,0.06)" }
                     }
                   >
