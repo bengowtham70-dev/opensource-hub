@@ -1,5 +1,24 @@
 # Agent Memory Journal — OpenSource Hub
 
+## 2026-09-03 — Option A: Live 26,000+ Tool Autocomplete in Header & Command Palette (Ctrl+K) COMPLETE ✅
+
+- **Global Header Search Autocomplete (`Header.jsx`):**
+  - Added floating autocomplete dropdown below the header search box debounced to 120ms.
+  - Displays top matches across all 26,328 repositories in `catalog.db` with live star count, language, and repository path.
+  - Full keyboard navigation (`↑`/`↓` to highlight, `↵ Enter` to navigate directly to `/repo/:owner/:name`, `Esc` to close).
+- **Command Palette Remote Catalog (`CommandPalette.jsx`):**
+  - Upgraded `cmdk` dialog to dynamically query SQLite FTS5 catalog on user input.
+  - Renders *"Matching Open Source Tools"* with star badges and description preview.
+  - Automatically renders *"Commercial Software Alternatives"* shortcut when typing paid software names (e.g. Notion, Airtable, Slack).
+- **SQLite Relevance Engine Tuning (`src/server/db.js` & `src/server/routes.js`):**
+  - Enhanced `searchCatalog` SQL sorting: exact name matches rank #1, flagship repos rank #2, substring containment rank #3, star count breaks ties.
+  - Fixed facet leakage bug in `/api/search` catalog augmentation: `platform`, `license`, and `goal` constraints are strictly checked before pushing catalog items.
+- **Verification:**
+  - Automated Playwright test `scripts/verify-autocomplete-e2e.py` passed 100% with screenshots captured.
+  - `npm run test:client`: 76 / 76 client tests passing.
+  - `npm test`: 228 / 228 backend tests passing.
+  - `npm run build`: Production bundle compiled in 11.17s with 0 errors.
+
 ## 2026-09-03 — Exhaustive Options Deep Check & 26-Page Complete Verification COMPLETE ✅
 
 - **26-Page End-to-End Audit (`scripts/deep-check-all-pages.py`):**
@@ -1135,3 +1154,10 @@ epoSlug map populates during profileCtxs building; any code needing slugs must r
 - **Gates:** npm test 228/228, test:client 76/76, vite build clean, build:web 645 pages, verify-web-dist PASS, contrast 0 failures on 10 page/theme combos.
 - **GOTCHAs:** cmd background sessions cannot keep long-running node servers alive (exit instantly) — boot via foreground or scripts that self-manage; verify-web-dist requires build:og AFTER build:web or 265 og-image "failures"; cmdk value must be forwarded through wrapper components; AI finder submits on Ctrl+Enter not Enter.
 - **Verdict: GO for launch.** Remaining P2 backlog: hero subline could cite live catalog size; palette Learn articles fetched per-open (could cache); newsletter email HTML now superseded in web-dist by reader pages.
+
+## 2026-09-03 — Launch Ship-Out: Commits + Gates GREEN, Deploy BLOCKED on GitHub account
+- **Shipped to git (5 logical commits on main):** e06be8e launch-QA UI fixes (contrast/canvas rename/truthful copy/palette O.S. search/repo-detail hubs) · 3447462 SQLite catalog layer + trending cache · e47c717 newsletter archive reader pages + sitemap parity · 23d557d data drifts (SigNoz/Chroma) · 2906130 QA tooling + journal. Working tree CLEAN. .gitignore now excludes catalog.db*, scratch_*, qa-shots/, test/screenshots/, .verdent/.
+- **Final gates re-verified on committed tree:** npm test 228/228 · test:client 76/76 · vite build 24s · build:web 645 pages · sitemap parity 645/645 · build:og 263/263 · verify-web-dist PASSED.
+- **BLOCKER (user action required):** git remote was never configured; added origin https://github.com/bengowtham70/opensource-hub.git but push fails "Repository not found" — the GitHub account bengowtham70 itself 404s (does not exist publicly) and this machine has NO stored github.com credentials. Cannot create accounts/repos without user.
+- **Unblock paths:** (A) user confirms correct username -> update site.config.json baseUrl/repoSlug + workflow links + remote URL, then push; (B) user creates account+repo named opensource-hub, runs one git push to trigger browser login; (C) switch to Vercel via token. Pages workflow web-deploy.yml fires on push to main automatically.
+- **Local prod preview is fully validated** (server :3000 healthy, all E2E green) — launch quality is not in question; only hosting identity is missing.
