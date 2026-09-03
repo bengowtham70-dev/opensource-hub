@@ -3652,7 +3652,7 @@
       "alternative": {
         "name": "SigNoz",
         "repo": "SigNoz/signoz",
-        "language": "Go",
+        "language": "TypeScript",
         "tags": [
           "observability",
           "monitoring",
@@ -5114,7 +5114,7 @@
       "alternative": {
         "name": "Chroma",
         "repo": "chroma-core/chroma",
-        "language": "Python",
+        "language": "Rust",
         "tags": [
           "vector-db",
           "ai",
