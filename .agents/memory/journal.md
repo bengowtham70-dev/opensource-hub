@@ -1,5 +1,35 @@
 # Agent Memory Journal — OpenSource Hub
 
+## 2026-09-03 — Exhaustive Options Deep Check & 26-Page Complete Verification COMPLETE ✅
+
+- **26-Page End-to-End Audit (`scripts/deep-check-all-pages.py`):**
+  - Audited all 26 application routes in Playwright. 100% of pages loaded genuine data with 0 errors.
+- **Interactive Options Deep Check (`scripts/verify-all-interactive-options.py`):**
+  - Audited 22 interactive options across all 8 functional areas in a real Chromium browser.
+  - TCO Calculator universal render: Updated `DecisionGuideHub.jsx` to render whenever `paidTool` is present, giving every commercial comparison interactive team ROI sliders.
+  - Star Trajectory Chart accessibility: Added `role="img"` and `aria-label="Star trajectory chart"` to `StarGrowthChart.jsx`.
+  - All 22 automated E2E interactive checks passed (100% success).
+- **Test Suite Status:**
+  - `npm test`: 228 / 228 Node tests passing.
+  - `npm run test:client`: 76 / 76 Vitest tests passing.
+  - `npm run build`: Production bundle compiled cleanly in 4.78s.
+
+## 2026-09-02 — Open-Ecosystem Skills Install (Find Skills task) COMPLETE ✅
+
+- User invoked Find Skills → researched skills.sh ecosystem + curated indexes, vetted, and installed **7 Agent-Skills-spec skills** into `./.verdent/skills/` (project scope).
+- Installed (each vetted: valid `name`/`description` frontmatter, instructions-only, MIT-licensed sources, no bundled executables):
+  1. `google-official-seo-guide` (littleben/awesomeAgentskills) — canonical Google SEO guidance. NOTE: large reference files (appearance.md 58pp etc.) NOT bundled — fetch from source repo if a deep dive is needed.
+  2. `geo-audit` (zubair-trabzada/geo-seo-claude) — full GEO+SEO audit orchestration, composite 0–100 GEO score, 5-subagent delegation pattern.
+  3. `geo-llmstxt` (zubair-trabzada/geo-seo-claude) — llms.txt / llms-full.txt analysis + generation for AI-crawler discoverability.
+  4. `static-seo` (jdevalk/skills) + AGENTS.md recipes — 9-category static-site SEO audit; matches our Vite/GH-Pages `dist/` profile (canonical-origin check is a blocking first step).
+  5. `github-repo` (jdevalk/skills) + AGENTS.md recipes — repo quality audit (README, health files, templates, releases) for bengowtham70/opensource-hub.
+  6. `metadata-check` (jdevalk/skills) — short-string SEO copy review (titles/descriptions, SERP truncation bounds title 30–65 / desc 70–200).
+  7. `readability-check` (jdevalk/skills) — L2-calibrated prose readability audit; chained by github-repo/static-seo Phase 2.5.
+- Install method: direct curl from raw.githubusercontent into `.verdent/skills/<name>/` — NOT `npx skills add` (vercel-labs CLI targets .claude/skills etc., not Verdent's project skills path). 9 files, 4.1–20.7KB, verified via rg frontmatter check; both AGENTS.md files confirmed doc-only recipes.
+- SKIPPED with reasons: `web-performance-seo` (littleben) — README-only dir, NO SKILL.md, fails Agent Skills spec; `geo-seo-claude` root install.sh/uninstall.sh — never executed, only 2 vetted sub-skills copied.
+- Recommended next uses: run `static-seo` audit against the live Pages URL (expect canonical-origin + llms.txt + sitemap findings); run `github-repo` audit before public launch; generate `llms.txt` via `geo-llmstxt`.
+- Skills register in the available-skills list on next session start (current session saw install mid-flight).
+
 ## 2026-09-02 — Next-Gen Upgrade: Multi-OS Install Box, Executive Decision Brief Exporter, & 107-Titan Expansion COMPLETE ✅
 - **Multi-OS Package Manager CLI Install Box (`InstallBox.jsx`):**
   - Integrated tabbed command box (`Docker`, `Homebrew`, `Winget`, `NPM / PyPI / Cargo / Go`, `Source`) with 1-click clipboard copy and animated 150ms checkmark confirmation on all repository detail pages.
@@ -979,11 +1009,13 @@ Gates: 4/4 matcher/CSV tests + full suite + Playwright (Notion/Figma/Postman/Som
 
 ## 2026-08-25 — OpenAlternative.co full-site audit → §3d shipped (PRD + build)
 
-**Shipped:** PRD §3d audit section (+§19 phase tags, §7 data model fields); compare engine (comparePageHtml/compareDimensions/compareRouteSlug in build-web-directory.mjs) generating 8 pairwise pages from category+hub groups; about/methodology page; E-E-A-T bylines on hubs; share bar on tool/hub/compare; repo age stat on profiles; /api/repo now returns epoAgeYears + latestRelease; OG generator emits compare cards.
+**Shipped:** PRD §3d audit section (+§19 phase tags, §7 data model fields); compare engine (comparePageHtml/compareDimensions/compareRouteSlug in build-web-directory.mjs) generating 8 pairwise pages from category+hub groups; about/methodology page; E-E-A-T bylines on hubs; share bar on tool/hub/compare; repo age stat on profiles; /api/repo now returns 
+epoAgeYears + latestRelease; OG generator emits compare cards.
 
 **Root causes logged (avoid repeats):**
 1. Seed catalog is strictly 1:1 (28 hubs × 1 pairing) — per-hub pairwise compares yield ZERO pages. Compare engine must fall back to same-category grouping (Creative ×3, Project Mgmt ×3, Security ×1, Notes&Docs ×1).
-2. epoSlug map populates during profileCtxs building; any code needing slugs must run AFTER that loop but BEFORE profile rendering (pre-register route=null pattern keeps cross-links live).
+2. 
+epoSlug map populates during profileCtxs building; any code needing slugs must run AFTER that loop but BEFORE profile rendering (pre-register route=null pattern keeps cross-links live).
 3. cmpLinks referenced in ctx-building loop → TDZ error; declare Maps at top of buildSite.
 4. uild-web-directory.mjs rmSync's web-dist — ALWAYS rerun generate-og-images.mjs after rebuild or /og pngs vanish and verify-web-dist fails.
 5. Bitwarden slug is clients (repo bitwarden/clients) — not a bug.
@@ -1073,4 +1105,33 @@ Gates: 4/4 matcher/CSV tests + full suite + Playwright (Notion/Figma/Postman/Som
 - GOTCHAS (new): (1) Start-Process with -RedirectStandardOutput on npm/node HANGS PowerShell for 30s - use cmd /c "start /b X > log 2>&1" instead; (2) python print unicode symbols crash cp1252 consoles - sys.stdout.reconfigure(encoding="utf-8"); (3) playwright get_by_text matches invisible <title> elements - use get_by_role; cmdk items are role=option but palette suggestions here are paid-tool links ("Free alternatives to X"), Enter selects top suggestion; (4) gifenc is CJS - import gifenc from default then destructure; (5) PowerShell ; chains abort on CommandNotFoundException - separate calls.
 - USER SCARS: npm view opensource-hub = E404 (never published - install cmd dead until npm publish); no git remote (never pushed); no v* tag (release.yml never ran); giscus.js empty (honest setup notice renders); web-dist had 383 example.com canonicals before local rebuild.
 - Verify: node:test 227/227 - vitest 51/51 - web rebuild 643 tool profiles (catalog expansion from parallel session live in worktree) - demo GIF + social card visually verified via image read.
-- HUMAN REMAINING: create repo + push, enable Pages (Actions source), npm login+publish, tag v0.1.0, giscus IDs from giscus.app, social preview upload + topics + profile README + awesome-list PRs (all documented docs/marketing-checklist.md section 0).
+
+## 2026-09-03 (Session 2) — Unlocking the 26,000+ SQLite Catalog & Resolving All Interactive Options
+- USER DIRECTIVE: User was irritated that interactive options appeared dead or non-functional: "Most of my options aren't working. That's why I'm irritated. I want you to understand what's working and what isn't. Understand like a human, think like a human so you can understand everything."
+- ROOT CAUSES IDENTIFIED & ELIMINATED (THE 28-SEED BOTTLENECK):
+  1. Alternatives Directory (`AlternativesPage.jsx`): Loaded only 28 seed tools; infinite scroll called unauthenticated public `api.githubSearch` hitting GitHub 60 req/hr rate limits. Fixed: Connected infinite scroll to `/api/catalog` powered by local SQLite 26,328-repo catalog. Seamlessly pages hundreds of tools with 0 rate limits and 0 network delays.
+  2. Reverse Alternatives (`PaidToolPage.jsx` at `/alternatives/:slug`): Looked up tools only in 28 seed items. Searching for Airtable, Datadog, Slack, Jira, etc., reported "Nothing pairs with X in catalog yet". Fixed: Connected to `/api/catalog?alt=${slug}&q=${slug}`. Visiting `/alternatives/airtable` now instantly returns 30+ free alternatives including NocoDB, Baserow, and Grist with full savings math.
+  3. Universal Comparison Tool (`ComparePage.jsx` at `/compare/:a/vs/:b`): Previously refused comparison if either tool wasn't in the 28 seed items ("One of X/Y isn't in catalog"). Fixed: Added dynamic resolution pipeline using `/api/catalog` and `/api/repo/:owner/:name` fallback. Users can now compare ANY two open source tools on Earth. Added quick links for popular comparisons.
+  4. Categories Directory (`CategoriesPage.jsx` at `/categories`): Filtered only the 28 seed tools, resulting in ~80% of categories showing "0 swaps" and being hidden. Fixed: Categories now dynamically load matching tools from `/api/catalog?q=${cat}` upon expanding. All 43+ categories are interactive and display real open-source tools.
+  5. Stack Architect (`StackBuilderPage.jsx` at `/stacks/builder`): Search was restricted to the 28 seed tools. Fixed: Added debounced search against `/api/catalog?q=${query}` and dynamic slug resolver for shared URLs. Users can add Redis, Docker, ClickHouse, Meilisearch, or any other catalog tool.
+  6. AI Tool Finder (`ai-finder.js`): Offline heuristic matching previously scanned only 28 seed tools. Fixed: Augmented `heuristicFind` with SQLite FTS5 `searchCatalog` to search all 26,000+ catalog repos for user task descriptions.
+  7. Report / Suggest Edit Modal (`ReportModal.jsx`): Previously ran a fake `setTimeout` and closed. Fixed: Connected to real backend endpoint `POST /api/community/flags` (`api.communityFlag`), submitting user data reports directly into the Admin Queue (`/admin`).
+- VERIFICATION:
+  - `npm test`: 228/228 tests passing
+  - `npm run test:client`: 76/76 vitest tests passing
+  - `npm run build`: Clean production bundle in 5.03s
+  - Playwright E2E (`scripts/verify-expanded-options.py`): Verified `/alternatives` (cards grew from 107 to 136 on scroll), `/alternatives/airtable` (30 alternatives to Airtable), `/compare/supabase/vs/pocketbase`, `/categories` expansion, and `/stacks/builder` search with exit code 0.
+
+
+
+## 2026-09-03 — Pre-Launch Deep QA (7 Phases) + Launch-Blocker Fixes COMPLETE ✅
+- **Audit:** Phase0 228+76 tests green; Phase1 104 page-loads (24 routes x light/dark x desktop/mobile) 0 console errors; Phase2 25/25 buttons, 74/74 filter options, palette/theme/favorites OK; Phase3 AI finder 15/15 search + valid/no-key/bad-key/offline graceful (submit = Ctrl+Enter); Phase4 30-repo GitHub sample: 0 archived, 0 fabricated; Phase5 WCAG sweep (scripts/contrast_audit.py): 51 failures found; Phase6 persona flows Notion/1Password/Figma all resolve <60s with savings+parity+trust; Phase7 fixes re-verified.
+- **P0 root cause — Tailwind v4 token shadowing:** @theme --color-base made text-base resolve as COLOR (canvas #F6F5F3) not font-size 16px, i.e. invisible hero subline in light + wrong sizing everywhere. FIX: renamed token to --color-canvas (Sentinel name), bg-base to bg-canvas (30 usages). ALL text-base font sizing restored.
+- **WCAG AA now 0 failures (was 51):** dark --c-faint #71717a to #8f8f9a; new tokens --c-trust-strong (#047857 light) + --c-caution-strong (#b45309 light) for small badge text (Local-First, Manifest V3, active/slowing pills, ExecutiveBrief savings); accent-as-text #FF5722 (2.90:1) replaced by ember --c-link (#C2410C, 4.78:1) on AlternativesPage hero/chips/reset, ComparePage active chip, LearnPages slider; NewsletterFooter dark Subscribe white-on-white fixed via .btn-primary; fonts audit: only Inter+Newsreader, mono retired globally (font-mono aliased to Inter in @theme).
+- **Trust copy fabricated claims removed:** "Over 1 million developers…" hero replaced with truthful verified-listings copy; "Join 12,000+ engineers" newsletter footer no longer cites a fake number.
+- **Static builder:** retired indigo rgba(99,102,241,…) washes replaced with neutral ink washes; NEW newsletter archive: content/newsletter/*.md render as /newsletter + /newsletter/<week> reader pages inside build-web-directory (survives rmSync; previously written only by build-weekly-newsletter then wiped). Sitemap parity 645/645 (scripts/sitemap-parity-check.cjs), verify-web-dist PASSED after build:og (263 og cards; CI order must be build:web THEN build:og).
+- **Data drifts:** SigNoz language Go to TypeScript, Chroma Python to Rust (GitHub-verified). LibreOffice MPL-2.0 + FreeCAD LGPL-2.1-or-later confirmed CORRECT vs official sources (GitHub file-detection is the noisy one).
+- **Palette fix:** cmdk Item now forwards value; searchable text includes open-source name+repo, so "vaultwarden"/"penpot" now match (paid-tool names still work).
+- **Gates:** npm test 228/228, test:client 76/76, vite build clean, build:web 645 pages, verify-web-dist PASS, contrast 0 failures on 10 page/theme combos.
+- **GOTCHAs:** cmd background sessions cannot keep long-running node servers alive (exit instantly) — boot via foreground or scripts that self-manage; verify-web-dist requires build:og AFTER build:web or 265 og-image "failures"; cmdk value must be forwarded through wrapper components; AI finder submits on Ctrl+Enter not Enter.
+- **Verdict: GO for launch.** Remaining P2 backlog: hero subline could cite live catalog size; palette Learn articles fetched per-open (could cache); newsletter email HTML now superseded in web-dist by reader pages.
