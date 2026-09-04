@@ -22,10 +22,18 @@ export const api = {
         `&goal=${encodeURIComponent(goal || "")}`
     ),
   repo: (owner, name) => jsonFetch(`/api/repo/${owner}/${name}`),
+  readme: (owner, name) => jsonFetch(`/api/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/readme`),
+  askRepo: (owner, name, question) =>
+    jsonFetch(`/api/repo/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/ask`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+    }),
   releases: (owner, name) => jsonFetch(`/api/releases/${owner}/${name}`),
   security: (owner, name) => jsonFetch(`/api/security/${owner}/${name}`),
   metrics: (owner, name) => jsonFetch(`/api/metrics/${owner}/${name}`),
   communityGet: (owner, name) => jsonFetch(`/api/community/${owner}/${name}`),
+  communityParity: (owner, name) => jsonFetch(`/api/community/${owner}/${name}/parity`),
   communityVote: (repo, choice) =>
     jsonFetch(`/api/community/${repo}/vote`, {
       method: "POST",
@@ -38,11 +46,22 @@ export const api = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ tag }),
     }),
+  communitySuggestions: ({ sort = "votes", status = "all", q = "" } = {}) => {
+    const params = new URLSearchParams();
+    if (sort) params.set("sort", sort);
+    if (status) params.set("status", status);
+    if (q) params.set("q", q);
+    return jsonFetch(`/api/community/suggestions?${params.toString()}`);
+  },
   communitySuggest: (payload) =>
     jsonFetch("/api/community/suggestions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
+    }),
+  communitySuggestionUpvote: (id) =>
+    jsonFetch(`/api/community/suggestions/${id}/upvote`, {
+      method: "POST",
     }),
   communityFlag: (payload) =>
     jsonFetch("/api/community/flags", {
@@ -128,4 +147,32 @@ export const api = {
     ),
   githubTrending: ({ language = "", timeframe = "today", limit = 30 } = {}) =>
     jsonFetch(`/api/github/trending?language=${encodeURIComponent(language)}&timeframe=${encodeURIComponent(timeframe)}&limit=${limit}`),
+  // Community Reviews & Pros/Cons
+  getReviews: (owner, name) => jsonFetch(`/api/reviews/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`),
+  addReview: (owner, name, body) =>
+    jsonFetch(`/api/reviews/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }),
+  voteReviewHelpful: (owner, name, reviewId) =>
+    jsonFetch(`/api/reviews/${encodeURIComponent(owner)}/${encodeURIComponent(name)}/${encodeURIComponent(reviewId)}/helpful`, {
+      method: "POST",
+    }),
+  // Public Upvoting
+  getUpvotes: () => jsonFetch("/api/upvotes"),
+  addUpvote: (owner, name) =>
+    jsonFetch(`/api/upvotes/${encodeURIComponent(owner)}/${encodeURIComponent(name)}`, {
+      method: "POST",
+    }),
+  // Multi-Tool Docker Compose Stack Bundle Exporter
+  composeBundle: (tools, stackName) =>
+    jsonFetch("/api/compose/bundle", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tools, stackName }),
+    }),
+  // Self-hosting Community App Stores (PRD §31)
+  appStores: () => jsonFetch("/api/app-stores"),
+  appStorePlatform: (platform) => jsonFetch(`/api/app-stores/${encodeURIComponent(platform)}`),
 };

@@ -70,3 +70,85 @@ export function createNewsletterStore({ dir = getUserDataDir() } = {}) {
     },
   };
 }
+
+export function getNewsletterIssues(contentDir) {
+  const dir = contentDir || path.resolve(process.cwd(), "content", "newsletter");
+  if (!fs.existsSync(dir)) return [];
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+  const issues = [];
+
+  for (const file of files) {
+    try {
+      const fullPath = path.join(dir, file);
+      const raw = fs.readFileSync(fullPath, "utf8");
+      const id = file.replace(/\.md$/, "");
+      const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+      let title = id;
+      let date = "";
+      let week = id;
+      let content = raw;
+
+      if (fmMatch) {
+        const fm = fmMatch[1];
+        content = fmMatch[2];
+        const titleMatch = fm.match(/title:\s*["']?([^"'\n]+)["']?/);
+        const dateMatch = fm.match(/date:\s*["']?([^"'\n]+)["']?/);
+        const weekMatch = fm.match(/week:\s*["']?([^"'\n]+)["']?/);
+        if (titleMatch) title = titleMatch[1];
+        if (dateMatch) date = dateMatch[1];
+        if (weekMatch) week = weekMatch[1];
+      }
+
+      const lines = content.split(/\r?\n/).filter((l) => l.trim() && !l.startsWith("#"));
+      const snippet = lines.slice(0, 2).join(" ");
+
+      issues.push({
+        id,
+        title,
+        date,
+        week,
+        snippet,
+        fileName: file,
+      });
+    } catch {
+      /* skip invalid file */
+    }
+  }
+
+  issues.sort((a, b) => (b.date || "").localeCompare(a.date || "") || b.id.localeCompare(a.id));
+  return issues;
+}
+
+export function getNewsletterIssueById(id, contentDir) {
+  const dir = contentDir || path.resolve(process.cwd(), "content", "newsletter");
+  const cleanId = String(id || "").replace(/[^a-zA-Z0-9_-]/g, "");
+  const filePath = path.join(dir, `${cleanId}.md`);
+  if (!fs.existsSync(filePath)) return null;
+
+  const raw = fs.readFileSync(filePath, "utf8");
+  const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  let title = cleanId;
+  let date = "";
+  let week = cleanId;
+  let content = raw;
+
+  if (fmMatch) {
+    const fm = fmMatch[1];
+    content = fmMatch[2];
+    const titleMatch = fm.match(/title:\s*["']?([^"'\n]+)["']?/);
+    const dateMatch = fm.match(/date:\s*["']?([^"'\n]+)["']?/);
+    const weekMatch = fm.match(/week:\s*["']?([^"'\n]+)["']?/);
+    if (titleMatch) title = titleMatch[1];
+    if (dateMatch) date = dateMatch[1];
+    if (weekMatch) week = weekMatch[1];
+  }
+
+  return {
+    id: cleanId,
+    title,
+    date,
+    week,
+    markdown: content,
+  };
+}
+

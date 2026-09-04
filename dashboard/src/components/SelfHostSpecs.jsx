@@ -1,4 +1,8 @@
-import { Cpu, HardDrive, Database, Clock, ShieldAlert, CheckCircle2 } from "lucide-react";
+import { useState } from "react";
+import { Link, useInRouterContext } from "react-router-dom";
+import { Cpu, HardDrive, Database, Clock, ShieldAlert, CheckCircle2, AlertTriangle, ArrowRight, Server, Layers } from "lucide-react";
+import { evaluateHardwareFit } from "../lib/hardware-calc";
+import { formatRam } from "../lib/benchmarks";
 
 export function deriveSelfHostSpecs(alternative = {}) {
   const language = (alternative.language || "").toLowerCase();
@@ -54,18 +58,34 @@ export function deriveSelfHostSpecs(alternative = {}) {
   };
 }
 
+const QUICK_MACHINES = [
+  { id: "pi", label: "Raspberry Pi 4", ramMb: 4096, cpus: 4, arch: "arm64" },
+  { id: "vps1", label: "1GB Cloud VPS", ramMb: 1024, cpus: 1, arch: "x86_64" },
+  { id: "vps2", label: "2GB Cloud VPS", ramMb: 2048, cpus: 2, arch: "x86_64" },
+  { id: "pc", label: "Local PC (8GB)", ramMb: 8192, cpus: 8, arch: "x86_64" },
+];
+
 export default function SelfHostSpecs({ alternative = {} }) {
+  const inRouter = useInRouterContext();
   const specs = deriveSelfHostSpecs(alternative);
+  const [selectedMachine, setSelectedMachine] = useState(QUICK_MACHINES[1]); // Default 1GB VPS
+
+  const quickEval = evaluateHardwareFit({
+    ramMb: selectedMachine.ramMb,
+    cpus: selectedMachine.cpus,
+    arch: selectedMachine.arch,
+    tools: [alternative.repo || alternative.name || ""],
+  });
 
   return (
     <section className="card-elevated p-6 mt-6 relative overflow-hidden" aria-label="Self-Host Hardware & Difficulty Specs">
-      <div className="flex items-center justify-between gap-3 mb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex items-center gap-2.5">
           <span className="grid place-items-center size-8 rounded-lg bg-ember/10 text-ember border border-ember/20">
             <Cpu size={18} />
           </span>
           <div>
-            <h2 className="font-display text-display-md text-ink">Self-Host Specs & Hardware</h2>
+            <h2 className="font-display text-display-md text-ink">Self-Host Specs &amp; Hardware</h2>
             <p className="text-[12.5px] text-faint">Operational requirements before deploying to production.</p>
           </div>
         </div>
@@ -115,6 +135,86 @@ export default function SelfHostSpecs({ alternative = {} }) {
           </div>
           <p className="font-display text-sm font-semibold text-ink">amd64 / ARM64</p>
           <p className="text-[11px] text-faint mt-0.5">Native multi-arch support</p>
+        </div>
+      </div>
+
+      {/* Interactive Can I Run This Quick Checker */}
+      <div className="mt-5 p-4 rounded-xl border border-line bg-elevated/40 space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <span className="text-xs font-bold text-ink flex items-center gap-1.5">
+            <Server size={14} className="text-ember" />
+            <span>Can I Run This on My Machine?</span>
+          </span>
+
+          <div className="flex flex-wrap items-center gap-1.5 text-xs">
+            {QUICK_MACHINES.map((qm) => (
+              <button
+                key={qm.id}
+                type="button"
+                onClick={() => setSelectedMachine(qm)}
+                className={`px-2.5 py-1 rounded-lg border text-[11px] font-semibold transition-all cursor-pointer ${
+                  selectedMachine.id === qm.id
+                    ? "bg-surface text-ink border-ink dark:border-white shadow-2xs"
+                    : "bg-surface/50 border-line text-faint hover:text-ink hover:bg-surface"
+                }`}
+              >
+                {qm.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Result Row */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1 border-t border-line/60">
+          <div className="flex items-center gap-2">
+            {quickEval.tone === "trust" ? (
+              <CheckCircle2 size={16} className="text-trust" />
+            ) : quickEval.tone === "caution" ? (
+              <AlertTriangle size={16} className="text-caution" />
+            ) : (
+              <ShieldAlert size={16} className="text-critical" />
+            )}
+            <span className="text-ink font-medium">
+              <strong>{quickEval.label}:</strong> {quickEval.summary}
+            </span>
+          </div>
+
+          {inRouter ? (
+            <div className="flex items-center gap-3 shrink-0 flex-wrap">
+              <Link
+                to={`/stacks/builder?add=${encodeURIComponent(alternative.repo || alternative.name || "")}`}
+                className="btn-tactile text-xs font-semibold px-2.5 py-1 rounded-lg border border-line bg-surface hover:bg-elevated text-ink inline-flex items-center gap-1.5 shadow-2xs"
+                title="Add to multi-service Docker Compose stack"
+              >
+                <Layers size={12} className="text-trust" />
+                <span>Add to Stack</span>
+              </Link>
+              <Link
+                to={`/hardware?tool=${encodeURIComponent(alternative.name || "")}`}
+                className="btn-tactile text-xs font-semibold text-ember hover:underline inline-flex items-center gap-1"
+              >
+                <span>Full Sizing Simulator</span>
+                <ArrowRight size={12} />
+              </Link>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3 shrink-0 flex-wrap">
+              <a
+                href={`/stacks/builder?add=${encodeURIComponent(alternative.repo || alternative.name || "")}`}
+                className="btn-tactile text-xs font-semibold px-2.5 py-1 rounded-lg border border-line bg-surface hover:bg-elevated text-ink inline-flex items-center gap-1.5 shadow-2xs"
+              >
+                <Layers size={12} className="text-trust" />
+                <span>Add to Stack</span>
+              </a>
+              <a
+                href={`/hardware?tool=${encodeURIComponent(alternative.name || "")}`}
+                className="btn-tactile text-xs font-semibold text-ember hover:underline inline-flex items-center gap-1"
+              >
+                <span>Full Sizing Simulator</span>
+                <ArrowRight size={12} />
+              </a>
+            </div>
+          )}
         </div>
       </div>
 

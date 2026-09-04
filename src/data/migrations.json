@@ -1,0 +1,256 @@
+{
+  "supabase/supabase": {
+    "paidTool": "Firebase",
+    "alternative": "Supabase",
+    "estimatedDuration": "30-45 minutes",
+    "difficulty": "Intermediate",
+    "stages": [
+      {
+        "id": "export",
+        "name": "Data & Auth Export",
+        "badge": "Step 1",
+        "description": "Export Firestore collections, Authentication users, and Storage buckets from Firebase Console or CLI.",
+        "steps": [
+          "Run 'gcloud firestore export gs://[BUCKET_NAME]' to dump Firestore document trees.",
+          "Export Firebase Auth users via 'firebase auth:export users.json --format=json'.",
+          "Download Firebase Storage assets using 'gsutil -m cp -r gs://[PROJECT].appspot.com ./storage_backup'."
+        ],
+        "tip": "Firebase Auth password hashes use SCRYPT; Supabase Auth supports native scrypt hash migration."
+      },
+      {
+        "id": "setup",
+        "name": "Host Environment Provisioning",
+        "badge": "Step 2",
+        "description": "Spin up a dedicated Supabase instance locally or on a cloud VPS using Docker Compose.",
+        "steps": [
+          "Clone or download the official Supabase Docker Compose definition.",
+          "Generate secure secrets for POSTGRES_PASSWORD, JWT_SECRET, and ANON_KEY.",
+          "Start all containers with 'docker compose up -d' and verify Studio UI on port 3000."
+        ],
+        "tip": "Ensure PostgreSQL port 5432 and Kong API Gateway port 8000 are accessible."
+      },
+      {
+        "id": "import",
+        "name": "Data Import & Schema Mapping",
+        "badge": "Step 3",
+        "description": "Convert NoSQL document collections into relational PostgreSQL tables and import users.",
+        "steps": [
+          "Create relational tables in PostgreSQL matching your Firestore collections (or use JSONB columns for flexible schemaless data).",
+          "Import user accounts into 'auth.users' table using the Supabase Firebase-Auth migration script.",
+          "Upload storage assets into Supabase Storage buckets via S3-compatible API."
+        ],
+        "tip": "Enable Row Level Security (RLS) on newly created tables to match Firebase Security Rules."
+      },
+      {
+        "id": "cutover",
+        "name": "Client SDK & API Cut-Over",
+        "badge": "Step 4",
+        "description": "Replace Firebase Client SDK in your web or mobile frontend with @supabase/supabase-js.",
+        "steps": [
+          "Install '@supabase/supabase-js' and replace firebase.initializeApp() with createClient(SUPABASE_URL, SUPABASE_ANON_KEY).",
+          "Update authentication calls from signInWithEmailAndPassword to supabase.auth.signInWithPassword().",
+          "Switch real-time Firestore snapshots to supabase.channel().on('postgres_changes', ...).subscribe()."
+        ],
+        "tip": "Deploy to a staging environment and test all auth, query, and subscription flows."
+      },
+      {
+        "id": "verify",
+        "name": "Parity & Decommissioning Checklist",
+        "badge": "Step 5",
+        "description": "Verify zero data loss and feature parity before canceling Firebase billing.",
+        "steps": [
+          "Audit user sign-ins and session renewals on the new Supabase stack.",
+          "Run latency benchmarks comparing query response times.",
+          "Set Firebase project to read-only for 48 hours to catch any stranded clients.",
+          "Cancel paid Firebase Blaze plan to stop recurring monthly charges."
+        ],
+        "tip": "Keep the offline backup JSON archives stored safely for at least 90 days."
+      }
+    ]
+  },
+  "pocketbase/pocketbase": {
+    "paidTool": "Firebase",
+    "alternative": "PocketBase",
+    "estimatedDuration": "15-20 minutes",
+    "difficulty": "Beginner",
+    "stages": [
+      {
+        "id": "export",
+        "name": "Data & Collections Export",
+        "badge": "Step 1",
+        "description": "Export Firestore collections as JSON files and download asset files.",
+        "steps": [
+          "Export Firestore collections to JSON using firestore-export CLI tool.",
+          "Export user records from Firebase Auth console as CSV or JSON."
+        ]
+      },
+      {
+        "id": "setup",
+        "name": "PocketBase Binary Setup",
+        "badge": "Step 2",
+        "description": "Run the single self-contained PocketBase Go binary on your machine or VPS.",
+        "steps": [
+          "Download the PocketBase binary for your OS/Arch (Linux, macOS, Windows).",
+          "Start the server with './pocketbase serve --http=\"0.0.0.0:8090\"'.",
+          "Navigate to 'http://localhost:8090/_/' and create your initial admin account."
+        ]
+      },
+      {
+        "id": "import",
+        "name": "Collections Schema & Data Import",
+        "badge": "Step 3",
+        "description": "Define collections in the Admin UI and bulk import JSON records.",
+        "steps": [
+          "Create matching collections in PocketBase Admin UI with appropriate field types.",
+          "Run a quick Node.js script using 'pocketbase' SDK to batch-create records from exported JSON."
+        ]
+      },
+      {
+        "id": "cutover",
+        "name": "Frontend SDK Cut-Over",
+        "badge": "Step 4",
+        "description": "Install pocketbase SDK and update client authentication and queries.",
+        "steps": [
+          "Install 'pocketbase' npm package in your application.",
+          "Initialize client: 'const pb = new PocketBase(\"http://127.0.0.1:8090\")'.",
+          "Update auth and collection queries."
+        ]
+      },
+      {
+        "id": "verify",
+        "name": "Verification & Backup",
+        "badge": "Step 5",
+        "description": "Enable automated SQLite backups and decommission Firebase.",
+        "steps": [
+          "Configure automatic backup snapshots in PocketBase Settings > Backups.",
+          "Verify file upload and image thumbnails.",
+          "Downgrade/cancel Firebase Blaze billing."
+        ]
+      }
+    ]
+  },
+  "usebruno/bruno": {
+    "paidTool": "Postman",
+    "alternative": "Bruno",
+    "estimatedDuration": "5 minutes",
+    "difficulty": "Beginner",
+    "stages": [
+      {
+        "id": "export",
+        "name": "Export Postman Collection",
+        "badge": "Step 1",
+        "description": "Export your Postman collections and environments to v2.1 JSON files.",
+        "steps": [
+          "In Postman, click on your Collection's '...' menu and choose 'Export'.",
+          "Select 'Collection v2.1 (recommended)' and save the .json file locally.",
+          "Export your active Environment variables as JSON as well."
+        ]
+      },
+      {
+        "id": "setup",
+        "name": "Install Bruno Desktop",
+        "badge": "Step 2",
+        "description": "Install Bruno native desktop app or CLI for your operating system.",
+        "steps": [
+          "Download and install Bruno for macOS, Windows, or Linux.",
+          "Launch Bruno and choose a local directory on your disk where collection files will live."
+        ]
+      },
+      {
+        "id": "import",
+        "name": "1-Click Postman Import",
+        "badge": "Step 3",
+        "description": "Import the exported Postman collection directly into plain Bru markup files.",
+        "steps": [
+          "In Bruno home screen, click 'Import Collection'.",
+          "Select 'Postman Collection' and pick your exported .json file.",
+          "Select the destination folder on your machine where Bru files will be created."
+        ]
+      },
+      {
+        "id": "cutover",
+        "name": "Git Repository Sync",
+        "badge": "Step 4",
+        "description": "Commit your Bru files directly to your team's Git repository.",
+        "steps": [
+          "Run 'git add . && git commit -m \"chore: migrate API collection to Bruno\"'.",
+          "Push to GitHub/GitLab. Now your API collection is versioned alongside your code!"
+        ]
+      },
+      {
+        "id": "verify",
+        "name": "Run & Verify Requests",
+        "badge": "Step 5",
+        "description": "Execute requests and verify environment variables.",
+        "steps": [
+          "Run collection tests with Bruno CLI: 'bru run'.",
+          "Verify auth tokens and variables resolve properly.",
+          "Cancel Postman paid team seats."
+        ]
+      }
+    ]
+  },
+  "dani-garcia/vaultwarden": {
+    "paidTool": "1Password / Bitwarden",
+    "alternative": "Vaultwarden",
+    "estimatedDuration": "15-20 minutes",
+    "difficulty": "Beginner",
+    "stages": [
+      {
+        "id": "export",
+        "name": "Export Password Vault",
+        "badge": "Step 1",
+        "description": "Export your credentials as unencrypted CSV or JSON from your commercial password manager.",
+        "steps": [
+          "In 1Password or Bitwarden, go to Settings > Export Vault.",
+          "Choose 'CSV' or 'JSON' format and save locally in a temporary directory.",
+          "Keep this file strictly confidential and delete immediately after import."
+        ]
+      },
+      {
+        "id": "setup",
+        "name": "Deploy Vaultwarden Container",
+        "badge": "Step 2",
+        "description": "Spin up Vaultwarden using Docker with persistent storage and HTTPS.",
+        "steps": [
+          "Start container: 'docker run -d --name vaultwarden -v /vw-data:/data -p 8088:80 --restart=always vaultwarden/server:latest'.",
+          "Configure SSL/TLS reverse proxy (Caddy or Nginx) since Bitwarden clients require HTTPS for WebCrypto APIs."
+        ]
+      },
+      {
+        "id": "import",
+        "name": "Import Vault Data",
+        "badge": "Step 3",
+        "description": "Create your master account in Vaultwarden Web Vault and import the file.",
+        "steps": [
+          "Open your Vaultwarden URL and create your primary account with a strong master password.",
+          "Navigate to Tools > Import Data, select your export format, and upload the file.",
+          "Confirm all folders, logins, secure notes, and TOTP seeds imported cleanly."
+        ]
+      },
+      {
+        "id": "cutover",
+        "name": "Connect Official Client Apps",
+        "badge": "Step 4",
+        "description": "Point official Bitwarden browser extensions and mobile apps to your self-hosted server.",
+        "steps": [
+          "In the Bitwarden extension or iOS/Android app, click the Gear icon on the login screen.",
+          "Enter your self-hosted Vaultwarden server URL in the 'Server URL' field.",
+          "Log in with your master credentials."
+        ]
+      },
+      {
+        "id": "verify",
+        "name": "Security Hardening & Cleanup",
+        "badge": "Step 5",
+        "description": "Lock down signups, enable automated backup, and shred the plaintext export.",
+        "steps": [
+          "Set environment variable 'SIGNUPS_ALLOWED=false' to disable public registration.",
+          "Schedule daily backup of '/vw-data' folder to an encrypted offsite location.",
+          "Securely delete the unencrypted export CSV/JSON from your computer.",
+          "Cancel commercial password manager subscription."
+        ]
+      }
+    ]
+  }
+}

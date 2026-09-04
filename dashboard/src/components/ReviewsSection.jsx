@@ -175,6 +175,26 @@ export default function ReviewsSection({ repo = "", name = "", replaces = "" }) 
                   )}
                 </div>
               )}
+
+              <div className="flex items-center justify-between pt-2 border-t border-line/40 text-xs">
+                <span className="text-[11px] text-faint">
+                  {new Date(rev.createdAt || Date.now()).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
+                </span>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await fetch(`/api/reviews/${repo}/${rev.id}/helpful`, { method: "POST" });
+                      fetchReviews();
+                    } catch {}
+                  }}
+                  className="btn-tactile px-2.5 py-1 rounded-md text-[11px] font-medium inline-flex items-center gap-1.5 bg-elevated hover:bg-elevated/80 text-dim border border-line cursor-pointer"
+                  title="Mark this review as helpful"
+                >
+                  <ThumbsUp size={11} />
+                  <span>Helpful ({rev.helpful || 0})</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>

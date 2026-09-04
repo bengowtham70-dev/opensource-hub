@@ -1,5 +1,260 @@
 # Agent Memory Journal — OpenSource Hub
 
+## 2026-09-05 — Horizons 1, 2 & 4: Subscriptions Studio, App Store Exporter, Multi-Channel Installers COMPLETE ✅
+
+- **Option 1 (PRD §37 & §39.1) — "Paste-Your-Subscriptions" Matcher & Personal Savings Studio:**
+  - Built `dashboard/src/lib/subscriptions.js` engine: parses raw SaaS bills/invoices, extracts explicit rates (`$15/mo`, `$240/yr`), ignores seat counts (`5 seats`), falls back to catalog rates, deducts honest VPS cluster baseline ($5/mo = $60/yr), computes weighted feature parity percentages (`getParityPercent`).
+  - Built `dashboard/src/pages/SubscriptionsPage.jsx`: 2-column studio with preset chips (Modern Startup, Freelance Creator, Dev Agency, Homelab), spend avoided ROI metrics cards, matched alternative cards, unmatched items queue links, Compose Builder bridge, localStorage persistence, executive brief print view.
+  - Mounted `/subscriptions` and `/savings` routes in `App.jsx`, linked in `Header.jsx` and `CommandPalette.jsx`.
+  - Unit tests: `test/subscriptions.test.js` (3 / 3 passed) and `SubscriptionsPage.test.jsx` (1 / 1 passed).
+- **Option 2 (PRD §31) — Self-Hosting Community App Stores & Container Distribution:**
+  - Built `src/server/app-stores.js` manifest engine generating complete app stores for:
+    - UmbrelOS: `umbrel-app-store.yml`, `umbrel-app.yml`, `docker-compose.yml`.
+    - Runtipi: `config.json`, `app-data.json`, `docker-compose.yml`.
+    - CasaOS: `casaos-app.json`.
+    - Unraid: `template.xml`.
+    - In-memory ZIP archive streaming via PKZIP compression without npm dependencies.
+  - Mounted API routes: `GET /api/app-stores`, `GET /api/app-stores/:platform`, `GET /api/app-stores/:platform/export.zip`.
+  - Built `dashboard/src/pages/AppStoresPage.jsx`: Platform switcher, 1-click store URL copy, .zip export download, and 107+ ready-to-install app catalog grid.
+  - Mounted `/app-stores` in `App.jsx`, linked in `Header.jsx` and `CommandPalette.jsx`.
+  - Unit tests: `test/app-stores.test.js` (4 / 4 passed) and `AppStoresPage.test.jsx` (1 / 1 passed).
+- **Option 4 (PRD §30) — Multi-Channel CLI Distribution & Non-Technical Installers:**
+  - Standardized POSIX curl-to-shell installer `install.sh` and `packaging/install.sh` with architecture detection, checksum validation, and user PATH management.
+  - Standardized Windows PowerShell installer `install.ps1` and `packaging/install.ps1`.
+  - Generated Homebrew formula, Scoop manifest, and Winget manifest via `scripts/build-packaging.mjs`.
+  - Upgraded `dashboard/src/components/InstallPill.jsx` with 4 interactive channels (npm, Homebrew, Windows, Curl) and client-side OS auto-detection.
+  - Unit tests: `test/packaging.test.js` (6 / 6 passed) and `InstallPill.test.jsx` (2 / 2 passed).
+- **Verification Matrix:**
+  - Server unit tests: `npm test` (300 / 300 passed, 100%).
+  - Client Vitest tests: `npm run test:client` (83 / 83 passed, 100%).
+  - Production build: `npm run build` compiled cleanly in 33.9s.
+  - Live Playwright E2E verification: `verify-all-three-horizons.py` passed with full visual screenshots (`subscriptions_savings_studio.png`, `app_stores_distribution_hub.png`, `multichannel_install_pill.png`).
+
+## 2026-09-04 — Self-Host Stack Architect, Supply Chain Defense & Next-Gen MCP Server COMPLETE ✅
+
+- **Supply Chain Defense & Typosquat / Lookalike Radar (PRD §29 & §20):**
+  - Built `src/server/typosquat.js` with curated `CANONICAL_PROJECTS` mapping official slugs and popularity baselines (Supabase, Excalidraw, Penpot, PostHog, Cal.com, etc.).
+  - Implemented `damerauLevenshtein` metric and multi-signal heuristic `detectTyposquat(fullName, metadata)`:
+    - Transposition and character duplication detection (e.g. `supabse`, `excalidraww`).
+    - Deceptive prefix and suffix detection (e.g. `official-penpot`, `calcom-app`).
+    - Star-disparity lookalike clone detection (<100 stars under non-canonical account).
+  - Built `dashboard/src/components/TyposquatWarningCard.jsx` with Sentinel warning tokens (`border-caution/40`, `bg-caution/10`, `text-caution`), "High Risk Impersonation" badge, and 1-click redirect to canonical official project.
+  - Mounted in `RepoDetailPage.jsx` above showcase grid with defensive fallback in `src/server/routes.js` to intercept 404 lookalike slugs before failure.
+  - Unit tests: `test/typosquat.test.js` (6 / 6 passed).
+- **Multi-Tool Docker Compose Stack Architect & Deployment Exporter (PRD §38 & §31):**
+  - Built `src/server/compose-bundle.js`:
+    - Automatic port conflict detection and resolution with collision-free port offsets.
+    - Production `docker-compose.yml` generation with isolated bridge networks, volumes, environment variable bindings, and container healthchecks.
+    - Auto-generated `.env.example` with cryptographically randomized secrets (via `crypto.randomBytes`).
+    - Cross-platform startup scripts: POSIX `start.sh` and Windows PowerShell `start.ps1` (with proper escaping).
+    - Complete markdown documentation `README.md` with operational guidance.
+  - Backend route: `POST /api/compose/bundle`.
+  - Frontend integration:
+    - Added "Add to Stack" action bridge in `SelfHostSpecs.jsx` directly passing repo slug to `/stacks/builder?add={slug}`.
+    - Added "Deployment Kit (.zip / Bundle)" tab to `dashboard/src/pages/StackBuilderPage.jsx` with real-time file browser and 1-click file and zip downloads.
+    - Added `StackBuilderRedirect` in `App.jsx` to preserve `?add=` query parameters.
+  - Unit tests: `test/compose-bundle.test.js` (3 / 3 passed).
+- **Next-Gen Model Context Protocol (MCP) Server Expansion (PRD §32):**
+  - In `src/server/mcp.js`:
+    - Registered `simulate_hardware`: Evaluates RAM/CPU feasibility on VPS/homelab with OOM alerts and lightweight swap recommendations (e.g. PocketBase for Supabase, Vaultwarden for Bitwarden).
+    - Registered `generate_compose_stack`: Emits conflict-free multi-service Docker Compose files, `.env.example`, and deployment scripts directly to MCP AI agents.
+    - Registered `ask_repo`: Allows agent clients to query architectural and Docker deployment questions about any repository using local markdown AST parsing.
+    - Added `getRepoByFullName` fallback in `get_trust_score` and `get_alternative_details`, opening MCP querying to all 26,556+ dynamically ingested GitHub repositories in `catalog.db`.
+  - Unit tests: `test/mcp-extended.test.js` (5 / 5 passed).
+- **Verification Matrix:**
+  - Client Vitest tests: `npm run test:client` (78 / 78 passed).
+  - Server unit tests: `npm test` (281 / 281 passed).
+  - Total automated test count: 364 / 364 (100% pass rate).
+  - Production build: `npm run build` compiled cleanly.
+  - Live verified in browser with screenshots: `deployment_kit_view_1788533066575.png` and `typosquat_warning_card_1788533692931.png`.
+
+## 2026-09-04 — Developer Intelligence & Live Sandbox Superpack (Offline Assistant, OSV.dev Scanner, Demo Sandbox) COMPLETE ✅
+
+- **Offline-First "Ask Byte" Repository Q&A Assistant (`src/server/repo-assistant.js`, `RepoAskAssistant.jsx`):**
+  - Built markdown AST parsing (`parseMarkdownSections`) extracting clean headings, content, and code blocks.
+  - Implemented 100% offline heuristic question answering (`heuristicAnswer`) categorizing developer intents:
+    - Quickstart & Installation commands
+    - Environment variables & API keys
+    - Docker / Docker Compose / Container setup
+    - Architectural trade-offs & proprietary comparison
+  - Integrated local Ollama fallback querying (`answerRepoQuestion`) with graceful degradation when Ollama is offline.
+  - Built `dashboard/src/components/RepoAskAssistant.jsx`: Terminal card UI with quick prompt chips, query submission, markdown answer renderer, source section citation, and 1-click clipboard copy. Mounted in Section 1 (`install-section`) of `RepoDetailPage.jsx`.
+  - Backend route: `POST /api/repo/:owner/:name/ask` with README fetching and caching.
+  - Unit tests: `test/repo-assistant.test.js` (6 / 6 passed).
+- **Universal OSV.dev CVE Vulnerability Scanning (`src/server/routes.js`, `SecurityAdvisoryCard.jsx`):**
+  - Enhanced `GET /api/security/:owner/:name` with dynamic package coordinate inference across PyPI (Python), npm (JS/TS), Go modules, and crates.io (Rust).
+  - Built `dashboard/src/components/SecurityAdvisoryCard.jsx`: Displays live OSV.dev audit status, zero-vulnerability trust badge, or detailed CVE cards with GHSA IDs, severity, summary, and advisory links. Mounted in Section 3 (`security-section`) of `RepoDetailPage.jsx`.
+- **Live Interactive Demo Sandbox Modal (`DemoSandboxModal.jsx`, `RepoDetailPage.jsx`):**
+  - Built responsive iframe sandbox modal (`DemoSandboxModal.jsx`) adhering to Sentinel design tokens with fullscreen toggle, isolated security sandbox flags, and direct "Open in New Tab" navigation.
+  - Mounted "Try Live Demo" button in `RepoDetailPage.jsx` hero CTA bar when `a.demoUrl` or verified `live.homepage` is present.
+  - Added helpful footer guidance for frame-restricted remote sites.
+- **Verification Matrix:**
+  - Automated client tests (`npm run test:client`): 78 / 78 passed.
+  - Automated backend tests (`npm test`): 267 / 267 passed.
+  - Total automated tests: 345 / 345 (100% pass rate).
+  - Production bundle: `npm run build` compiled cleanly with 0 errors.
+  - Live browser verified on `http://localhost:3000/repo/huggingface/smolagents` and `http://localhost:3000/repo/penpot/penpot` with Chrome DevTools MCP.
+
+## 2026-09-04 — Dynamic GitHub Ingestion, In-Dashboard README Viewer & Dynamic Side-by-Side Comparison Engine COMPLETE ✅
+
+- **Dynamic GitHub Search & Automated SQLite Ingestion:**
+  - In `src/server/routes.js`: `/api/search` and `/api/catalog` now dynamically query the GitHub Search API when uncataloged queries or AI agent repos are queried.
+  - Newly discovered repositories are automatically persisted into `catalog.db` with verified licenses, stars, language, description, and metadata via `upsertReposFromGithub`.
+  - Re-ranked search results by query relevance so high-relevance title and slug matches rank first.
+  - Expanded catalog database with `scripts/seed-modern-ecosystem.mjs` seeding 58 top-tier modern agent, inference, and workflow projects (bringing catalog to 26,556+ total repos and 345M+ stars).
+- **Intelligent Competitor Inferencing & Smart Community Badge:**
+  - Resolved self-referential alternatives ("smolagents replaces smolagents") by classifying dynamic repos via topic/keyword inferencing (e.g. AI agents -> "Devin / AI Assistants", vector DBs -> "Pinecone").
+  - On `dashboard/src/pages/RepoDetailPage.jsx`: Repositories with `isCommunity: true` or without commercial pairings now cleanly render a sleek *"Independent Community Open Source Project"* badge rather than a confusing self-comparison.
+- **In-Dashboard README & Live Documentation Viewer:**
+  - Added `GET /api/repo/:owner/:name/readme` route fetching raw markdown directly from GitHub API with in-memory TTL caching.
+  - Built `dashboard/src/components/RepoReadmeViewer.jsx` with word count, file size metadata, 1-click copy raw markdown, and GitHub links.
+  - Mounted inside an expandable `AccordionCard` ("Official README & Documentation" with "Live Docs" badge) in Section 1 (`install-section`) of `RepoDetailPage.jsx`.
+- **Dynamic Multi-Repo Side-by-Side Comparison Engine:**
+  - Updated `dashboard/src/pages/ComparePage.jsx` `resolveMissing(slug)` to query live `/api/repo` and live search, enabling dynamic repos (like `smolagents`, `crewai`, `langchain`) to be compared side-by-side even if not part of the static 227 pairings.
+  - Fixed stars, license, and trust score renderers to handle dynamic objects without displaying `"undefined · undefined"`.
+  - Added route aliases in `dashboard/src/App.jsx` supporting both `/compare/:a/vs/:b` and `/compare/:a/:b`.
+- **Theme Sync & Category Fallback:**
+  - In `dashboard/src/components/SimilarTools.jsx`: Added live catalog search fallback when static pairings have 0 matches in dynamic categories.
+  - In `dashboard/src/components/GiscusComments.jsx`: Implemented `MutationObserver` on `document.documentElement` to synchronize `noborder_light` and `noborder_dark` with Sentinel theme toggle.
+- **Verification Matrix:**
+  - Automated client tests: `npm run test:client` (78 / 78 passed).
+  - Automated backend tests: `npm test` (261 / 261 passed).
+  - Total tests passing: 339 / 339 (100% pass rate).
+  - Production build: `npm run build` compiled cleanly in 5.28s.
+  - Verified live in browser with screenshots: `repo_readme_viewer.png` and `compare_dynamic_repos.png`.
+
+- **Interactive Guided Migration Plan Generator & Runbook Export (PRD §38 & §2.1):**
+  - Seeded 5-stage migration specifications in `src/data/migrations.json` for major pairings (Supabase, PocketBase, Bruno, Vaultwarden) with intelligent heuristic synthesis for any catalog tool.
+  - Implemented `dashboard/src/lib/migration-plans.js`: parses 5-stage workflows (Export ➔ Setup ➔ Import ➔ Cut-Over ➔ Verification), persists checkbox progress to `localStorage`, and compiles GitHub-ready Markdown runbooks.
+  - Redesigned `dashboard/src/components/MigrationGuide.jsx` as an interactive 5-stage collapsible checklist with completion percentage bar, Architect Notes, 1-click Markdown copy, and `.md` file download.
+  - Unit tests: `test/migrations.test.js` (3 / 3 passed).
+- **Stale Repo Successor & Community Fork Pointers (PRD §38):**
+  - Authored `src/data/successors.json` mapping archived, stale, or license-shifted tools to active community continuations:
+    - `redis/redis` ➔ `valkey-io/valkey` (Linux Foundation open-source drop-in fork)
+    - `hashicorp/terraform` ➔ `opentofu/opentofu` (MPL ➔ BSL fork)
+    - `go-gitea/gitea` ➔ `forgejo/forgejo` (Non-profit community governance fork)
+    - `mattermost/focalboard` ➔ `toeverything/affine` (Archived project continuation)
+    - `libreddit/libreddit` ➔ `redlib-org/redlib` (Main project abandoned)
+  - Created server & client helpers (`src/server/successors.js`, `dashboard/src/lib/successors.js`).
+  - Built `dashboard/src/components/SuccessorBanner.jsx` and mounted on `RepoDetailPage.jsx`: displays caution/trust banner, reasoning, compatibility statement, and 1-click successor navigation.
+  - Unit tests: `test/successors.test.js` (3 / 3 passed).
+- **"Paste-Your-Subscriptions" Instant Stack Matcher & Personal Savings Tracker (PRD §37):**
+  - Created `dashboard/src/lib/subscriptions.js`: parses messy multi-line invoices and lists, cleans markdown bullets, prices, seats, and domain names, matches catalog pairings, and tallies annual dollar savings.
+  - Upgraded `dashboard/src/pages/StackAuditPage.jsx` with quick preset buttons ("Startup Core", "Developer & Cloud", "Design & Content") and a direct bridge to the Docker Compose Sandbox via `Build Compose Stack`.
+  - Built the Sentinel **Personal Savings Tracker** banner on `dashboard/src/pages/FavoritesPage.jsx`: tallies cumulative annual recurring costs avoided across all favorited tools, projects 3-year savings, and links to the Stack Builder.
+  - Unit tests: `test/subscriptions.test.js` (2 / 2 passed).
+- **Tool Ecosystem Companions ("Works Well Alongside") (PRD §38):**
+  - Curated synergistic self-hosted tool pairings in `src/data/companions.json` (e.g. Supabase with Umami and Bruno; PocketBase with Bruno and Vaultwarden; NocoDB with Supabase and Metabase).
+  - Created `src/server/companions.js` and `dashboard/src/lib/companions.js`.
+  - Built `dashboard/src/components/CompanionsSection.jsx` and mounted under Self-Hosting on `RepoDetailPage.jsx` with direct links and comparison triggers.
+  - Unit tests: `test/companions.test.js` (3 / 3 passed).
+- **Verification Matrix:**
+  - Unit tests: 11 / 11 passed across all 4 suites.
+  - Client test suite: `npm run test:client` 78 / 78 passed.
+  - Production build: `npm run build` compiled in 18.74s with 0 errors.
+  - Playwright E2E: `python scripts/verify-master-roadmap-e2e.py` passed 100% with 4 verified screenshots captured.
+
+## 2026-09-03 — Option 1: "Can I Run This?" Hardware Sizing Simulator (/hardware) COMPLETE ✅
+
+- **Hardware Sizing Engine (`src/server/hardware.js` & `dashboard/src/lib/hardware-calc.js`):**
+  - System overhead: base Linux server OS baseline requires ~200MB RAM.
+  - Sizing calculation: computes total idle RAM, required memory, headroom percentage, and estimated peak concurrent connections based on runtime (Go/Rust vs Node.js vs Python/Django).
+  - Verdict derivation: `PERFECT_FIT`, `TIGHT_FIT`, `INSUFFICIENT_RAM`, and `UNSUPPORTED_ARCH`.
+  - Smart Lightweight Swaps: automatically suggests lightweight replacements when workloads exceed machine capacity (e.g. Supabase -> PocketBase saving 1511MB RAM; Bitwarden -> Vaultwarden saving 2000MB RAM; Baserow -> NocoDB saving 644MB RAM).
+  - Safe Docker Compose Generator: `generateSafeCompose` writes balanced `deploy.resources.limits.memory` and `reservations` to prevent host OOM lockups.
+- **Dedicated Simulator Surface (`dashboard/src/pages/HardwarePage.jsx`):**
+  - Built high-craft Sentinel page with Newsreader display headline and warm `#F6F5F3` canvas.
+  - 5 machine presets: Raspberry Pi 4/5 (4GB ARM64), Entry Cloud VPS ($4/mo 1GB), Standard Cloud VPS ($8/mo 2GB), Apple Silicon Mac (8GB ARM64), Homelab Mini PC (16GB x86_64).
+  - Fine-tuning sliders: RAM slider (512MB–32GB) with 1GB/2GB/4GB/8GB/16GB jump buttons, vCPU count, and Architecture toggle (`x86_64` vs `ARM64`).
+  - Searchable tool selector supporting URL pre-population via `?tool=`.
+  - Stacked memory progress bar showing Base OS, container footprint, and remaining headroom.
+  - 1-click lightweight alternative swap cards.
+  - 1-click "Copy Safe Compose YAML" and "Download Compose File" affordances.
+- **Repository Detail Interactive Quick-Check (`dashboard/src/components/SelfHostSpecs.jsx`):**
+  - Embedded interactive "Can I Run This on My Machine?" chip selector with instant evaluation across Raspberry Pi 4, 1GB VPS, 2GB VPS, and 8GB PC.
+  - Direct CTA linking to `/hardware?tool={name}`.
+- **Verification Matrix:**
+  - `node --test test/hardware.test.js`: 3 / 3 passed.
+  - `python scripts/verify-hardware-e2e.py`: 100% Playwright checks passed with 4 screenshots captured.
+  - `npm run test:client`: 78 / 78 passed (including test 27 for HardwarePage).
+  - `npm run build`: Production client bundle compiled in 5.68s with 0 errors.
+
+## 2026-09-03 — Option 3 (Benchmark Matrix) & Option 4 (Maintainer Claim) COMPLETE ✅
+
+- **Architecture & Benchmark Matrix (`src/data/benchmarks.json`, `ComparePage.jsx`):**
+  - Structured verified architecture specs for 16+ tools with heuristic fallbacks.
+  - 4-tab Sentinel matrix on `/compare/:a/vs/:b`: Signals & Health, Architecture & Resources (RAM bar gauge, image size, cold start, database engine), Protocols & Auth, Deployment & Fit Guide.
+  - Hero difference callout (e.g. "PocketBase uses 98% less RAM").
+- **Maintainer Claim Workflow (`src/server/claim.js`, `ClaimModal.jsx`, `RepoDetailPage.jsx`):**
+  - 2-tab claim modal for GitHub proof (`.opensource-hub.json`) and maintainer showcase profile editor with sandbox simulation.
+  - Rendered emerald Verified Maintainer badge and official Maintainer Showcase Card on repository detail pages.
+- **Verification Matrix:**
+  - `node --test test/benchmarks.test.js`: 2 / 2 passed.
+  - `node --test test/claim.test.js`: 2 / 2 passed.
+  - `python scripts/verify-options-3-and-4-e2e.py`: 100% Playwright tests passed.
+
+## 2026-09-03 — Option B: Dedicated Weekly Digest & Newsletter Archive (/newsletter) COMPLETE ✅
+
+- **Wired Missing Newsletter Endpoints (`src/server/routes.js` & `src/server/newsletter.js`):**
+  - Connected `POST /api/newsletter/subscribe` to `newsletter.subscribe(email, source)`, fixing the 404 error when users submitted the footer subscription form.
+  - Added `GET /api/newsletter/subscribers` returning live subscriber counts.
+  - Added `GET /api/newsletter/issues` and `GET /api/newsletter/issues/:id` to parse markdown editions in `content/newsletter/` with frontmatter extraction (title, date, week, snippet).
+  - Seeded authentic weekly digest archives (`week-2026-36.md`, `week-2026-35.md`, `week-2026-34.md`).
+- **Dedicated Sentinel Newsletter UI (`dashboard/src/pages/NewsletterPage.jsx`):**
+  - Built high-craft `/newsletter` page adhering to Sentinel light/dark tokens with Newsreader headlines.
+  - Hero subscription box with live subscriber count and instant success/error badges.
+  - 1-click RSS feed copy cards for `/rss/tools.xml` and `/rss/posts.xml`.
+  - Past weekly editions grid with edition numbers, publication dates, and snippets.
+  - Interactive issue reader rendering full markdown briefing with clickable links to tool profile pages (`/repo/:owner/:name`).
+- **Navigation & Component Linking:**
+  - Added route `/newsletter` in `dashboard/src/App.jsx`.
+  - Added "Browse Past Weekly Editions →" link in `dashboard/src/components/NewsletterFooter.jsx`.
+  - Enhanced `dashboard/src/lib/markdown.jsx` to render clickable anchor tags for `[text](url)` links.
+- **Verification Matrix:**
+  - `node --test test/newsletter-routes.test.js`: 2 / 2 unit tests passed.
+  - `python scripts/verify-newsletter-e2e.py`: 100% Playwright checks passed with 3 verified screenshots captured.
+  - `npm test`: 236 / 236 backend tests passed.
+  - `npm run test:client`: 77 / 77 client tests passed.
+  - `npm run build`: Production client bundle compiled in 4.09s with 0 errors.
+
+## 2026-09-03 — Code Review Fix Round 94be5d1e (2 nits) COMPLETE ✅
+
+- **inferLicenseType tokenized matching (`routes.js`):** replaced substring regex (`includes("agpl")`, `/(?:^|-)(?:l)?gpl|(?:^|-)mpl/`) with token-based whitelist — split SPDX expression on whitespace operators/`.`/`-`/legacy `+`, match whole base tokens (`agpl` → network-copyleft; `gpl`/`lgpl`/`mpl` → copyleft; else permissive). Lookalike ids ("TGPPL-1.0", "gplplus") no longer over-match; real SPDX vocabulary unchanged (17-case probe: MIT/Apache/BSD permissive, GPL-2.0+/LGPL/MPL copyleft, AGPL network-copyleft, compound "MIT OR GPL-2.0-only" copyleft).
+- **Localhost guard case-insensitivity (`ai-finder.js`):** added `i` flag — `http://LOCALHOST:11434` now accepted (URL hosts are case-insensitive). Boundary anchoring intact: `LOCALHOST.evilm.com` still rejected. Fail-safe direction preserved.
+- **Verification:** license probe 17/17 · regex probe 6/6 · `npm test` 234/234 · vitest 76/76. Both modules exercised by suites (parse OK).
+
+## 2026-09-03 — Option 1: Docker Compose Sandbox & Stack Runner Overhaul COMPLETE ✅
+
+- **Port Collision Prevention & Canonical Mapping (`dashboard/src/lib/compose-generator.js`):**
+  - Eliminated hardcoded `8080:8080` port collision bug across multi-service stacks.
+  - Added canonical port lookup table for 30+ major open-source tools (Supabase `54321`, Postgres `5432`, Valkey/Redis `6379`, Vaultwarden `8088`, Penpot `9001`, Umami `3000`, NocoDB `8080`, etc.).
+  - Added collision detection and auto-incrementing fallback to guarantee unique host ports.
+  - Added official Docker image resolution from `ecosystems.docker` with fallback to verified repositories.
+  - Automatically generates named persistent volumes (`${service}_data:/var/lib/...`) and an isolated bridge network (`osh-network`).
+- **Interactive Multi-Tab Sandbox UI (`dashboard/src/pages/StackBuilderPage.jsx`):**
+  - Added 4 curated stack presets: Modern Startup Foundation, Privacy & Team Collaboration, Developer Platform, and Low-Code Internal Tools.
+  - Integrated 4 interactive tabs:
+    1. **docker-compose.yml**: Syntax preview, copy with checkmark feedback, and 1-click `.yml` file download.
+    2. **1-Click CLI Runner**: Copy-paste terminal scripts for **Bash / macOS / Linux** and **Windows PowerShell**.
+    3. **Cloud Deployers**: Instant deploy integration for **Railway**, **Coolify**, **Fly.io**, and **Portainer**.
+    4. **Port & Service Matrix**: Scannable table displaying container names, images, assigned host:container ports, persistent volumes, and clickable `http://localhost:<port>` links.
+- **Verification Matrix:**
+  - `node --test test/compose.test.js`: 5 / 5 unit tests passed.
+  - `python scripts/verify-stack-builder-e2e.py`: 100% passed in Playwright E2E with 4 verified screenshots captured.
+  - `npm test`: 234 / 234 backend tests passed.
+  - `npm run test:client`: 76 / 76 client tests passed.
+  - `npm run build`: Production client bundle compiled in 7.02s with 0 errors.
+
+## 2026-09-03 — Code Review Fix Round 08744c94 (AI Finder, 6 findings) COMPLETE ✅
+
+- **P1 localhost regex bypass (`ai-finder.js`):** anchored host boundary `/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/`, single shared regex, so `http://localhost.evil.com` / `http://127.0.0.1.attacker.io` can no longer pass the https-only guard. Verified by probe: lookalikes false, `localhost:11434/v1` true. (Parallel session applied same fix; validated.) Backend suite now 229/229 (new regex test present).
+- **Self-Hostable filter (`AiFinderPage.jsx`):** matched only `"self-host"` while catalog rows store `"self-hosted"` — filter silently dropped all catalog-backed results. Now `.some((p) => p === "self-host" || p === "self-hosted")`.
+- **WCAG AA trust badges (×4 in AiFinderPage):** provider status pill, Ollama preset button, confidence pill, "Why this fits" label — `text-trust` → `text-trust-strong` (#047857, AA on white). Same pattern as RepoCard fix earlier today.
+- **Accent-as-text (×2):** savings pill + sample-prompt category label `text-accent` (#ff5722, ~3:1) → `text-link` (#c2410c ember, AA). Accent kept on the Sparkles icon only.
+- **font-mono on rank badge:** dropped (mono retired by Sentinel); `tnum` retained. (Parallel session removed it; verified via rg.)
+- **E2E portability (`verify-ai-finder-e2e.py`):** screenshot paths now `scripts/qa-shots/` (derived from `__file__`, gitignored — parallel session); I added the fixture gate: `catalog_contains("neo-flow")` probes SQLite read-only and skips the neo-flow assertions when the local catalog lacks it, so the script passes on any machine.
+- **Verification:** `npm test` 229/229 · vitest 76/76 · build clean 6.51s · py_compile OK.
+
 ## 2026-09-03 — AI Tool Finder (/find) Deep Upgrade COMPLETE ✅
 
 - **26,000+ Catalog Pairing Resolution (`src/server/routes.js`):**
@@ -1224,3 +1479,29 @@ epoSlug map populates during profileCtxs building; any code needing slugs must r
 - R3 unknown-license fabrication: spdx default "MIT" -> neutral "Open Source" (db-layer parity, routes.js ~353). No invented SPDX passes license filters.
 - R4 goal-check: gates on the REQUEST value (synthetic allowlist) — documented via comment: catalog items only carry "open-source"/"self-host" goalTags, so real /api/goals facets intentionally skip augmentation instead of fabricating matches.
 - Gates: node --check routes.js OK, py_compile OK, license-inference probe 7/7, npm test 229/229 (parallel session added 1 test). Committed 21a8b27. Parallel session meanwhile started ANOTHER feature (ai-finder E2E WIP in tree — left untouched).
+
+## 2026-09-03 — Option 3 (Benchmark Matrix) & Option 4 (Maintainer Claim) COMPLETE ✅
+- **Option 3: Deep Technical Architecture & Benchmark Matrix (`/compare/:a/vs/:b`):**
+  - Built verified benchmark specifications (`src/data/benchmarks.json`) covering 16+ tools (Supabase, PocketBase, Bruno, Hoppscotch, Penpot, Excalidraw, Vaultwarden, KeePassXC, Mattermost, Zulip, AFFiNE, AppFlowy, Umami, NocoDB, Baserow, Gitea) with honest heuristics for any catalog repo.
+  - Implemented 4-tab interactive matrix on `ComparePage.jsx`:
+    1. `signals`: Stars 30-day velocity, trust score, recency, license, advisories, self-hosting.
+    2. `benchmarks`: Minimum idle RAM with colored proportional bar gauge, container image size, database engine, core runtime, cold start latency.
+    3. `protocols`: Network protocol support badges (REST, WebSockets, gRPC, CRDT), authentication matrix (Native JWT, OAuth2, SAML/SSO), offline-first indicator.
+    4. `fit`: 1–5 self-hosting complexity rating with visual meter, architectural fit rationale cards, and "When to choose Tool A vs Tool B" decision guides.
+  - Added hero memory savings callout badge (e.g. "PocketBase uses 98% less RAM (61x lighter footprint)").
+- **Option 4: Maintainer "Claim This Repo" & Verified Badge Workflow (`/repo/:owner/:name`):**
+  - Enhanced backend claim engine (`src/server/claim.js` and `src/server/routes.js`): supports rich maintainer profiles (`maintainerName`, `role`, `tagline`, `recommendedStack`, `supportUrl`), GitHub `.opensource-hub.json` verification, and simulated sandbox mode.
+  - Overhauled `ClaimModal.jsx` with Sentinel 2-tab design (1. GitHub Proof with 1-click JSON snippet copy, 2. Maintainer Showcase & Sandbox Preview).
+  - Wired live repository detail integration in `RepoDetailPage.jsx`:
+    - Displays official emerald `Verified Maintainer` badge in the hero header when claimed.
+    - Renders high-craft `Verified Maintainer Showcase Card` displaying maintainer identity, custom quote/tagline, recommended deployment stack, and link to official discussions.
+    - Updates Actions Bar "Claim" button to "Maintainer Claimed" with green trust styling.
+- **Verification Matrix:**
+  - `python scripts/verify-options-3-and-4-e2e.py`: 100% Playwright checks passed.
+  - Screenshots generated: `compare_architecture_benchmarks_verified.png`, `compare_protocols_matrix_verified.png`, `compare_fit_guide_verified.png`, `claim_modal_customizer_verified.png`, `repo_verified_maintainer_showcase.png`.
+  - `node --test test/benchmarks.test.js`: 2 / 2 passed.
+  - `node --test test/claim.test.js`: 2 / 2 passed.
+  - `npm test`: 239 / 239 backend tests passed.
+  - `npm run test:client`: 77 / 77 client tests passed.
+  - `npm run build`: Production bundle compiled clean with 0 errors.
+

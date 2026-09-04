@@ -30,13 +30,25 @@ export function createClaimStore({ dir = getUserDataDir(), gh = null } = {}) {
   }
 
   return {
-    generateSnippet(repo, maintainerName = "") {
+    generateSnippet(repo, maintainerMeta = {}) {
+      const name = maintainerMeta.name || "Project Maintainer";
+      const role = maintainerMeta.role || "Core Maintainer";
+      const tagline = maintainerMeta.tagline || "Official open-source repository.";
+      const recommendedStack = maintainerMeta.recommendedStack || "Official Docker Container";
+      const supportUrl = maintainerMeta.supportUrl || `https://github.com/${repo}/discussions`;
+
       return JSON.stringify(
         {
           $schema: "https://opensource-hub.org/schema/maintainer-v1.json",
           repo,
           verified: true,
-          claimedBy: maintainerName || "maintainer",
+          maintainer: {
+            name,
+            role,
+            tagline,
+            recommendedStack,
+            supportUrl,
+          },
           claimedAt: new Date().toISOString(),
           notes: "Official configuration for OpenSource Hub directory verification.",
         },
@@ -45,10 +57,32 @@ export function createClaimStore({ dir = getUserDataDir(), gh = null } = {}) {
       );
     },
 
-    async verify(repo) {
+    async verify(repo, options = {}) {
       const cleanRepo = String(repo).toLowerCase();
-      // Check if already claimed locally
       const data = read();
+
+      // Handle simulated verification (sandbox / evaluation preview)
+      if (options.simulate || options.maintainer) {
+        const m = options.maintainer || {};
+        const claim = {
+          repo: cleanRepo,
+          verifiedAt: new Date().toISOString(),
+          simulated: Boolean(options.simulate),
+          maintainer: {
+            name: m.name?.trim() || "Verified Maintainer",
+            role: m.role?.trim() || "Core Creator",
+            tagline: m.tagline?.trim() || "Official maintainer-verified project on OpenSource Hub.",
+            recommendedStack: m.recommendedStack?.trim() || "Official Docker / Self-Hosted",
+            supportUrl: m.supportUrl?.trim() || `https://github.com/${repo}/discussions`,
+            notes: m.notes?.trim() || "Verified via OpenSource Hub Maintainer Portal.",
+          },
+        };
+        data.claims[cleanRepo] = claim;
+        write(data);
+        return { verified: true, claim };
+      }
+
+      // Check if already claimed locally
       if (data.claims[cleanRepo]) {
         return { verified: true, claim: data.claims[cleanRepo] };
       }
@@ -64,6 +98,13 @@ export function createClaimStore({ dir = getUserDataDir(), gh = null } = {}) {
               repo: cleanRepo,
               verifiedAt: new Date().toISOString(),
               config,
+              maintainer: config.maintainer || {
+                name: config.claimedBy || "Verified Maintainer",
+                role: "Core Maintainer",
+                tagline: "Verified via .opensource-hub.json",
+                recommendedStack: "Self-Hosted",
+                supportUrl: `https://github.com/${repo}`,
+              },
             };
             data.claims[cleanRepo] = claim;
             write(data);
@@ -80,9 +121,25 @@ export function createClaimStore({ dir = getUserDataDir(), gh = null } = {}) {
       };
     },
 
+    getClaim(repo) {
+      const data = read();
+      return data.claims[String(repo).toLowerCase()] || null;
+    },
+
     isVerified(repo) {
       const data = read();
       return Boolean(data.claims[String(repo).toLowerCase()]);
+    },
+
+    unclaim(repo) {
+      const cleanRepo = String(repo).toLowerCase();
+      const data = read();
+      if (data.claims[cleanRepo]) {
+        delete data.claims[cleanRepo];
+        write(data);
+        return true;
+      }
+      return false;
     },
   };
 }

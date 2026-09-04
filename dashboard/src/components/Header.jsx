@@ -27,6 +27,7 @@ import {
   Globe,
   Check,
   Code2,
+  Wallet,
 } from "lucide-react";
 import { paletteKeyLabel } from "../lib/platform";
 import { api } from "../lib/api";
@@ -358,6 +359,13 @@ export default function Header() {
                     <span>Curated Lists</span>
                   </NavLink>
                   <NavLink
+                    to="/requests"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors"
+                  >
+                    <Sparkles size={15} className="text-amber-500 shrink-0" />
+                    <span>Alternative Requests</span>
+                  </NavLink>
+                  <NavLink
                     to="/watchlist"
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors"
                   >
@@ -386,7 +394,7 @@ export default function Header() {
                     <span>Self-Hosted Stacks</span>
                   </NavLink>
                   <NavLink
-                    to="/?category=ai"
+                    to="/?category=ai,agents"
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors"
                   >
                     <Bot size={15} className="text-ink shrink-0" />
@@ -474,6 +482,54 @@ export default function Header() {
                           Stack Builder &amp; Share
                         </div>
                         <div className="text-[11px] text-faint">Build custom stack + Docker Compose</div>
+                      </div>
+                    </NavLink>
+                    <NavLink
+                      to="/subscriptions"
+                      className="flex items-start gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors group"
+                    >
+                      <Wallet size={16} className="text-ember shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-ink group-hover:text-ember transition-colors">
+                          Subscriptions &amp; Savings Studio
+                        </div>
+                        <div className="text-[11px] text-faint">Paste SaaS bills, calculate net annual ROI</div>
+                      </div>
+                    </NavLink>
+                    <NavLink
+                      to="/app-stores"
+                      className="flex items-start gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors group"
+                    >
+                      <Server size={16} className="text-trust shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-ink group-hover:text-ember transition-colors">
+                          Home-Server App Stores
+                        </div>
+                        <div className="text-[11px] text-faint">Export Umbrel, CasaOS, Runtipi &amp; Unraid apps</div>
+                      </div>
+                    </NavLink>
+                    <NavLink
+                      to="/requests"
+                      className="flex items-start gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors group"
+                    >
+                      <Sparkles size={16} className="text-trust shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-ink group-hover:text-ember transition-colors">
+                          Community Requests Queue
+                        </div>
+                        <div className="text-[11px] text-faint">Vote on wanted open-source alternatives</div>
+                      </div>
+                    </NavLink>
+                    <NavLink
+                      to="/hardware"
+                      className="flex items-start gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors group"
+                    >
+                      <Cpu size={16} className="text-trust shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-ink group-hover:text-ember transition-colors">
+                          Can I Run This?
+                        </div>
+                        <div className="text-[11px] text-faint">Hardware sizing &amp; memory headroom</div>
                       </div>
                     </NavLink>
                   </div>
@@ -564,9 +620,15 @@ export default function Header() {
                 aria-label="Search tools by keyword or paid name"
                 className="w-full bg-transparent outline-none text-dim placeholder:text-faint focus:text-ink text-xs md:text-sm"
               />
-              <kbd className="shrink-0 tnum text-[10px] px-1.5 py-0.5 rounded-sm border border-line bg-surface text-faint">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent("osh:open-palette"))}
+                className="shrink-0 tnum text-[10px] px-1.5 py-0.5 rounded-sm border border-line bg-surface text-faint hover:text-ink hover:border-line-strong transition-colors cursor-pointer"
+                title="Open Command Palette"
+                aria-label="Open command palette"
+              >
                 {paletteKeyLabel()}
-              </kbd>
+              </button>
             </div>
 
             {/* Floating Autocomplete Dropdown */}
@@ -600,8 +662,8 @@ export default function Header() {
                           onMouseEnter={() => setSelectedIndex(idx)}
                           className={`w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors cursor-pointer ${
                             isSelected
-                              ? "bg-ink text-surface dark:bg-surface dark:text-ink shadow-xs"
-                              : "hover:bg-elevated text-dim hover:text-ink"
+                              ? "bg-elevated border border-line-strong text-ink shadow-2xs"
+                              : "border border-transparent hover:bg-elevated text-dim hover:text-ink"
                           }`}
                         >
                           <div className="size-7 rounded-lg bg-elevated border border-line grid place-items-center text-ink shrink-0">
@@ -801,6 +863,27 @@ export default function Header() {
               className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
             >
               Stack Audit
+            </NavLink>
+            <NavLink
+              to="/hardware"
+              onClick={() => setMenuOpen(false)}
+              className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
+            >
+              Can I Run This? (Hardware)
+            </NavLink>
+            <NavLink
+              to="/subscriptions"
+              onClick={() => setMenuOpen(false)}
+              className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
+            >
+              Subscriptions &amp; Savings
+            </NavLink>
+            <NavLink
+              to="/app-stores"
+              onClick={() => setMenuOpen(false)}
+              className="px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated"
+            >
+              Home-Server App Stores
             </NavLink>
             <NavLink
               to="/learn"

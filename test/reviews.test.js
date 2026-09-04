@@ -78,3 +78,26 @@ test("Review store: sanitizes input and enforces rating boundaries (1 to 5)", ()
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
 });
+
+test("Review store: voteHelpful increments review helpful count", () => {
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "osh-rev-test-"));
+  try {
+    const store = createReviewStore({ dir: tmpDir });
+    const added = store.addReview("usebruno/bruno", {
+      rating: 5,
+      author: "Alex",
+      summary: "Excellent",
+      content: "Very satisfied.",
+    });
+    const revId = added.reviews[0].id;
+    const voteRes = store.voteHelpful("usebruno/bruno", revId);
+    assert.equal(voteRes.success, true);
+    assert.equal(voteRes.helpful, 1);
+
+    const check = store.getReviews("usebruno/bruno");
+    assert.equal(check.reviews[0].helpful, 1);
+  } finally {
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  }
+});
+

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: opensource-hub
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: node bin/cli.js --no-open
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: RENDER
+        value: "true"

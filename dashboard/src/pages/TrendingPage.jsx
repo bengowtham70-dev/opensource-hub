@@ -135,7 +135,13 @@ export default function TrendingPage() {
 
     const getGitHubQuery = () => {
       if (debouncedQ) return debouncedQ;
-      if (catList.length > 0) return `topic:${catList[0].toLowerCase().replace(/\s+/g, "-")}`;
+      if (catList.length > 0) {
+        const hasAi = catList.some((c) => ["ai", "agents", "agent", "ai-agents"].includes(c.toLowerCase()));
+        if (hasAi) {
+          return "ai-agent";
+        }
+        return `topic:${catList[0].toLowerCase().replace(/\s+/g, "-")}`;
+      }
       if (goal) {
         const cleanGoal = goal.replace(/^replace-/, "").replace(/-/g, " ");
         return `${cleanGoal} alternative`;
@@ -198,7 +204,9 @@ export default function TrendingPage() {
         const trendRepos = trendingData?.repos || [];
         let combined = trendRepos;
 
-        if (searchData?.results && searchData.results.length > 0) {
+        if (debouncedQ) {
+          combined = searchData?.results || [];
+        } else if (searchData?.results && searchData.results.length > 0) {
           const trendReposSet = new Set(trendRepos.map((r) => String(r.repo || r.fullName || "").toLowerCase()));
           const searchMatches = searchData.results.filter(
             (r) => !trendReposSet.has(String(r.alternative?.repo || "").toLowerCase())
@@ -252,8 +260,14 @@ export default function TrendingPage() {
 
       let queryStr = debouncedQ;
       if (!queryStr) {
-        if (catList.length > 0) queryStr = `topic:${catList[0].toLowerCase().replace(/\s+/g, "-")}`;
-        else if (goal) {
+        if (catList.length > 0) {
+          const hasAi = catList.some((c) => ["ai", "agents", "agent", "ai-agents"].includes(c.toLowerCase()));
+          if (hasAi) {
+            queryStr = "ai-agent";
+          } else {
+            queryStr = `topic:${catList[0].toLowerCase().replace(/\s+/g, "-")}`;
+          }
+        } else if (goal) {
           const cleanGoal = goal.replace(/^replace-/, "").replace(/-/g, " ");
           queryStr = `${cleanGoal} alternative`;
         } else if (sort === "stars") {
@@ -342,6 +356,7 @@ export default function TrendingPage() {
         .map((r) => {
           const pairing =
             r.pairing ||
+            (r.alternative && r.paidTool ? r : null) ||
             pairingByRepo.get(String(r.repo || "").toLowerCase()) ||
             pairingByRepo.get(String(r.alternative?.repo || "").toLowerCase());
           if (!pairing) return null;
@@ -432,7 +447,20 @@ export default function TrendingPage() {
 
     // 2. Multi-Select Category Filter
     if (catSet.size > 0) {
-      list = list.filter((c) => catSet.has(c.pairing.paidTool?.category?.toLowerCase()));
+      const isAiCategoryFilter = [...catSet].some((c) => ["ai", "agents", "agent", "ai-agents"].includes(c));
+      const aiKeywords = ["ai", "agent", "agents", "agentic", "llm", "ai-agents", "gpt", "rag", "mcp"];
+      list = list.filter((c) => {
+        const cat = c.pairing.paidTool?.category?.toLowerCase() || "";
+        if (catSet.has(cat)) return true;
+        if (isAiCategoryFilter) {
+          const tags = (c.pairing.alternative?.tags || []).map((t) => t.toLowerCase());
+          const name = (c.pairing.alternative?.name || "").toLowerCase();
+          const desc = (c.pairing.alternative?.description || "").toLowerCase();
+          if (tags.some((t) => aiKeywords.some((k) => t.includes(k)))) return true;
+          if (aiKeywords.some((k) => name.includes(k) || desc.includes(k))) return true;
+        }
+        return false;
+      });
     }
 
     // 3. Multi-Select Tech Stack / Language Filter

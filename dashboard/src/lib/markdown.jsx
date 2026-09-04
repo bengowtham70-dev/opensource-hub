@@ -6,7 +6,7 @@ function renderInline(text, keyBase) {
   const parts = [];
   let rest = text;
   let k = 0;
-  const pattern = /\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`/;
+  const pattern = /\[([^\]]+)\]\(([^)]+)\)|\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`/;
   while (rest.length) {
     const m = rest.match(pattern);
     if (!m || m.index === undefined) {
@@ -14,12 +14,27 @@ function renderInline(text, keyBase) {
       break;
     }
     if (m.index > 0) parts.push(rest.slice(0, m.index));
-    if (m[1]) parts.push(<strong key={`${keyBase}-${k}`} className="text-ink font-semibold">{m[1]}</strong>);
-    else if (m[2]) parts.push(<em key={`${keyBase}-${k}`}>{m[2]}</em>);
-    else if (m[3])
+    if (m[1] && m[2]) {
+      const isExternal = m[2].startsWith("http");
+      const isRepo = m[2].includes("opensource-hub.org/repo/") || m[2].startsWith("/repo/");
+      const href = isRepo ? `/repo/${m[2].replace(/^.*\/repo\//, "")}` : m[2];
+      parts.push(
+        <a
+          key={`${keyBase}-${k}`}
+          href={href}
+          target={isExternal && !isRepo ? "_blank" : undefined}
+          rel={isExternal && !isRepo ? "noreferrer" : undefined}
+          className="text-link hover:underline font-semibold"
+        >
+          {m[1]}
+        </a>
+      );
+    } else if (m[3]) parts.push(<strong key={`${keyBase}-${k}`} className="text-ink font-semibold">{m[3]}</strong>);
+    else if (m[4]) parts.push(<em key={`${keyBase}-${k}`}>{m[4]}</em>);
+    else if (m[5])
       parts.push(
         <code key={`${keyBase}-${k}`} className="tnum text-[0.85em] px-1 py-0.5 rounded bg-elevated border border-line text-tech">
-          {m[3]}
+          {m[5]}
         </code>
       );
     rest = rest.slice(m.index + m[0].length);
@@ -28,9 +43,10 @@ function renderInline(text, keyBase) {
   return parts;
 }
 
-export default function Markdown({ source }) {
+export default function Markdown({ source, content, children }) {
+  const text = source || content || (typeof children === "string" ? children : "") || "";
   const blocks = [];
-  const lines = source.split("\n");
+  const lines = text.split("\n");
   let list = [];
 
   const flushList = () => {

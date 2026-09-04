@@ -105,7 +105,7 @@ export function searchPairings({ q = "", language = "", platform = "", license: 
     };
     const fuzzyMatch = (term) => {
       if (term.length < 3) return false;
-      const maxDist = term.length <= 4 ? 1 : 2;
+      const maxDist = term.length <= 6 ? 1 : 2;
       return haystackWords.some((w) => w.length >= 3 && levenshtein(term, w) <= maxDist);
     };
     return terms.every((term) => haystack.includes(term) || fuzzyMatch(term));

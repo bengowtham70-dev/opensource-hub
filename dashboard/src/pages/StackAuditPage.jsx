@@ -93,6 +93,26 @@ export default function StackAuditPage() {
             </button>
           )}
         </div>
+        <div className="mt-3 flex flex-wrap items-center gap-1.5 pt-2 border-t border-line/50">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-faint mr-1">Quick Presets:</span>
+          {[
+            { label: "Startup Core", tools: "Notion\nSlack\nAirtable\nPostman" },
+            { label: "Developer & Cloud", tools: "Firebase\nDatadog\nBitwarden\n1Password" },
+            { label: "Design & Content", tools: "Figma\nCanva\nWebflow" },
+          ].map((p) => (
+            <button
+              key={p.label}
+              type="button"
+              onClick={() => {
+                setInput(p.tools);
+              }}
+              className="px-2.5 py-1 rounded-full border border-line bg-surface hover:bg-elevated text-[11.5px] font-medium text-dim cursor-pointer transition-all"
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+
         <div className="mt-3 flex flex-wrap items-center gap-3">
           <button
             type="submit"
@@ -105,7 +125,7 @@ export default function StackAuditPage() {
             </kbd>
           </button>
           <span className="text-[12px] text-faint">
-            28 paid tools in the catalog — unmatched entries are listed honestly.
+            Paste or type commercial apps — fuzzy matched with real dollar savings.
           </span>
         </div>
         {loading && (
@@ -119,7 +139,7 @@ export default function StackAuditPage() {
 
       {/* Guard: stale saved audits (pre-totals schema) must not crash the page. */}
       {report?.totals && (
-        <div className="mt-6 animate-card-in opacity-0">
+        <div className="mt-6 animate-card-in">
           {/* Totals banner */}
           <div className="card-elevated hero-wash-bg p-6 mb-4 flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -132,6 +152,13 @@ export default function StackAuditPage() {
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
+              <Link
+                to="/stacks/builder"
+                className="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink font-semibold text-xs sm:text-sm hover:opacity-90 shadow-xs"
+              >
+                <Layers size={15} />
+                <span>Build Compose Stack</span>
+              </Link>
               <button
                 type="button"
                 onClick={() => setShowExecutiveModal(true)}

@@ -1,65 +1,67 @@
 import { useEffect, useState } from "react";
-import { ThumbsUp, ThumbsDown, Tag as TagIcon, Plus, Copy, Check, Send, CircleAlert } from "lucide-react";
+import { Tag as TagIcon, Plus, Copy, Check, Send, CircleAlert, Flag, Sparkles } from "lucide-react";
 import { api } from "../lib/api";
-import { useCommunity } from "../stores/community";
+import ParityVotingWidget from "./ParityVotingWidget";
+import ReportIssueModal from "./ReportIssueModal";
 
-const FEEDBACK_REPO = "bengowtham70/opensource-hub";
-const TAG_RE = /^[a-z0-9][a-z0-9-]{1,23}$/;
+const SUGGESTED_TAXONOMY_TAGS = [
+  "privacy-focused",
+  "docker-ready",
+  "offline-first",
+  "crdt",
+  "single-binary",
+  "lightweight",
+  "enterprise-ready",
+  "drop-in-replacement",
+];
 
-function issueUrl(kind, repo) {
-  const title =
-    kind === "suggestion"
-      ? `[Suggestion] ${repo}`
-      : `[Data report] ${repo} — something above is wrong`;
-  const body =
-    kind === "suggestion"
-      ? encodeURIComponent(
-          `## Suggestion for ${repo}\n\n**What would make this listing better?**\n\n\n_From the OpenSource Hub dashboard._`
-        )
-      : encodeURIComponent(
-          `## Data report for ${repo}\n\n**What's wrong?** (feature-parity claim, savings estimate, tags…)\n\n\n**Correct info:**\n\n_From the OpenSource Hub dashboard._`
-        );
-  return `https://github.com/${FEEDBACK_REPO}/issues/new?title=${encodeURIComponent(title)}&body=${body}`;
+function issueUrl(type, repo) {
+  const base = "https://github.com/bengowtham70/opensource-hub/issues/new";
+  if (type === "suggestion") {
+    const title = encodeURIComponent(`[Alternative Request] Suggestion for ${repo}`);
+    const body = encodeURIComponent(
+      `### Repo\n${repo}\n\n### Suggested alternative / correction\n<!-- describe your suggestion -->\n\n### Why?\n`
+    );
+    return `${base}?title=${title}&body=${body}&labels=community,alternative-request`;
+  }
+  const title = encodeURIComponent(`[Data Dispute] Accuracy issue on ${repo}`);
+  const body = encodeURIComponent(
+    `### Repo\n${repo}\n\n### Inaccurate fields\n- [ ] Pricing\n- [ ] Self-host guide\n- [ ] Commercial license\n- [ ] Alternatives list\n\n### Details\n`
+  );
+  return `${base}?title=${title}&body=${body}&labels=community,data-dispute`;
 }
 
-// PRD §34 — local-first community layer: votes, crowd tags, and feedback that
-// composes GitHub issue deep links so nothing is ever sent to a server of ours.
-export default function CommunitySection({ repo }) {
-  const community = useCommunity();
+export default function CommunitySection({ repo = "", name = "", replaces = "" }) {
   const [counts, setCounts] = useState({ votes: { yes: 0, no: 0 }, tags: {} });
   const [tagInput, setTagInput] = useState("");
   const [tagError, setTagError] = useState(null);
   const [copied, setCopied] = useState(null);
-  const [busy, setBusy] = useState(false);
+  const [reportModalOpen, setReportModalOpen] = useState(false);
 
-  useEffect(() => {
-    let alive = true;
-    api
-      .communityGet(...repo.split("/"))
-      .then((d) => alive && setCounts(d))
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [repo]);
-
-  const my = community.myVote(repo);
-
-  const onVote = async (choice) => {
-    setBusy(true);
+  const copy = async (type) => {
     try {
-      const updated = await community.vote(repo, choice);
-      if (updated?.votes) setCounts((c) => ({ ...c, votes: updated.votes }));
-    } catch {
-      /* revert already handled in the store */
-    } finally {
-      setBusy(false);
-    }
+      await navigator.clipboard.writeText(issueUrl(type, repo));
+      setCopied(type);
+      setTimeout(() => setCopied(null), 1800);
+    } catch {}
   };
 
-  const onAddTag = async (e) => {
-    e.preventDefault();
-    const tag = tagInput.trim().toLowerCase().replace(/\s+/g, "-");
+  const fetchCommunity = async () => {
+    if (!repo || !repo.includes("/")) return;
+    try {
+      const [owner, repoName] = repo.split("/");
+      const d = await api.communityGet(owner, repoName);
+      if (d) setCounts(d);
+    } catch {}
+  };
+
+  useEffect(() => {
+    fetchCommunity();
+  }, [repo]);
+
+  const onAddTag = async (rawTag) => {
+    const tag = String(rawTag || "").trim().toLowerCase().replace(/\s+/g, "-");
+    const TAG_RE = /^[a-z0-9][a-z0-9-]{1,23}$/;
     if (!TAG_RE.test(tag)) {
       setTagError("2–24 chars: lowercase letters, numbers, dashes.");
       return;
@@ -74,77 +76,76 @@ export default function CommunitySection({ repo }) {
     }
   };
 
-  const copy = async (kind) => {
-    try {
-      await navigator.clipboard.writeText(issueUrl(kind, repo));
-      setCopied(kind);
-      setTimeout(() => setCopied(null), 1600);
-    } catch {
-      /* clipboard denied — the visible links still work */
-    }
-  };
-
   const topTags = Object.entries(counts.tags || {})
     .sort(([, a], [, b]) => b - a)
-    .slice(0, 12);
+    .slice(0, 16);
 
   return (
-    <section className="mt-6 card-elevated p-6" aria-label="Community verdict">
-      <h2 className="font-display text-display-md mb-4">Community verdict</h2>
+    <section className="space-y-6 animate-fade-in" aria-label="Community verdict and contributions">
+      {/* 3-Tier Parity Suitability Consensus Widget */}
+      <ParityVotingWidget
+        repo={repo}
+        name={name}
+        replaces={replaces}
+      />
 
-      {/* Yes / No votes (PRD §34) */}
-      <div className="flex flex-wrap items-center gap-3">
-        <button
-          type="button"
-          onClick={() => onVote("yes")}
-          disabled={busy}
-          aria-pressed={my === "yes"}
-          className={`btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-full border font-semibold ${
-            my === "yes"
-              ? "bg-trust/15 border-trust/50 text-trust"
-              : "border-line text-dim hover:text-trust hover:border-trust/30"
-          }`}
-        >
-          <ThumbsUp size={16} fill={my === "yes" ? "currentColor" : "none"} />
-          Works for me
-          <span className="tnum text-[13px] opacity-80 tabular-nums">{counts.votes.yes}</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => onVote("no")}
-          disabled={busy}
-          aria-pressed={my === "no"}
-          className={`btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-full border font-semibold ${
-            my === "no"
-              ? "bg-caution/15 border-caution/50 text-caution"
-              : "border-line text-dim hover:text-caution hover:border-caution/30"
-          }`}
-        >
-          <ThumbsDown size={16} fill={my === "no" ? "currentColor" : "none"} />
-          Didn't work
-          <span className="tnum text-[13px] opacity-80 tabular-nums">{counts.votes.no}</span>
-        </button>
-        <span className="text-[12px] text-faint">Stored locally · votes stay on this machine</span>
-      </div>
+      {/* Crowd Tags Section */}
+      <div className="card-elevated p-5 md:p-6 rounded-2xl bg-surface border border-line space-y-4">
+        <div className="flex items-center justify-between border-b border-line pb-3">
+          <div className="flex items-center gap-2">
+            <TagIcon size={16} className="text-ember" />
+            <h4 className="font-display text-sm font-bold text-ink">Crowd Tags &amp; Community Architecture Labels</h4>
+          </div>
+          <span className="text-[11px] text-faint">Click any tag to upvote (+1)</span>
+        </div>
 
-      {/* Crowd tags */}
-      <div className="mt-5">
-        <div className="flex flex-wrap items-center gap-1.5">
+        {/* Existing Voted Tags */}
+        <div className="flex flex-wrap items-center gap-2">
           {topTags.map(([tag, n]) => (
-            <span
+            <button
               key={tag}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-tech/25 bg-tech/5 text-tech text-[12px] tnum"
-              title={`${n} vote${n === 1 ? "" : "s"}`}
+              type="button"
+              onClick={() => onAddTag(tag)}
+              className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-line bg-elevated hover:border-ember/40 hover:text-ember text-ink text-xs tnum cursor-pointer transition-all shadow-xs"
+              title={`Click to upvote '${tag}' (+1)`}
             >
-              <TagIcon size={11} /> {tag}
-              {n > 1 && <span className="opacity-60">{n}</span>}
-            </span>
+              <TagIcon size={11} className="text-faint" />
+              <span>{tag}</span>
+              <span className="px-1.5 py-0.2 rounded-md bg-surface text-dim text-[10.5px] font-bold border border-line/60">
+                {n}
+              </span>
+            </button>
           ))}
           {topTags.length === 0 && (
-            <span className="text-[12.5px] text-faint">No crowd tags yet — add the first one.</span>
+            <span className="text-xs text-faint">No crowd tags voted yet. Choose from suggested tags below or add your own!</span>
           )}
         </div>
-        <form onSubmit={onAddTag} className="mt-2.5 flex items-center gap-2 max-w-[380px]">
+
+        {/* Curated Suggested Tags Chips */}
+        <div className="space-y-1.5 pt-1">
+          <span className="text-[11px] font-medium text-dim block">Suggested Community Tags:</span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            {SUGGESTED_TAXONOMY_TAGS.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => onAddTag(tag)}
+                className="btn-tactile px-2.5 py-1 rounded-lg border border-dashed border-line text-[11px] text-dim hover:text-ink hover:border-line-heavy bg-surface cursor-pointer transition-colors"
+              >
+                + {tag}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Custom Tag Input Form */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onAddTag(tagInput);
+          }}
+          className="mt-3 flex items-center gap-2 max-w-md"
+        >
           <div className="relative flex-1">
             <Plus size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-faint" />
             <input
@@ -153,61 +154,88 @@ export default function CommunitySection({ repo }) {
                 setTagInput(e.target.value);
                 setTagError(null);
               }}
-              placeholder="add a tag — e.g. self-host"
-              aria-label="Add a crowd tag"
-              className="w-full card-elevated !bg-elevated pl-8 pr-3 py-2 text-[13px] text-ink placeholder:text-faint outline-none focus:border-primary/50"
+              placeholder="add a tag — e.g. self-host, crdt, offline-first"
+              aria-label="add a tag"
+              className="w-full px-3 pl-8 py-2 rounded-xl border border-line bg-elevated text-xs text-ink placeholder:text-faint outline-none focus:border-ember"
             />
           </div>
-          <button type="submit" className="shimmer-button btn-tactile px-3.5 py-2 text-[13px] text-ink">
-            Add
+          <button
+            type="submit"
+            className="btn-tactile px-4 py-2 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink text-xs font-semibold hover:opacity-90 shadow-sm cursor-pointer"
+          >
+            Add Tag
           </button>
         </form>
         {tagError && (
-          <p className="mt-1.5 text-[12px] text-caution tnum" role="alert">
+          <p className="text-xs text-rose-500 font-medium" role="alert">
             {tagError}
           </p>
         )}
       </div>
 
-      {/* Feedback — GitHub issue deep links with copy fallback (PRD §34) */}
-      <div className="mt-5 pt-4 border-t border-line flex flex-wrap items-center gap-x-5 gap-y-2">
-        <span className="inline-flex items-center gap-2">
-          <a
-            href={issueUrl("suggestion", repo)}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-tactile inline-flex items-center gap-1.5 text-[13px] text-link hover:text-ink"
-          >
-            <Send size={13} /> Send suggestion
-          </a>
+      {/* Accuracy Audit & Reporting Drawer (PRD §34 & §10) */}
+      <div className="card-elevated p-4 rounded-2xl bg-surface border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2 text-dim">
+          <CircleAlert size={16} className="text-amber-500 shrink-0" />
+          <span>Notice something inaccurate about this listing's price, demo, or license?</span>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="inline-flex items-center gap-1">
+            <a
+              href={issueUrl("suggestion", repo)}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-line bg-elevated hover:text-ink text-dim text-xs font-semibold"
+            >
+              <Send size={13} /> Send suggestion
+            </a>
+            <button
+              type="button"
+              onClick={() => copy("suggestion")}
+              aria-label="Copy suggestion link"
+              className="btn-tactile p-1.5 text-faint hover:text-dim cursor-pointer"
+            >
+              {copied === "suggestion" ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
+            </button>
+          </span>
+
+          <span className="inline-flex items-center gap-1">
+            <a
+              href={issueUrl("report", repo)}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-950 dark:text-amber-200 text-xs font-semibold"
+            >
+              <CircleAlert size={13} /> Report wrong data
+            </a>
+            <button
+              type="button"
+              onClick={() => copy("report")}
+              aria-label="Copy report link"
+              className="btn-tactile p-1.5 text-faint hover:text-dim cursor-pointer"
+            >
+              {copied === "report" ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
+            </button>
+          </span>
+
           <button
             type="button"
-            onClick={() => copy("suggestion")}
-            aria-label="Copy suggestion link"
-            className="btn-tactile text-faint hover:text-dim"
+            onClick={() => setReportModalOpen(true)}
+            className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink text-xs font-semibold cursor-pointer ml-1"
           >
-            {copied === "suggestion" ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
+            <Flag size={13} />
+            <span>Quick In-App Modal</span>
           </button>
-        </span>
-        <span className="inline-flex items-center gap-2">
-          <a
-            href={issueUrl("report", repo)}
-            target="_blank"
-            rel="noreferrer"
-            className="btn-tactile inline-flex items-center gap-1.5 text-[13px] text-caution/90 hover:text-caution"
-          >
-            <CircleAlert size={13} /> Report wrong data
-          </a>
-          <button
-            type="button"
-            onClick={() => copy("report")}
-            aria-label="Copy report link"
-            className="btn-tactile text-faint hover:text-dim"
-          >
-            {copied === "report" ? <Check size={13} className="text-trust" /> : <Copy size={13} />}
-          </button>
-        </span>
+        </div>
       </div>
+
+      <ReportIssueModal
+        open={reportModalOpen}
+        onClose={() => setReportModalOpen(false)}
+        repo={repo}
+        name={name}
+        replaces={replaces}
+      />
     </section>
   );
 }

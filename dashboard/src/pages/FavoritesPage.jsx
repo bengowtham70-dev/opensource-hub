@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Heart, ArrowRight, Download, Upload } from "lucide-react";
+import { Heart, ArrowRight, Download, Upload, Sparkles, Layers } from "lucide-react";
 import { useFavorites } from "../stores/favorites";
 import { getPairings, getPairingMap } from "../lib/seed";
 import { api } from "../lib/api";
@@ -101,6 +101,39 @@ export default function FavoritesPage() {
         <p className={`mb-4 text-[13px] tnum ${importMsg.toLowerCase().includes("failed") ? "text-caution" : "text-trust"}`} role="status">
           {importMsg}
         </p>
+      )}
+
+      {/* PRD §37 — Personal Savings Tracker */}
+      {totalSaved > 0 && (
+        <div className="card-elevated p-6 mb-6 hero-wash-bg border border-trust/30 flex flex-wrap items-center justify-between gap-4 animate-card-in">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-trust/15 border border-trust/30 text-trust">
+                <Sparkles size={12} />
+                <span>Personal Savings Tracker</span>
+              </span>
+              <span className="text-xs text-faint">PRD §37 Retention Engine</span>
+            </div>
+            <p className="font-display text-3xl sm:text-4xl text-trust mt-1.5" style={{ textShadow: "0 0 24px rgba(16,185,129,0.3)" }}>
+              {formatSavings(totalSaved)}
+              <span className="text-sm sm:text-base font-body text-faint font-normal">/year avoided across {cards.length} saved tools</span>
+            </p>
+            <p className="text-xs text-dim mt-1 max-w-xl">
+              By replacing commercial SaaS subscriptions with these open-source tools, your 3-year projected savings reach{" "}
+              <strong className="text-ink">{formatSavings(totalSaved * 3)}</strong> without vendor price increases.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/stacks/builder"
+              className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-ink text-surface dark:bg-surface dark:text-ink font-semibold text-xs shadow-sm hover:opacity-90 cursor-pointer"
+            >
+              <Layers size={14} />
+              <span>Launch in Stack Builder</span>
+            </Link>
+          </div>
+        </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">

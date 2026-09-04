@@ -21,6 +21,8 @@ import {
   ArrowRight,
   ExternalLink,
   Code2,
+  Cpu,
+  Wallet,
 } from "lucide-react";
 import { api } from "../lib/api";
 import { getPairings } from "../lib/seed";
@@ -106,7 +108,11 @@ export default function CommandPalette({ open, onOpenChange }) {
   ];
 
   const quickTools = [
+    { icon: Wallet, label: "Subscriptions Matcher & Savings Studio", to: "/subscriptions" },
+    { icon: Server, label: "Home-Server App Stores (Umbrel, CasaOS, Runtipi, Unraid)", to: "/app-stores" },
+    { icon: Sparkles, label: "Community Alternative Requests Queue", to: "/requests" },
     { icon: Layers, label: "Custom Stack Builder & Docker Compose", to: "/stacks/builder" },
+    { icon: Cpu, label: "Can I Run This? Hardware Sizing Simulator", to: "/hardware" },
     { icon: ShieldCheck, label: "Stack Cost & Health Audit", to: "/stack-audit" },
     { icon: Server, label: "MCP AI Agent Server Hub", to: "/mcp" },
   ];

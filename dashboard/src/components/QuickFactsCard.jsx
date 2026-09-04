@@ -1,7 +1,7 @@
-import { Calendar, Clock, GitBranch, Heart, Layers, Scale, Server, Sparkles, Star, Tag } from "lucide-react";
-import { formatStars, relativeDate } from "../lib/format";
+import { Calendar, Clock, GitBranch, Heart, Layers, Scale, Server, Sparkles, Star, Tag, Package } from "lucide-react";
+import { formatStars, relativeDate, formatCompact } from "../lib/format";
 
-export default function QuickFactsCard({ repo, name, live, stars30, data, pairing }) {
+export default function QuickFactsCard({ repo, name, live, stars30, data, pairing, metrics }) {
   const owner = repo.split("/")[0];
   const a = pairing?.alternative;
   const starsCount = stars30?.stars ?? live?.stars ?? 0;
@@ -94,6 +94,33 @@ export default function QuickFactsCard({ repo, name, live, stars30, data, pairin
               {licenseSpdx}
             </span>
           </div>
+
+          {metrics?.metrics?.npm != null && (
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5 text-dim">
+                <Package size={13} className="text-faint" /> npm downloads
+              </span>
+              <span className="font-medium text-ink tnum">{formatCompact(metrics.metrics.npm)}/mo</span>
+            </div>
+          )}
+
+          {metrics?.metrics?.pypi != null && (
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5 text-dim">
+                <Package size={13} className="text-faint" /> PyPI installs
+              </span>
+              <span className="font-medium text-ink tnum">{formatCompact(metrics.metrics.pypi)}/mo</span>
+            </div>
+          )}
+
+          {metrics?.metrics?.docker != null && (
+            <div className="flex items-center justify-between gap-2">
+              <span className="inline-flex items-center gap-1.5 text-dim">
+                <Server size={13} className="text-faint" /> Docker pulls
+              </span>
+              <span className="font-medium text-ink tnum">{formatCompact(metrics.metrics.docker)}</span>
+            </div>
+          )}
         </div>
 
         {/* Quick Action Buttons */}

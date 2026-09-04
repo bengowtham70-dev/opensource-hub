@@ -173,24 +173,91 @@
       .node-note { margin-top: 14px; font-size: 13.5px; color: var(--faint); }
       .node-note a { color: var(--dim); text-decoration: none; }
       .node-note a:hover { color: var(--ink); text-decoration: underline; }
-      .alt-installs {
-        margin: 18px auto 0; max-width: 640px;
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      /* Multi-channel interactive tabs */
+      .channel-wrap {
+        margin: 32px auto 0;
+        max-width: 620px;
       }
-      .alt-installs button {
-        display: flex; flex-direction: column; gap: 5px; align-items: flex-start;
+      .channel-tabs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+      .channel-tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 14px;
+        border-radius: 9999px;
+        border: 0.8px solid var(--line);
         background: var(--surface);
-        border: 0.8px solid var(--line); border-radius: 12px;
-        padding: 12px 14px; cursor: pointer; text-align: left;
-        box-shadow: var(--sh-raised);
-        transition: transform 80ms ease, border-color 150ms ease, box-shadow 150ms ease;
         color: var(--dim);
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 150ms ease;
       }
-      .alt-installs button:hover { border-color: var(--line-strong); box-shadow: var(--sh-card); }
-      .alt-installs button:active { transform: scale(0.98); }
-      .ai-label { font-size: 12px; color: var(--faint); }
-      .alt-installs code {
-        font-size: 11.5px; color: var(--ink); word-break: break-all;
+      .channel-tab:hover {
+        color: var(--ink);
+        border-color: var(--line-strong);
+      }
+      .channel-tab.active {
+        background: var(--strong);
+        color: var(--surface);
+        border-color: var(--strong);
+      }
+      html.dark .channel-tab.active {
+        background: #f5f5f5;
+        color: #000000;
+        border-color: #f5f5f5;
+      }
+      .detected-badge {
+        font-size: 10px;
+        padding: 1px 6px;
+        border-radius: 9999px;
+        background: rgb(5 150 105 / 0.15);
+        color: var(--trust);
+        font-weight: 600;
+      }
+      .sub-methods {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+      }
+      .sub-method-btn {
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 0.8px solid transparent;
+        background: transparent;
+        color: var(--faint);
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 150ms ease;
+      }
+      .sub-method-btn:hover {
+        color: var(--ink);
+        background: var(--elevated);
+      }
+      .sub-method-btn.active {
+        color: var(--ink);
+        background: var(--surface);
+        border-color: var(--line);
+        font-weight: 600;
+        box-shadow: var(--sh-raised);
+      }
+      .note-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--trust);
+        font-weight: 600;
       }
 
       /* Screenshot */
@@ -276,36 +343,23 @@
             tools you already use — with trust signals on every repo.
           </p>
 
-          <div class="install-box tnum" role="group" aria-label="Install command">
-            <span class="prompt">$</span>
-            <code class="cmd" id="install-cmd">npm install -g <span class="pkg">opensource-hub</span><span class="cursor-blink" aria-hidden="true"></span></code>
-            <button class="copy-btn" id="copy-btn" aria-label="Copy install command">
-              <svg id="ic-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-              <svg id="ic-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M20 6 9 17l-5-5"/></svg>
-            </button>
-          </div>
+          <div class="channel-wrap">
+            <div class="channel-tabs" id="channel-tabs" role="tablist" aria-label="Operating system selection"></div>
+            <div class="sub-methods" id="sub-methods" role="group" aria-label="Installation method options"></div>
 
-          <p class="node-note">
-            Requires <a href="https://nodejs.org" rel="noopener">Node.js 18+</a> — you probably have it.
-            To remove later: <code class="tnum" style="color:var(--faint)">npm uninstall -g opensource-hub</code>
-          </p>
+            <div class="install-box tnum" role="group" aria-label="Install command">
+              <span class="prompt" id="cmd-prompt">$</span>
+              <code class="cmd" id="install-cmd">npm install -g <span class="pkg">opensource-hub</span><span class="cursor-blink" aria-hidden="true"></span></code>
+              <button class="copy-btn" id="copy-btn" aria-label="Copy install command" title="Copy to clipboard">
+                <svg id="ic-copy" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg id="ic-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M20 6 9 17l-5-5"/></svg>
+              </button>
+            </div>
 
-          <!-- PRD Phase-2 item: three install paths (plans/PLAN_PHASE2.md P9) -->
-          <div class="alt-installs tnum" role="group" aria-label="Alternative install methods">
-            <button type="button" data-cmd="brew install opensource-hub/tap/opensource-hub" title="Homebrew (macOS/Linux) — available after first release">
-              <span class="ai-label">🍺 brew</span>
-              <code>brew install opensource-hub/tap/opensource-hub</code>
-            </button>
-            <button type="button" data-cmd="scoop bucket add opensource-hub && scoop install opensource-hub" title="Scoop (Windows) — available after first release">
-              <span class="ai-label">🪣 scoop</span>
-              <code>scoop bucket add opensource-hub &amp;&amp; scoop install opensource-hub</code>
-            </button>
-            <button type="button" data-cmd="npm install -g opensource-hub" title="npm — works everywhere with Node.js">
-              <span class="ai-label">⬇ npm</span>
-              <code>npm install -g opensource-hub</code>
-            </button>
+            <p class="node-note" id="install-note">
+              <span class="note-badge">✓ Zero dependencies.</span> Standalone native binary runs instantly without Node.js.
+            </p>
           </div>
-          <p class="node-note" style="font-size:12px">Standalone binaries (.exe / .dmg / AppImage) ship on each GitHub Release — no Node required.</p>
 
           <div class="shot">
             <img src="dashboard-screenshot.png" alt="OpenSource Hub dashboard showing free alternatives with savings and 30-day star momentum" loading="lazy" />
@@ -391,35 +445,231 @@
         syncThemeIcon();
       });
 
-      const btn = document.getElementById("copy-btn");
-      btn.addEventListener("click", async () => {
+      // Multi-channel switcher & installer data (PRD §30)
+      const CHANNELS = {
+        windows: {
+          name: "Windows",
+          icon: "🪟",
+          methods: [
+            {
+              id: "ps1",
+              label: "PowerShell (1-Line)",
+              cmd: "irm https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/install.ps1 | iex",
+              prompt: ">",
+              note: '<span class="note-badge">✓ Zero dependencies.</span> Auto-installs standalone .exe into user PATH without Node.js.'
+            },
+            {
+              id: "winget",
+              label: "Winget",
+              cmd: "winget install opensource-hub",
+              prompt: ">",
+              note: '<span class="note-badge">✓ Official.</span> Windows Package Manager CLI for Windows 11 and 10.'
+            },
+            {
+              id: "scoop",
+              label: "Scoop",
+              cmd: "scoop bucket add opensource-hub && scoop install opensource-hub",
+              prompt: ">",
+              note: '<span class="note-badge">✓ Zero-Admin.</span> Installs portable Windows x64 binary.'
+            },
+            {
+              id: "npm",
+              label: "npm",
+              cmd: "npm install -g opensource-hub",
+              prompt: "$",
+              note: 'Requires <a href="https://nodejs.org" rel="noopener" style="color:var(--dim)">Node.js 18+</a>. To remove: <code>npm uninstall -g opensource-hub</code>'
+            }
+          ]
+        },
+        macos: {
+          name: "macOS",
+          icon: "🍎",
+          methods: [
+            {
+              id: "brew",
+              label: "Homebrew",
+              cmd: "brew install opensource-hub/tap/opensource-hub",
+              prompt: "$",
+              note: '<span class="note-badge">✓ Recommended.</span> Installs into Homebrew on Apple Silicon or Intel Mac.'
+            },
+            {
+              id: "sh",
+              label: "Shell (1-Line)",
+              cmd: "curl -fsSL https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/install.sh | sh",
+              prompt: "$",
+              note: '<span class="note-badge">✓ Zero dependencies.</span> Downloads standalone binary directly to ~/.local/bin.'
+            },
+            {
+              id: "npm",
+              label: "npm",
+              cmd: "npm install -g opensource-hub",
+              prompt: "$",
+              note: 'Requires <a href="https://nodejs.org" rel="noopener" style="color:var(--dim)">Node.js 18+</a>.'
+            }
+          ]
+        },
+        linux: {
+          name: "Linux",
+          icon: "🐧",
+          methods: [
+            {
+              id: "sh",
+              label: "Shell (1-Line)",
+              cmd: "curl -fsSL https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/install.sh | sh",
+              prompt: "$",
+              note: '<span class="note-badge">✓ Zero dependencies.</span> Standalone binary for x64 and arm64 Linux distros.'
+            },
+            {
+              id: "brew",
+              label: "Homebrew",
+              cmd: "brew install opensource-hub/tap/opensource-hub",
+              prompt: "$",
+              note: 'Installs via Linuxbrew.'
+            },
+            {
+              id: "npm",
+              label: "npm",
+              cmd: "npm install -g opensource-hub",
+              prompt: "$",
+              note: 'Requires <a href="https://nodejs.org" rel="noopener" style="color:var(--dim)">Node.js 18+</a>.'
+            }
+          ]
+        },
+        node: {
+          name: "Node.js",
+          icon: "📦",
+          methods: [
+            {
+              id: "npm",
+              label: "npm global",
+              cmd: "npm install -g opensource-hub",
+              prompt: "$",
+              note: 'Standard global CLI package. Requires Node.js 18+.'
+            },
+            {
+              id: "npx",
+              label: "npx (run once)",
+              cmd: "npx opensource-hub",
+              prompt: "$",
+              note: 'Instantly boots dashboard without permanent global installation.'
+            }
+          ]
+        }
+      };
+
+      function detectUserOS() {
+        const ua = navigator.userAgent || "";
+        const platform = navigator.platform || "";
+        if (/Win/i.test(platform) || /Windows/i.test(ua)) return "windows";
+        if (/Mac/i.test(platform) || /Macintosh/i.test(ua)) return "macos";
+        if (/Linux/i.test(platform) || /Linux/i.test(ua)) return "linux";
+        return "node";
+      }
+
+      const detectedOS = detectUserOS();
+      let activeOS = detectedOS;
+      let activeMethodIdx = 0;
+
+      const tabsContainer = document.getElementById("channel-tabs");
+      const methodsContainer = document.getElementById("sub-methods");
+      const cmdPrompt = document.getElementById("cmd-prompt");
+      const cmdElement = document.getElementById("install-cmd");
+      const noteElement = document.getElementById("install-note");
+      const copyBtn = document.getElementById("copy-btn");
+
+      function formatCmdHTML(cmd) {
+        // Highlight binary or package name
+        const highlighted = cmd.replace(
+          /(opensource-hub|install\.ps1|install\.sh)/g,
+          '<span class="pkg">$1</span>'
+        );
+        return `${highlighted}<span class="cursor-blink" aria-hidden="true"></span>`;
+      }
+
+      function renderInstaller() {
+        const osData = CHANNELS[activeOS];
+        const currentMethod = osData.methods[activeMethodIdx] || osData.methods[0];
+
+        // 1. Render OS Tabs
+        tabsContainer.innerHTML = Object.entries(CHANNELS)
+          .map(([osKey, info]) => {
+            const isSelected = osKey === activeOS;
+            const isDetected = osKey === detectedOS;
+            return `
+              <button
+                type="button"
+                role="tab"
+                aria-selected="${isSelected}"
+                class="channel-tab ${isSelected ? "active" : ""}"
+                data-os="${osKey}"
+              >
+                <span>${info.icon}</span>
+                <span>${info.name}</span>
+                ${isDetected ? '<span class="detected-badge">Detected</span>' : ""}
+              </button>
+            `;
+          })
+          .join("");
+
+        // 2. Render Sub-methods
+        methodsContainer.innerHTML = osData.methods
+          .map((m, idx) => {
+            const isSelected = idx === activeMethodIdx;
+            return `
+              <button
+                type="button"
+                class="sub-method-btn ${isSelected ? "active" : ""}"
+                data-idx="${idx}"
+              >
+                ${m.label}
+              </button>
+            `;
+          })
+          .join("");
+
+        // 3. Render Command & Note
+        cmdPrompt.textContent = currentMethod.prompt;
+        cmdElement.innerHTML = formatCmdHTML(currentMethod.cmd);
+        noteElement.innerHTML = currentMethod.note;
+
+        // Rebind OS tabs
+        tabsContainer.querySelectorAll(".channel-tab").forEach((tab) => {
+          tab.addEventListener("click", () => {
+            activeOS = tab.dataset.os;
+            activeMethodIdx = 0;
+            renderInstaller();
+          });
+        });
+
+        // Rebind Sub-methods
+        methodsContainer.querySelectorAll(".sub-method-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            activeMethodIdx = Number(btn.dataset.idx);
+            renderInstaller();
+          });
+        });
+      }
+
+      renderInstaller();
+
+      // Copy Button
+      copyBtn.addEventListener("click", async () => {
+        const currentMethod = CHANNELS[activeOS].methods[activeMethodIdx] || CHANNELS[activeOS].methods[0];
         try {
-          await navigator.clipboard.writeText("npm install -g opensource-hub");
+          await navigator.clipboard.writeText(currentMethod.cmd);
           const ripple = document.createElement("span");
           ripple.className = "ripple";
-          btn.appendChild(ripple);
+          copyBtn.appendChild(ripple);
           setTimeout(() => ripple.remove(), 450);
-          btn.classList.add("copied");
+          copyBtn.classList.add("copied");
           document.getElementById("ic-copy").style.display = "none";
           document.getElementById("ic-check").style.display = "block";
           setTimeout(() => {
-            btn.classList.remove("copied");
+            copyBtn.classList.remove("copied");
             document.getElementById("ic-copy").style.display = "block";
             document.getElementById("ic-check").style.display = "none";
           }, 1600);
         } catch {}
-      });
-
-      // Alternative install paths — click to copy (PRD Phase-2 P9).
-      document.querySelectorAll(".alt-installs button").forEach((b) => {
-        b.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(b.dataset.cmd);
-            const prev = b.querySelector("code").textContent;
-            b.querySelector("code").textContent = "copied ✓";
-            setTimeout(() => { b.querySelector("code").textContent = prev; }, 1200);
-          } catch {}
-        });
       });
     </script>
   </body>

@@ -11,4 +11,11 @@ describe("InstallPill SSR smoke", () => {
     expect(html).toContain("opensource-hub");
     expect(html).toContain("Copy install command");
   });
+
+  it("renders multi-channel installation tabs (PRD §30)", () => {
+    expect(html).toContain("Homebrew");
+    expect(html).toContain("Windows");
+    expect(html).toContain("Curl / POSIX");
+    expect(html).toContain("npm / npx");
+  });
 });

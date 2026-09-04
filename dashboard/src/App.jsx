@@ -21,8 +21,13 @@ const LicensesPage = lazy(() => import("./pages/LicensesPage"));
 const ReleasesFeedPage = lazy(() => import("./pages/ReleasesFeedPage"));
 const StackBuilderPage = lazy(() => import("./pages/StackBuilderPage"));
 const AdminQueuePage = lazy(() => import("./pages/AdminQueuePage"));
+const NewsletterPage = lazy(() => import("./pages/NewsletterPage"));
+const HardwarePage = lazy(() => import("./pages/HardwarePage"));
 const AuditsPage = lazy(() => import("./pages/AuditsPage"));
 const StackAuditPage = lazy(() => import("./pages/StackAuditPage"));
+const RequestsPage = lazy(() => import("./pages/RequestsPage"));
+const SubscriptionsPage = lazy(() => import("./pages/SubscriptionsPage"));
+const AppStoresPage = lazy(() => import("./pages/AppStoresPage"));
 const ListsIndexPage = lazy(() => import("./pages/ListsPage").then((m) => ({ default: m.ListsIndexPage })));
 const ListDetailPage = lazy(() => import("./pages/ListsPage").then((m) => ({ default: m.ListDetailPage })));
 const LearnListPage = lazy(() => import("./pages/LearnPages").then((m) => ({ default: m.LearnListPage })));
@@ -73,6 +78,11 @@ function RouteFallback() {
   );
 }
 
+function StackBuilderRedirect() {
+  const location = useLocation();
+  return <Navigate to={`/stacks/builder${location.search}`} replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -104,7 +114,8 @@ export default function App() {
             <Route path="/alternatives/:slug" element={<PaidToolPage />} />
             <Route path="/compare" element={<Navigate to="/compare/supabase/vs/pocketbase" replace />} />
             <Route path="/compare/:a/vs/:b" element={<ComparePage />} />
-            <Route path="/stack-builder" element={<Navigate to="/stacks/builder" replace />} />
+            <Route path="/compare/:a/:b" element={<ComparePage />} />
+            <Route path="/stack-builder" element={<StackBuilderRedirect />} />
             <Route path="/ai-finder" element={<Navigate to="/find" replace />} />
             <Route path="/trending" element={<Navigate to="/" replace />} />
             <Route path="/collections" element={<Navigate to="/lists" replace />} />
@@ -113,6 +124,12 @@ export default function App() {
             <Route path="/submit" element={<SubmitPage />} />
             <Route path="/advertise" element={<AdvertisePage />} />
             <Route path="/admin" element={<AdminQueuePage />} />
+            <Route path="/newsletter" element={<NewsletterPage />} />
+            <Route path="/hardware" element={<HardwarePage />} />
+            <Route path="/requests" element={<RequestsPage />} />
+            <Route path="/subscriptions" element={<SubscriptionsPage />} />
+            <Route path="/savings" element={<Navigate to="/subscriptions" replace />} />
+            <Route path="/app-stores" element={<AppStoresPage />} />
             <Route
               path="*"
               element={
@@ -130,7 +147,20 @@ export default function App() {
             <p>
               OpenSource Hub — runs entirely on your machine. Data refreshed daily from public GitHub sources.
             </p>
-            <p className="tnum">v0.1.0 · MIT</p>
+            <div className="flex items-center gap-3">
+              <a
+                href="/feed.xml"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-dim hover:text-ember transition-colors"
+                title="Subscribe to updates via RSS 2.0 feed"
+              >
+                <span className="text-ember font-bold">RSS</span>
+                <span>Feed</span>
+              </a>
+              <span>·</span>
+              <p className="tnum">v0.1.0 · MIT</p>
+            </div>
           </div>
         </footer>
       </div>

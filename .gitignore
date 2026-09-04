@@ -4,6 +4,13 @@ dist/
 *.log
 .DS_Store
 
+# Environment & Secret Keys (NEVER commit to version control)
+.env
+.env.*
+*.key
+*.pem
+*.token
+
 # Bun single-file binary payload (release CI only - plans/PLAN_PHASE2.md P9)
 src/server/payload.generated.js
 

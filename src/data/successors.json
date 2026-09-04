@@ -1,0 +1,47 @@
+{
+  "go-gitea/gitea": {
+    "successorRepo": "forgejo/forgejo",
+    "successorName": "Forgejo",
+    "reason": "Gitea leadership transitioned project governance to a for-profit entity. The community established Forgejo as a strictly non-profit community-governed continuation under Codeberg e.V.",
+    "category": "Git Forge & DevOps",
+    "badge": "Community Governance Continuation",
+    "tone": "trust",
+    "compatibility": "100% Drop-in replacement for Gitea data & git hooks."
+  },
+  "redis/redis": {
+    "successorRepo": "valkey-io/valkey",
+    "successorName": "Valkey",
+    "reason": "Redis shifted from permissive BSD-3 to restrictive dual SSPL/RSALv2 licensing. Valkey is the official Linux Foundation open-source drop-in fork backed by AWS, Google, and Oracle.",
+    "category": "In-Memory Key-Value Store",
+    "badge": "Linux Foundation Continuation",
+    "tone": "trust",
+    "compatibility": "100% Protocol and command-line compatibility with Redis 7.2.4."
+  },
+  "hashicorp/terraform": {
+    "successorRepo": "opentofu/opentofu",
+    "successorName": "OpenTofu",
+    "reason": "HashiCorp re-licensed Terraform under the non-open Business Source License (BSL). OpenTofu is the Linux Foundation truly open-source continuation with MPLv2 licensing.",
+    "category": "Infrastructure as Code",
+    "badge": "Linux Foundation Fork",
+    "tone": "trust",
+    "compatibility": "Native HCL and provider compatibility with zero code changes."
+  },
+  "mattermost/focalboard": {
+    "successorRepo": "toeverything/affine",
+    "successorName": "AFFiNE",
+    "reason": "Focalboard standalone repository was archived by Mattermost in 2023. AFFiNE and AppFlowy provide modern, active local-first knowledge boards with active maintainer velocity.",
+    "category": "Visual Workspace & Boards",
+    "badge": "Archived Project Alternative",
+    "tone": "caution",
+    "compatibility": "Modern block-based visual workspace and Kanban board."
+  },
+  "libreddit/libreddit": {
+    "successorRepo": "redlib-org/redlib",
+    "successorName": "Redlib",
+    "reason": "The original Libreddit project was abandoned following upstream API lockouts. Redlib is the actively maintained community fork with fresh scrapers and privacy patches.",
+    "category": "Private Frontend",
+    "badge": "Active Community Fork",
+    "tone": "trust",
+    "compatibility": "Zero JavaScript, tracker-free private browser frontend."
+  }
+}

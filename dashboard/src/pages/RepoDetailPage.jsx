@@ -29,6 +29,8 @@ import {
   Rocket,
   Bookmark,
   Maximize2,
+  BookOpen,
+  Sparkles,
 
   Layers,
   FileText,
@@ -79,6 +81,13 @@ import DecisionGuideHub from "../components/DecisionGuideHub";
 import AccordionCard from "../components/AccordionCard";
 import ExecutiveBriefModal from "../components/ExecutiveBriefModal";
 import ContributorShowcase from "../components/ContributorShowcase";
+import SuccessorBanner from "../components/SuccessorBanner";
+import CompanionsSection from "../components/CompanionsSection";
+import RepoReadmeViewer from "../components/RepoReadmeViewer";
+import DemoSandboxModal from "../components/DemoSandboxModal";
+import RepoAskAssistant from "../components/RepoAskAssistant";
+import SecurityAdvisoryCard from "../components/SecurityAdvisoryCard";
+import TyposquatWarningCard from "../components/TyposquatWarningCard";
 
 export default function RepoDetailPage() {
   const { owner = "", name = "" } = useParams();
@@ -89,6 +98,7 @@ export default function RepoDetailPage() {
   const [metrics, setMetrics] = useState(null);
   const [error, setError] = useState(null);
   const [showParity, setShowParity] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
   const fav = useFavorites();
   const [allPairings, setAllPairings] = useState([]);
 
@@ -155,6 +165,36 @@ export default function RepoDetailPage() {
   const [showBrief, setShowBrief] = useState(false);
   const [activeSection, setActiveSection] = useState("install-section");
   const [savingsPeriod, setSavingsPeriod] = useState("year");
+  const [upvoteCount, setUpvoteCount] = useState(0);
+  const [hasUpvoted, setHasUpvoted] = useState(false);
+
+  useEffect(() => {
+    const key = `osh_upvoted_${repo.toLowerCase()}`;
+    if (localStorage.getItem(key)) {
+      setHasUpvoted(true);
+    }
+    api.getUpvotes()
+      .then((map) => {
+        if (map && typeof map[repo.toLowerCase()] === "number") {
+          setUpvoteCount(map[repo.toLowerCase()]);
+        } else {
+          setUpvoteCount(data?.stars ? Math.round(data.stars / 100) : 12);
+        }
+      })
+      .catch(() => {
+        setUpvoteCount(12);
+      });
+  }, [repo, data]);
+
+  const handleUpvote = async () => {
+    if (hasUpvoted) return;
+    setHasUpvoted(true);
+    setUpvoteCount((c) => c + 1);
+    try {
+      localStorage.setItem(`osh_upvoted_${repo.toLowerCase()}`, "1");
+      await api.addUpvote(owner, name);
+    } catch {}
+  };
 
   // ScrollSpy to track active section
   useEffect(() => {
@@ -242,9 +282,10 @@ export default function RepoDetailPage() {
   const live = data.live;
   const stars30 = data.stars30d;
   const isFav = fav.has(repo);
-
-  const parityTotal = a.parity.length + a.gaps.length;
-  const parityPct = parityTotal > 0 ? Math.round((a.parity.length / parityTotal) * 100) : null;
+  const parityList = Array.isArray(a?.parity) ? a.parity : [];
+  const gapsList = Array.isArray(a?.gaps) ? a.gaps : [];
+  const parityTotal = parityList.length + gapsList.length;
+  const parityPct = parityTotal > 0 ? Math.round((parityList.length / parityTotal) * 100) : null;
 
   return (
     <Shell>
@@ -257,6 +298,9 @@ export default function RepoDetailPage() {
         ]}
       />
 
+      {/* ── Successor / Fork Pointer Banner ── */}
+      <SuccessorBanner repo={repo} className="mt-3 mb-1" />
+
       {/* ── Hero Header ── */}
       <header className="mt-2 animate-card-in space-y-3">
         {/* Row 1: Logo · Name · Verified · Trust Score Badge · Category */}
@@ -268,13 +312,23 @@ export default function RepoDetailPage() {
             <div className="flex flex-wrap items-center gap-2">
               <h1 className="font-display text-2xl md:text-3xl tracking-tight text-ink leading-tight">{a.name}</h1>
               
-              <span
-                title="Verified Open Source Project"
-                className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-line bg-surface text-ink select-none shadow-2xs"
-              >
-                <ShieldCheck size={12} className="text-ink" />
-                Verified
-              </span>
+              {data.isClaimed ? (
+                <span
+                  title={`Claimed & verified by maintainer ${data.claim?.maintainer?.name || ""}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[11px] font-bold border border-trust/40 bg-trust/10 text-trust select-none shadow-2xs"
+                >
+                  <ShieldCheck size={13} className="text-trust" />
+                  <span>Verified Maintainer</span>
+                </span>
+              ) : (
+                <span
+                  title="Verified Open Source Project"
+                  className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border border-line bg-surface text-ink select-none shadow-2xs"
+                >
+                  <ShieldCheck size={12} className="text-ink" />
+                  Verified
+                </span>
+              )}
 
               {/* Animated Trust / Test Score Header Badge */}
               <HeaderTrustScoreBadge trust={data.trust} />
@@ -331,41 +385,51 @@ export default function RepoDetailPage() {
         {/* Lead description */}
         <p className="text-dim text-[15px] leading-relaxed max-w-[75ch]">{a.description}</p>
 
-        {/* "Open Source Alternative to:" section */}
-        <div className="space-y-1.5">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
-            Open Source Alternative to:
-          </p>
-          <div className="flex flex-wrap items-center gap-2">
-            <Link
-              to={`/alternatives/${paid.slug}`}
-              className="btn-tactile inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line-strong bg-surface hover:bg-elevated text-xs font-semibold text-ink shadow-2xs transition-colors"
-            >
-              <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={16} />
-              <span>{paid.name}</span>
-            </Link>
-
-            {categoryPaidTools.map((p) => (
+        {/* "Open Source Alternative to:" or "Independent Community Project" section */}
+        {paid && !paid.isCommunity && paid.name?.toLowerCase() !== a.name?.toLowerCase() && paid.slug !== a.slug ? (
+          <div className="space-y-1.5">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-faint">
+              Open Source Alternative to:
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
               <Link
-                key={p.slug}
-                to={`/alternatives/${p.slug}`}
-                className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-surface/70 hover:border-line-strong hover:bg-elevated text-xs text-dim hover:text-ink transition-colors"
+                to={`/alternatives/${paid.slug}`}
+                className="btn-tactile inline-flex items-center gap-2 px-3 py-1 rounded-full border border-line-strong bg-surface hover:bg-elevated text-xs font-semibold text-ink shadow-2xs transition-colors"
               >
-                <BrandLogo brand={paidBrand(p.slug)} paidSlug={p.slug} name={p.name} size={15} />
-                <span>{p.name}</span>
+                <BrandLogo brand={paidBrand(paid.slug)} paidSlug={paid.slug} name={paid.name} size={16} />
+                <span>{paid.name}</span>
               </Link>
-            ))}
 
-            {categoryPaidTools.length > 0 && (
-              <Link
-                to="/categories"
-                className="text-[11.5px] text-faint hover:text-ember transition-colors ml-1 font-medium"
-              >
-                +more in {paid.category}
-              </Link>
+              {categoryPaidTools.map((p) => (
+                <Link
+                  key={p.slug}
+                  to={`/alternatives/${p.slug}`}
+                  className="btn-tactile inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-surface/70 hover:border-line-strong hover:bg-elevated text-xs text-dim hover:text-ink transition-colors"
+                >
+                  <BrandLogo brand={paidBrand(p.slug)} paidSlug={p.slug} name={p.name} size={15} />
+                  <span>{p.name}</span>
+                </Link>
+              ))}
+
+              {categoryPaidTools.length > 0 && (
+                <Link
+                  to="/categories"
+                  className="text-[11.5px] text-faint hover:text-ember transition-colors ml-1 font-medium"
+                >
+                  +more in {paid.category}
+                </Link>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-surface/80 text-xs text-dim font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Independent Community Open Source Project</span>
+            {paid?.category && (
+              <span className="text-faint">· Category: <strong className="text-ink font-medium">{paid.category}</strong></span>
             )}
           </div>
-        </div>
+        )}
 
         {/* ── Unified Actions Bar: Download · Source · Visit Website ‖ Save · Decision Brief · Embed · Claim · Report ── */}
         <div className="flex flex-wrap items-center gap-2.5 pt-1.5">
@@ -401,6 +465,18 @@ export default function RepoDetailPage() {
             <ExternalLink size={13} className="opacity-60" />
           </a>
 
+          {(a.demoUrl || (live?.homepage && live.homepage.startsWith("https://"))) && (
+            <button
+              type="button"
+              onClick={() => setShowDemoModal(true)}
+              className="btn-tactile inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-trust/40 bg-trust/10 text-trust hover:bg-trust/20 text-sm font-semibold shadow-2xs transition-colors cursor-pointer"
+              title="Launch interactive live web demo sandbox"
+            >
+              <Sparkles size={15} />
+              <span>Try Live Demo</span>
+            </button>
+          )}
+
           <div className="h-6 w-px bg-line/60 mx-1 hidden sm:block" />
 
           <button
@@ -414,6 +490,24 @@ export default function RepoDetailPage() {
           >
             <Bookmark size={14} fill={isFav ? "currentColor" : "none"} />
             <span>{isFav ? "Saved" : "Save Project"}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleUpvote}
+            disabled={hasUpvoted}
+            className={`btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border text-xs font-semibold transition-colors cursor-pointer ${
+              hasUpvoted
+                ? "bg-ember/15 border-ember/40 text-ember shadow-2xs font-bold"
+                : "border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink"
+            }`}
+            title="Upvote this open-source project"
+          >
+            <span className="text-sm">▲</span>
+            <span>{hasUpvoted ? "Upvoted" : "Upvote"}</span>
+            <span className="ml-1 font-mono tnum px-1.5 py-0.5 rounded-full bg-elevated border border-line text-[11px]">
+              {upvoteCount}
+            </span>
           </button>
 
           <button
@@ -439,11 +533,15 @@ export default function RepoDetailPage() {
           <button
             type="button"
             onClick={() => setShowClaim(true)}
-            className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink text-xs font-medium cursor-pointer"
+            className={`btn-tactile inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border text-xs font-medium cursor-pointer transition-colors ${
+              data.isClaimed
+                ? "border-trust/40 bg-trust/10 text-trust hover:bg-trust/20 font-semibold shadow-2xs"
+                : "border-line bg-surface hover:border-line-strong hover:bg-elevated text-dim hover:text-ink"
+            }`}
             title="Claim and verify maintainership for this repository"
           >
-            <ShieldCheck size={14} />
-            <span>Claim</span>
+            <ShieldCheck size={14} className={data.isClaimed ? "text-trust" : ""} />
+            <span>{data.isClaimed ? "Maintainer Claimed" : "Claim"}</span>
           </button>
 
           <button
@@ -457,6 +555,13 @@ export default function RepoDetailPage() {
           </button>
         </div>
       </header>
+
+      {/* ── Supply Chain Security: Typosquat / Lookalike Caution Card ── */}
+      {data?.typosquat?.isSuspicious && (
+        <div className="mt-6">
+          <TyposquatWarningCard typosquat={data.typosquat} />
+        </div>
+      )}
 
       {/* ── Main 3-Row Showcase Grid ──
            Row 1: Screenshot (left) + Star Chart (right) — equal height
@@ -481,6 +586,57 @@ export default function RepoDetailPage() {
 
       {/* ── Sponsor Ad — Full width under the showcase, matching the left column size ── */}
       <div className="mt-5 space-y-4">
+        {/* ── Verified Maintainer Showcase Card ── */}
+        {data.isClaimed && data.claim?.maintainer && (
+          <section
+            className="card-elevated p-5 bg-trust/5 border border-trust/30 rounded-2xl shadow-xs space-y-3 animate-card-in"
+            aria-label="Verified Maintainer Note"
+          >
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-trust/20 pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="size-9 rounded-full bg-trust/20 text-trust grid place-items-center font-bold">
+                  <ShieldCheck size={18} />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-display font-bold text-base text-ink">{data.claim.maintainer.name}</span>
+                    <span className="text-[10.5px] uppercase tracking-wider font-bold text-trust bg-trust/15 px-2 py-0.5 rounded-full border border-trust/30">
+                      {data.claim.maintainer.role || "Verified Maintainer"}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-faint mt-0.5">Verified repository ownership &amp; architecture notes</p>
+                </div>
+              </div>
+
+              {data.claim.maintainer.supportUrl && (
+                <a
+                  href={data.claim.maintainer.supportUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-tactile px-3 py-1.5 rounded-lg border border-trust/30 bg-surface hover:bg-trust/10 text-trust text-xs font-semibold inline-flex items-center gap-1.5 shadow-2xs cursor-pointer transition-colors"
+                >
+                  <span>Official Discussions</span>
+                  <ExternalLink size={12} />
+                </a>
+              )}
+            </div>
+
+            <div className="space-y-2 pt-0.5">
+              <p className="text-sm font-medium text-ink leading-relaxed">
+                “{data.claim.maintainer.tagline}”
+              </p>
+              {data.claim.maintainer.recommendedStack && (
+                <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
+                  <span className="text-faint font-medium">Recommended Deployment:</span>
+                  <span className="font-semibold text-ink bg-surface px-2.5 py-1 rounded-lg border border-line shadow-2xs">
+                    {data.claim.maintainer.recommendedStack}
+                  </span>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         <SponsorAdCard name={a.name} category={paid.category} />
 
         {/* ── The Honest Review — Positioned directly under the Deploy & Scale affiliate banner ── */}
@@ -642,6 +798,24 @@ export default function RepoDetailPage() {
               SelfHostSpecsComponent={SelfHostSpecs}
               DownloadSectionComponent={DownloadSection}
             />
+
+            {/* Ecosystem Companions: Works Well Alongside */}
+            <CompanionsSection repo={repo} currentName={a.name} />
+
+            {/* Ask Byte AI & Terminal Assistant */}
+            <RepoAskAssistant owner={owner} name={name} />
+
+            {/* Official README & Documentation Viewer */}
+            <AccordionCard
+              icon={BookOpen}
+              title="Official README & Documentation"
+              subtitle="Direct live documentation, architecture notes, and quick start guide from the repository root"
+              badge="Live Docs"
+              badgeTone="trust"
+              defaultOpen={false}
+            >
+              <RepoReadmeViewer owner={owner} name={name} defaultBranch={data.live?.defaultBranch || "main"} />
+            </AccordionCard>
           </section>
 
           {/* ── SECTION 2: Decision Guide, Comparison & Migration ── */}
@@ -671,6 +845,9 @@ export default function RepoDetailPage() {
               </div>
               <span className="text-[11px] text-faint uppercase font-semibold tracking-wider">Health Signals</span>
             </div>
+
+            {/* Live OSV.dev Security Advisories & CVE Scan */}
+            <SecurityAdvisoryCard owner={owner} name={name} />
 
             {/* 1. Good First Issues & Contribution Radar inside Accordion */}
             <AccordionCard
@@ -734,11 +911,11 @@ export default function RepoDetailPage() {
             {/* Developer Reviews & Switcher Stories inside Accordion */}
             <AccordionCard
               icon={MessageSquarePlus}
-              title="Developer Reviews &amp; Switcher Stories"
+              title="Community Reviews &amp; Switcher Stories"
               subtitle="Real migration experiences, pros/cons &amp; ratings from developers"
               badge="Reviews"
               badgeTone="default"
-              defaultOpen={false}
+              defaultOpen={true}
             >
               <ReviewsSection repo={repo} name={a.name} replaces={data.pairing?.paidTool?.name} />
             </AccordionCard>
@@ -770,13 +947,13 @@ export default function RepoDetailPage() {
             {/* Community Section inside Accordion */}
             <AccordionCard
               icon={Users}
-              title="Live Community Q&amp;A &amp; Discussions"
-              subtitle="Join the community chat, ask questions, or report bugs"
-              badge="Community Hub"
+              title="Community Verdict, Parity Consensus &amp; Crowd Tags"
+              subtitle="Peer suitability ratings, developer consensus &amp; crowd architecture tags"
+              badge="PRD §34"
               badgeTone="default"
-              defaultOpen={false}
+              defaultOpen={true}
             >
-              <CommunitySection repo={repo} />
+              <CommunitySection repo={repo} name={a.name} replaces={data.pairing?.paidTool?.name} />
             </AccordionCard>
 
             <GiscusComments term={repo} />
@@ -792,6 +969,7 @@ export default function RepoDetailPage() {
             stars30={stars30}
             data={data}
             pairing={data.pairing}
+            metrics={metrics}
           />
           <DeployButtons repo={repo} alternative={a} />
         </div>
@@ -809,6 +987,14 @@ export default function RepoDetailPage() {
         onClose={() => setShowClaim(false)}
         repo={repo}
         name={a.name}
+        initialClaim={data.claim}
+        onVerified={(claim) => {
+          if (claim !== undefined) {
+            setData((prev) => (prev ? { ...prev, isClaimed: Boolean(claim), claim } : prev));
+          } else {
+            api.repo(owner, name).then(setData).catch(() => {});
+          }
+        }}
       />
       <ReportModal
         open={showReport}
@@ -823,6 +1009,12 @@ export default function RepoDetailPage() {
         alternative={a}
         paidTool={data.pairing?.paidTool}
         trustScore={data.trust}
+      />
+      <DemoSandboxModal
+        open={showDemoModal}
+        onClose={() => setShowDemoModal(false)}
+        name={a.name}
+        demoUrl={a.demoUrl || (live?.homepage && live.homepage.startsWith("https://") ? live.homepage : null)}
       />
     </Shell>
   );

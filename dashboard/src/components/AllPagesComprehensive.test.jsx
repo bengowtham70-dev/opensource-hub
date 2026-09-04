@@ -314,4 +314,27 @@ describe("Exhaustive UI Pages & Interactive Options Verification", () => {
     expect(html).toContain("Weekly Open-Source Intelligence");
     expect(html).toContain("Subscribe");
   });
+
+  it("26. NewsletterPage renders archive header and subscribe options", async () => {
+    const { default: NewsletterPage } = await import("../pages/NewsletterPage");
+    const html = renderToStaticMarkup(
+      <MemoryRouter initialEntries={["/newsletter"]}>
+        <NewsletterPage />
+      </MemoryRouter>
+    );
+    expect(html).toContain("OpenSource Hub Weekly Digest");
+    expect(html).toContain("Get the Weekly Briefing");
+  });
+
+  it("27. HardwarePage renders simulator, sliders and machine presets", async () => {
+    const { default: HardwarePage } = await import("../pages/HardwarePage");
+    const html = renderToStaticMarkup(
+      <MemoryRouter initialEntries={["/hardware"]}>
+        <HardwarePage />
+      </MemoryRouter>
+    );
+    expect(html).toContain("Can I Run This?");
+    expect(html).toContain("Self-Hosted Sizing Engine");
+    expect(html).toContain("System RAM:");
+  });
 });

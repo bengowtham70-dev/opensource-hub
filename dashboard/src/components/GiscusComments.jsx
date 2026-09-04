@@ -6,6 +6,7 @@ export default function GiscusComments({ term }) {
 
   useEffect(() => {
     if (!GISCUS.repo || !ref.current) return;
+    const isDark = document.documentElement.classList.contains("dark");
     const script = document.createElement("script");
     script.src = "https://giscus.app/client.js";
     script.async = true;
@@ -21,12 +22,26 @@ export default function GiscusComments({ term }) {
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
       "data-input-position": "top",
-      "data-theme": "noborder_dark",
+      "data-theme": isDark ? "noborder_dark" : "noborder_light",
       "data-lang": "en",
     };
     for (const [k, v] of Object.entries(mapping)) script.setAttribute(k, v);
     ref.current.appendChild(script);
+
+    const observer = new MutationObserver(() => {
+      const darkNow = document.documentElement.classList.contains("dark");
+      const iframe = ref.current?.querySelector("iframe.giscus-frame");
+      if (iframe) {
+        iframe.contentWindow?.postMessage(
+          { giscus: { setConfig: { theme: darkNow ? "noborder_dark" : "noborder_light" } } },
+          "https://giscus.app"
+        );
+      }
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+
     return () => {
+      observer.disconnect();
       if (ref.current) ref.current.innerHTML = "";
     };
   }, [term]);

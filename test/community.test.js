@@ -244,5 +244,85 @@ test("tag route validates input; suggestion and flag routes enforce shapes", asy
     })
   ).json();
   assert.equal(flag.ok, true);
+
+  // Test GET /community/flags
+  const flagsRes = await (await fetch(`${base}/api/community/flags`)).json();
+  assert.equal(flagsRes.ok, true);
+  assert.ok(flagsRes.flags.length >= 1);
+
+  // Test GET /community/:owner/:name/parity
+  const parity = await (await fetch(`${base}/api/community/supabase/supabase/parity`)).json();
+  assert.equal(parity.repo, "supabase/supabase");
+  assert.ok(parity.total > 0);
+  assert.ok(parity.consensusPct >= 80);
+  assert.ok("breakdown" in parity);
+  assert.equal(typeof parity.breakdown.full.pct, "number");
+
+  // Test suggestions queue list, filter, and upvote
+  const suggs = await (await fetch(`${base}/api/community/suggestions?sort=votes`)).json();
+  assert.equal(suggs.ok, true);
+  assert.ok(Array.isArray(suggs.suggestions));
+
+  const targetSugg = suggs.suggestions[0];
+  if (targetSugg) {
+    const priorVotes = targetSugg.votes || 1;
+    const upvoted = await (
+      await fetch(`${base}/api/community/suggestions/${targetSugg.id}/upvote`, { method: "POST" })
+    ).json();
+    assert.equal(upvoted.ok, true);
+    assert.equal(upvoted.votes, priorVotes + 1);
+  }
+
   server.close();
 });
+
+test("3-tier voting (yes, partial, no) and consensus calculation", () => {
+  const c = createCommunityStore({ dir: tempDir() });
+
+  // Test partial vote
+  const voted = c.vote("my-org/my-tool", "partial");
+  assert.equal(voted.myVote, "partial");
+
+  const parity1 = c.getParityConsensus("my-org/my-tool");
+  assert.equal(parity1.myVote, "partial");
+  assert.equal(parity1.votes.partial, 1);
+  assert.equal(parity1.total, 1);
+  assert.equal(parity1.consensusPct, 50); // partial gets 50% weight
+
+  // Retract partial vote
+  const retracted = c.vote("my-org/my-tool", "partial");
+  assert.equal(retracted.myVote, null);
+  const parity2 = c.getParityConsensus("my-org/my-tool");
+  assert.equal(parity2.votes.partial, 0);
+
+  // Test caution threshold: if >= 8 votes and >= 35% are 'no'
+  for (let i = 0; i < 5; i++) c.vote(`mock-${i}/tool`, "yes");
+  const testRepo = "caution-test/tool";
+  // Add 5 no votes and 5 yes votes
+  const storeData = c.exportData();
+  storeData.votes[testRepo] = { yes: 5, partial: 0, no: 5, my: null };
+  c.importData(storeData);
+
+  const cautionParity = c.getParityConsensus(testRepo);
+  assert.equal(cautionParity.total, 10);
+  assert.equal(cautionParity.breakdown.notViable.pct, 50);
+  assert.equal(cautionParity.caution, true);
+});
+
+test("listSuggestions supports status filtering and search", () => {
+  const c = createCommunityStore({ dir: tempDir() });
+  c.addSuggestion({ name: "Tool Alpha", replaces: "Notion", category: "Notes" });
+  c.addSuggestion({ name: "Tool Beta", replaces: "Linear", category: "Project Management" });
+
+  const all = c.listSuggestions();
+  assert.equal(all.length, 2);
+
+  const searchHit = c.listSuggestions({ search: "linear" });
+  assert.equal(searchHit.length, 1);
+  assert.equal(searchHit[0].name, "Tool Beta");
+
+  const upvoted = c.upvoteSuggestion(searchHit[0].id);
+  assert.equal(upvoted.ok, true);
+  assert.equal(upvoted.votes, 2);
+});
+

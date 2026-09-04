@@ -33,19 +33,23 @@ export async function run({ preferredPort = 3000, openBrowser = true }) {
   await initEmbeddedPayload();
   const { app, hasBuild } = createApp();
 
+  const envPort = process.env.PORT ? Number.parseInt(process.env.PORT, 10) : null;
+  const initialPort = envPort || preferredPort;
+
   let port;
   try {
-    port = await findAvailablePort(preferredPort);
+    port = await findAvailablePort(initialPort);
   } catch (err) {
     console.error(chalk.red(`\n  ✖ ${err.message}\n`));
     process.exit(1);
   }
 
-  if (port !== preferredPort) {
-    console.log(chalk.yellow(`  ⚠ Port ${preferredPort} is in use — starting on ${chalk.bold(port)} instead.`));
+  if (port !== initialPort) {
+    console.log(chalk.yellow(`  ⚠ Port ${initialPort} is in use — starting on ${chalk.bold(port)} instead.`));
   }
 
-  const server = app.listen(port, "127.0.0.1", () => {
+  const host = process.env.HOST || (process.env.RENDER || process.env.PORT ? "0.0.0.0" : "127.0.0.1");
+  const server = app.listen(port, host, () => {
     const url = `http://localhost:${port}`;
     console.log("");
     console.log(chalk.hex("#FF5722").bold("  ◆ OpenSource Hub") + chalk.gray(` v${getPackageVersion()}`));

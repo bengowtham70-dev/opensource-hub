@@ -35,12 +35,42 @@ export function createApp() {
 
   const favorites = createFavoritesStore();
   const community = createCommunityStore();
+  community.ensureSeeded();
   const reviews = createReviewStore();
   // PRD §16 — strictly local usage counters (privacy.html discloses this).
   // One instance shared by the router (export) and the increment/readback below.
   const usage = createUsageStore({ dir: getUserDataDir() });
   usage.increment();
   app.use("/api", createApiRouter({ favorites, community, usage, reviews }));
+
+  // Root RSS/Atom syndication feeds
+  app.get("/feed.xml", async (req, res) => {
+    try {
+      const host = req.get("host") || "localhost:3000";
+      const proto = req.protocol || "http";
+      const { generateRssFeed } = await import("./rss.js");
+      const xml = await generateRssFeed({ baseUrl: `${proto}://${host}`, type: "all" });
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.send(xml);
+    } catch (err) {
+      res.status(500).send(`<?xml version="1.0"?><error>${err.message}</error>`);
+    }
+  });
+
+  app.get("/releases.xml", async (req, res) => {
+    try {
+      const host = req.get("host") || "localhost:3000";
+      const proto = req.protocol || "http";
+      const { generateRssFeed } = await import("./rss.js");
+      const xml = await generateRssFeed({ baseUrl: `${proto}://${host}`, type: "releases" });
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader("Cache-Control", "public, max-age=3600");
+      res.send(xml);
+    } catch (err) {
+      res.status(500).send(`<?xml version="1.0"?><error>${err.message}</error>`);
+    }
+  });
 
   // plans/PLAN_PHASE2.md Phase 9 — dashboard assets come either from disk
   // (npm install, PRD section 5) or from the embedded payload inside a

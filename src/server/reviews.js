@@ -12,19 +12,118 @@ function esc(str) {
     .replace(/'/g, "&#39;");
 }
 
-export function createReviewStore({ dir = process.env.OSH_DATA_DIR || getUserDataDir() } = {}) {
+export function createReviewStore({ dir = process.env.OSH_DATA_DIR || getUserDataDir(), seed = true } = {}) {
   const file = path.join(dir, "reviews.json");
   const SCHEMA_VERSION = 1;
   const MAX_REVIEWS_PER_REPO = 100;
 
+  const INITIAL_SEED = {
+    "supabase/supabase": [
+      {
+        id: "rev_seed_1",
+        repo: "supabase/supabase",
+        rating: 5,
+        author: "Alex K.",
+        role: "Infrastructure Lead",
+        switchedFrom: "Firebase",
+        summary: "Rock solid PostgreSQL platform with instant auth and realtime",
+        content: "Migrated our core stack from Firebase. Saving over $600/month. The migration runbook and Docker compose setup was seamless.",
+        pros: ["Full Postgres power", "Native pgvector support", "Excellent auth & studio UI"],
+        cons: ["Requires at least 2GB RAM", "Kong and Studio require proper initial env configuration"],
+        createdAt: new Date(Date.now() - 5 * 86400000).toISOString(),
+        helpful: 28,
+      },
+      {
+        id: "rev_seed_2",
+        repo: "supabase/supabase",
+        rating: 5,
+        author: "David L.",
+        role: "Fullstack Engineer",
+        switchedFrom: "AWS Amplify",
+        summary: "Production-ready BaaS without vendor lock-in",
+        content: "We run Supabase in production handling over 2M requests/day. Unmatched developer ergonomics and zero vendor pricing surprises.",
+        pros: ["Row-Level Security (RLS) is first-class", "Built-in edge functions", "SQL migrations"],
+        cons: ["Multi-container setup needs memory tuning under high load"],
+        createdAt: new Date(Date.now() - 12 * 86400000).toISOString(),
+        helpful: 14,
+      }
+    ],
+    "pocketbase/pocketbase": [
+      {
+        id: "rev_seed_3",
+        repo: "pocketbase/pocketbase",
+        rating: 5,
+        author: "Devon M.",
+        role: "Solo Founder",
+        switchedFrom: "Firebase",
+        summary: "Single binary perfection for MVPs and lightweight internal tools",
+        content: "PocketBase is the quickest backend to spin up. Zero devops overhead, running comfortably on a $4/month VPS.",
+        pros: ["Uses only 25MB RAM", "Embedded SQLite with WAL", "Admin dashboard out of the box"],
+        cons: ["Single-node only; not suited for multi-region horizontal scaling"],
+        createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+        helpful: 19,
+      }
+    ],
+    "dani-garcia/vaultwarden": [
+      {
+        id: "rev_seed_5",
+        repo: "dani-garcia/vaultwarden",
+        rating: 5,
+        author: "Marcus R.",
+        role: "Homelab Admin",
+        switchedFrom: "1Password",
+        summary: "Tiny Rust binary compatible with all official Bitwarden apps",
+        content: "Running for 3 years without a single crash. The best self-hosted password manager hands down.",
+        pros: ["Extremely low memory footprint (<40MB RAM)", "Works with official Bitwarden extensions & mobile apps"],
+        cons: ["Must configure automated SQLite backup scripts and SSL reverse proxy"],
+        createdAt: new Date(Date.now() - 15 * 86400000).toISOString(),
+        helpful: 42,
+      }
+    ],
+    "mattermost/mattermost": [
+      {
+        id: "rev_seed_6",
+        repo: "mattermost/mattermost",
+        rating: 4,
+        author: "Elena P.",
+        role: "DevOps Lead",
+        switchedFrom: "Slack",
+        summary: "Enterprise Slack alternative with deep GitLab and webhook integrations",
+        content: "Replaced Slack for 150 developers. Compliance audits and internal messaging are now completely under our control.",
+        pros: ["Threaded discussions", "Compliance logging", "Full data sovereignty"],
+        cons: ["Heavy memory footprint compared to Zulip", "Requires dedicated PostgreSQL instance"],
+        createdAt: new Date(Date.now() - 9 * 86400000).toISOString(),
+        helpful: 15,
+      }
+    ]
+  };
+
   function read() {
     try {
       const raw = JSON.parse(fs.readFileSync(file, "utf8"));
-      if (raw.schemaVersion === SCHEMA_VERSION) return raw;
+      if (raw.schemaVersion === SCHEMA_VERSION && raw.reviews) {
+        if (seed) {
+          let modified = false;
+          for (const [k, v] of Object.entries(INITIAL_SEED)) {
+            if (!raw.reviews[k] || raw.reviews[k].length === 0) {
+              raw.reviews[k] = v;
+              modified = true;
+            }
+          }
+          if (modified) {
+            try { write(raw); } catch {}
+          }
+        }
+        return raw;
+      }
     } catch {
       // Return fresh schema on first run or corruption
     }
-    return { schemaVersion: SCHEMA_VERSION, reviews: {} };
+    const fresh = { schemaVersion: SCHEMA_VERSION, reviews: seed ? { ...INITIAL_SEED } : {} };
+    try {
+      write(fresh);
+    } catch {}
+    return fresh;
   }
 
   function write(data) {
@@ -106,6 +205,19 @@ export function createReviewStore({ dir = process.env.OSH_DATA_DIR || getUserDat
       write(data);
 
       return this.getReviews(repo);
+    },
+
+    voteHelpful(repo, id) {
+      const data = read();
+      const key = repo.toLowerCase();
+      const list = data.reviews[key] || [];
+      const item = list.find((r) => r.id === id);
+      if (item) {
+        item.helpful = (item.helpful || 0) + 1;
+        write(data);
+        return { success: true, helpful: item.helpful };
+      }
+      return { success: false, helpful: 0 };
     },
   };
 }

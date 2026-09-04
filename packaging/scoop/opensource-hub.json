@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0",
+  "description": "Find free open-source alternatives to paid software. Local dashboard, zero accounts.",
+  "homepage": "https://github.com/bengowtham70/opensource-hub",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/bengowtham70/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-x64.exe#/opensource-hub.exe",
+      "hash": "PLACEHOLDER_RUN_AFTER_RELEASE_BUILD"
+    }
+  },
+  "bin": "opensource-hub.exe",
+  "checkver": {
+    "github": "https://github.com/bengowtham70/opensource-hub"
+  },
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/bengowtham70/opensource-hub/releases/download/v$version/opensource-hub-v$version-windows-x64.exe#/opensource-hub.exe",
+        "hash": {
+          "url": "https://github.com/bengowtham70/opensource-hub/releases/download/v$version/SHA256SUMS.txt",
+          "find": "([a-f0-9]{64})\\s+\\*?opensource-hub-v\\$version-windows-x64\\.exe"
+        }
+      }
+    }
+  }
+}

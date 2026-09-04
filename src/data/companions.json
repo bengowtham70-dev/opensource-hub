@@ -1,0 +1,60 @@
+{
+  "supabase/supabase": [
+    {
+      "repo": "umami-software/umami",
+      "name": "Umami",
+      "reason": "Lightweight, privacy-first web analytics running on top of your existing Supabase PostgreSQL instance.",
+      "category": "Analytics"
+    },
+    {
+      "repo": "usebruno/bruno",
+      "name": "Bruno",
+      "reason": "Local, offline-first API client to test, document, and debug Supabase PostgREST & Auth endpoints.",
+      "category": "API Client"
+    }
+  ],
+  "pocketbase/pocketbase": [
+    {
+      "repo": "usebruno/bruno",
+      "name": "Bruno",
+      "reason": "Inspect and debug PocketBase collection REST APIs and webhook payloads without leaving your editor.",
+      "category": "API Client"
+    },
+    {
+      "repo": "dani-garcia/vaultwarden",
+      "name": "Vaultwarden",
+      "reason": "Lightweight Rust password manager to securely store and share PocketBase production admin tokens.",
+      "category": "Security"
+    }
+  ],
+  "dani-garcia/vaultwarden": [
+    {
+      "repo": "pocketbase/pocketbase",
+      "name": "PocketBase",
+      "reason": "Complementary zero-config backend to store encrypted secondary application backups and audit logs.",
+      "category": "Database"
+    }
+  ],
+  "mattermost/mattermost": [
+    {
+      "repo": "toeverything/affine",
+      "name": "AFFiNE",
+      "reason": "Local-first visual whiteboard and workspace directly linked into Mattermost channels for sprint planning.",
+      "category": "Knowledge Base"
+    }
+  ],
+  "nocodb/nocodb": [
+    {
+      "repo": "supabase/supabase",
+      "name": "Supabase",
+      "reason": "Point NocoDB directly at your Supabase PostgreSQL database to create Airtable-like spreadsheet views.",
+      "category": "Backend"
+    },
+    {
+      "repo": "metabase/metabase",
+      "name": "Metabase",
+      "reason": "Self-hosted BI analytics dashboard querying the exact same relational database backing your NocoDB bases.",
+      "category": "BI & Analytics"
+    }
+  ]
+}

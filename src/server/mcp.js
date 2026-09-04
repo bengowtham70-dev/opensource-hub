@@ -13,6 +13,10 @@ import { computeTrust } from "./trust.js";
 import { createGithubClient } from "./github.js";
 import { getPackageVersion } from "./version.js";
 import { initEmbeddedPayload } from "./repo-files.js";
+import { evaluateHardwareFit } from "./hardware.js";
+import { generateComposeBundle } from "./compose-bundle.js";
+import { answerRepoQuestion } from "./repo-assistant.js";
+import { getRepoByFullName } from "./db.js";
 
 const CHARACTER_LIMIT = 25000;
 
@@ -170,8 +174,10 @@ Error: returns isError if repo not in catalog or GitHub unavailable — never th
     },
     async ({ repo, response_format = "markdown" }) => {
       try {
-        const pairing = findPairingByRepo(String(repo).toLowerCase());
-        if (!pairing) {
+        const cleanRepo = String(repo).toLowerCase().trim();
+        const pairing = findPairingByRepo(cleanRepo);
+        const dbRepo = !pairing ? getRepoByFullName(cleanRepo) : null;
+        if (!pairing && !dbRepo) {
           return {
             content: [{ type: "text", text: `Error: repo "${repo}" not in catalog. Use search_alternatives to discover available repos.` }],
             isError: true,
@@ -179,9 +185,9 @@ Error: returns isError if repo not in catalog or GitHub unavailable — never th
         }
         const gh = createGithubClient();
         const [liveResult, contribResult, scorecardResult] = await Promise.all([
-          gh.getRepo(repo),
-          gh.getContributorCount(repo),
-          gh.getScorecard(repo),
+          gh.getRepo(cleanRepo),
+          gh.getContributorCount(cleanRepo),
+          gh.getScorecard(cleanRepo),
         ]);
         const trustInput = liveResult.data
           ? { ...liveResult.data, contributors: contribResult.data, scorecard: scorecardResult.data }
@@ -191,26 +197,26 @@ Error: returns isError if repo not in catalog or GitHub unavailable — never th
         if (!trustInput) {
           try {
             const snapshotData = await loadSnapshotData();
-            const meta = snapshotData.meta?.[repo] || snapshotData.meta?.[repo.toLowerCase()];
-            const stars = snapshotData.stars?.[repo] ?? snapshotData.stars?.[repo.toLowerCase()] ?? 1000;
+            const meta = snapshotData.meta?.[cleanRepo] || snapshotData.meta?.[cleanRepo.toLowerCase()];
+            const stars = snapshotData.stars?.[cleanRepo] ?? snapshotData.stars?.[cleanRepo.toLowerCase()] ?? dbRepo?.stars ?? 1000;
             fallbackTrust = computeTrust({
-              fullName: repo,
-              pushedAt: meta?.pushedAt || new Date().toISOString(),
-              archived: !!meta?.archived,
+              fullName: cleanRepo,
+              pushedAt: meta?.pushedAt || dbRepo?.pushedAt || new Date().toISOString(),
+              archived: !!meta?.archived || !!dbRepo?.archived,
               stars,
-              license: pairing.alternative.license || { spdx: "MIT" },
+              license: pairing?.alternative?.license || { spdx: dbRepo?.license || "MIT" },
               openIssues: 0,
-              createdAt: new Date(Date.now() - 700 * 86400000).toISOString(),
+              createdAt: dbRepo?.createdAt || new Date(Date.now() - 700 * 86400000).toISOString(),
             });
           } catch {
             fallbackTrust = computeTrust({
-              fullName: repo,
-              pushedAt: new Date().toISOString(),
-              archived: false,
-              stars: 1000,
-              license: pairing.alternative.license || { spdx: "MIT" },
+              fullName: cleanRepo,
+              pushedAt: dbRepo?.pushedAt || new Date().toISOString(),
+              archived: !!dbRepo?.archived,
+              stars: dbRepo?.stars || 1000,
+              license: pairing?.alternative?.license || { spdx: dbRepo?.license || "MIT" },
               openIssues: 0,
-              createdAt: new Date(Date.now() - 700 * 86400000).toISOString(),
+              createdAt: dbRepo?.createdAt || new Date(Date.now() - 700 * 86400000).toISOString(),
             });
           }
         }
@@ -221,10 +227,12 @@ Error: returns isError if repo not in catalog or GitHub unavailable — never th
             isError: true,
           };
         }
+        const altName = pairing?.alternative?.name || dbRepo?.name || cleanRepo.split("/")[1] || cleanRepo;
+        const replacesName = pairing?.paidTool?.name || "Proprietary Software";
         const output = {
-          repo,
-          alternative: pairing.alternative.name,
-          replaces: pairing.paidTool.name,
+          repo: cleanRepo,
+          alternative: altName,
+          replaces: replacesName,
           trust,
           liveCached: liveResult.cached || !liveResult.data,
         };
@@ -353,29 +361,48 @@ Returns: { pairing, live, trust, stars30d, freshness, maintenance } or error if 
     },
     async ({ repo, response_format = "markdown" }) => {
       try {
-        const pairing = findPairingByRepo(String(repo).toLowerCase());
-        if (!pairing) {
+        const cleanRepo = String(repo).toLowerCase().trim();
+        const pairing = findPairingByRepo(cleanRepo);
+        const dbRepo = !pairing ? getRepoByFullName(cleanRepo) : null;
+        if (!pairing && !dbRepo) {
           return {
             content: [{ type: "text", text: `Error: "${repo}" not in catalog. Search via search_alternatives first.` }],
             isError: true,
           };
         }
+        const effectivePairing = pairing || {
+          paidTool: { name: "Proprietary Software", category: dbRepo.category || "Developer Tools", pricePerYearUsd: 240, planName: "Commercial" },
+          alternative: {
+            name: dbRepo.name || cleanRepo.split("/")[1],
+            repo: dbRepo.fullName || cleanRepo,
+            description: dbRepo.description || "",
+            language: dbRepo.language || "Unknown",
+            stars: dbRepo.stars || 0,
+            platforms: ["self-host", "linux"],
+            license: { spdx: dbRepo.license || "Open Source", type: "permissive" },
+            parity: ["Core open-source functionality", "Self-hosted deployment"],
+            gaps: ["Managed cloud SLA"],
+            migrationNotes: "Import data using standard API or DB dump.",
+          },
+          relationship: "Alternative",
+          goalTags: [dbRepo.category || "open-source"],
+        };
         const snapshotData = await loadSnapshotData().catch(() => null);
         const gh = createGithubClient();
         const [liveResult, contribResult, scorecardResult] = await Promise.all([
-          gh.getRepo(repo),
-          gh.getContributorCount(repo),
-          gh.getScorecard(repo),
+          gh.getRepo(cleanRepo),
+          gh.getContributorCount(cleanRepo),
+          gh.getScorecard(cleanRepo),
         ]);
         const trustInput = liveResult.data ? { ...liveResult.data, contributors: contribResult.data, scorecard: scorecardResult.data } : null;
         const trust = trustInput ? computeTrust(trustInput) : null;
-        const stars30d = snapshotData ? getStars30d(snapshotData, repo) : null;
-        const freshness = snapshotData ? getFreshness(snapshotData, repo) : null;
-        const maintenance = snapshotData ? getMaintenance(snapshotData, repo) : null;
+        const stars30d = snapshotData ? getStars30d(snapshotData, cleanRepo) : null;
+        const freshness = snapshotData ? getFreshness(snapshotData, cleanRepo) : null;
+        const maintenance = snapshotData ? getMaintenance(snapshotData, cleanRepo) : null;
 
         const output = {
-          repo,
-          pairing,
+          repo: cleanRepo,
+          pairing: effectivePairing,
           live: liveResult.data,
           liveCached: liveResult.cached || !liveResult.data,
           trust,
@@ -388,14 +415,14 @@ Returns: { pairing, live, trust, stars30d, freshness, maintenance } or error if 
         if (response_format === "json") {
           text = truncate(jsonText).text;
         } else {
-          const a = pairing.alternative;
+          const a = effectivePairing.alternative;
           const lines = [
-            `# ${a.name} (${repo}) — replaces ${pairing.paidTool.name}`,
+            `# ${a.name} (${cleanRepo}) — replaces ${effectivePairing.paidTool.name}`,
             a.description,
             "",
-            `**Category:** ${pairing.paidTool.category} · **Price replaced:** $${pairing.paidTool.pricePerYearUsd}/yr (${pairing.paidTool.planName})`,
+            `**Category:** ${effectivePairing.paidTool.category} · **Price replaced:** $${effectivePairing.paidTool.pricePerYearUsd}/yr (${effectivePairing.paidTool.planName})`,
             `**Language:** ${a.language} · **Platforms:** ${(a.platforms || []).join(", ")} · **License:** ${a.license?.spdx} (${a.license?.type})`,
-            `**Relationship:** ${pairing.relationship} · **Goals:** ${(pairing.goalTags || []).join(", ")}`,
+            `**Relationship:** ${effectivePairing.relationship} · **Goals:** ${(effectivePairing.goalTags || []).join(", ")}`,
             "",
             `## Parity`,
             ...(a.parity || []).map((p) => `- ✓ ${p}`),
@@ -407,13 +434,219 @@ Returns: { pairing, live, trust, stars30d, freshness, maintenance } or error if 
             ...(stars30d ? [`**Stars:** ${stars30d.stars} (${stars30d.changePct}% 30d)`] : []),
             ...(maintenance ? [`**Maintenance:** ${maintenance.status} — ${maintenance.reason}`] : []),
             ...(trust ? [`**Trust:** ${trust.score}/100 (${trust.band})`] : ["**Trust:** unavailable (rate-limited)"]),
-            ...(trust?.redFlags.length ? ["", "## Red Flags", ...trust.redFlags.map((f) => `- ⚠ ${f}`)] : []),
+            ...(trust?.redFlags?.length ? ["", "## Red Flags", ...trust.redFlags.map((f) => `- ⚠ ${f}`)] : []),
           ];
           text = truncate(lines.join("\n")).text;
         }
         return { content: [{ type: "text", text }], structuredContent: output };
       } catch (e) {
         return { content: [{ type: "text", text: `Error in get_alternative_details: ${e instanceof Error ? e.message : String(e)}` }], isError: true };
+      }
+    }
+  );
+
+  // ---- simulate_hardware ----
+  server.registerTool(
+    "simulate_hardware",
+    {
+      title: "Simulate Hardware Fit",
+      description: `Evaluate RAM and CPU feasibility for self-hosting open-source tools on a user's VPS or local machine. Flags OOM risk, architecture compatibility (x86_64 vs arm64), and recommends lightweight swaps (e.g. PocketBase for Supabase, Vaultwarden for Bitwarden).
+
+Use when: user asks "Can I run X on a 2GB VPS?", "How much RAM for Supabase?", or needs hardware sizing.
+
+Args:
+  - tool: repo slug (e.g. "supabase/supabase" or "supabase") or tool name
+  - ram_mb: available RAM in megabytes (e.g. 1024, 2048, 4096, 8192) - default 2048
+  - arch: x86_64 | arm64 (default x86_64)
+  - cpus: number of CPU cores (default 2)
+  - response_format: markdown | json
+
+Returns: { verdict, status, tone, ramMb, headroomMb, headroomPct, swaps, toolBreakdown }`,
+      inputSchema: {
+        tool: z.string().describe("Repo slug or tool name (e.g. 'supabase/supabase' or 'supabase')"),
+        ram_mb: z.number().default(2048).describe("RAM in megabytes"),
+        arch: z.enum(["x86_64", "arm64"]).default("x86_64").describe("System architecture"),
+        cpus: z.number().default(2).describe("CPU cores count"),
+        response_format: z.enum(["markdown", "json"]).default("markdown").describe("Output format"),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
+    },
+    async ({ tool, ram_mb = 2048, arch = "x86_64", cpus = 2, response_format = "markdown" }) => {
+      try {
+        const fit = evaluateHardwareFit({ tool, ram_mb, arch, cpus });
+        const jsonText = JSON.stringify(fit, null, 2);
+        if (response_format === "json") {
+          return { content: [{ type: "text", text: jsonText }], structuredContent: fit };
+        }
+        const lines = [
+          `# Hardware Simulation: ${tool}`,
+          `**Verdict:** ${fit.verdict} (${fit.status})`,
+          `**RAM Allocated:** ${fit.ramMb} MB · **Required:** ${fit.totalRequiredMb} MB · **Headroom:** ${fit.headroomMb} MB (${fit.headroomPct}%)`,
+          `**Architecture:** ${fit.arch} · **CPUs:** ${fit.cpus}`,
+          "",
+          "## Breakdown",
+          ...(fit.toolBreakdown || []).map(
+            (t) => `- **${t.name}**: ~${t.idleRamMb} MB idle RAM | Arch supported: ${t.isArchOk ? "✓" : "✗"}`
+          ),
+          ...(fit.swaps?.length
+            ? [
+                "",
+                "## Recommended Leaner Swaps",
+                ...fit.swaps.map((s) => `- **${s.name}** (${s.target}): Saves ${s.ramSavingsMb} MB RAM — *${s.reason}*`),
+              ]
+            : []),
+        ];
+        return { content: [{ type: "text", text: lines.join("\n") }], structuredContent: fit };
+      } catch (err) {
+        return {
+          content: [{ type: "text", text: `Error simulating hardware: ${err.message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // ---- generate_compose_stack ----
+  server.registerTool(
+    "generate_compose_stack",
+    {
+      title: "Generate Docker Compose Stack",
+      description: `Generate a unified multi-service docker-compose.yml and deployment kit with zero port collisions. Resolves conflicting ports automatically, generates secure random credentials in .env.example, and provides production healthchecks, start.sh, start.ps1, and README.md.
+
+Use when: user wants a combined self-hosted stack (e.g. "Generate compose for Supabase + Umami + Plausible").
+
+Args:
+  - tools: array of repo slugs or tool names (e.g. ["supabase/supabase", "umami-software/umami"])
+  - stack_name: slug for stack naming and networks (default "my-opensource-stack")
+  - response_format: markdown | json
+
+Returns: { stackName, services, files: { "docker-compose.yml", ".env.example", "start.sh", "start.ps1", "README.md" } }`,
+      inputSchema: {
+        tools: z.array(z.string()).min(1).describe("List of repo slugs or tool names to include in stack"),
+        stack_name: z.string().default("my-opensource-stack").describe("Stack identifier"),
+        response_format: z.enum(["markdown", "json"]).default("markdown").describe("Output format"),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: false,
+      },
+    },
+    async ({ tools = [], stack_name = "my-opensource-stack", response_format = "markdown" }) => {
+      try {
+        const bundle = generateComposeBundle({ tools, stackName: stack_name });
+        if (response_format === "json") {
+          return { content: [{ type: "text", text: JSON.stringify(bundle, null, 2) }], structuredContent: bundle };
+        }
+        const lines = [
+          `# Docker Compose Stack: ${bundle.stackName}`,
+          `Included Services: ${bundle.services.map((s) => `**${s.name}** (port ${s.port})`).join(", ")}`,
+          "",
+          "## Generated `docker-compose.yml`",
+          "```yaml",
+          bundle.files["docker-compose.yml"] || "",
+          "```",
+          "",
+          "## Generated `.env.example`",
+          "```bash",
+          bundle.files[".env.example"] || "",
+          "```",
+        ];
+        return { content: [{ type: "text", text: lines.join("\n") }], structuredContent: bundle };
+      } catch (err) {
+        return {
+          content: [{ type: "text", text: `Error generating compose stack: ${err.message}` }],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  // ---- ask_repo ----
+  server.registerTool(
+    "ask_repo",
+    {
+      title: "Ask Repository Assistant",
+      description: `Ask technical questions about any open-source repository (architecture, docker setup, config, env vars). Uses local AST markdown parsing with fallback to local Ollama if active. Zero external API keys required.
+
+Use when: user asks "How do I deploy X with Docker?", "What env vars does Y need?", or "Explain architecture of Z".
+
+Args:
+  - repo: repository slug owner/name e.g. "supabase/supabase"
+  - question: technical question to answer
+  - response_format: markdown | json
+
+Returns: { answer, matchedSection, codeSnippets, source }`,
+      inputSchema: {
+        repo: z.string().min(3).max(120).describe("Full repo slug owner/name e.g. supabase/supabase"),
+        question: z.string().min(3).describe("Technical question about installation, env vars, or architecture"),
+        response_format: z.enum(["markdown", "json"]).default("markdown").describe("Output format"),
+      },
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+    },
+    async ({ repo, question, response_format = "markdown" }) => {
+      try {
+        const cleanRepo = String(repo).toLowerCase().trim();
+        const pairing = findPairingByRepo(cleanRepo);
+        const dbRepo = !pairing ? getRepoByFullName(cleanRepo) : null;
+        const gh = createGithubClient();
+        const live = await gh.getRepo(cleanRepo).catch(() => ({ data: null }));
+
+        let markdown = "";
+        try {
+          const resp = await fetch(`https://raw.githubusercontent.com/${cleanRepo}/HEAD/README.md`, {
+            headers: { "User-Agent": "OpenSource-Hub/1.0" },
+            signal: AbortSignal.timeout(4000),
+          }).catch(() => null);
+          if (resp && resp.ok) {
+            markdown = await resp.text();
+          }
+        } catch {
+          // offline fallback
+        }
+
+        const repoMeta = {
+          name: pairing?.alternative?.name || dbRepo?.name || live.data?.name || cleanRepo.split("/")[1] || cleanRepo,
+          repo: cleanRepo,
+          language: pairing?.alternative?.language || dbRepo?.language || live.data?.language || "Unknown",
+          stars: live.data?.stars || dbRepo?.stars || pairing?.alternative?.stars || 0,
+          license: pairing?.alternative?.license || { spdx: live.data?.license || dbRepo?.license || "Open Source" },
+        };
+
+        const result = await answerRepoQuestion({
+          question,
+          markdown,
+          repoMeta,
+        });
+
+        if (response_format === "json") {
+          return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }], structuredContent: result };
+        }
+
+        const lines = [
+          `# ${repoMeta.name} — Technical Assistant`,
+          `**Question:** ${question}`,
+          `**Source:** ${result.source} (Section: ${result.matchedSection})`,
+          "",
+          result.answer,
+        ];
+        return { content: [{ type: "text", text: lines.join("\n") }], structuredContent: result };
+      } catch (err) {
+        return {
+          content: [{ type: "text", text: `Error in ask_repo: ${err.message}` }],
+          isError: true,
+        };
       }
     }
   );
@@ -446,5 +679,5 @@ export async function runMcp() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   // keep process alive via stdio — no HTTP server needed
-  console.error(`◆ OpenSource Hub MCP server v${getPackageVersion()} — stdio ready (4 tools + 1 resource)`);
+  console.error(`◆ OpenSource Hub MCP server v${getPackageVersion()} — stdio ready (7 tools + 1 resource)`);
 }

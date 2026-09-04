@@ -80,6 +80,12 @@ export default function NewsletterFooter() {
                 <span>{status.message}</span>
               </p>
             )}
+
+            <div className="pt-2 flex items-center gap-3">
+              <a href="/newsletter" className="text-xs text-link hover:underline font-medium inline-flex items-center gap-1">
+                <span>Browse Past Weekly Editions →</span>
+              </a>
+            </div>
           </div>
 
           {/* Chrome Extension Download Card */}

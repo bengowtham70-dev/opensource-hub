@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.version.1.6.0.schema.json
+PackageIdentifier: OpenSourceHub.OpenSourceHub
+PackageVersion: 0.1.0
+DefaultLocale: en-US
+Publisher: OpenSource Hub
+PublisherUrl: https://github.com/bengowtham70/opensource-hub
+PackageName: OpenSource Hub
+PackageUrl: https://github.com/bengowtham70/opensource-hub
+License: MIT
+ShortDescription: Find free open-source alternatives to paid software. Local dashboard, zero accounts.
+Description: One command installs a local dashboard of free, open-source alternatives to the paid tools you already use — with trust signals on every repo.
+Moniker: opensource-hub
+Tags:
+  - open-source
+  - alternatives
+  - self-hosted
+  - developer-tools
+ReleaseDate: 2026-09-04
+Installers:
+  - Architecture: x64
+    InstallerType: portable
+    InstallerUrl: https://github.com/bengowtham70/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-x64.exe
+    InstallerSha256: PLACEHOLDER_RUN_AFTER_RELEASE_BUILD
+    Commands:
+      - opensource-hub
+  - Architecture: arm64
+    InstallerType: portable
+    InstallerUrl: https://github.com/bengowtham70/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-arm64.exe
+    InstallerSha256: PLACEHOLDER_RUN_AFTER_RELEASE_BUILD
+    Commands:
+      - opensource-hub
+ManifestType: singleton
+ManifestVersion: 1.6.0
