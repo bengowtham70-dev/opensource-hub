@@ -3,9 +3,9 @@ PackageIdentifier: OpenSourceHub.OpenSourceHub
 PackageVersion: 0.1.0
 DefaultLocale: en-US
 Publisher: OpenSource Hub
-PublisherUrl: https://github.com/bengowtham70/opensource-hub
+PublisherUrl: https://github.com/bengowtham70-dev/opensource-hub
 PackageName: OpenSource Hub
-PackageUrl: https://github.com/bengowtham70/opensource-hub
+PackageUrl: https://github.com/bengowtham70-dev/opensource-hub
 License: MIT
 ShortDescription: Find free open-source alternatives to paid software. Local dashboard, zero accounts.
 Description: One command installs a local dashboard of free, open-source alternatives to the paid tools you already use — with trust signals on every repo.
@@ -15,17 +15,17 @@ Tags:
   - alternatives
   - self-hosted
   - developer-tools
-ReleaseDate: 2026-09-04
+ReleaseDate: 2026-09-05
 Installers:
   - Architecture: x64
     InstallerType: portable
-    InstallerUrl: https://github.com/bengowtham70/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-x64.exe
+    InstallerUrl: https://github.com/bengowtham70-dev/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-x64.exe
     InstallerSha256: PLACEHOLDER_RUN_AFTER_RELEASE_BUILD
     Commands:
       - opensource-hub
   - Architecture: arm64
     InstallerType: portable
-    InstallerUrl: https://github.com/bengowtham70/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-arm64.exe
+    InstallerUrl: https://github.com/bengowtham70-dev/opensource-hub/releases/download/v0.1.0/opensource-hub-v0.1.0-windows-arm64.exe
     InstallerSha256: PLACEHOLDER_RUN_AFTER_RELEASE_BUILD
     Commands:
       - opensource-hub

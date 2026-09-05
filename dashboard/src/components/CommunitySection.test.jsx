@@ -23,7 +23,7 @@ describe("CommunitySection SSR smoke (PRD §34)", () => {
     expect(html).toContain("Send suggestion");
     expect(html).toContain("Report wrong data");
     // Both export flows compose prefilled GitHub issue URLs…
-    const matches = html.match(/github\.com\/bengowtham70\/opensource-hub\/issues\/new/g) || [];
+    const matches = html.match(/github\.com\/bengowtham70-dev\/opensource-hub\/issues\/new/g) || [];
     expect(matches.length).toBeGreaterThanOrEqual(2);
   });
 });

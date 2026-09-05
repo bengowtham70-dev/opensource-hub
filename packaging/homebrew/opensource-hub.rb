@@ -1,6 +1,6 @@
 class OpensourceHub < Formula
   desc "Find free open-source alternatives to the paid software you use"
-  homepage "https://github.com/bengowtham70/opensource-hub"
+  homepage "https://github.com/bengowtham70-dev/opensource-hub"
   url "https://registry.npmjs.org/opensource-hub/-/opensource-hub-0.1.0.tgz"
   sha256 "PLACEHOLDER_TARBALL_SHA"
   license "MIT"

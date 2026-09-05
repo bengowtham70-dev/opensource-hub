@@ -6,6 +6,7 @@ services:
     region: oregon
     buildCommand: npm install && npm run build
     startCommand: node bin/cli.js --no-open
+    healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
         value: 20

@@ -8,9 +8,21 @@ const projectRoot = path.join(__dirname, "../..");
 const extensionDir = path.join(projectRoot, "extension");
 
 // Minimal zero-dependency ZIP archive generator in pure Node.js
-export function createExtensionZip() {
-  const files = [
-    "manifest.json",
+export function createExtensionZip({ browser = "chrome" } = {}) {
+  const isFirefox = String(browser).toLowerCase() === "firefox";
+  const manifestFile = isFirefox && fs.existsSync(path.join(extensionDir, "manifest.firefox.json"))
+    ? "manifest.firefox.json"
+    : "manifest.json";
+
+  const fileEntries = [];
+
+  // Read manifest
+  const manifestPath = path.join(extensionDir, manifestFile);
+  if (fs.existsSync(manifestPath)) {
+    fileEntries.push({ name: "manifest.json", data: fs.readFileSync(manifestPath) });
+  }
+
+  const otherFiles = [
     "content.js",
     "popup.html",
     "popup.js",
@@ -18,8 +30,7 @@ export function createExtensionZip() {
     "icon128.png",
   ];
 
-  const fileEntries = [];
-  for (const filename of files) {
+  for (const filename of otherFiles) {
     const fullPath = path.join(extensionDir, filename);
     if (fs.existsSync(fullPath)) {
       const data = fs.readFileSync(fullPath);

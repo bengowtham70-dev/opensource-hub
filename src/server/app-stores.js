@@ -88,9 +88,9 @@ export function getEligibleAppStoreApps() {
 export function generateUmbrelAppStoreYaml() {
   return `name: "OpenSource Hub Community Store"
 description: "The trusted open-source alternatives directory and 1-click home server app store."
-icon: "https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/landing-page/assets/logo.svg"
+icon: "https://raw.githubusercontent.com/bengowtham70-dev/opensource-hub/main/landing-page/assets/logo.svg"
 submitter: "OpenSource Hub Community"
-submission: "https://github.com/bengowtham70/opensource-hub"
+submission: "https://github.com/bengowtham70-dev/opensource-hub"
 `;
 }
 
@@ -108,9 +108,9 @@ website: "${app.website}"
 repo: "${app.website}"
 support: "${app.website}/issues"
 submitter: "OpenSource Hub"
-submission: "https://github.com/bengowtham70/opensource-hub"
+submission: "https://github.com/bengowtham70-dev/opensource-hub"
 gallery:
-  - "https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/landing-page/assets/logo.svg"
+  - "https://raw.githubusercontent.com/bengowtham70-dev/opensource-hub/main/landing-page/assets/logo.svg"
 `;
 }
 

@@ -1,9 +1,9 @@
 {
-  "baseUrl": "https://bengowtham70.github.io/opensource-hub",
+  "baseUrl": "https://bengowtham70-dev.github.io/opensource-hub",
   "siteName": "OpenSource Hub",
   "tagline": "Free open-source alternatives to the paid software you already use.",
   "contactEmail": "bengowtham70@gmail.com",
-  "repoSlug": "bengowtham70/opensource-hub",
+  "repoSlug": "bengowtham70-dev/opensource-hub",
   "stripe": { "submitUrl": "" },
   "newsletter": { "provider": "", "embedUrl": "" },
   "socials": {},

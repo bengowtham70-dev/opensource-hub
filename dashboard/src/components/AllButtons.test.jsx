@@ -163,7 +163,7 @@ describe("Comprehensive Button & Interactive Element Verification", () => {
         { key: "commit", label: "Commit Velocity", points: 25, detail: "Active pushes" },
       ],
       redFlags: [],
-      appeal: "https://github.com/bengowtham70/opensource-hub/issues/new",
+      appeal: "https://github.com/bengowtham70-dev/opensource-hub/issues/new",
       disclaimer: "Trust score based on public data",
     };
 

@@ -1,12 +1,17 @@
 # ◆ OpenSource Hub
 
-[![node:test](https://img.shields.io/badge/node--test-221%20passing-059669)](https://github.com/opensource-hub/opensource-hub/actions/workflows/tests.yml)
-[![vitest](https://img.shields.io/badge/vitest-47%20passing-059669)](https://github.com/opensource-hub/opensource-hub/actions/workflows/tests.yml)
+[![Tests](https://github.com/bengowtham70-dev/opensource-hub/actions/workflows/tests.yml/badge.svg)](https://github.com/bengowtham70-dev/opensource-hub/actions/workflows/tests.yml)
+[![Web Deploy](https://github.com/bengowtham70-dev/opensource-hub/actions/workflows/web-deploy.yml/badge.svg)](https://bengowtham70-dev.github.io/opensource-hub)
+[![node:test](https://img.shields.io/badge/node--test-304%20passing-059669)](https://github.com/bengowtham70-dev/opensource-hub/actions/workflows/tests.yml)
+[![vitest](https://img.shields.io/badge/vitest-83%20passing-059669)](https://github.com/bengowtham70-dev/opensource-hub/actions/workflows/tests.yml)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/bengowtham70-dev/opensource-hub)
 ![Node](https://img.shields.io/badge/node-%E2%89%A518-18181B)
 ![License](https://img.shields.io/badge/license-MIT-18181B)
 ![npm](https://img.shields.io/badge/npm-opensource--hub-C2410C)
 
 **Find free open-source alternatives to the paid software you already use. Trust what you download. One command, local dashboard, zero accounts.**
+
+🌐 **Live Directory:** [https://bengowtham70-dev.github.io/opensource-hub](https://bengowtham70-dev.github.io/opensource-hub)
 
 ```bash
 npm install -g opensource-hub

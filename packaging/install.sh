@@ -1,11 +1,11 @@
 #!/bin/sh
 # OpenSource Hub 1-Line POSIX Installer (macOS & Linux)
 # Installs standalone binary without Node.js prerequisite.
-# Usage: curl -fsSL https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/packaging/install.sh | sh
+# Usage: curl -fsSL https://raw.githubusercontent.com/bengowtham70-dev/opensource-hub/main/packaging/install.sh | sh
 
 set -e
 
-REPO_SLUG="bengowtham70/opensource-hub"
+REPO_SLUG="bengowtham70-dev/opensource-hub"
 BINARY_NAME="opensource-hub"
 
 echo "=== Installing OpenSource Hub ==="

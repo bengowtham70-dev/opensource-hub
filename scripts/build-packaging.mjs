@@ -113,7 +113,7 @@ ManifestVersion: 1.6.0
 
 // CLI execution if run directly
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  const REPO_SLUG = process.env.OH_REPO_SLUG || "bengowtham70/opensource-hub";
+  const REPO_SLUG = process.env.OH_REPO_SLUG || "bengowtham70-dev/opensource-hub";
   const rawVersion = process.argv[2]?.replace(/^v/, "");
   if (!rawVersion || !/^\d+\.\d+\.\d+(-[\w.+]+)?$/.test(rawVersion)) {
     console.error("usage: node scripts/build-packaging.mjs <version>");

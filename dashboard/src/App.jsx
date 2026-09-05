@@ -83,6 +83,13 @@ function StackBuilderRedirect() {
   return <Navigate to={`/stacks/builder${location.search}`} replace />;
 }
 
+function ExtensionRedirect() {
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("osh:open-extension-modal"));
+  }, []);
+  return <Navigate to="/" replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -130,6 +137,8 @@ export default function App() {
             <Route path="/subscriptions" element={<SubscriptionsPage />} />
             <Route path="/savings" element={<Navigate to="/subscriptions" replace />} />
             <Route path="/app-stores" element={<AppStoresPage />} />
+            <Route path="/extension" element={<ExtensionRedirect />} />
+            <Route path="/download-extension" element={<ExtensionRedirect />} />
             <Route
               path="*"
               element={

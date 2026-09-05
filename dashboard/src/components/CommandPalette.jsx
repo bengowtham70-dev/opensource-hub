@@ -23,6 +23,8 @@ import {
   Code2,
   Cpu,
   Wallet,
+  Sparkles,
+  Puzzle,
 } from "lucide-react";
 import { api } from "../lib/api";
 import { getPairings } from "../lib/seed";
@@ -115,6 +117,14 @@ export default function CommandPalette({ open, onOpenChange }) {
     { icon: Cpu, label: "Can I Run This? Hardware Sizing Simulator", to: "/hardware" },
     { icon: ShieldCheck, label: "Stack Cost & Health Audit", to: "/stack-audit" },
     { icon: Server, label: "MCP AI Agent Server Hub", to: "/mcp" },
+    {
+      icon: Puzzle,
+      label: "Install Browser Extension (Chrome, Firefox, Edge)",
+      action: () => {
+        onOpenChange(false);
+        window.dispatchEvent(new CustomEvent("osh:open-extension-modal"));
+      },
+    },
   ];
 
   const hasQuery = query.trim().length > 0;
@@ -230,7 +240,7 @@ export default function CommandPalette({ open, onOpenChange }) {
                 className="[&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-faint"
               >
                 {quickTools.map((t) => (
-                  <Item key={t.to} onSelect={() => go(t.to)}>
+                  <Item key={t.label} onSelect={() => (t.action ? t.action() : go(t.to))}>
                     <t.icon size={15} className="text-faint shrink-0" />
                     <span>{t.label}</span>
                   </Item>

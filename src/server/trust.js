@@ -18,7 +18,7 @@ const KNOWN_BACKING = new Set([
   "linuxfoundation", "cff", "osi", "matrix-org", "keepassxreboot",
 ]);
 
-const APPEALS_REPO = "bengowtham70/opensource-hub";
+const APPEALS_REPO = "bengowtham70-dev/opensource-hub";
 
 export function appealUrl(fullName, { score, band, reasons = [] } = {}) {
   const title = encodeURIComponent(`[Trust appeal] ${fullName} — scored ${score ?? "?"} (${band ?? "?"})`);

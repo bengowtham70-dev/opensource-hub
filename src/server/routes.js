@@ -1651,7 +1651,7 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
         ok: true,
         platforms: ["umbrel", "runtipi", "casaos", "unraid"],
         totalApps: apps.length,
-        storeUrl: "https://github.com/bengowtham70/opensource-hub-umbrel-store",
+        storeUrl: "https://github.com/bengowtham70-dev/opensource-hub-umbrel-store",
         apps,
       });
     } catch (err) {
@@ -1991,12 +1991,14 @@ export function createApiRouter({ favorites, community, usage, reviews = createR
     }
   });
 
-  // ── 1-Click Chrome Extension Download ──
-  router.get("/extension/download", (_req, res) => {
+  // ── 1-Click Multi-Browser Extension Download (PRD §441) ──
+  router.get("/extension/download", (req, res) => {
     try {
-      const zipBuffer = createExtensionZip();
+      const browser = (req.query.browser || "chrome").toString().toLowerCase();
+      const safeBrowser = ["chrome", "firefox", "edge", "brave"].includes(browser) ? browser : "chrome";
+      const zipBuffer = createExtensionZip({ browser: safeBrowser });
       res.setHeader("Content-Type", "application/zip");
-      res.setHeader("Content-Disposition", 'attachment; filename="opensource-hub-extension.zip"');
+      res.setHeader("Content-Disposition", `attachment; filename="opensource-hub-extension-${safeBrowser}.zip"`);
       res.send(zipBuffer);
     } catch (err) {
       res.status(500).json({ error: "Failed to generate extension bundle: " + err.message });

@@ -108,7 +108,7 @@ test("perfect repo never exceeds 100", () => {
 
 test("appeal deep-link is prefilled and points at the appeals repo (PRD section 13)", () => {
   const t = computeTrust({ ...healthyRepo, license: null, contributors: 1 });
-  assert.ok(t.appeal.startsWith("https://github.com/bengowtham70/opensource-hub/issues/new?"));
+  assert.ok(t.appeal.startsWith("https://github.com/bengowtham70-dev/opensource-hub/issues/new?"));
   const url = new URL(t.appeal);
   assert.match(url.searchParams.get("title"), /\[Trust appeal\] acme\/healthy/);
   assert.match(url.searchParams.get("body"), /Trust score dispute/);

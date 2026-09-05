@@ -1,6 +1,6 @@
 # OpenSource Hub 1-Line PowerShell Installer (Windows)
 # Installs standalone binary without Node.js prerequisite.
-# Usage: irm https://raw.githubusercontent.com/bengowtham70/opensource-hub/main/packaging/install.ps1 | iex
+# Usage: irm https://raw.githubusercontent.com/bengowtham70-dev/opensource-hub/main/packaging/install.ps1 | iex
 
 [CmdletBinding()]
 param(
@@ -15,7 +15,7 @@ Write-Host "       Installing OpenSource Hub (CLI)       " -ForegroundColor Cyan
 Write-Host "=============================================" -ForegroundColor Cyan
 Write-Host ""
 
-$RepoSlug = "bengowtham70/opensource-hub"
+$RepoSlug = "bengowtham70-dev/opensource-hub"
 $BinaryName = "opensource-hub.exe"
 
 # 1. Detect Architecture

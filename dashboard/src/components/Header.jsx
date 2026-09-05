@@ -28,11 +28,13 @@ import {
   Check,
   Code2,
   Wallet,
+  Puzzle,
 } from "lucide-react";
 import { paletteKeyLabel } from "../lib/platform";
 import { api } from "../lib/api";
 import { formatStars } from "../lib/format";
 import ApiKeyModal from "./ApiKeyModal";
+import ExtensionModal from "./ExtensionModal";
 import { useI18n, SUPPORTED_LANGUAGES } from "../lib/i18n";
 
 function LanguagePicker() {
@@ -147,6 +149,7 @@ export default function Header() {
   const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
   const [apiKeyModalOpen, setApiKeyModalOpen] = useState(false);
+  const [extensionModalOpen, setExtensionModalOpen] = useState(false);
   const [ghStatus, setGhStatus] = useState(null);
   const [params, setParams] = useSearchParams();
   const location = useLocation();
@@ -163,8 +166,13 @@ export default function Header() {
   useEffect(() => {
     refreshGhStatus();
     const handleOpen = () => setApiKeyModalOpen(true);
+    const handleOpenExt = () => setExtensionModalOpen(true);
     window.addEventListener("osh:open-github-key", handleOpen);
-    return () => window.removeEventListener("osh:open-github-key", handleOpen);
+    window.addEventListener("osh:open-extension-modal", handleOpenExt);
+    return () => {
+      window.removeEventListener("osh:open-github-key", handleOpen);
+      window.removeEventListener("osh:open-extension-modal", handleOpenExt);
+    };
   }, []);
 
   // Close dropdowns on outside click
@@ -532,6 +540,22 @@ export default function Header() {
                         <div className="text-[11px] text-faint">Hardware sizing &amp; memory headroom</div>
                       </div>
                     </NavLink>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setResourcesOpen(false);
+                        setExtensionModalOpen(true);
+                      }}
+                      className="w-full text-left flex items-start gap-2.5 px-3 py-2 rounded-xl text-xs font-medium text-dim hover:text-ink hover:bg-elevated transition-colors group cursor-pointer"
+                    >
+                      <Puzzle size={16} className="text-ember shrink-0 mt-0.5" />
+                      <div>
+                        <div className="font-semibold text-ink group-hover:text-ember transition-colors">
+                          Browser Extension
+                        </div>
+                        <div className="text-[11px] text-faint">Chrome, Firefox &amp; Edge extension for 38+ SaaS sites</div>
+                      </div>
+                    </button>
                   </div>
 
                   <div className="pt-1.5 border-t border-line space-y-1">
@@ -731,6 +755,18 @@ export default function Header() {
           {/* Language Picker */}
           <LanguagePicker />
 
+          {/* Extension Modal Trigger */}
+          <button
+            type="button"
+            onClick={() => setExtensionModalOpen(true)}
+            className="btn-tactile hidden xl:inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-line bg-surface text-dim hover:text-ink hover:border-line-strong text-xs font-medium transition-colors cursor-pointer"
+            title="Browser Extension (Chrome, Firefox, Edge)"
+            aria-label="Open browser extension download modal"
+          >
+            <Puzzle size={13} className="text-ember shrink-0" />
+            <span>Extension</span>
+          </button>
+
           {/* Theme Toggle */}
           <ThemeToggle />
 
@@ -899,6 +935,17 @@ export default function Header() {
             >
               Advertise
             </NavLink>
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                setExtensionModalOpen(true);
+              }}
+              className="w-full text-left px-3 py-2 rounded-xl text-dim hover:text-ink hover:bg-elevated flex items-center gap-2 cursor-pointer text-sm"
+            >
+              <Puzzle size={14} className="text-ember shrink-0" />
+              <span>Browser Extension</span>
+            </button>
             <div className="pt-2 border-t border-line flex flex-col sm:flex-row gap-2">
               <NavLink
                 to="/submit"
@@ -930,6 +977,12 @@ export default function Header() {
         open={apiKeyModalOpen}
         onClose={() => setApiKeyModalOpen(false)}
         onStatusChange={setGhStatus}
+      />
+
+      {/* Browser Extension Modal */}
+      <ExtensionModal
+        open={extensionModalOpen}
+        onClose={() => setExtensionModalOpen(false)}
       />
     </header>
   );

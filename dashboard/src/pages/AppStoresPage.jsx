@@ -26,7 +26,7 @@ const PLATFORMS = [
     name: "UmbrelOS",
     tagline: "1-Click Community App Store for Umbrel Home & Raspberry Pi",
     description: "Install open-source alternatives with one click directly from your Umbrel dashboard using our community store repository.",
-    storeUrl: "https://github.com/bengowtham70/opensource-hub-umbrel-store",
+    storeUrl: "https://github.com/bengowtham70-dev/opensource-hub-umbrel-store",
     docsUrl: "https://github.com/getumbrel/umbrel-community-app-store",
   },
   {
@@ -34,7 +34,7 @@ const PLATFORMS = [
     name: "Runtipi",
     tagline: "Homeserver App Store with Docker Architecture",
     description: "Pre-configured Runtipi app definitions with custom form fields, persistent data volumes, and zero-conflict port allocations.",
-    storeUrl: "https://github.com/bengowtham70/opensource-hub-tipi-store",
+    storeUrl: "https://github.com/bengowtham70-dev/opensource-hub-tipi-store",
     docsUrl: "https://runtipi.io/docs",
   },
   {
@@ -42,7 +42,7 @@ const PLATFORMS = [
     name: "CasaOS",
     tagline: "Simple & Elegant Home Cloud Dashboard",
     description: "Production-ready CasaOS JSON app manifests compatible with ZimaBoard, ZimaBlade, and Ubuntu/Debian home servers.",
-    storeUrl: "https://github.com/bengowtham70/opensource-hub-casaos",
+    storeUrl: "https://github.com/bengowtham70-dev/opensource-hub-casaos",
     docsUrl: "https://casaos.io",
   },
   {
@@ -50,7 +50,7 @@ const PLATFORMS = [
     name: "Unraid",
     tagline: "Community Applications (CA) XML Templates",
     description: "Native Unraid Container XML templates with pre-configured appdata paths and WebUI port assignments.",
-    storeUrl: "https://github.com/bengowtham70/opensource-hub-unraid",
+    storeUrl: "https://github.com/bengowtham70-dev/opensource-hub-unraid",
     docsUrl: "https://unraid.net",
   },
   {
@@ -107,7 +107,7 @@ export default function AppStoresPage() {
   };
 
   const handleCopyDashboardCmd = async () => {
-    const cmd = "docker run -d -p 3000:3000 --name opensource-hub --restart unless-stopped ghcr.io/bengowtham70/opensource-hub:latest";
+    const cmd = "docker run -d -p 3000:3000 --name opensource-hub --restart unless-stopped ghcr.io/bengowtham70-dev/opensource-hub:latest";
     try {
       await navigator.clipboard.writeText(cmd);
       setCopiedDashboardCmd(true);

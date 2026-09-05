@@ -2,7 +2,7 @@ import { useState } from "react";
 import { X, AlertCircle, Check, Flag, ExternalLink, Send } from "lucide-react";
 import { api } from "../lib/api";
 
-const FEEDBACK_REPO = "bengowtham70/opensource-hub";
+const FEEDBACK_REPO = "bengowtham70-dev/opensource-hub";
 
 export default function ReportIssueModal({
   open = false,

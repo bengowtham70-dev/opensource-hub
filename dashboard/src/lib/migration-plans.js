@@ -116,7 +116,7 @@ export function generateMarkdownRunbook(plan, repo, checkedSteps = {}) {
   md += `**Target Repository:** \`${repo}\`  \n`;
   md += `**Estimated Duration:** ${plan.estimatedDuration}  \n`;
   md += `**Difficulty Level:** ${plan.difficulty}  \n`;
-  md += `**Generated Date:** ${date} via [OpenSource Hub](https://github.com/bengowtham70/opensource-hub)\n\n`;
+  md += `**Generated Date:** ${date} via [OpenSource Hub](https://github.com/bengowtham70-dev/opensource-hub)\n\n`;
   md += `---\n\n`;
 
   for (const stage of plan.stages) {

@@ -36,7 +36,7 @@ describe("Multi-Channel Packaging & Distribution (PRD §30)", () => {
 
   it("generates valid Scoop Manifest", () => {
     const scoop = generateScoopManifest({
-      repoSlug: "bengowtham70/opensource-hub",
+      repoSlug: "bengowtham70-dev/opensource-hub",
       version: "0.2.0",
       exeSha: "deadbeef1234567890",
     });
@@ -50,7 +50,7 @@ describe("Multi-Channel Packaging & Distribution (PRD §30)", () => {
 
   it("generates valid Winget Manifest", () => {
     const winget = generateWingetManifest({
-      repoSlug: "bengowtham70/opensource-hub",
+      repoSlug: "bengowtham70-dev/opensource-hub",
       version: "0.1.0",
       x64Sha: "x64hash123",
       arm64Sha: "arm64hash456",

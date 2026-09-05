@@ -16,7 +16,7 @@ const SUGGESTED_TAXONOMY_TAGS = [
 ];
 
 function issueUrl(type, repo) {
-  const base = "https://github.com/bengowtham70/opensource-hub/issues/new";
+  const base = "https://github.com/bengowtham70-dev/opensource-hub/issues/new";
   if (type === "suggestion") {
     const title = encodeURIComponent(`[Alternative Request] Suggestion for ${repo}`);
     const body = encodeURIComponent(
