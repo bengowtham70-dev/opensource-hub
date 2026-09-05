@@ -103,33 +103,39 @@ describe("Interactive Migration Kit & Executable Data Scripts (PRD §38 & §2.1)
 
   it("serves migration kit via API endpoints", async () => {
     const { app } = createApp();
+    const server = app.listen(0);
+    await new Promise((resolve) => server.once("listening", resolve));
+    const port = server.address().port;
+    const base = `http://127.0.0.1:${port}`;
 
-    // 1. POST /api/migration/kit
-    const kitRes = await fetch("http://127.0.0.1:3000/api/migration/kit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        repo: "supabase/supabase",
-        config: { volume: "medium", targetEnv: "docker" },
-      }),
-    });
+    try {
+      // 1. POST /api/migration/kit
+      const kitRes = await fetch(`${base}/api/migration/kit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          repo: "supabase/supabase",
+          config: { volume: "medium", targetEnv: "docker" },
+        }),
+      });
 
-    if (kitRes.ok) {
+      assert.equal(kitRes.status, 200);
       const data = await kitRes.json();
       assert.equal(data.ok, true);
       assert.equal(data.kit.paidTool, "Firebase");
       assert.ok(data.kit.scripts["RUNBOOK.md"]);
-    }
 
-    // 2. GET /api/migration/bundle
-    const bundleRes = await fetch("http://127.0.0.1:3000/api/migration/bundle?repo=supabase/supabase&volume=medium");
-    if (bundleRes.ok) {
+      // 2. GET /api/migration/bundle
+      const bundleRes = await fetch(`${base}/api/migration/bundle?repo=supabase/supabase&volume=medium`);
+      assert.equal(bundleRes.status, 200);
       assert.equal(bundleRes.headers.get("content-type"), "application/zip");
       const ab = await bundleRes.arrayBuffer();
       assert.ok(ab.byteLength > 200);
       const buf = Buffer.from(ab);
       assert.equal(buf[0], 0x50);
       assert.equal(buf[1], 0x4b);
+    } finally {
+      server.close();
     }
   });
 });
