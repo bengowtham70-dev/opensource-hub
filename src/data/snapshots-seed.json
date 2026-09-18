@@ -1,149 +1,149 @@
 {
   "version": 1,
-  "generatedAt": "2026-09-17T11:06:44.903Z",
+  "generatedAt": "2026-09-18T10:41:51.306Z",
   "source": "actions",
   "stars": {
-    "toeverything/AFFiNE": 72703,
-    "usebruno/bruno": 47014,
-    "penpot/penpot": 60074,
-    "zulip/zulip": 25916,
-    "LibreOffice/core": 4371,
-    "GNOME/gimp": 6431,
-    "Inkscape/inkscape": 3922,
-    "nextcloud/server": 36826,
-    "bitwarden/clients": 13796,
-    "keepassxreboot/keepassxc": 28839,
-    "jitsi/jitsi-meet": 29928,
-    "mattermost/focalboard": 26466,
-    "makeplane/plane": 59521,
-    "wekan/wekan": 21088,
-    "nocodb/nocodb": 64996,
-    "excalidraw/excalidraw": 132183,
-    "languagetool-org/languagetool": 15040,
-    "KDE/kdenlive": 5699,
-    "metabase/metabase": 49306,
-    "supabase/supabase": 109977,
-    "goauthentik/authentik": 25594,
-    "coollabsio/coolify": 61906,
-    "go-vikunja/vikunja": 5434,
-    "navidrome/navidrome": 23630,
-    "opf/openproject": 16127,
-    "laurent22/joplin": 56409,
-    "darktable-org/darktable": 13086,
-    "containers/podman-desktop": 8017,
-    "immich-app/immich": 114491,
-    "jellyfin/jellyfin": 57232,
-    "calcom/cal.com": 48519,
-    "Stirling-Tools/Stirling-PDF": 92409,
-    "activepieces/activepieces": 24515,
-    "twentyhq/twenty": 56926,
-    "matomo-org/matomo": 21880,
-    "haiwen/seafile": 15252,
-    "keycloak/keycloak": 36820,
-    "minio/minio": 61380,
-    "dokku/dokku": 32145,
-    "louislam/uptime-kuma": 91461,
-    "revoltchat/backend": 3330,
-    "element-hq/element-web": 13459,
-    "mautic/mautic": 10522,
-    "writefreely/writefreely": 5250,
-    "formbricks/formbricks": 12949,
-    "LimeSurvey/LimeSurvey": 3726,
-    "Chocobozzz/PeerTube": 15315,
-    "NatronGitHub/Natron": 5532,
-    "FreeCAD/freecad": 33588,
-    "JuliaLang/julia": 49114,
-    "chatwoot/chatwoot": 36898,
-    "zammad/zammad": 5921,
+    "toeverything/AFFiNE": 72741,
+    "usebruno/bruno": 47039,
+    "penpot/penpot": 60122,
+    "zulip/zulip": 25925,
+    "LibreOffice/core": 4373,
+    "GNOME/gimp": 6433,
+    "Inkscape/inkscape": 3928,
+    "nextcloud/server": 36838,
+    "bitwarden/clients": 13804,
+    "keepassxreboot/keepassxc": 28846,
+    "jitsi/jitsi-meet": 29933,
+    "mattermost/focalboard": 26470,
+    "makeplane/plane": 59584,
+    "wekan/wekan": 21089,
+    "nocodb/nocodb": 65005,
+    "excalidraw/excalidraw": 132297,
+    "languagetool-org/languagetool": 15048,
+    "KDE/kdenlive": 5702,
+    "metabase/metabase": 49329,
+    "supabase/supabase": 109943,
+    "goauthentik/authentik": 25615,
+    "coollabsio/coolify": 61982,
+    "go-vikunja/vikunja": 5449,
+    "navidrome/navidrome": 23640,
+    "opf/openproject": 16140,
+    "laurent22/joplin": 56422,
+    "darktable-org/darktable": 13091,
+    "containers/podman-desktop": 8019,
+    "immich-app/immich": 114515,
+    "jellyfin/jellyfin": 57260,
+    "calcom/cal.com": 48537,
+    "Stirling-Tools/Stirling-PDF": 92479,
+    "activepieces/activepieces": 24535,
+    "twentyhq/twenty": 56986,
+    "matomo-org/matomo": 21885,
+    "haiwen/seafile": 15257,
+    "keycloak/keycloak": 36842,
+    "minio/minio": 61363,
+    "dokku/dokku": 32148,
+    "louislam/uptime-kuma": 91515,
+    "revoltchat/backend": 3331,
+    "element-hq/element-web": 13462,
+    "mautic/mautic": 10527,
+    "writefreely/writefreely": 5251,
+    "formbricks/formbricks": 12951,
+    "LimeSurvey/LimeSurvey": 3729,
+    "Chocobozzz/PeerTube": 15320,
+    "NatronGitHub/Natron": 5534,
+    "FreeCAD/freecad": 33610,
+    "JuliaLang/julia": 49117,
+    "chatwoot/chatwoot": 36928,
+    "zammad/zammad": 5925,
     "akaunting/akaunting": 10127,
-    "medusajs/medusa": 36348,
-    "logseq/logseq": 44949,
-    "getlago/lago": 10569,
-    "mastodon/mastodon": 50298,
-    "LibreTranslate/LibreTranslate": 16685,
-    "home-assistant/core": 90611,
-    "outline/outline": 40579,
-    "SigNoz/signoz": 32115,
-    "AppFlowy-IO/AppFlowy": 76787,
-    "n8n-io/n8n": 204756,
-    "rustdesk/rustdesk": 123993,
-    "grafana/grafana": 76787,
-    "strapi/strapi": 73181,
-    "apache/superset": 74810,
-    "TryGhost/Ghost": 55336,
-    "appwrite/appwrite": 57392,
-    "meilisearch/meilisearch": 59313,
-    "VSCodium/vscodium": 33274,
-    "dani-garcia/vaultwarden": 67953,
-    "PostHog/posthog": 39829,
-    "umami-software/umami": 38876,
-    "documenso/documenso": 15056,
-    "bram2w/baserow": 5928,
-    "saleor/saleor": 23339,
-    "knadh/listmonk": 23463,
-    "zadam/trilium": 37872,
-    "taigaio/taiga-back": 850,
-    "valkey-io/valkey": 27226,
-    "ollama/ollama": 181238,
-    "open-webui/open-webui": 152347,
-    "qdrant/qdrant": 34627,
-    "chroma-core/chroma": 29315,
-    "netdata/netdata": 80557,
-    "gravitational/teleport": 20923,
-    "KDE/krita": 10383,
-    "blender/blender": 20395,
-    "obsproject/obs-studio": 76310,
-    "paperless-ngx/paperless-ngx": 45245,
-    "mattermost/mattermost": 39084,
-    "pocketbase/pocketbase": 61068,
-    "typesense/typesense": 26564,
-    "NginxProxyManager/nginx-proxy-manager": 34150,
-    "caddyserver/caddy": 75892,
-    "woodpecker-ci/woodpecker": 7884,
-    "windmill-labs/windmill": 17957,
-    "pi-hole/pi-hole": 60953,
-    "AdguardTeam/AdGuardHome": 36958,
-    "BookStackApp/BookStack": 19048,
-    "RocketChat/Rocket.Chat": 46131,
-    "audacity/audacity": 18461,
-    "mltframework/shotcut": 15227,
-    "caprover/caprover": 15164,
-    "k3s-io/k3s": 33975,
-    "cryptpad/cryptpad": 7920
+    "medusajs/medusa": 36366,
+    "logseq/logseq": 44962,
+    "getlago/lago": 10573,
+    "mastodon/mastodon": 50301,
+    "LibreTranslate/LibreTranslate": 16649,
+    "home-assistant/core": 90696,
+    "outline/outline": 40608,
+    "SigNoz/signoz": 32129,
+    "AppFlowy-IO/AppFlowy": 76817,
+    "n8n-io/n8n": 205214,
+    "rustdesk/rustdesk": 123918,
+    "grafana/grafana": 76796,
+    "strapi/strapi": 73188,
+    "apache/superset": 74830,
+    "TryGhost/Ghost": 55349,
+    "appwrite/appwrite": 57408,
+    "meilisearch/meilisearch": 59323,
+    "VSCodium/vscodium": 33286,
+    "dani-garcia/vaultwarden": 67796,
+    "PostHog/posthog": 39846,
+    "umami-software/umami": 38897,
+    "documenso/documenso": 15072,
+    "bram2w/baserow": 5933,
+    "saleor/saleor": 23343,
+    "knadh/listmonk": 23472,
+    "zadam/trilium": 37883,
+    "taigaio/taiga-back": 851,
+    "valkey-io/valkey": 27232,
+    "ollama/ollama": 181198,
+    "open-webui/open-webui": 152455,
+    "qdrant/qdrant": 34656,
+    "chroma-core/chroma": 29321,
+    "netdata/netdata": 80569,
+    "gravitational/teleport": 20926,
+    "KDE/krita": 10387,
+    "blender/blender": 20407,
+    "obsproject/obs-studio": 76349,
+    "paperless-ngx/paperless-ngx": 45264,
+    "mattermost/mattermost": 39098,
+    "pocketbase/pocketbase": 61082,
+    "typesense/typesense": 26571,
+    "NginxProxyManager/nginx-proxy-manager": 34166,
+    "caddyserver/caddy": 75839,
+    "woodpecker-ci/woodpecker": 7890,
+    "windmill-labs/windmill": 17958,
+    "pi-hole/pi-hole": 60968,
+    "AdguardTeam/AdGuardHome": 36966,
+    "BookStackApp/BookStack": 19052,
+    "RocketChat/Rocket.Chat": 46137,
+    "audacity/audacity": 18471,
+    "mltframework/shotcut": 15231,
+    "caprover/caprover": 15166,
+    "k3s-io/k3s": 33982,
+    "cryptpad/cryptpad": 7926
   },
   "meta": {
     "toeverything/AFFiNE": {
-      "pushedAt": "2026-09-15T09:38:38Z",
+      "pushedAt": "2026-09-18T09:37:32Z",
       "archived": false,
       "createdAt": "2022-07-31T18:45:21Z",
       "latestTag": "v0.27.4"
     },
     "usebruno/bruno": {
-      "pushedAt": "2026-09-17T09:25:56Z",
+      "pushedAt": "2026-09-18T10:33:48Z",
       "archived": false,
       "createdAt": "2022-09-27T20:51:45Z",
       "latestTag": "v4.1.0"
     },
     "penpot/penpot": {
-      "pushedAt": "2026-09-17T10:51:05Z",
+      "pushedAt": "2026-09-18T10:31:21Z",
       "archived": false,
       "createdAt": "2015-12-29T22:09:07Z",
       "latestTag": "2.17.2"
     },
     "zulip/zulip": {
-      "pushedAt": "2026-09-17T05:48:39Z",
+      "pushedAt": "2026-09-17T13:27:50Z",
       "archived": false,
       "createdAt": "2015-09-25T16:37:25Z",
       "latestTag": "12.2"
     },
     "LibreOffice/core": {
-      "pushedAt": "2026-09-17T10:10:59Z",
+      "pushedAt": "2026-09-18T10:22:26Z",
       "archived": false,
       "createdAt": "2013-10-31T15:46:52Z",
       "latestTag": null
     },
     "GNOME/gimp": {
-      "pushedAt": "2026-09-17T04:04:58Z",
+      "pushedAt": "2026-09-17T23:33:37Z",
       "archived": false,
       "createdAt": "2012-06-03T13:37:45Z",
       "latestTag": null
@@ -155,25 +155,25 @@
       "latestTag": null
     },
     "nextcloud/server": {
-      "pushedAt": "2026-09-17T11:04:00Z",
+      "pushedAt": "2026-09-18T10:14:53Z",
       "archived": false,
       "createdAt": "2016-06-02T07:44:14Z",
       "latestTag": "v35.0.0"
     },
     "bitwarden/clients": {
-      "pushedAt": "2026-09-17T10:20:12Z",
+      "pushedAt": "2026-09-18T10:32:43Z",
       "archived": false,
       "createdAt": "2016-03-09T23:14:01Z",
-      "latestTag": "web-v2026.9.0"
+      "latestTag": "browser-v2026.9.0"
     },
     "keepassxreboot/keepassxc": {
-      "pushedAt": "2026-09-16T22:04:57Z",
+      "pushedAt": "2026-09-18T06:22:22Z",
       "archived": false,
       "createdAt": "2016-02-28T15:52:40Z",
       "latestTag": "2.7.12"
     },
     "jitsi/jitsi-meet": {
-      "pushedAt": "2026-09-16T23:26:17Z",
+      "pushedAt": "2026-09-18T01:47:58Z",
       "archived": false,
       "createdAt": "2013-12-16T12:51:09Z",
       "latestTag": "stable/jitsi-meet_11248"
@@ -185,109 +185,109 @@
       "latestTag": "v8.0.0"
     },
     "makeplane/plane": {
-      "pushedAt": "2026-09-16T19:54:37Z",
+      "pushedAt": "2026-09-17T17:16:44Z",
       "archived": false,
       "createdAt": "2022-11-19T12:55:01Z",
       "latestTag": "v1.4.2"
     },
     "wekan/wekan": {
-      "pushedAt": "2026-09-17T11:03:12Z",
+      "pushedAt": "2026-09-18T04:40:27Z",
       "archived": false,
       "createdAt": "2014-01-21T01:26:28Z",
-      "latestTag": "v11.83"
+      "latestTag": "v11.86"
     },
     "nocodb/nocodb": {
-      "pushedAt": "2026-09-17T11:02:22Z",
+      "pushedAt": "2026-09-18T10:33:41Z",
       "archived": false,
       "createdAt": "2017-10-29T18:51:48Z",
       "latestTag": "2026.09.0"
     },
     "excalidraw/excalidraw": {
-      "pushedAt": "2026-09-16T20:00:09Z",
+      "pushedAt": "2026-09-17T19:06:17Z",
       "archived": false,
       "createdAt": "2020-01-02T01:04:43Z",
       "latestTag": "v0.18.1"
     },
     "languagetool-org/languagetool": {
-      "pushedAt": "2026-09-15T18:41:26Z",
+      "pushedAt": "2026-09-18T07:14:14Z",
       "archived": false,
       "createdAt": "2013-08-08T16:37:22Z",
       "latestTag": null
     },
     "KDE/kdenlive": {
-      "pushedAt": "2026-09-17T10:44:04Z",
+      "pushedAt": "2026-09-18T10:21:07Z",
       "archived": false,
       "createdAt": "2015-09-18T13:16:08Z",
       "latestTag": null
     },
     "metabase/metabase": {
-      "pushedAt": "2026-09-17T11:00:57Z",
+      "pushedAt": "2026-09-18T10:31:00Z",
       "archived": false,
       "createdAt": "2015-02-02T19:25:47Z",
       "latestTag": "v0.63.18"
     },
     "supabase/supabase": {
-      "pushedAt": "2026-09-17T10:59:42Z",
+      "pushedAt": "2026-09-18T10:31:18Z",
       "archived": false,
       "createdAt": "2019-10-12T05:56:49Z",
       "latestTag": "v1.26.08"
     },
     "goauthentik/authentik": {
-      "pushedAt": "2026-09-17T10:51:21Z",
+      "pushedAt": "2026-09-18T10:40:27Z",
       "archived": false,
       "createdAt": "2019-12-30T09:19:48Z",
-      "latestTag": "version/2026.8.2"
+      "latestTag": "version/2026.8.3"
     },
     "coollabsio/coolify": {
-      "pushedAt": "2026-09-17T08:53:06Z",
+      "pushedAt": "2026-09-18T10:31:07Z",
       "archived": false,
       "createdAt": "2021-01-25T20:54:01Z",
       "latestTag": "v4.3.21"
     },
     "go-vikunja/vikunja": {
-      "pushedAt": "2026-09-17T03:46:24Z",
+      "pushedAt": "2026-09-18T07:45:30Z",
       "archived": false,
       "createdAt": "2018-11-28T19:52:27Z",
       "latestTag": "v2.6.0"
     },
     "navidrome/navidrome": {
-      "pushedAt": "2026-09-17T10:16:54Z",
+      "pushedAt": "2026-09-18T10:16:26Z",
       "archived": false,
       "createdAt": "2016-02-24T23:25:12Z",
       "latestTag": "v0.64.0"
     },
     "opf/openproject": {
-      "pushedAt": "2026-09-17T10:49:10Z",
+      "pushedAt": "2026-09-18T10:27:06Z",
       "archived": false,
       "createdAt": "2012-11-28T09:59:11Z",
       "latestTag": "v17.8.0"
     },
     "laurent22/joplin": {
-      "pushedAt": "2026-09-17T04:52:53Z",
+      "pushedAt": "2026-09-18T09:25:08Z",
       "archived": false,
       "createdAt": "2017-01-16T21:49:41Z",
       "latestTag": "v3.7.18"
     },
     "darktable-org/darktable": {
-      "pushedAt": "2026-09-17T06:26:06Z",
+      "pushedAt": "2026-09-18T06:38:14Z",
       "archived": false,
       "createdAt": "2012-03-21T21:53:04Z",
       "latestTag": "release-5.6.1"
     },
     "containers/podman-desktop": {
-      "pushedAt": "2026-09-17T10:03:39Z",
+      "pushedAt": "2026-09-18T08:43:54Z",
       "archived": false,
       "createdAt": "2022-03-03T18:45:51Z",
       "latestTag": "v1.29.3"
     },
     "immich-app/immich": {
-      "pushedAt": "2026-09-17T10:51:45Z",
+      "pushedAt": "2026-09-18T09:51:41Z",
       "archived": false,
       "createdAt": "2022-02-03T15:56:27Z",
       "latestTag": "v3.2.2"
     },
     "jellyfin/jellyfin": {
-      "pushedAt": "2026-09-17T07:48:36Z",
+      "pushedAt": "2026-09-18T03:20:20Z",
       "archived": false,
       "createdAt": "2018-12-09T06:36:45Z",
       "latestTag": "v12.1"
@@ -299,37 +299,37 @@
       "latestTag": "v6.2.0"
     },
     "Stirling-Tools/Stirling-PDF": {
-      "pushedAt": "2026-09-17T11:04:35Z",
+      "pushedAt": "2026-09-18T10:34:31Z",
       "archived": false,
       "createdAt": "2023-01-27T18:22:42Z",
       "latestTag": "v2.14.3"
     },
     "activepieces/activepieces": {
-      "pushedAt": "2026-09-17T11:01:42Z",
+      "pushedAt": "2026-09-18T10:28:28Z",
       "archived": false,
       "createdAt": "2022-12-03T02:52:46Z",
       "latestTag": "0.91.0"
     },
     "twentyhq/twenty": {
-      "pushedAt": "2026-09-17T11:05:26Z",
+      "pushedAt": "2026-09-18T10:32:32Z",
       "archived": false,
       "createdAt": "2022-12-01T13:04:40Z",
       "latestTag": "twenty/v2.41.0"
     },
     "matomo-org/matomo": {
-      "pushedAt": "2026-09-17T10:43:23Z",
+      "pushedAt": "2026-09-18T09:29:15Z",
       "archived": false,
       "createdAt": "2011-03-30T21:18:17Z",
       "latestTag": "5.13.0"
     },
     "haiwen/seafile": {
-      "pushedAt": "2026-08-28T05:49:27Z",
+      "pushedAt": "2026-09-18T09:48:51Z",
       "archived": false,
       "createdAt": "2012-07-12T06:47:55Z",
       "latestTag": "v9.0.5"
     },
     "keycloak/keycloak": {
-      "pushedAt": "2026-09-17T10:08:47Z",
+      "pushedAt": "2026-09-18T10:31:29Z",
       "archived": false,
       "createdAt": "2013-07-02T13:38:51Z",
       "latestTag": "26.7.4"
@@ -341,31 +341,31 @@
       "latestTag": "RELEASE.2025-10-15T17-29-55Z"
     },
     "dokku/dokku": {
-      "pushedAt": "2026-09-16T21:54:28Z",
+      "pushedAt": "2026-09-18T09:14:54Z",
       "archived": false,
       "createdAt": "2013-06-08T10:26:57Z",
-      "latestTag": "v0.38.27"
+      "latestTag": "v0.38.28"
     },
     "louislam/uptime-kuma": {
-      "pushedAt": "2026-09-17T08:17:03Z",
+      "pushedAt": "2026-09-18T00:06:09Z",
       "archived": false,
       "createdAt": "2021-07-03T01:02:42Z",
       "latestTag": "2.5.5"
     },
     "revoltchat/backend": {
-      "pushedAt": "2026-09-17T06:20:44Z",
+      "pushedAt": "2026-09-18T09:46:43Z",
       "archived": false,
       "createdAt": "2021-06-15T13:11:41Z",
       "latestTag": "v0.15.5"
     },
     "element-hq/element-web": {
-      "pushedAt": "2026-09-17T11:01:11Z",
+      "pushedAt": "2026-09-18T10:41:23Z",
       "archived": false,
       "createdAt": "2015-07-22T05:32:15Z",
       "latestTag": "v1.12.28"
     },
     "mautic/mautic": {
-      "pushedAt": "2026-09-17T10:56:15Z",
+      "pushedAt": "2026-09-18T10:03:29Z",
       "archived": false,
       "createdAt": "2013-08-19T00:36:28Z",
       "latestTag": "7.2.0"
@@ -377,19 +377,19 @@
       "latestTag": "v0.17.2"
     },
     "formbricks/formbricks": {
-      "pushedAt": "2026-09-17T11:05:49Z",
+      "pushedAt": "2026-09-18T10:01:51Z",
       "archived": false,
       "createdAt": "2022-06-06T04:25:21Z",
       "latestTag": "5.4.3"
     },
     "LimeSurvey/LimeSurvey": {
-      "pushedAt": "2026-09-17T11:05:35Z",
+      "pushedAt": "2026-09-18T10:36:42Z",
       "archived": false,
       "createdAt": "2012-01-30T14:14:53Z",
       "latestTag": null
     },
     "Chocobozzz/PeerTube": {
-      "pushedAt": "2026-09-16T12:00:09Z",
+      "pushedAt": "2026-09-17T13:45:26Z",
       "archived": false,
       "createdAt": "2015-10-29T22:09:42Z",
       "latestTag": "v8.3.0"
@@ -401,55 +401,55 @@
       "latestTag": "v2.5.0"
     },
     "FreeCAD/freecad": {
-      "pushedAt": "2026-09-17T09:40:33Z",
+      "pushedAt": "2026-09-18T09:36:56Z",
       "archived": false,
       "createdAt": "2012-09-09T08:25:02Z",
       "latestTag": "1.1.3"
     },
     "JuliaLang/julia": {
-      "pushedAt": "2026-09-17T10:26:40Z",
+      "pushedAt": "2026-09-18T08:32:00Z",
       "archived": false,
       "createdAt": "2011-04-21T07:01:50Z",
       "latestTag": "v1.13.0"
     },
     "chatwoot/chatwoot": {
-      "pushedAt": "2026-09-17T10:48:32Z",
+      "pushedAt": "2026-09-18T09:41:12Z",
       "archived": false,
       "createdAt": "2019-08-14T06:50:51Z",
-      "latestTag": "v4.17.1"
+      "latestTag": "v4.18.0"
     },
     "zammad/zammad": {
-      "pushedAt": "2026-09-17T10:52:10Z",
+      "pushedAt": "2026-09-18T10:39:58Z",
       "archived": false,
       "createdAt": "2012-04-02T08:50:33Z",
       "latestTag": null
     },
     "akaunting/akaunting": {
-      "pushedAt": "2026-09-17T10:46:42Z",
+      "pushedAt": "2026-09-17T13:09:14Z",
       "archived": false,
       "createdAt": "2017-06-21T14:17:56Z",
-      "latestTag": "3.2.3"
+      "latestTag": "3.2.4"
     },
     "medusajs/medusa": {
-      "pushedAt": "2026-09-17T11:06:00Z",
+      "pushedAt": "2026-09-18T09:40:04Z",
       "archived": false,
       "createdAt": "2020-01-18T13:39:04Z",
       "latestTag": "v2.21.0"
     },
     "logseq/logseq": {
-      "pushedAt": "2026-09-17T10:56:34Z",
+      "pushedAt": "2026-09-18T09:44:54Z",
       "archived": false,
       "createdAt": "2020-05-23T00:06:06Z",
       "latestTag": "2.0.1"
     },
     "getlago/lago": {
-      "pushedAt": "2026-09-17T09:53:50Z",
+      "pushedAt": "2026-09-18T09:21:38Z",
       "archived": false,
       "createdAt": "2022-02-28T09:22:45Z",
       "latestTag": "v1.53.0"
     },
     "mastodon/mastodon": {
-      "pushedAt": "2026-09-17T11:06:00Z",
+      "pushedAt": "2026-09-18T10:30:30Z",
       "archived": false,
       "createdAt": "2016-02-22T15:01:25Z",
       "latestTag": "v4.7.2"
@@ -461,22 +461,22 @@
       "latestTag": "v1.9.6"
     },
     "home-assistant/core": {
-      "pushedAt": "2026-09-17T11:05:18Z",
+      "pushedAt": "2026-09-18T09:36:39Z",
       "archived": false,
       "createdAt": "2013-09-17T07:29:48Z",
       "latestTag": "2026.9.2"
     },
     "outline/outline": {
-      "pushedAt": "2026-09-17T03:48:04Z",
+      "pushedAt": "2026-09-18T02:36:30Z",
       "archived": false,
       "createdAt": "2016-05-22T21:31:47Z",
       "latestTag": "v1.10.1"
     },
     "SigNoz/signoz": {
-      "pushedAt": "2026-09-17T10:58:08Z",
+      "pushedAt": "2026-09-18T10:07:51Z",
       "archived": false,
       "createdAt": "2021-01-03T12:44:36Z",
-      "latestTag": "v0.142.0"
+      "latestTag": "v0.142.1"
     },
     "AppFlowy-IO/AppFlowy": {
       "pushedAt": "2026-09-15T12:19:07Z",
@@ -485,49 +485,49 @@
       "latestTag": "0.14.3"
     },
     "n8n-io/n8n": {
-      "pushedAt": "2026-09-17T11:04:19Z",
+      "pushedAt": "2026-09-18T10:41:25Z",
       "archived": false,
       "createdAt": "2019-06-22T09:24:21Z",
-      "latestTag": "n8n@2.39.7"
+      "latestTag": "n8n@2.39.8"
     },
     "rustdesk/rustdesk": {
-      "pushedAt": "2026-09-17T10:24:24Z",
+      "pushedAt": "2026-09-18T09:28:03Z",
       "archived": false,
       "createdAt": "2020-09-28T15:36:08Z",
       "latestTag": "1.4.9"
     },
     "grafana/grafana": {
-      "pushedAt": "2026-09-17T11:01:43Z",
+      "pushedAt": "2026-09-18T10:40:42Z",
       "archived": false,
       "createdAt": "2013-12-11T15:59:56Z",
       "latestTag": "v13.2.2"
     },
     "strapi/strapi": {
-      "pushedAt": "2026-09-17T11:04:00Z",
+      "pushedAt": "2026-09-18T08:42:29Z",
       "archived": false,
       "createdAt": "2015-09-30T15:34:48Z",
       "latestTag": "v5.54.0"
     },
     "apache/superset": {
-      "pushedAt": "2026-09-17T10:59:46Z",
+      "pushedAt": "2026-09-18T10:40:26Z",
       "archived": false,
       "createdAt": "2015-07-21T18:55:34Z",
       "latestTag": "6.1.0"
     },
     "TryGhost/Ghost": {
-      "pushedAt": "2026-09-17T10:03:21Z",
+      "pushedAt": "2026-09-18T10:32:02Z",
       "archived": false,
       "createdAt": "2013-05-04T11:09:13Z",
       "latestTag": "v6.64.0"
     },
     "appwrite/appwrite": {
-      "pushedAt": "2026-09-17T10:35:07Z",
+      "pushedAt": "2026-09-18T10:40:48Z",
       "archived": false,
       "createdAt": "2019-04-08T16:36:25Z",
       "latestTag": "2.2.0"
     },
     "meilisearch/meilisearch": {
-      "pushedAt": "2026-09-17T10:28:32Z",
+      "pushedAt": "2026-09-17T13:32:29Z",
       "archived": false,
       "createdAt": "2018-04-23T11:45:28Z",
       "latestTag": "v1.53.2"
@@ -545,34 +545,34 @@
       "latestTag": "1.37.3"
     },
     "PostHog/posthog": {
-      "pushedAt": "2026-09-17T11:06:32Z",
+      "pushedAt": "2026-09-18T10:41:07Z",
       "archived": false,
       "createdAt": "2020-01-23T22:46:58Z",
-      "latestTag": "desktop-v0.61.434"
+      "latestTag": "desktop-v0.61.450"
     },
     "umami-software/umami": {
-      "pushedAt": "2026-09-17T05:13:13Z",
+      "pushedAt": "2026-09-18T02:49:36Z",
       "archived": false,
       "createdAt": "2020-07-17T07:59:00Z",
       "latestTag": "v3.4.0"
     },
     "documenso/documenso": {
-      "pushedAt": "2026-09-17T10:20:42Z",
+      "pushedAt": "2026-09-18T10:08:32Z",
       "archived": false,
       "createdAt": "2023-03-12T16:28:56Z",
       "latestTag": "v2.18.0"
     },
     "bram2w/baserow": {
-      "pushedAt": "2026-09-17T10:42:40Z",
+      "pushedAt": "2026-09-18T08:22:03Z",
       "archived": false,
       "createdAt": "2020-07-20T09:32:04Z",
       "latestTag": "2.3.4"
     },
     "saleor/saleor": {
-      "pushedAt": "2026-09-17T10:35:48Z",
+      "pushedAt": "2026-09-18T10:26:30Z",
       "archived": false,
       "createdAt": "2013-02-12T16:46:39Z",
-      "latestTag": "3.23.34"
+      "latestTag": "3.23.35"
     },
     "knadh/listmonk": {
       "pushedAt": "2026-09-13T21:49:56Z",
@@ -581,7 +581,7 @@
       "latestTag": "v6.2.0"
     },
     "zadam/trilium": {
-      "pushedAt": "2026-09-17T09:10:30Z",
+      "pushedAt": "2026-09-18T10:34:51Z",
       "archived": false,
       "createdAt": "2017-05-23T00:30:20Z",
       "latestTag": "v0.105.0"
@@ -593,85 +593,85 @@
       "latestTag": null
     },
     "valkey-io/valkey": {
-      "pushedAt": "2026-09-17T09:10:29Z",
+      "pushedAt": "2026-09-18T07:29:51Z",
       "archived": false,
       "createdAt": "2024-03-22T00:42:17Z",
       "latestTag": "9.1.2"
     },
     "ollama/ollama": {
-      "pushedAt": "2026-09-17T01:33:20Z",
+      "pushedAt": "2026-09-17T23:54:24Z",
       "archived": false,
       "createdAt": "2023-06-26T19:39:32Z",
-      "latestTag": "v0.34.1"
+      "latestTag": "v0.34.2"
     },
     "open-webui/open-webui": {
-      "pushedAt": "2026-09-17T02:47:38Z",
+      "pushedAt": "2026-09-18T00:11:06Z",
       "archived": false,
       "createdAt": "2023-10-06T22:08:27Z",
       "latestTag": "v0.11.3"
     },
     "qdrant/qdrant": {
-      "pushedAt": "2026-09-17T10:40:08Z",
+      "pushedAt": "2026-09-18T10:35:49Z",
       "archived": false,
       "createdAt": "2020-05-30T21:37:01Z",
       "latestTag": "v1.19.1"
     },
     "chroma-core/chroma": {
-      "pushedAt": "2026-09-17T09:05:30Z",
+      "pushedAt": "2026-09-17T21:48:14Z",
       "archived": false,
       "createdAt": "2022-10-05T17:58:44Z",
       "latestTag": "1.5.9"
     },
     "netdata/netdata": {
-      "pushedAt": "2026-09-17T10:47:16Z",
+      "pushedAt": "2026-09-18T05:07:46Z",
       "archived": false,
       "createdAt": "2013-06-17T18:39:10Z",
       "latestTag": "v2.11.1"
     },
     "gravitational/teleport": {
-      "pushedAt": "2026-09-16T17:54:51Z",
+      "pushedAt": "2026-09-17T15:49:47Z",
       "archived": false,
       "createdAt": "2015-03-02T19:36:00Z",
       "latestTag": "v18.10.0"
     },
     "KDE/krita": {
-      "pushedAt": "2026-09-17T10:13:05Z",
+      "pushedAt": "2026-09-18T03:23:38Z",
       "archived": false,
       "createdAt": "2015-10-09T19:24:19Z",
       "latestTag": null
     },
     "blender/blender": {
-      "pushedAt": "2026-09-17T10:35:50Z",
+      "pushedAt": "2026-09-18T10:20:51Z",
       "archived": false,
       "createdAt": "2019-10-09T12:47:28Z",
       "latestTag": null
     },
     "obsproject/obs-studio": {
-      "pushedAt": "2026-09-15T01:05:48Z",
+      "pushedAt": "2026-09-18T01:04:43Z",
       "archived": false,
       "createdAt": "2013-10-01T02:40:31Z",
       "latestTag": "32.2.2"
     },
     "paperless-ngx/paperless-ngx": {
-      "pushedAt": "2026-09-17T00:53:31Z",
+      "pushedAt": "2026-09-18T08:14:04Z",
       "archived": false,
       "createdAt": "2022-02-12T21:56:52Z",
       "latestTag": "v3.1.3"
     },
     "mattermost/mattermost": {
-      "pushedAt": "2026-09-17T10:48:57Z",
+      "pushedAt": "2026-09-18T10:41:33Z",
       "archived": false,
       "createdAt": "2015-06-15T06:50:02Z",
       "latestTag": "v11.11.0"
     },
     "pocketbase/pocketbase": {
-      "pushedAt": "2026-09-16T11:43:00Z",
+      "pushedAt": "2026-09-17T22:29:46Z",
       "archived": false,
       "createdAt": "2022-07-05T06:06:21Z",
       "latestTag": "v0.40.4"
     },
     "typesense/typesense": {
-      "pushedAt": "2026-09-16T11:46:44Z",
+      "pushedAt": "2026-09-18T08:54:46Z",
       "archived": false,
       "createdAt": "2017-01-18T08:01:47Z",
       "latestTag": "v30.2"
@@ -683,22 +683,22 @@
       "latestTag": "v2.15.1"
     },
     "caddyserver/caddy": {
-      "pushedAt": "2026-09-17T01:13:56Z",
+      "pushedAt": "2026-09-17T21:02:24Z",
       "archived": false,
       "createdAt": "2015-01-13T19:45:03Z",
       "latestTag": "v2.11.4"
     },
     "woodpecker-ci/woodpecker": {
-      "pushedAt": "2026-09-17T08:03:56Z",
+      "pushedAt": "2026-09-18T05:28:38Z",
       "archived": false,
       "createdAt": "2019-04-03T18:06:38Z",
       "latestTag": "v3.18.1"
     },
     "windmill-labs/windmill": {
-      "pushedAt": "2026-09-17T11:04:30Z",
+      "pushedAt": "2026-09-18T10:27:10Z",
       "archived": false,
       "createdAt": "2022-05-05T02:21:17Z",
-      "latestTag": "v1.813.0"
+      "latestTag": "v1.814.0"
     },
     "pi-hole/pi-hole": {
       "pushedAt": "2026-09-12T10:02:33Z",
@@ -707,31 +707,31 @@
       "latestTag": "v6.4.3"
     },
     "AdguardTeam/AdGuardHome": {
-      "pushedAt": "2026-09-17T09:05:18Z",
+      "pushedAt": "2026-09-17T15:06:42Z",
       "archived": false,
       "createdAt": "2016-07-06T10:31:47Z",
       "latestTag": "v0.107.79"
     },
     "BookStackApp/BookStack": {
-      "pushedAt": "2026-09-17T04:30:54Z",
+      "pushedAt": "2026-09-18T04:31:22Z",
       "archived": false,
       "createdAt": "2015-08-29T10:26:44Z",
       "latestTag": "v26.05.5"
     },
     "RocketChat/Rocket.Chat": {
-      "pushedAt": "2026-09-17T08:29:16Z",
+      "pushedAt": "2026-09-18T06:41:51Z",
       "archived": false,
       "createdAt": "2015-05-19T07:36:09Z",
       "latestTag": "8.8.1"
     },
     "audacity/audacity": {
-      "pushedAt": "2026-09-17T09:19:04Z",
+      "pushedAt": "2026-09-18T09:21:56Z",
       "archived": false,
       "createdAt": "2015-03-26T10:46:17Z",
       "latestTag": "Audacity-4.0.0"
     },
     "mltframework/shotcut": {
-      "pushedAt": "2026-09-17T05:07:13Z",
+      "pushedAt": "2026-09-17T20:40:05Z",
       "archived": false,
       "createdAt": "2012-04-23T22:37:04Z",
       "latestTag": "v26.8.1"
@@ -749,7 +749,7 @@
       "latestTag": "v1.37.0+k3s1"
     },
     "cryptpad/cryptpad": {
-      "pushedAt": "2026-09-17T09:07:54Z",
+      "pushedAt": "2026-09-18T10:18:15Z",
       "archived": false,
       "createdAt": "2014-10-31T15:46:17Z",
       "latestTag": "2026.5.1"
@@ -804,6 +804,10 @@
       {
         "date": "2026-09-17",
         "stars": 72703
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 72741
       }
     ],
     "usebruno/bruno": [
@@ -854,6 +858,10 @@
       {
         "date": "2026-09-17",
         "stars": 47014
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 47039
       }
     ],
     "penpot/penpot": [
@@ -904,6 +912,10 @@
       {
         "date": "2026-09-17",
         "stars": 60074
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 60122
       }
     ],
     "zulip/zulip": [
@@ -954,6 +966,10 @@
       {
         "date": "2026-09-17",
         "stars": 25916
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 25925
       }
     ],
     "LibreOffice/core": [
@@ -1004,6 +1020,10 @@
       {
         "date": "2026-09-17",
         "stars": 4371
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 4373
       }
     ],
     "GNOME/gimp": [
@@ -1054,6 +1074,10 @@
       {
         "date": "2026-09-17",
         "stars": 6431
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 6433
       }
     ],
     "Inkscape/inkscape": [
@@ -1104,6 +1128,10 @@
       {
         "date": "2026-09-17",
         "stars": 3922
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 3928
       }
     ],
     "nextcloud/server": [
@@ -1154,6 +1182,10 @@
       {
         "date": "2026-09-17",
         "stars": 36826
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 36838
       }
     ],
     "bitwarden/clients": [
@@ -1204,6 +1236,10 @@
       {
         "date": "2026-09-17",
         "stars": 13796
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 13804
       }
     ],
     "keepassxreboot/keepassxc": [
@@ -1254,6 +1290,10 @@
       {
         "date": "2026-09-17",
         "stars": 28839
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 28846
       }
     ],
     "jitsi/jitsi-meet": [
@@ -1304,6 +1344,10 @@
       {
         "date": "2026-09-17",
         "stars": 29928
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 29933
       }
     ],
     "mattermost/focalboard": [
@@ -1354,6 +1398,10 @@
       {
         "date": "2026-09-17",
         "stars": 26466
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 26470
       }
     ],
     "makeplane/plane": [
@@ -1404,6 +1452,10 @@
       {
         "date": "2026-09-17",
         "stars": 59521
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 59584
       }
     ],
     "wekan/wekan": [
@@ -1454,6 +1506,10 @@
       {
         "date": "2026-09-17",
         "stars": 21088
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 21089
       }
     ],
     "nocodb/nocodb": [
@@ -1504,6 +1560,10 @@
       {
         "date": "2026-09-17",
         "stars": 64996
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 65005
       }
     ],
     "excalidraw/excalidraw": [
@@ -1554,6 +1614,10 @@
       {
         "date": "2026-09-17",
         "stars": 132183
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 132297
       }
     ],
     "languagetool-org/languagetool": [
@@ -1604,6 +1668,10 @@
       {
         "date": "2026-09-17",
         "stars": 15040
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15048
       }
     ],
     "KDE/kdenlive": [
@@ -1654,6 +1722,10 @@
       {
         "date": "2026-09-17",
         "stars": 5699
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5702
       }
     ],
     "metabase/metabase": [
@@ -1704,6 +1776,10 @@
       {
         "date": "2026-09-17",
         "stars": 49306
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 49329
       }
     ],
     "supabase/supabase": [
@@ -1754,6 +1830,10 @@
       {
         "date": "2026-09-17",
         "stars": 109977
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 109943
       }
     ],
     "goauthentik/authentik": [
@@ -1804,6 +1884,10 @@
       {
         "date": "2026-09-17",
         "stars": 25594
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 25615
       }
     ],
     "coollabsio/coolify": [
@@ -1854,6 +1938,10 @@
       {
         "date": "2026-09-17",
         "stars": 61906
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 61982
       }
     ],
     "go-vikunja/vikunja": [
@@ -1904,6 +1992,10 @@
       {
         "date": "2026-09-17",
         "stars": 5434
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5449
       }
     ],
     "navidrome/navidrome": [
@@ -1954,6 +2046,10 @@
       {
         "date": "2026-09-17",
         "stars": 23630
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 23640
       }
     ],
     "opf/openproject": [
@@ -2004,6 +2100,10 @@
       {
         "date": "2026-09-17",
         "stars": 16127
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 16140
       }
     ],
     "laurent22/joplin": [
@@ -2054,6 +2154,10 @@
       {
         "date": "2026-09-17",
         "stars": 56409
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 56422
       }
     ],
     "darktable-org/darktable": [
@@ -2104,6 +2208,10 @@
       {
         "date": "2026-09-17",
         "stars": 13086
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 13091
       }
     ],
     "containers/podman-desktop": [
@@ -2154,6 +2262,10 @@
       {
         "date": "2026-09-17",
         "stars": 8017
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 8019
       }
     ],
     "immich-app/immich": [
@@ -2204,6 +2316,10 @@
       {
         "date": "2026-09-17",
         "stars": 114491
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 114515
       }
     ],
     "jellyfin/jellyfin": [
@@ -2254,6 +2370,10 @@
       {
         "date": "2026-09-17",
         "stars": 57232
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 57260
       }
     ],
     "calcom/cal.com": [
@@ -2304,6 +2424,10 @@
       {
         "date": "2026-09-17",
         "stars": 48519
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 48537
       }
     ],
     "Stirling-Tools/Stirling-PDF": [
@@ -2354,6 +2478,10 @@
       {
         "date": "2026-09-17",
         "stars": 92409
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 92479
       }
     ],
     "activepieces/activepieces": [
@@ -2404,6 +2532,10 @@
       {
         "date": "2026-09-17",
         "stars": 24515
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 24535
       }
     ],
     "twentyhq/twenty": [
@@ -2454,6 +2586,10 @@
       {
         "date": "2026-09-17",
         "stars": 56926
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 56986
       }
     ],
     "matomo-org/matomo": [
@@ -2504,6 +2640,10 @@
       {
         "date": "2026-09-17",
         "stars": 21880
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 21885
       }
     ],
     "haiwen/seafile": [
@@ -2554,6 +2694,10 @@
       {
         "date": "2026-09-17",
         "stars": 15252
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15257
       }
     ],
     "keycloak/keycloak": [
@@ -2604,6 +2748,10 @@
       {
         "date": "2026-09-17",
         "stars": 36820
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 36842
       }
     ],
     "minio/minio": [
@@ -2654,6 +2802,10 @@
       {
         "date": "2026-09-17",
         "stars": 61380
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 61363
       }
     ],
     "dokku/dokku": [
@@ -2704,6 +2856,10 @@
       {
         "date": "2026-09-17",
         "stars": 32145
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 32148
       }
     ],
     "louislam/uptime-kuma": [
@@ -2754,6 +2910,10 @@
       {
         "date": "2026-09-17",
         "stars": 91461
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 91515
       }
     ],
     "revoltchat/backend": [
@@ -2804,6 +2964,10 @@
       {
         "date": "2026-09-17",
         "stars": 3330
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 3331
       }
     ],
     "element-hq/element-web": [
@@ -2854,6 +3018,10 @@
       {
         "date": "2026-09-17",
         "stars": 13459
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 13462
       }
     ],
     "mautic/mautic": [
@@ -2904,6 +3072,10 @@
       {
         "date": "2026-09-17",
         "stars": 10522
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 10527
       }
     ],
     "writefreely/writefreely": [
@@ -2954,6 +3126,10 @@
       {
         "date": "2026-09-17",
         "stars": 5250
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5251
       }
     ],
     "formbricks/formbricks": [
@@ -3004,6 +3180,10 @@
       {
         "date": "2026-09-17",
         "stars": 12949
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 12951
       }
     ],
     "LimeSurvey/LimeSurvey": [
@@ -3054,6 +3234,10 @@
       {
         "date": "2026-09-17",
         "stars": 3726
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 3729
       }
     ],
     "Chocobozzz/PeerTube": [
@@ -3104,6 +3288,10 @@
       {
         "date": "2026-09-17",
         "stars": 15315
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15320
       }
     ],
     "NatronGitHub/Natron": [
@@ -3154,6 +3342,10 @@
       {
         "date": "2026-09-17",
         "stars": 5532
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5534
       }
     ],
     "FreeCAD/freecad": [
@@ -3204,6 +3396,10 @@
       {
         "date": "2026-09-17",
         "stars": 33588
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 33610
       }
     ],
     "JuliaLang/julia": [
@@ -3254,6 +3450,10 @@
       {
         "date": "2026-09-17",
         "stars": 49114
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 49117
       }
     ],
     "chatwoot/chatwoot": [
@@ -3304,6 +3504,10 @@
       {
         "date": "2026-09-17",
         "stars": 36898
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 36928
       }
     ],
     "zammad/zammad": [
@@ -3354,6 +3558,10 @@
       {
         "date": "2026-09-17",
         "stars": 5921
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5925
       }
     ],
     "akaunting/akaunting": [
@@ -3403,6 +3611,10 @@
       },
       {
         "date": "2026-09-17",
+        "stars": 10127
+      },
+      {
+        "date": "2026-09-18",
         "stars": 10127
       }
     ],
@@ -3454,6 +3666,10 @@
       {
         "date": "2026-09-17",
         "stars": 36348
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 36366
       }
     ],
     "logseq/logseq": [
@@ -3504,6 +3720,10 @@
       {
         "date": "2026-09-17",
         "stars": 44949
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 44962
       }
     ],
     "getlago/lago": [
@@ -3554,6 +3774,10 @@
       {
         "date": "2026-09-17",
         "stars": 10569
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 10573
       }
     ],
     "mastodon/mastodon": [
@@ -3604,6 +3828,10 @@
       {
         "date": "2026-09-17",
         "stars": 50298
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 50301
       }
     ],
     "LibreTranslate/LibreTranslate": [
@@ -3654,6 +3882,10 @@
       {
         "date": "2026-09-17",
         "stars": 16685
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 16649
       }
     ],
     "home-assistant/core": [
@@ -3704,6 +3936,10 @@
       {
         "date": "2026-09-17",
         "stars": 90611
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 90696
       }
     ],
     "outline/outline": [
@@ -3754,6 +3990,10 @@
       {
         "date": "2026-09-17",
         "stars": 40579
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 40608
       }
     ],
     "SigNoz/signoz": [
@@ -3804,6 +4044,10 @@
       {
         "date": "2026-09-17",
         "stars": 32115
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 32129
       }
     ],
     "AppFlowy-IO/AppFlowy": [
@@ -3854,6 +4098,10 @@
       {
         "date": "2026-09-17",
         "stars": 76787
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 76817
       }
     ],
     "n8n-io/n8n": [
@@ -3904,6 +4152,10 @@
       {
         "date": "2026-09-17",
         "stars": 204756
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 205214
       }
     ],
     "rustdesk/rustdesk": [
@@ -3954,6 +4206,10 @@
       {
         "date": "2026-09-17",
         "stars": 123993
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 123918
       }
     ],
     "grafana/grafana": [
@@ -4004,6 +4260,10 @@
       {
         "date": "2026-09-17",
         "stars": 76787
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 76796
       }
     ],
     "strapi/strapi": [
@@ -4054,6 +4314,10 @@
       {
         "date": "2026-09-17",
         "stars": 73181
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 73188
       }
     ],
     "apache/superset": [
@@ -4104,6 +4368,10 @@
       {
         "date": "2026-09-17",
         "stars": 74810
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 74830
       }
     ],
     "TryGhost/Ghost": [
@@ -4154,6 +4422,10 @@
       {
         "date": "2026-09-17",
         "stars": 55336
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 55349
       }
     ],
     "appwrite/appwrite": [
@@ -4204,6 +4476,10 @@
       {
         "date": "2026-09-17",
         "stars": 57392
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 57408
       }
     ],
     "meilisearch/meilisearch": [
@@ -4254,6 +4530,10 @@
       {
         "date": "2026-09-17",
         "stars": 59313
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 59323
       }
     ],
     "VSCodium/vscodium": [
@@ -4304,6 +4584,10 @@
       {
         "date": "2026-09-17",
         "stars": 33274
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 33286
       }
     ],
     "dani-garcia/vaultwarden": [
@@ -4354,6 +4638,10 @@
       {
         "date": "2026-09-17",
         "stars": 67953
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 67796
       }
     ],
     "PostHog/posthog": [
@@ -4404,6 +4692,10 @@
       {
         "date": "2026-09-17",
         "stars": 39829
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 39846
       }
     ],
     "umami-software/umami": [
@@ -4454,6 +4746,10 @@
       {
         "date": "2026-09-17",
         "stars": 38876
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 38897
       }
     ],
     "documenso/documenso": [
@@ -4504,6 +4800,10 @@
       {
         "date": "2026-09-17",
         "stars": 15056
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15072
       }
     ],
     "bram2w/baserow": [
@@ -4554,6 +4854,10 @@
       {
         "date": "2026-09-17",
         "stars": 5928
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 5933
       }
     ],
     "saleor/saleor": [
@@ -4604,6 +4908,10 @@
       {
         "date": "2026-09-17",
         "stars": 23339
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 23343
       }
     ],
     "knadh/listmonk": [
@@ -4654,6 +4962,10 @@
       {
         "date": "2026-09-17",
         "stars": 23463
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 23472
       }
     ],
     "zadam/trilium": [
@@ -4704,6 +5016,10 @@
       {
         "date": "2026-09-17",
         "stars": 37872
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 37883
       }
     ],
     "taigaio/taiga-back": [
@@ -4754,6 +5070,10 @@
       {
         "date": "2026-09-17",
         "stars": 850
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 851
       }
     ],
     "valkey-io/valkey": [
@@ -4804,6 +5124,10 @@
       {
         "date": "2026-09-17",
         "stars": 27226
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 27232
       }
     ],
     "ollama/ollama": [
@@ -4854,6 +5178,10 @@
       {
         "date": "2026-09-17",
         "stars": 181238
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 181198
       }
     ],
     "open-webui/open-webui": [
@@ -4904,6 +5232,10 @@
       {
         "date": "2026-09-17",
         "stars": 152347
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 152455
       }
     ],
     "qdrant/qdrant": [
@@ -4954,6 +5286,10 @@
       {
         "date": "2026-09-17",
         "stars": 34627
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 34656
       }
     ],
     "chroma-core/chroma": [
@@ -5004,6 +5340,10 @@
       {
         "date": "2026-09-17",
         "stars": 29315
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 29321
       }
     ],
     "netdata/netdata": [
@@ -5054,6 +5394,10 @@
       {
         "date": "2026-09-17",
         "stars": 80557
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 80569
       }
     ],
     "gravitational/teleport": [
@@ -5104,6 +5448,10 @@
       {
         "date": "2026-09-17",
         "stars": 20923
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 20926
       }
     ],
     "KDE/krita": [
@@ -5154,6 +5502,10 @@
       {
         "date": "2026-09-17",
         "stars": 10383
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 10387
       }
     ],
     "blender/blender": [
@@ -5204,6 +5556,10 @@
       {
         "date": "2026-09-17",
         "stars": 20395
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 20407
       }
     ],
     "obsproject/obs-studio": [
@@ -5254,6 +5610,10 @@
       {
         "date": "2026-09-17",
         "stars": 76310
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 76349
       }
     ],
     "paperless-ngx/paperless-ngx": [
@@ -5304,6 +5664,10 @@
       {
         "date": "2026-09-17",
         "stars": 45245
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 45264
       }
     ],
     "mattermost/mattermost": [
@@ -5354,6 +5718,10 @@
       {
         "date": "2026-09-17",
         "stars": 39084
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 39098
       }
     ],
     "pocketbase/pocketbase": [
@@ -5404,6 +5772,10 @@
       {
         "date": "2026-09-17",
         "stars": 61068
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 61082
       }
     ],
     "typesense/typesense": [
@@ -5454,6 +5826,10 @@
       {
         "date": "2026-09-17",
         "stars": 26564
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 26571
       }
     ],
     "NginxProxyManager/nginx-proxy-manager": [
@@ -5504,6 +5880,10 @@
       {
         "date": "2026-09-17",
         "stars": 34150
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 34166
       }
     ],
     "caddyserver/caddy": [
@@ -5554,6 +5934,10 @@
       {
         "date": "2026-09-17",
         "stars": 75892
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 75839
       }
     ],
     "woodpecker-ci/woodpecker": [
@@ -5604,6 +5988,10 @@
       {
         "date": "2026-09-17",
         "stars": 7884
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 7890
       }
     ],
     "windmill-labs/windmill": [
@@ -5654,6 +6042,10 @@
       {
         "date": "2026-09-17",
         "stars": 17957
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 17958
       }
     ],
     "pi-hole/pi-hole": [
@@ -5704,6 +6096,10 @@
       {
         "date": "2026-09-17",
         "stars": 60953
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 60968
       }
     ],
     "AdguardTeam/AdGuardHome": [
@@ -5754,6 +6150,10 @@
       {
         "date": "2026-09-17",
         "stars": 36958
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 36966
       }
     ],
     "BookStackApp/BookStack": [
@@ -5804,6 +6204,10 @@
       {
         "date": "2026-09-17",
         "stars": 19048
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 19052
       }
     ],
     "RocketChat/Rocket.Chat": [
@@ -5854,6 +6258,10 @@
       {
         "date": "2026-09-17",
         "stars": 46131
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 46137
       }
     ],
     "audacity/audacity": [
@@ -5904,6 +6312,10 @@
       {
         "date": "2026-09-17",
         "stars": 18461
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 18471
       }
     ],
     "mltframework/shotcut": [
@@ -5954,6 +6366,10 @@
       {
         "date": "2026-09-17",
         "stars": 15227
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15231
       }
     ],
     "caprover/caprover": [
@@ -6004,6 +6420,10 @@
       {
         "date": "2026-09-17",
         "stars": 15164
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 15166
       }
     ],
     "k3s-io/k3s": [
@@ -6054,6 +6474,10 @@
       {
         "date": "2026-09-17",
         "stars": 33975
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 33982
       }
     ],
     "cryptpad/cryptpad": [
@@ -6104,6 +6528,10 @@
       {
         "date": "2026-09-17",
         "stars": 7920
+      },
+      {
+        "date": "2026-09-18",
+        "stars": 7926
       }
     ]
   },
@@ -6116,6 +6544,10 @@
       {
         "date": "2026-09-12",
         "docker": 1027541228
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 1028742345
       }
     ],
     "jitsi/jitsi-meet": [
@@ -6126,6 +6558,10 @@
       {
         "date": "2026-09-12",
         "docker": 29342999
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 29371452
       }
     ],
     "mattermost/focalboard": [
@@ -6136,6 +6572,10 @@
       {
         "date": "2026-09-12",
         "docker": 2832349
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 2840198
       }
     ],
     "wekan/wekan": [
@@ -6146,6 +6586,10 @@
       {
         "date": "2026-09-12",
         "docker": 36885816
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 36907191
       }
     ],
     "nocodb/nocodb": [
@@ -6156,6 +6600,10 @@
       {
         "date": "2026-09-12",
         "docker": 21864074
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 22002121
       }
     ],
     "metabase/metabase": [
@@ -6166,6 +6614,10 @@
       {
         "date": "2026-09-12",
         "docker": 271493103
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 272286645
       }
     ],
     "coollabsio/coolify": [
@@ -6176,6 +6628,10 @@
       {
         "date": "2026-09-12",
         "docker": 2101461
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 2302726
       }
     ],
     "go-vikunja/vikunja": [
@@ -6186,6 +6642,10 @@
       {
         "date": "2026-09-12",
         "docker": 10614184
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 10848069
       }
     ],
     "navidrome/navidrome": [
@@ -6196,6 +6656,10 @@
       {
         "date": "2026-09-12",
         "docker": 53982380
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 54796594
       }
     ],
     "opf/openproject": [
@@ -6206,6 +6670,10 @@
       {
         "date": "2026-09-12",
         "docker": 4877665
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 4961666
       }
     ],
     "laurent22/joplin": [
@@ -6216,6 +6684,10 @@
       {
         "date": "2026-09-12",
         "npm": 5643
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 6003
       }
     ],
     "jellyfin/jellyfin": [
@@ -6226,6 +6698,10 @@
       {
         "date": "2026-09-12",
         "docker": 417751576
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 420756364
       }
     ],
     "calcom/cal.com": [
@@ -6236,6 +6712,10 @@
       {
         "date": "2026-09-12",
         "docker": 4866041
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 4914146
       }
     ],
     "activepieces/activepieces": [
@@ -6246,6 +6726,10 @@
       {
         "date": "2026-09-12",
         "docker": 2233100
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 2249941
       }
     ],
     "matomo-org/matomo": [
@@ -6256,6 +6740,10 @@
       {
         "date": "2026-09-12",
         "docker": 138488529
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 138639383
       }
     ],
     "minio/minio": [
@@ -6272,6 +6760,10 @@
       {
         "date": "2026-09-12",
         "docker": 424528
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 425640
       }
     ],
     "louislam/uptime-kuma": [
@@ -6282,6 +6774,10 @@
       {
         "date": "2026-09-12",
         "docker": 181512532
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 183375343
       }
     ],
     "element-hq/element-web": [
@@ -6291,6 +6787,10 @@
       },
       {
         "date": "2026-09-12",
+        "npm": 0
+      },
+      {
+        "date": "2026-09-18",
         "npm": 0
       }
     ],
@@ -6302,6 +6802,10 @@
       {
         "date": "2026-09-12",
         "docker": 16729762
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 16753111
       }
     ],
     "writefreely/writefreely": [
@@ -6312,6 +6816,10 @@
       {
         "date": "2026-09-12",
         "docker": 351518
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 353148
       }
     ],
     "Chocobozzz/PeerTube": [
@@ -6322,6 +6830,10 @@
       {
         "date": "2026-09-12",
         "docker": 7496923
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 7520828
       }
     ],
     "chatwoot/chatwoot": [
@@ -6332,6 +6844,10 @@
       {
         "date": "2026-09-12",
         "docker": 10375397
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 10467403
       }
     ],
     "zammad/zammad": [
@@ -6342,6 +6858,10 @@
       {
         "date": "2026-09-12",
         "docker": 4295445
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 4299958
       }
     ],
     "akaunting/akaunting": [
@@ -6352,6 +6872,10 @@
       {
         "date": "2026-09-12",
         "docker": 1848399
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 1854120
       }
     ],
     "medusajs/medusa": [
@@ -6362,6 +6886,10 @@
       {
         "date": "2026-09-12",
         "npm": 575075
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 575632
       }
     ],
     "mastodon/mastodon": [
@@ -6372,6 +6900,10 @@
       {
         "date": "2026-09-12",
         "docker": 20309338
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 20323108
       }
     ],
     "LibreTranslate/LibreTranslate": [
@@ -6382,6 +6914,10 @@
       {
         "date": "2026-09-12",
         "docker": 9636267
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 9695247
       }
     ],
     "outline/outline": [
@@ -6392,6 +6928,10 @@
       {
         "date": "2026-09-12",
         "docker": 14722690
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 14915017
       }
     ],
     "SigNoz/signoz": [
@@ -6402,6 +6942,10 @@
       {
         "date": "2026-09-12",
         "docker": 1000684
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 1036233
       }
     ],
     "n8n-io/n8n": [
@@ -6414,6 +6958,11 @@
         "date": "2026-09-12",
         "docker": 258714925,
         "npm": 462064
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 261086321,
+        "npm": 441284
       }
     ],
     "rustdesk/rustdesk": [
@@ -6424,6 +6973,10 @@
       {
         "date": "2026-09-12",
         "docker": 24984907
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 25339716
       }
     ],
     "grafana/grafana": [
@@ -6434,6 +6987,10 @@
       {
         "date": "2026-09-12",
         "docker": 5322612918
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 5328646775
       }
     ],
     "strapi/strapi": [
@@ -6444,6 +7001,10 @@
       {
         "date": "2026-09-12",
         "npm": 677476
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 698327
       }
     ],
     "apache/superset": [
@@ -6454,6 +7015,10 @@
       {
         "date": "2026-09-12",
         "docker": 604906208
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 605320667
       }
     ],
     "TryGhost/Ghost": [
@@ -6466,6 +7031,11 @@
         "date": "2026-09-12",
         "docker": 379815015,
         "npm": 12220
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 380063464,
+        "npm": 12746
       }
     ],
     "appwrite/appwrite": [
@@ -6476,6 +7046,10 @@
       {
         "date": "2026-09-12",
         "docker": 10576700
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 10593011
       }
     ],
     "meilisearch/meilisearch": [
@@ -6486,6 +7060,10 @@
       {
         "date": "2026-09-12",
         "docker": 52664788
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 53798537
       }
     ],
     "dani-garcia/vaultwarden": [
@@ -6496,6 +7074,10 @@
       {
         "date": "2026-09-12",
         "docker": 329126948
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 331888993
       }
     ],
     "PostHog/posthog": [
@@ -6508,6 +7090,11 @@
         "date": "2026-09-12",
         "npm": 47992686,
         "docker": 33017251
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 50208815,
+        "docker": 33301131
       }
     ],
     "umami-software/umami": [
@@ -6518,6 +7105,10 @@
       {
         "date": "2026-09-12",
         "npm": 18016
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 17695
       }
     ],
     "documenso/documenso": [
@@ -6528,6 +7119,10 @@
       {
         "date": "2026-09-12",
         "docker": 725752
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 748511
       }
     ],
     "bram2w/baserow": [
@@ -6538,6 +7133,10 @@
       {
         "date": "2026-09-12",
         "docker": 3228375
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 3288420
       }
     ],
     "knadh/listmonk": [
@@ -6548,6 +7147,10 @@
       {
         "date": "2026-09-12",
         "docker": 8118882
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 8156013
       }
     ],
     "zadam/trilium": [
@@ -6558,6 +7161,10 @@
       {
         "date": "2026-09-12",
         "docker": 13928686
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 13949216
       }
     ],
     "taigaio/taiga-back": [
@@ -6568,6 +7175,10 @@
       {
         "date": "2026-09-12",
         "docker": 2315134
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 2323416
       }
     ],
     "valkey-io/valkey": [
@@ -6578,6 +7189,10 @@
       {
         "date": "2026-09-12",
         "docker": 284952735
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 293385048
       }
     ],
     "ollama/ollama": [
@@ -6588,6 +7203,10 @@
       {
         "date": "2026-09-12",
         "docker": 174122879
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 176326067
       }
     ],
     "qdrant/qdrant": [
@@ -6598,6 +7217,10 @@
       {
         "date": "2026-09-12",
         "docker": 45279265
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 46161445
       }
     ],
     "chroma-core/chroma": [
@@ -6608,6 +7231,10 @@
       {
         "date": "2026-09-12",
         "docker": 7491151
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 7607627
       }
     ],
     "netdata/netdata": [
@@ -6618,6 +7245,10 @@
       {
         "date": "2026-09-12",
         "docker": 524718115
+      },
+      {
+        "date": "2026-09-18",
+        "docker": 525495703
       }
     ],
     "caprover/caprover": [
@@ -6628,6 +7259,10 @@
       {
         "date": "2026-09-12",
         "npm": 34031
+      },
+      {
+        "date": "2026-09-18",
+        "npm": 35140
       }
     ]
   }
