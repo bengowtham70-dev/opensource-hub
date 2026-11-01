@@ -1,804 +1,804 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-01T14:23:11.730Z",
+  "generatedAt": "2026-11-01T14:12:01.122Z",
   "windowDays": 30,
   "repos": {
     "toeverything/AFFiNE": {
-      "starsDelta": 927,
+      "starsDelta": 835,
       "freshness": "fresh",
-      "daysSincePush": 1,
+      "daysSincePush": 0,
       "archived": false
     },
     "usebruno/bruno": {
-      "starsDelta": 519,
+      "starsDelta": 644,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "penpot/penpot": {
-      "starsDelta": 920,
+      "starsDelta": 1317,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "zulip/zulip": {
-      "starsDelta": 130,
+      "starsDelta": 167,
       "freshness": "fresh",
       "daysSincePush": 1,
       "archived": false
     },
     "LibreOffice/core": {
-      "starsDelta": 103,
+      "starsDelta": 142,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "GNOME/gimp": {
-      "starsDelta": 70,
+      "starsDelta": 90,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "Inkscape/inkscape": {
-      "starsDelta": 106,
+      "starsDelta": 97,
       "freshness": "stale",
-      "daysSincePush": 1672,
+      "daysSincePush": 1703,
       "archived": false
     },
     "nextcloud/server": {
-      "starsDelta": 230,
+      "starsDelta": 401,
       "downloadsDelta": {
-        "docker": 4742616
+        "docker": 8022320
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "bitwarden/clients": {
-      "starsDelta": 131,
+      "starsDelta": 229,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "keepassxreboot/keepassxc": {
-      "starsDelta": 341,
+      "starsDelta": 604,
       "freshness": "fresh",
-      "daysSincePush": 1,
+      "daysSincePush": 0,
       "archived": false
     },
     "jitsi/jitsi-meet": {
-      "starsDelta": 150,
+      "starsDelta": 138,
       "downloadsDelta": {
-        "docker": 133745
+        "docker": 140699
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "mattermost/focalboard": {
-      "starsDelta": 49,
+      "starsDelta": 43,
       "downloadsDelta": {
-        "docker": 30186
+        "docker": 38954
       },
       "freshness": "aging",
-      "daysSincePush": 135,
+      "daysSincePush": 166,
       "archived": false
     },
     "makeplane/plane": {
-      "starsDelta": 1266,
+      "starsDelta": 1487,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 2,
       "archived": false
     },
     "wekan/wekan": {
-      "starsDelta": 27,
+      "starsDelta": 45,
       "downloadsDelta": {
-        "docker": 203105
+        "docker": 136455
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "nocodb/nocodb": {
-      "starsDelta": 289,
+      "starsDelta": 234,
       "downloadsDelta": {
-        "docker": 550858
+        "docker": 748799
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "excalidraw/excalidraw": {
-      "starsDelta": 2111,
+      "starsDelta": 1534,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "languagetool-org/languagetool": {
-      "starsDelta": 121,
+      "starsDelta": 125,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "KDE/kdenlive": {
-      "starsDelta": 161,
+      "starsDelta": 241,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "metabase/metabase": {
-      "starsDelta": 391,
+      "starsDelta": 555,
       "downloadsDelta": {
-        "docker": 3176865
+        "docker": 4030883
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "supabase/supabase": {
-      "starsDelta": 2074,
+      "starsDelta": 3362,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "goauthentik/authentik": {
-      "starsDelta": 423,
+      "starsDelta": 364,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "coollabsio/coolify": {
-      "starsDelta": 997,
+      "starsDelta": 2931,
       "downloadsDelta": {
-        "docker": 761116
+        "docker": 1541330
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "go-vikunja/vikunja": {
-      "starsDelta": 273,
+      "starsDelta": 333,
       "downloadsDelta": {
-        "docker": 955300
+        "docker": 1310496
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "navidrome/navidrome": {
-      "starsDelta": 549,
+      "starsDelta": 525,
       "downloadsDelta": {
-        "docker": 3302361
+        "docker": 4473933
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "opf/openproject": {
-      "starsDelta": 246,
+      "starsDelta": 598,
       "downloadsDelta": {
-        "docker": 346859
+        "docker": 696355
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "laurent22/joplin": {
-      "starsDelta": 295,
+      "starsDelta": 400,
       "downloadsDelta": {
-        "npm": 3759
+        "npm": -2651
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "darktable-org/darktable": {
-      "starsDelta": 146,
+      "starsDelta": 189,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "containers/podman-desktop": {
-      "starsDelta": 57,
+      "starsDelta": 67,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 2,
       "archived": false
     },
     "immich-app/immich": {
-      "starsDelta": 1901,
+      "starsDelta": 2353,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "jellyfin/jellyfin": {
-      "starsDelta": 1120,
+      "starsDelta": 1159,
       "downloadsDelta": {
-        "docker": 11777681
+        "docker": 25105053
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "calcom/cal.com": {
-      "starsDelta": 598,
+      "starsDelta": 771,
       "downloadsDelta": {
-        "docker": 198313
+        "docker": 232964
       },
       "freshness": "fresh",
-      "daysSincePush": 5,
+      "daysSincePush": 0,
       "archived": false
     },
     "Stirling-Tools/Stirling-PDF": {
-      "starsDelta": 1996,
+      "starsDelta": 2012,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "activepieces/activepieces": {
-      "starsDelta": 535,
+      "starsDelta": 446,
       "downloadsDelta": {
-        "docker": 73397
+        "docker": 106052
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "twentyhq/twenty": {
-      "starsDelta": 1447,
+      "starsDelta": 2394,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "matomo-org/matomo": {
-      "starsDelta": 75,
+      "starsDelta": 72,
       "downloadsDelta": {
-        "docker": 658264
+        "docker": 1051207
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "haiwen/seafile": {
-      "starsDelta": 78,
+      "starsDelta": 103,
       "freshness": "fresh",
-      "daysSincePush": 13,
+      "daysSincePush": 16,
       "archived": false
     },
     "keycloak/keycloak": {
-      "starsDelta": 459,
+      "starsDelta": 521,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "minio/minio": {
-      "starsDelta": -25,
-      "freshness": "aging",
-      "daysSincePush": 159,
+      "starsDelta": -52,
+      "freshness": "stale",
+      "daysSincePush": 190,
       "archived": true
     },
     "dokku/dokku": {
-      "starsDelta": 45,
+      "starsDelta": 56,
       "downloadsDelta": {
-        "docker": 8851
+        "docker": 6710
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "louislam/uptime-kuma": {
-      "starsDelta": 972,
+      "starsDelta": 1058,
       "downloadsDelta": {
-        "docker": 7374680
+        "docker": 10984715
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "revoltchat/backend": {
-      "starsDelta": 86,
+      "starsDelta": 67,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "element-hq/element-web": {
-      "starsDelta": 99,
+      "starsDelta": 96,
       "downloadsDelta": {
         "npm": 0
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "mautic/mautic": {
-      "starsDelta": 196,
+      "starsDelta": 202,
       "downloadsDelta": {
-        "docker": 277492
+        "docker": 347811
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "writefreely/writefreely": {
-      "starsDelta": 11,
+      "starsDelta": 21,
       "downloadsDelta": {
-        "docker": 5249
+        "docker": 4406
       },
       "freshness": "fresh",
-      "daysSincePush": 2,
+      "daysSincePush": 5,
       "archived": false
     },
     "formbricks/formbricks": {
-      "starsDelta": 152,
+      "starsDelta": 151,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "LimeSurvey/LimeSurvey": {
-      "starsDelta": 29,
+      "starsDelta": 44,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "Chocobozzz/PeerTube": {
-      "starsDelta": 25,
+      "starsDelta": 37,
       "downloadsDelta": {
-        "docker": 92869
+        "docker": 126555
       },
       "freshness": "fresh",
       "daysSincePush": 1,
       "archived": false
     },
     "NatronGitHub/Natron": {
-      "starsDelta": 53,
-      "freshness": "fresh",
-      "daysSincePush": 69,
+      "starsDelta": 62,
+      "freshness": "aging",
+      "daysSincePush": 100,
       "archived": false
     },
     "FreeCAD/freecad": {
-      "starsDelta": 569,
+      "starsDelta": 1108,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "JuliaLang/julia": {
-      "starsDelta": 86,
+      "starsDelta": 58,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "chatwoot/chatwoot": {
-      "starsDelta": 864,
+      "starsDelta": 1229,
       "downloadsDelta": {
-        "docker": 332737
+        "docker": 567743
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "zammad/zammad": {
-      "starsDelta": 79,
+      "starsDelta": 88,
       "downloadsDelta": {
-        "docker": 109274
+        "docker": 66234
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "akaunting/akaunting": {
-      "starsDelta": 46,
+      "starsDelta": 102,
       "downloadsDelta": {
-        "docker": 22576
+        "docker": 32776
       },
       "freshness": "fresh",
       "daysSincePush": 1,
       "archived": false
     },
     "medusajs/medusa": {
-      "starsDelta": 381,
+      "starsDelta": 470,
       "downloadsDelta": {
-        "npm": 48716
+        "npm": 108687
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "logseq/logseq": {
-      "starsDelta": 310,
+      "starsDelta": 326,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "getlago/lago": {
-      "starsDelta": 140,
+      "starsDelta": 90,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "mastodon/mastodon": {
-      "starsDelta": 70,
+      "starsDelta": 114,
       "downloadsDelta": {
-        "docker": 47436
+        "docker": 60627
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "LibreTranslate/LibreTranslate": {
-      "starsDelta": 672,
+      "starsDelta": 262,
       "downloadsDelta": {
-        "docker": 262782
+        "docker": 430748
       },
       "freshness": "fresh",
-      "daysSincePush": 3,
+      "daysSincePush": 6,
       "archived": false
     },
     "home-assistant/core": {
-      "starsDelta": 955,
+      "starsDelta": 656,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "outline/outline": {
-      "starsDelta": 300,
+      "starsDelta": 342,
       "downloadsDelta": {
-        "docker": 758140
+        "docker": 1063602
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "SigNoz/signoz": {
-      "starsDelta": 232,
+      "starsDelta": 225,
       "downloadsDelta": {
-        "docker": 139669
+        "docker": 174536
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "AppFlowy-IO/AppFlowy": {
-      "starsDelta": 703,
+      "starsDelta": 978,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 4,
       "archived": false
     },
     "n8n-io/n8n": {
-      "starsDelta": 2916,
+      "starsDelta": 2708,
       "downloadsDelta": {
-        "docker": 9631508,
-        "npm": -68153
+        "npm": 44409,
+        "docker": 12790961
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "rustdesk/rustdesk": {
-      "starsDelta": 2206,
+      "starsDelta": 2720,
       "downloadsDelta": {
-        "docker": 1449809
+        "docker": 2078978
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "grafana/grafana": {
-      "starsDelta": 408,
+      "starsDelta": 562,
       "downloadsDelta": {
-        "docker": 24441215
+        "docker": 31562528
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "strapi/strapi": {
-      "starsDelta": 191,
+      "starsDelta": 146,
       "downloadsDelta": {
-        "npm": 28939
+        "npm": 138917
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "apache/superset": {
-      "starsDelta": 332,
+      "starsDelta": 367,
       "downloadsDelta": {
-        "docker": 1564455
+        "docker": 2253106
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "TryGhost/Ghost": {
-      "starsDelta": 290,
+      "starsDelta": 171,
       "downloadsDelta": {
-        "docker": 1111276,
-        "npm": 870
+        "npm": 3273,
+        "docker": 1464792
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "appwrite/appwrite": {
-      "starsDelta": 230,
+      "starsDelta": 274,
       "downloadsDelta": {
-        "docker": 67660
+        "docker": 99155
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "meilisearch/meilisearch": {
-      "starsDelta": 260,
+      "starsDelta": 265,
       "downloadsDelta": {
-        "docker": 4600266
+        "docker": 6428434
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 2,
       "archived": false
     },
     "VSCodium/vscodium": {
-      "starsDelta": 339,
+      "starsDelta": 419,
       "freshness": "fresh",
-      "daysSincePush": 8,
+      "daysSincePush": 1,
       "archived": false
     },
     "dani-garcia/vaultwarden": {
-      "starsDelta": 1460,
+      "starsDelta": 1581,
       "downloadsDelta": {
-        "docker": 11189432
+        "docker": 14881887
       },
       "freshness": "fresh",
-      "daysSincePush": 5,
+      "daysSincePush": 2,
       "archived": false
     },
     "PostHog/posthog": {
-      "starsDelta": 451,
+      "starsDelta": 447,
       "downloadsDelta": {
-        "docker": 1196893,
-        "npm": 7102868
+        "docker": 1915147,
+        "npm": 9832910
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "umami-software/umami": {
-      "starsDelta": 478,
+      "starsDelta": 704,
       "downloadsDelta": {
-        "npm": 426
+        "npm": 786
       },
       "freshness": "fresh",
       "daysSincePush": 1,
       "archived": false
     },
     "documenso/documenso": {
-      "starsDelta": 375,
+      "starsDelta": 313,
       "downloadsDelta": {
-        "docker": 90508
+        "docker": 107362
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "bram2w/baserow": {
-      "starsDelta": 226,
+      "starsDelta": 180,
       "downloadsDelta": {
-        "docker": 255555
+        "docker": 237501
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "saleor/saleor": {
-      "starsDelta": 101,
+      "starsDelta": 91,
+      "freshness": "fresh",
+      "daysSincePush": 2,
+      "archived": false
+    },
+    "knadh/listmonk": {
+      "starsDelta": 434,
+      "downloadsDelta": {
+        "docker": 186151
+      },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
-    "knadh/listmonk": {
-      "starsDelta": 361,
-      "downloadsDelta": {
-        "docker": 141342
-      },
-      "freshness": "fresh",
-      "daysSincePush": 1,
-      "archived": false
-    },
     "zadam/trilium": {
-      "starsDelta": 380,
+      "starsDelta": 459,
       "downloadsDelta": {
-        "docker": 83814
+        "docker": 100849
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "taigaio/taiga-back": {
-      "starsDelta": 5,
+      "starsDelta": 3,
       "downloadsDelta": {
-        "docker": 33770
+        "docker": 42542
       },
       "freshness": "fresh",
       "daysSincePush": 2,
       "archived": false
     },
     "valkey-io/valkey": {
-      "starsDelta": 212,
+      "starsDelta": 214,
       "downloadsDelta": {
-        "docker": 34784055
+        "docker": 56484687
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "ollama/ollama": {
-      "starsDelta": 1727,
+      "starsDelta": 3458,
       "downloadsDelta": {
-        "docker": 9127199
+        "docker": 12775626
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "open-webui/open-webui": {
-      "starsDelta": 2611,
+      "starsDelta": 3597,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "qdrant/qdrant": {
-      "starsDelta": 488,
+      "starsDelta": 452,
       "downloadsDelta": {
-        "docker": 3684563
+        "docker": 5934700
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "chroma-core/chroma": {
-      "starsDelta": 184,
+      "starsDelta": 186,
       "downloadsDelta": {
-        "docker": 460161
+        "docker": 761586
       },
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     },
     "netdata/netdata": {
-      "starsDelta": 333,
+      "starsDelta": 459,
       "downloadsDelta": {
-        "docker": 2897565
+        "docker": 3208341
       },
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "gravitational/teleport": {
-      "starsDelta": 75,
+      "starsDelta": 93,
       "freshness": "fresh",
-      "daysSincePush": 13,
+      "daysSincePush": 12,
       "archived": false
     },
     "KDE/krita": {
-      "starsDelta": 143,
+      "starsDelta": 205,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "blender/blender": {
-      "starsDelta": 586,
+      "starsDelta": 837,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "obsproject/obs-studio": {
-      "starsDelta": 975,
+      "starsDelta": 1832,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 2,
       "archived": false
     },
     "paperless-ngx/paperless-ngx": {
-      "starsDelta": 1326,
+      "starsDelta": 1254,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "mattermost/mattermost": {
-      "starsDelta": 237,
+      "starsDelta": 247,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "pocketbase/pocketbase": {
-      "starsDelta": 270,
+      "starsDelta": 366,
       "freshness": "fresh",
-      "daysSincePush": 2,
-      "archived": false
+      "daysSincePush": 5,
+      "archived": true
     },
     "typesense/typesense": {
-      "starsDelta": 99,
+      "starsDelta": 446,
       "freshness": "fresh",
       "daysSincePush": 1,
       "archived": false
     },
     "NginxProxyManager/nginx-proxy-manager": {
-      "starsDelta": 214,
+      "starsDelta": 291,
       "freshness": "fresh",
-      "daysSincePush": 1,
+      "daysSincePush": 0,
       "archived": false
     },
     "caddyserver/caddy": {
-      "starsDelta": 695,
+      "starsDelta": 2360,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "woodpecker-ci/woodpecker": {
-      "starsDelta": 123,
+      "starsDelta": 141,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "windmill-labs/windmill": {
-      "starsDelta": 292,
+      "starsDelta": 256,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "pi-hole/pi-hole": {
-      "starsDelta": 354,
-      "freshness": "fresh",
-      "daysSincePush": 4,
-      "archived": false
-    },
-    "AdguardTeam/AdGuardHome": {
-      "starsDelta": 439,
+      "starsDelta": 483,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
+    "AdguardTeam/AdGuardHome": {
+      "starsDelta": 840,
+      "freshness": "fresh",
+      "daysSincePush": 2,
+      "archived": false
+    },
     "BookStackApp/BookStack": {
-      "starsDelta": 40,
+      "starsDelta": 48,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "RocketChat/Rocket.Chat": {
-      "starsDelta": 115,
+      "starsDelta": 150,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "audacity/audacity": {
-      "starsDelta": 333,
+      "starsDelta": 267,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "mltframework/shotcut": {
-      "starsDelta": 236,
+      "starsDelta": 219,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "caprover/caprover": {
-      "starsDelta": 23,
+      "starsDelta": 19,
       "downloadsDelta": {
-        "npm": -4002
+        "npm": 715
       },
       "freshness": "fresh",
-      "daysSincePush": 1,
+      "daysSincePush": 0,
       "archived": false
     },
     "k3s-io/k3s": {
-      "starsDelta": 200,
+      "starsDelta": 189,
       "freshness": "fresh",
       "daysSincePush": 0,
       "archived": false
     },
     "cryptpad/cryptpad": {
-      "starsDelta": 85,
+      "starsDelta": 51,
       "freshness": "fresh",
-      "daysSincePush": 0,
+      "daysSincePush": 1,
       "archived": false
     }
   }
